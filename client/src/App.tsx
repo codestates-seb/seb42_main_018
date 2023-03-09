@@ -3,8 +3,8 @@ import './App.css';
 import CreateClub from './pages/club/club/CreateClub';
 import EditClub from './pages/club/club/EditClub';
 import ClubIntro from './pages/club/intro/ClubIntro';
-import ClubManage from './pages/club/manage/ClubManage';
-import MemberManage from './pages/club/manage/MemberManage';
+import ClubSetting from './pages/club/setting/ClubSetting';
+import MemberSetting from './pages/club/setting/MemberSetting';
 import ClubSchedule from './pages/club/match/ClubSchedule';
 import CreateMatch from './pages/club/match/CreateMatch';
 import EditMatch from './pages/club/match/EditMatch';
@@ -16,10 +16,12 @@ import EditProfile from './pages/user/EditProfile';
 import Login from './pages/user/Login';
 import MyPage from './pages/user/MyPage';
 import Register from './pages/user/Register';
+import Header from './components/Header';
 
 function App() {
   return (
     <div className='App'>
+      <Header/>
       <Routes>
         <Route path='/' element={<Intro/>}/>
         <Route path='/home' element={<Home/>}/>
@@ -30,16 +32,16 @@ function App() {
         </Route>
         <Route path='/club/:id' element={<ClubIntro/>}>
           <Route path='/match' element={<ClubSchedule/>}>
-              <Route path='/:id' element={<MatchDetail/>}/>
-              <Route path='/:id/edit' element={<EditMatch/>}/>
-              <Route path='/create' element={<CreateMatch/>}/>
+            <Route path='/:id' element={<MatchDetail/>}/>
+            <Route path='/:id/edit' element={<EditMatch/>}/>
+            <Route path='/create' element={<CreateMatch/>}/>
           </Route>
           <Route path='/member' element={<ClubMember/>}/>
         </Route>
         <Route path='/club/create' element={<CreateClub/>}/>
         <Route path='/club/edit' element={<EditClub/>}/>
-        <Route path='/club/manage' element={<ClubManage/>}>
-          <Route path='/member' element={<MemberManage/>}/>
+        <Route path='/club/setting' element={<ClubSetting/>}>
+          <Route path='/member' element={<MemberSetting/>}/>
         </Route>
       </Routes>
     </div>

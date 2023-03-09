@@ -1,4 +1,4 @@
-function MemberManage() {
+function MemberSetting() {
     return (
         <div>
             회원 관리 페이지
@@ -6,4 +6,4 @@ function MemberManage() {
     )
 }
 
-export default MemberManage;
+export default MemberSetting;

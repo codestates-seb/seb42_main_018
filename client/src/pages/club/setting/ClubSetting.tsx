@@ -1,4 +1,4 @@
-function ClubManage() {
+function ClubSetting() {
     return (
         <div>
             소모임 설정 페이지
@@ -6,4 +6,4 @@ function ClubManage() {
     )
 }
 
-export default ClubManage;
+export default ClubSetting;
