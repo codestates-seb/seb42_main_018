@@ -24,11 +24,18 @@ public class RecordService {
     }
 
     public Record updateRecord(Record record) {
+        Record findRecord = findVerifiedRecord(record.getRecordId());
+
+        Optional.ofNullable(record.getDate())
+                .ifPresent(findRecord::setDate);
+
         return recordRepository.save(record);
     }
 
     public Record findRecord(long recordId) {
-        return findVerifiedRecord(recordId);
+        Record findRecord = findVerifiedRecord(recordId);
+
+        return findRecord;
     }
 
     public Page<Record> findRecords(int page, int size) {
