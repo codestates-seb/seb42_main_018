@@ -26,5 +26,12 @@
     "react/jsx-uses-react": "off",
     "react/prop-types": "warn"
   },
-  "ignorePatterns": ["node_modules/"]
+  "ignorePatterns": ["node_modules/"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
 }
