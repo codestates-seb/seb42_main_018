@@ -1,4 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.candidate.mapper;
 
-public class CandidateMapper {
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface CandidateMapper {
 }
