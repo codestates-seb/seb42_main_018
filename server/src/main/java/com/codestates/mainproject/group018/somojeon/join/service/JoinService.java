@@ -25,15 +25,15 @@ public class JoinService {
     }
 
     // 소모임 가입 요청 전체 조회
-    public Page<Joins> getJoins(int page, int size, Long joinId) {
+    public Page<Joins> getJoins(int page, int size, Long joinsId) {
         Pageable pageable = PageRequest.of(page, size);
-        return joinRepository.findAllByJoinId(pageable, joinId);
+        return joinRepository.findAllByJoinId(pageable, joinsId);
     }
 
     // 소모임 가입 요청 취소
-    public void deleteJoin(Long joinId) {
+    public void deleteJoin(Long joinsId) {
         //TODO: 회원검증
-        Joins findJoin = findVerifiedJoin(joinId);
+        Joins findJoin = findVerifiedJoin(joinsId);
         joinRepository.delete(findJoin);
     }
 
@@ -42,8 +42,8 @@ public class JoinService {
         return null;
     }
 
-    public Joins findVerifiedJoin(Long joinId) {
-        Optional<Joins> findJoin = joinRepository.findById(joinId);
+    public Joins findVerifiedJoin(Long joinsId) {
+        Optional<Joins> findJoin = joinRepository.findById(joinsId);
         Joins joins = findJoin.orElseThrow(() -> new RuntimeException());
 
         return joins;
