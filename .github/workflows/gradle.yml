@@ -15,9 +15,9 @@ on:
 #       -'.github/**'
   pull_request:
     branches: [ "main" ]
-    paths:
-      -'server/**'
-      -'.github/**'
+#     paths:
+#       -'server/**'
+#       -'.github/**'
 
 permissions:
   contents: read
