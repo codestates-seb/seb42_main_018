@@ -33,4 +33,5 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+        gradle-version: 7.6.1
         gradle-wrapper-path: server/gradle/wrapper/gradle-wrapper.properties
