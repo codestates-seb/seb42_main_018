@@ -34,4 +34,5 @@ jobs:
       with:
         arguments: build
         gradle-version: 7.6.1
-        gradle-wrapper-path: server/gradle/wrapper/gradle-wrapper.properties
+        gradle-wrapper-path: server/gradlew
+        build-root-directory: server/
