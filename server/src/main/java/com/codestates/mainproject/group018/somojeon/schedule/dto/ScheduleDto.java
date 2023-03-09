@@ -28,6 +28,10 @@ public class ScheduleDto {
         private LocalDate date;
 
         private String place;
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
     }
 
     @Getter

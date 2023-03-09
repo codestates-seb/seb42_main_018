@@ -42,7 +42,7 @@ public class ScheduleService {
         return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId").descending()));
     }
 
-    public void deleteCandidate(long scheduleId) {
+    public void deleteSchedule(long scheduleId) {
         Schedule schedule = findSchedule(scheduleId);
 
         scheduleRepository.delete(schedule);
