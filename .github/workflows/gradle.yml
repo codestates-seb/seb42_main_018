@@ -15,6 +15,8 @@ on:
 
 permissions:
   contents: read
+env:
+  S3_BUCKET_NAME: bucket-somojeon
 
 jobs:
   build:
@@ -36,3 +38,21 @@ jobs:
         gradle-version: 7.6.1
         gradle-wrapper-path: server/gradlew
         build-root-directory: server/
+        
+    # build한 후 프로젝트를 압축합니다.
+    - name: Make zip file
+      run: zip -r ./somojeon-main.zip .
+      shell: bash
+    
+    # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
+    # 아래 코드에 Access Key와 Secret Key를 직접 작성하지 않습니다.
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} 
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    
+    # 압축한 프로젝트를 S3로 전송합니다.
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./somojeon-main.zip s3://$S3_BUCKET_NAME/somojeon-main.zip
