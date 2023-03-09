@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="📦 chore : idea">
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" afterDir="false" />
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : recordservice update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,7 +286,28 @@
       <option name="project" value="LOCAL" />
       <updated>1678366626118</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="✨ feat : Schedule 구현">
+      <created>1678367310768</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1678367310768</updated>
+    </task>
+    <task id="LOCAL-00028" summary="♻️ refactor : commentservice update">
+      <created>1678370946061</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1678370946061</updated>
+    </task>
+    <task id="LOCAL-00029" summary="♻️ refactor : recordservice update">
+      <created>1678370957548</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1678370957548</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -330,11 +350,13 @@
     <MESSAGE value="✨ feat : Candidate 구현" />
     <MESSAGE value="✨ feat : Comment 구현" />
     <MESSAGE value="✨ feat : Record 구현" />
-    <MESSAGE value="✨ feat : Schedule 구현" />
     <MESSAGE value="✨ feat : Dto &amp; Utils" />
     <MESSAGE value=" chore : MapperImpl" />
     <MESSAGE value="✨ feat : yml 파일 생성" />
     <MESSAGE value=" chore : idea" />
-    <option name="LAST_COMMIT_MESSAGE" value=" chore : idea" />
+    <MESSAGE value="✨ feat : Schedule 구현" />
+    <MESSAGE value="♻️ refactor : commentservice update" />
+    <MESSAGE value="♻️ refactor : recordservice update" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : recordservice update" />
   </component>
 </project>
