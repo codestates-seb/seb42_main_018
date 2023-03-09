@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="✨ feat : UserRecord 연관 관계 매핑" />
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="📦 chore : idea" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -204,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678327972201</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="📦 chore : idea">
+      <created>1678328983288</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1678328983288</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,7 +225,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="taekie" />
+                        <option value="origin/dev" />
                       </list>
                     </value>
                   </entry>
@@ -242,6 +249,7 @@
     <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
-    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : UserRecord 연관 관계 매핑" />
+    <MESSAGE value=" chore : idea" />
+    <option name="LAST_COMMIT_MESSAGE" value=" chore : idea" />
   </component>
 </project>
