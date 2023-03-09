@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.group.enums;
+package com.codestates.mainproject.group018.somojeon.club.enums;
 
 import lombok.Getter;
 

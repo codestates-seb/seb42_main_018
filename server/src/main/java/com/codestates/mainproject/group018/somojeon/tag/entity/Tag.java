@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.tag.entity;
 
-import com.codestates.mainproject.group018.somojeon.group.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

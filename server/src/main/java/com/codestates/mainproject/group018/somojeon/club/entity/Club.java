@@ -1,10 +1,11 @@
-package com.codestates.mainproject.group018.somojeon.group.entity;
+package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
-import com.codestates.mainproject.group018.somojeon.group.enums.ClubMemberStatus;
-import com.codestates.mainproject.group018.somojeon.group.enums.ClubStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
+import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -33,7 +34,7 @@ public class Club {
     private String clubName;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String content;
 
     @NotNull
@@ -73,9 +74,12 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Joins> joinsList = new ArrayList<>();
 
-    //TODO: record OneToMany 매핑
 
-    //TODO: userGroup OneToMany 매핑
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Record> recordList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<UserClub> userClubList = new ArrayList<>();
 
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL)
     private Images images;

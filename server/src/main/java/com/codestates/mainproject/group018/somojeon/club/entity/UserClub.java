@@ -1,40 +1,37 @@
-package com.codestates.mainproject.group018.somojeon.join.entity;
+package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Joins {
+public class UserClub {
 
     @Id
-    @GeneratedValue
-    private Long joinsId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userClubId;
 
-    @NotNull
-    @Column(nullable = false)
-    private String content;
+    private String clubRole;
 
-    @CreatedDate
-    @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
+    private boolean isPlayer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    //TODO: USER 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LEVEL_ID")
+    private Level level;
 }

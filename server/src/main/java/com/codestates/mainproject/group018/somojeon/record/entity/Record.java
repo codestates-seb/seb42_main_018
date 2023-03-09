@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.entity;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import lombok.Getter;
@@ -42,9 +43,9 @@ public class Record {
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
-//    @ManyToOne
-//    @JoinColumn(name = "CLUB_ID")
-//    private Club club;
+    @ManyToOne
+    @JoinColumn(name = "CLUB_ID")
+    private Club club;
 
     @OneToMany(mappedBy = "record")
     private List<Comment> comments = new ArrayList<>();
