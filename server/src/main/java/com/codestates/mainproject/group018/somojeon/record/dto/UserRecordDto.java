@@ -12,6 +12,10 @@ public class UserRecordDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
+        private Long userRecordId;
+        private String teamName;
+        private int score;
+        private String winLose;
 
     }
 }
