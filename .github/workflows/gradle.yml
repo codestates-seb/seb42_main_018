@@ -10,14 +10,13 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
-#     paths:
-#     -'server/**'
-#       -'.github/**'
+    paths-ignore:
+      - 'client/**'
+
   pull_request:
     branches: [ "main" ]
-#     paths:
-#       -'server/**'
-#       -'.github/**'
+    paths-ignore:
+      - 'client/**'
 
 permissions:
   contents: read
