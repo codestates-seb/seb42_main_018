@@ -1,13 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.join.controller;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/join")
+@RequestMapping("/joins")
 public class JoinController {
 
     @PostMapping
@@ -20,12 +19,12 @@ public class JoinController {
         return null;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{join-id}")
     public ResponseEntity deleteJoin() {
         return null;
     }
 
-    @PatchMapping
+    @PatchMapping("/{join-id}/decision")
     public ResponseEntity patchDecision() {
         return null;
     }

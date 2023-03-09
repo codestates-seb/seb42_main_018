@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.join.entity;
 
-import com.codestates.mainproject.group018.somojeon.group.entity.Group;
+import com.codestates.mainproject.group018.somojeon.group.entity.Club;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Join {
+public class Joins {
 
     @Id
     @GeneratedValue
-    private Long joinId;
+    private Long joinsId;
 
     @NotNull
     @Column(nullable = false)
@@ -29,8 +29,8 @@ public class Join {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "GROUP_ID")
-    private Group group;
+    @JoinColumn(name = "CLUB_ID")
+    private Club club;
 
     //TODO: USER 매핑
 }

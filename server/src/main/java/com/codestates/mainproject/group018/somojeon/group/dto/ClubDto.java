@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.group.dto;
 
-public class GroupDto {
+public class ClubDto {
 
     public static class Post {
     }

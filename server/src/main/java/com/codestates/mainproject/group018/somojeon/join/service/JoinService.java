@@ -1,12 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.join.service;
 
-import com.codestates.mainproject.group018.somojeon.join.entity.Join;
+import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JoinService {
 
-    public Join createJoin(Join join) {
+    public Joins createJoin(Joins join) {
         return null;
     }
 
@@ -16,7 +16,7 @@ public class JoinService {
 
     //TODO: getJoins
 
-    public Join decisionJoin(Join join) {
+    public Joins decisionJoin(Joins join) {
         return null;
     }
 

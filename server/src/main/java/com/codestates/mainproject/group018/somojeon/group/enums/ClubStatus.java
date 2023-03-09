@@ -2,15 +2,15 @@ package com.codestates.mainproject.group018.somojeon.group.enums;
 
 import lombok.Getter;
 
-public enum GroupStatus {
+public enum ClubStatus {
 
-    GROUP_ACTIVE("GROUP ACTIVE"),
-    FREEZE_A_GROUP("FREEZE A GROUP");
+    CLUB_ACTIVE("CLUB ACTIVE"),
+    FREEZE_A_CLUB("FREEZE A CLUB");
 
     @Getter
     String status;
 
-    GroupStatus(String status) {
+    ClubStatus(String status) {
         this.status = status;
     }
 }

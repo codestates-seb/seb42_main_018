@@ -1,16 +1,15 @@
 package com.codestates.mainproject.group018.somojeon.group.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
-import com.codestates.mainproject.group018.somojeon.group.enums.GroupMemberStatus;
-import com.codestates.mainproject.group018.somojeon.group.enums.GroupStatus;
+import com.codestates.mainproject.group018.somojeon.group.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.group.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.join.entity.Join;
+import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -23,15 +22,15 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Group {
+public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long groupId;
+    private Long clubId;
 
     @NotNull
     @Column(nullable = false)
-    private String groupName;
+    private String clubName;
 
     @NotNull
     @Column(nullable = false)
@@ -58,26 +57,26 @@ public class Group {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    GroupStatus groupStatus = GroupStatus.GROUP_ACTIVE;
+    ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    GroupMemberStatus groupMemberStatus = GroupMemberStatus.MEMBER_ACTIVE;
+    ClubMemberStatus clubMemberStatus = ClubMemberStatus.MEMBER_ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
-    private List<Tag> tags = new ArrayList<>();
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Tag> tagList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "join", cascade = CascadeType.ALL)
-    private List<Join> joins = new ArrayList<>();
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Joins> joinsList = new ArrayList<>();
 
     //TODO: record OneToMany 매핑
 
     //TODO: userGroup OneToMany 매핑
 
-    @OneToOne(mappedBy = "images", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "club", cascade = CascadeType.ALL)
     private Images images;
 }

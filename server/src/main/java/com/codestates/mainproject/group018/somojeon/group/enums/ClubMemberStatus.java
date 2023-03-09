@@ -2,7 +2,7 @@ package com.codestates.mainproject.group018.somojeon.group.enums;
 
 import lombok.Getter;
 
-public enum GroupMemberStatus {
+public enum ClubMemberStatus {
 
     MEMBER_ACTIVE("MEMBER ACTIVE"),
     MEMBER_BLACKED("MEMBER BLACKED"),
@@ -12,7 +12,7 @@ public enum GroupMemberStatus {
     @Getter
     String status;
 
-    GroupMemberStatus(String status) {
+    ClubMemberStatus(String status) {
         this.status = status;
     }
 }

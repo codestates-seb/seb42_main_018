@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.category.entity;
 
-import com.codestates.mainproject.group018.somojeon.group.entity.Group;
+import com.codestates.mainproject.group018.somojeon.group.entity.Club;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +25,6 @@ public class Category {
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<Group> groups = new ArrayList<>();
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Club> clubList = new ArrayList<>();
 }
