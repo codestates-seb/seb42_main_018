@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="📦 chore : build gradle">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/controller/CandidateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/dto/CandidateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/entity/Candidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/mapper/CandidateMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/repository/CandidateRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/service/CandidateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/controller/CommentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/dto/CommentDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/entity/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/mapper/CommentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/repository/CommentRespository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/service/CommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/controller/RecordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/RecordDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/entity/Record.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/entity/UserRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/repository/RecordRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/service/RecordService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleCandidateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/entity/Schedule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/entity/ScheduleCandidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/mapper/ScheduleMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/repository/ScheduleRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/SomojeonApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/SomojeonApplication.java" afterDir="false" />
-    </list>
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="✨ feat : UserRecord 연관 관계 매핑" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,7 +155,56 @@
       <option name="project" value="LOCAL" />
       <updated>1678327708697</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="✨ feat : annotation EnableJpaAuditing add">
+      <created>1678327848284</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327848284</updated>
+    </task>
+    <task id="LOCAL-00010" summary="📦 chore : init">
+      <created>1678327860342</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327860342</updated>
+    </task>
+    <task id="LOCAL-00011" summary="✨ feat : Candidate 뼈대 및 연관 관계 매핑">
+      <created>1678327896290</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327896290</updated>
+    </task>
+    <task id="LOCAL-00012" summary="✨ feat : Comment 뼈대 및 연관 관계 매핑">
+      <created>1678327913812</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327913812</updated>
+    </task>
+    <task id="LOCAL-00013" summary="✨ feat : Record 뼈대 및 연관 관계 매핑">
+      <created>1678327933329</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327933329</updated>
+    </task>
+    <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
+      <created>1678327953406</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327953406</updated>
+    </task>
+    <task id="LOCAL-00015" summary="✨ feat : UserRecord 연관 관계 매핑">
+      <created>1678327972201</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327972201</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,8 +234,14 @@
     <MESSAGE value=" chore : idea init" />
     <MESSAGE value=" chore : init" />
     <MESSAGE value=" chore : init" />
-    <MESSAGE value=" chore : init" />
     <MESSAGE value=" chore : build gradle" />
-    <option name="LAST_COMMIT_MESSAGE" value=" chore : build gradle" />
+    <MESSAGE value="✨ feat : annotation EnableJpaAuditing add" />
+    <MESSAGE value=" chore : init" />
+    <MESSAGE value="✨ feat : Candidate 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Comment 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : UserRecord 연관 관계 매핑" />
   </component>
 </project>
