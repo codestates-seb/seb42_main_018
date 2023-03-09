@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.repository.CategoryRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +20,16 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    // 카테고리 생성
     public Category createCategory(Category category) {
         verifyExistsCategoryName(category.getCategoryName());
         return categoryRepository.save(category);
     }
 
-    //TODO: findCategories
+    // 카테고리 전체 조회
     public Page<Category> findCategories(int page, int size, Long categoryId) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("category-id"));
-        return categoryRepository.findByCategoryId(pageRequest, categoryId);
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryRepository.findAllByCategoryId(pageable, categoryId);
     }
 
 

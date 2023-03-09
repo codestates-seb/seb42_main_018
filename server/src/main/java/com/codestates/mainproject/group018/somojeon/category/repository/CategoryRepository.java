@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.categoryId")
-    Page<Category> findByCategoryId(Pageable pageable, Long categoryId);
+    @Query("SELECT c FROM Category c WHERE c.categoryId = ?1 ORDER BY c.categoryId")
+    Page<Category> findAllByCategoryId(Pageable pageable, Long categoryId);
 
     Optional<Category> findByCategoryName(String categoryName);
 }
