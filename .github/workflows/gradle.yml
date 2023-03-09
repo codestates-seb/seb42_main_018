@@ -10,9 +10,9 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
-    paths:
-      -'server/**'
-      -'.github/**'
+#     paths:
+#     -'server/**'
+#       -'.github/**'
   pull_request:
     branches: [ "main" ]
     paths:
