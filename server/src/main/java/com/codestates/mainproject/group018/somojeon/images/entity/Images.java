@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.images.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,5 +25,7 @@ public class Images {
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    //TODO : USER 매핑
+    @OneToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 }

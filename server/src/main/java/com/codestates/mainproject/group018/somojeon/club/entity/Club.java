@@ -78,7 +78,8 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Record> recordList = new ArrayList<>();
 
-    //TODO: userGroup OneToMany 매핑
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<UserClub> userClubList = new ArrayList<>();
 
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL)
     private Images images;
