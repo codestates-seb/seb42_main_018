@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,11 @@ public class CommentService {
     }
 
     public Comment updateComment(Comment comment) {
+        Comment findComment = findVerifiedComment(comment.getCommentId());
+
+        Optional.ofNullable(comment.getContent())
+                .ifPresent(findComment::setContent);
+
         return commentRepository.save(comment);
     }
 
