@@ -28,8 +28,8 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - name: Add permission // 추가
-      run: chmod +x gradlew // 추가
+      run: chmod +x server/gradlew // 추가
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      uses: server/gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
