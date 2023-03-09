@@ -1,8 +1,8 @@
-package com.codestates.mainproject.group018.somojeon.group.mapper;
+package com.codestates.mainproject.group018.somojeon.tag.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ClubMapper {
+public interface TagMapper {
 }

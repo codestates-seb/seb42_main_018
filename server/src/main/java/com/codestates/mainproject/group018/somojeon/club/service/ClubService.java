@@ -1,6 +1,6 @@
-package com.codestates.mainproject.group018.somojeon.group.service;
+package com.codestates.mainproject.group018.somojeon.club.service;
 
-import com.codestates.mainproject.group018.somojeon.group.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import org.springframework.stereotype.Service;
 
 @Service
