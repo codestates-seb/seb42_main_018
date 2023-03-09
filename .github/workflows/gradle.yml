@@ -11,11 +11,11 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      -'server/**'
+      -'server/**|.github/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      -'server/**'
+      -'server/**|.github/**'
 
 permissions:
   contents: read
