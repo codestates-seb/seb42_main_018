@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.User.Entity;
+package com.codestates.mainproject.group018.somojeon.user.entity;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
@@ -39,6 +39,9 @@ public class User {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Images images;

@@ -1,6 +1,6 @@
-package com.codestates.mainproject.group018.somojeon.User.dto;
+package com.codestates.mainproject.group018.somojeon.user.dto;
 
-import com.codestates.mainproject.group018.somojeon.User.Entity.User;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

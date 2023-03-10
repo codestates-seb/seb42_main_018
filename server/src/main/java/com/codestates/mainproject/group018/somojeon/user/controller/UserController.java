@@ -1,14 +1,11 @@
-package com.codestates.mainproject.group018.somojeon.User.controller;
+package com.codestates.mainproject.group018.somojeon.user.controller;
 
-import com.codestates.mainproject.group018.somojeon.User.Entity.User;
-import com.codestates.mainproject.group018.somojeon.User.dto.UserDto;
-import com.codestates.mainproject.group018.somojeon.User.mapper.UserMapper;
-import com.codestates.mainproject.group018.somojeon.User.service.UserService;
-import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
+import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
