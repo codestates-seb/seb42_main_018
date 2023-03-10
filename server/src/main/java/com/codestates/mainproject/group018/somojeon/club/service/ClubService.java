@@ -3,6 +3,8 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import org.springframework.data.domain.Page;
@@ -83,7 +85,7 @@ public class ClubService {
         Pageable pageable = PageRequest.of(page, size);
 
         return clubRepository.findByKeyword(pageable, keyword)
-                .orElseThrow(() -> new RuntimeException()).getContent();
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND)).getContent();
     }
 
     public void deleteClub(Long clubId) {
@@ -112,13 +114,14 @@ public class ClubService {
     public void verifyExistsClubName(String clubName) {
         Optional<Club> club = clubRepository.findByClubName(clubName);
         if (club.isPresent()) {
-            throw new RuntimeException();
+            throw new BusinessLogicException(ExceptionCode.CLUB_EXISTS);
         }
     }
 
     public Club findVerifiedClub(Long clubId) {
         Optional<Club> findClub = clubRepository.findById(clubId);
-        Club club = findClub.orElseThrow(() -> new RuntimeException());
+        Club club = findClub.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));
 
         return club;
     }
