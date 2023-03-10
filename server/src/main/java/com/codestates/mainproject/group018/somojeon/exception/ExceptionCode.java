@@ -13,6 +13,7 @@ public enum ExceptionCode {
     CLUB_NOT_FOUND(404, "Club not found"),
     JOIN_NOT_FOUND(404, "Join not found"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
+    TAG_CAN_NOT_OVER_THREE(400,"Tag can not over three(3)"),
     REQUEST_FORBIDDEN(403,"Request forbidden"),
     MEMBER_UNAUTHORIZED(401, "UNAUTHORIZED"),
     ACCESS_DENIED(401, "Access Denied");
