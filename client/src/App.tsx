@@ -18,30 +18,38 @@ import MyPage from './pages/user/MyPage';
 import Register from './pages/user/Register';
 import Header from './components/Header';
 
+import GlobalStyles from './GlobalStyles';
+
 function App() {
+
   return (
     <div className='App'>
+      <GlobalStyles/>
       <Header/>
       <Routes>
         <Route path='/' element={<Intro/>}/>
         <Route path='/home' element={<Home/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/mypage' element={<MyPage/>}>
-          <Route path="/edit" element={<EditProfile/>}/>
+        <Route path='/mypage'>
+          <Route index element={<MyPage/>}/>
+          <Route path="edit" element={<EditProfile/>}/>
         </Route>
-        <Route path='/club/:id' element={<ClubIntro/>}>
-          <Route path='/match' element={<ClubSchedule/>}>
-            <Route path='/:id' element={<MatchDetail/>}/>
-            <Route path='/:id/edit' element={<EditMatch/>}/>
-            <Route path='/create' element={<CreateMatch/>}/>
+        <Route path='/club/:id'>
+          <Route index element={<ClubIntro/>}/>
+          <Route path='match'>
+            <Route index element={<ClubSchedule/>}/>
+            <Route path=':id' element={<MatchDetail/>}/>
+            <Route path=':id/edit' element={<EditMatch/>}/>
+            <Route path='create' element={<CreateMatch/>}/>
           </Route>
-          <Route path='/member' element={<ClubMember/>}/>
+          <Route path='member' element={<ClubMember/>}/>
         </Route>
         <Route path='/club/create' element={<CreateClub/>}/>
         <Route path='/club/edit' element={<EditClub/>}/>
-        <Route path='/club/setting' element={<ClubSetting/>}>
-          <Route path='/member' element={<MemberSetting/>}/>
+        <Route path='/club/setting'>
+          <Route index element={<ClubSetting/>}/>
+          <Route path='member' element={<MemberSetting/>}/>
         </Route>
       </Routes>
     </div>
