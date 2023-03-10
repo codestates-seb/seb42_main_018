@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : recordservice update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/server">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="taekie" />
+                    <option name="lastUsedInstant" value="1678324833" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="dev" />
+                    <option name="lastUsedInstant" value="1678324382" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Mkv7C8VU1B5VvUYtrPlDqgWdrU" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/Users/taekie/programming/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule" />
+      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record" />
+      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="" />
+      <created>1678324227673</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678324227673</updated>
+    </task>
+    <task id="LOCAL-00001" summary="📦 chore : idea init">
+      <created>1678324499624</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678324499625</updated>
+    </task>
+    <task id="LOCAL-00002" summary="📦 chore : idea init">
+      <created>1678324517175</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678324517175</updated>
+    </task>
+    <task id="LOCAL-00003" summary="📦 chore : init">
+      <created>1678324803541</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678324803541</updated>
+    </task>
+    <task id="LOCAL-00004" summary="📦 chore : init">
+      <created>1678325267929</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678325267929</updated>
+    </task>
+    <task id="LOCAL-00005" summary="📦 chore : init">
+      <created>1678325471002</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1678325471002</updated>
+    </task>
+    <task id="LOCAL-00006" summary="📦 chore : init">
+      <created>1678325690425</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1678325690425</updated>
+    </task>
+    <task id="LOCAL-00007" summary="📦 chore : init">
+      <created>1678327686407</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327686407</updated>
+    </task>
+    <task id="LOCAL-00008" summary="📦 chore : build gradle">
+      <created>1678327708697</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327708697</updated>
+    </task>
+    <task id="LOCAL-00009" summary="✨ feat : annotation EnableJpaAuditing add">
+      <created>1678327848284</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327848284</updated>
+    </task>
+    <task id="LOCAL-00010" summary="📦 chore : init">
+      <created>1678327860342</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327860342</updated>
+    </task>
+    <task id="LOCAL-00011" summary="✨ feat : Candidate 뼈대 및 연관 관계 매핑">
+      <created>1678327896290</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327896290</updated>
+    </task>
+    <task id="LOCAL-00012" summary="✨ feat : Comment 뼈대 및 연관 관계 매핑">
+      <created>1678327913812</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327913812</updated>
+    </task>
+    <task id="LOCAL-00013" summary="✨ feat : Record 뼈대 및 연관 관계 매핑">
+      <created>1678327933329</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327933329</updated>
+    </task>
+    <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
+      <created>1678327953406</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327953406</updated>
+    </task>
+    <task id="LOCAL-00015" summary="✨ feat : UserRecord 연관 관계 매핑">
+      <created>1678327972201</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678327972201</updated>
+    </task>
+    <task id="LOCAL-00016" summary="📦 chore : idea">
+      <created>1678328983288</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1678328983288</updated>
+    </task>
+    <task id="LOCAL-00017" summary="📦 chore : idea">
+      <created>1678329344245</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1678329344245</updated>
+    </task>
+    <task id="LOCAL-00018" summary="✨ feat : annotation add">
+      <created>1678330017382</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1678330017382</updated>
+    </task>
+    <task id="LOCAL-00019" summary="✨ feat : Candidate 구현">
+      <created>1678366348621</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366348621</updated>
+    </task>
+    <task id="LOCAL-00020" summary="✨ feat : Comment 구현">
+      <created>1678366376732</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366376732</updated>
+    </task>
+    <task id="LOCAL-00021" summary="✨ feat : Record 구현">
+      <created>1678366408701</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366408701</updated>
+    </task>
+    <task id="LOCAL-00022" summary="✨ feat : Schedule 구현">
+      <created>1678366430412</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366430412</updated>
+    </task>
+    <task id="LOCAL-00023" summary="📦 chore : MapperImpl">
+      <created>1678366538032</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366538032</updated>
+    </task>
+    <task id="LOCAL-00024" summary="📦 chore : MapperImpl">
+      <created>1678366574199</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366574199</updated>
+    </task>
+    <task id="LOCAL-00025" summary="✨ feat : yml 파일 생성">
+      <created>1678366610172</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366610172</updated>
+    </task>
+    <task id="LOCAL-00026" summary="📦 chore : idea">
+      <created>1678366626118</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1678366626118</updated>
+    </task>
+    <task id="LOCAL-00027" summary="✨ feat : Schedule 구현">
+      <created>1678367310768</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1678367310768</updated>
+    </task>
+    <task id="LOCAL-00028" summary="♻️ refactor : commentservice update">
+      <created>1678370946061</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1678370946061</updated>
+    </task>
+    <task id="LOCAL-00029" summary="♻️ refactor : recordservice update">
+      <created>1678370957548</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1678370957548</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="taekie" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=" chore : idea init" />
+    <MESSAGE value=" chore : init" />
+    <MESSAGE value=" chore : init" />
+    <MESSAGE value=" chore : build gradle" />
+    <MESSAGE value="✨ feat : annotation EnableJpaAuditing add" />
+    <MESSAGE value=" chore : init" />
+    <MESSAGE value="✨ feat : Candidate 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Comment 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
+    <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
+    <MESSAGE value=" chore : idea" />
+    <MESSAGE value="✨ feat : annotation add" />
+    <MESSAGE value="✨ feat : Candidate 구현" />
+    <MESSAGE value="✨ feat : Comment 구현" />
+    <MESSAGE value="✨ feat : Record 구현" />
+    <MESSAGE value="✨ feat : Dto &amp; Utils" />
+    <MESSAGE value=" chore : MapperImpl" />
+    <MESSAGE value="✨ feat : yml 파일 생성" />
+    <MESSAGE value=" chore : idea" />
+    <MESSAGE value="✨ feat : Schedule 구현" />
+    <MESSAGE value="♻️ refactor : commentservice update" />
+    <MESSAGE value="♻️ refactor : recordservice update" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : recordservice update" />
+  </component>
+</project>
