@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.mapper.CategoryMapper;
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
+import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class CategoryController {
         Category response = categoryService.createCategory(mapper.categoryPostDtoToCategory(requestBody));
 
         return new ResponseEntity<>(
-                mapper.categoryResponseDtoToCategory(response), HttpStatus.CREATED);
+                new SingleResponseDto<>(mapper.categoryResponseDtoToCategory(response)), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -46,7 +47,7 @@ public class CategoryController {
                                         @RequestParam(defaultValue = "10") int size,
                                         @Positive Long categoryId) {
 
-        Page<Category> categoryPage = categoryService.findCategories(page - 1, size, categoryId);
+        Page<Category> categoryPage = categoryService.findCategories(page, size, categoryId);
         List<Category> content = categoryPage.getContent();
 
         return new ResponseEntity<>(

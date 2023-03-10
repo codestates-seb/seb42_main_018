@@ -4,10 +4,10 @@ import lombok.Getter;
 
 public enum ClubMemberStatus {
 
-    MEMBER_ACTIVE("MEMBER ACTIVE"),
-    MEMBER_BLACKED("MEMBER BLACKED"),
-    MEMBER_BANISHED("MEMBER BANISHED"),
-    MEMBER_QUIT("MEMBER QUIT");
+    MEMBER_ACTIVE("회원 활동중"),
+    MEMBER_BLACKED("회원 블랙상태"),
+    MEMBER_BANISHED("회원 밴상태"),
+    MEMBER_QUIT("회원 탈퇴상태");
 
     @Getter
     String status;

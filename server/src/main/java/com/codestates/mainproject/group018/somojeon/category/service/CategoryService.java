@@ -2,12 +2,15 @@ package com.codestates.mainproject.group018.somojeon.category.service;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.repository.CategoryRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @Service
@@ -23,6 +26,7 @@ public class CategoryService {
     // 카테고리 생성
     public Category createCategory(Category category) {
         verifyExistsCategoryName(category.getCategoryName());
+        category.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         return categoryRepository.save(category);
     }
 
@@ -36,7 +40,7 @@ public class CategoryService {
     private void verifyExistsCategoryName(String categoryName) {
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
         if (category.isPresent()) {
-            throw new RuntimeException();
+            throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
         }
     }
 }
