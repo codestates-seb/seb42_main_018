@@ -1,8 +1,12 @@
+import S_Container from "../../components/S_Container";
+
 function Intro() {
     return (
-        <div>
+        <S_Container>
             소모임 웹 소개 페이지
-        </div>
+            <button>파란 버튼 누르기</button>
+            <div>소모임 웹 소개 페이지</div>
+        </S_Container>
     )
 }
 
