@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.entity;
 
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,9 +26,9 @@ public class UserRecord {
     @Column(nullable = false)
     private String teamName;
 
-//    @ManyToOne
-//    @JoinColumn(name = "USER_ID")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "RECORD_ID")

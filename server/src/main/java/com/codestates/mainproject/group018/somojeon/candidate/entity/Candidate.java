@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.candidate.entity;
 
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,9 +21,9 @@ public class Candidate {
     @Column(nullable = false)
     Attendance attendance = Attendance.ATTEND;
 
-//    @ManyToOne
-//    @JoinColumn(name = "USER_ID")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     public enum Attendance {
         ATTEND("참석"),
