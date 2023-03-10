@@ -36,13 +36,13 @@ public class ClubService {
     public Club createClub(Club club, String categoryName, List<String> tagName) {
         //TODO: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
         verifyExistsClubName(club.getClubName());
+        club.getCategory().setCategoryName(categoryName);
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
         if (tagList.size() < 3) {
             club.setTagList(tagList);
         } else {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
-        club.getCategory().setCategoryName(categoryName);
 
         return clubRepository.save(club);
     }
@@ -85,18 +85,21 @@ public class ClubService {
     }
 
     // 키워드로 소모임 찾기
-    public List<Club> searchClubs(int page, int size, String keyword) {
+    public Page<Club> searchClubs(int page, int size, String keyword) {
 
         if(keyword.matches(".*[a-zA-Z0-9가-힣]+.*") && keyword.startsWith("\"") && keyword.endsWith("\"")) {
             keyword = keyword.substring(1, keyword.length() - 1);
         }
         Pageable pageable = PageRequest.of(page, size);
 
-        return clubRepository.findByKeyword(pageable, keyword)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND)).getContent();
+        return (Page<Club>) clubRepository.findByKeyword(pageable, keyword)
+                .orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND)).getContent();
     }
 
     public void deleteClub(Long clubId) {
+        //TODO: 리더 인지 검증
+        //      소모임 인원이 1명 일 경우 가능.
         Club findClub = findVerifiedClub(clubId);
         clubRepository.delete(findClub);
 
