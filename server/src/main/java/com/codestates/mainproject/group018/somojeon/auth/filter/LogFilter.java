@@ -12,11 +12,6 @@ import java.io.IOException;
 @Slf4j
 public class LogFilter extends OncePerRequestFilter {
 
-//    private final JwtTokenizer jwtTokenizer;
-//
-//    public LogFilter(JwtTokenizer jwtTokenizer) {
-//        this.jwtTokenizer = jwtTokenizer;
-//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

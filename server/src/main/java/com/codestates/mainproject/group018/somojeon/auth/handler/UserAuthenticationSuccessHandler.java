@@ -1,6 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -39,8 +41,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         log.info("# Authenticated successfully!");
 
         Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
-//        User user =  optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        User user =  optionalUser.orElseThrow(() -> new RuntimeException());
+        User user =  optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         String userId =String.valueOf(user.getUserId());
         response.addHeader("memeber-id", userId);

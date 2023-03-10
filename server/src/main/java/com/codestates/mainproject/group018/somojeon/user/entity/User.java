@@ -43,6 +43,9 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
+    @Column(nullable = false)
+    String password;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Images images;
 

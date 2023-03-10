@@ -1,7 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.auth.tokenizer;
 
-import com.group5.stackoverflow.exception.BusinessLogicException;
-import com.group5.stackoverflow.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -116,8 +116,8 @@ public class JwtTokenizer {
         return claims;
     }
 
-    public Long getMemberId(String token) {
-        Long memberId = parseToken(token).get("memberId", Long.class);
-        return memberId;
+    public Long getUserId(String token) {
+        Long userId = parseToken(token).get("userId", Long.class);
+        return userId;
     }
 }

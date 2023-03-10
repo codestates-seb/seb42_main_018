@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
+import com.codestates.mainproject.group018.somojeon.exception.ErrorResponse;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
