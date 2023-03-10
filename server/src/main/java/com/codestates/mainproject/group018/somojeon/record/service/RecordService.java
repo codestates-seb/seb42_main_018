@@ -31,7 +31,7 @@ public class RecordService {
         Optional.ofNullable(record.getDate())
                 .ifPresent(findRecord::setDate);
 
-        return recordRepository.save(record);
+        return recordRepository.save(findRecord);
     }
 
     public Record findRecord(long recordId) {

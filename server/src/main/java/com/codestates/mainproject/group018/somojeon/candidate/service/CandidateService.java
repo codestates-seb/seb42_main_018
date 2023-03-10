@@ -31,7 +31,7 @@ public class CandidateService {
         Optional.ofNullable(candidate.getAttendance())
                 .ifPresent(findCandidate::setAttendance);
 
-        return candidateRepository.save(candidate);
+        return candidateRepository.save(findCandidate);
     }
 
     public Candidate findCandidate(long candidateId) {

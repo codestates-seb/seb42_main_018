@@ -37,7 +37,7 @@ public class CommentService {
         Optional.ofNullable(comment.getContent())
                 .ifPresent(findComment::setContent);
 
-        return commentRepository.save(comment);
+        return commentRepository.save(findComment);
     }
 
     public Comment findComment(long commentId) {

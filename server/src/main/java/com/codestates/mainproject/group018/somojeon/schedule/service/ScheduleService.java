@@ -33,7 +33,7 @@ public class ScheduleService {
         Optional.ofNullable(schedule.getPlace())
                 .ifPresent(findSchedule::setPlace);
 
-        return scheduleRepository.save(schedule);
+        return scheduleRepository.save(findSchedule);
     }
 
     public Schedule findSchedule(long scheduleId) {
