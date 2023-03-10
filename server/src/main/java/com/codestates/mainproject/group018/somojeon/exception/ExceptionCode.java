@@ -16,7 +16,10 @@ public enum ExceptionCode {
     TAG_CAN_NOT_OVER_THREE(400,"Tag can not over three(3)"),
     REQUEST_FORBIDDEN(403,"Request forbidden"),
     MEMBER_UNAUTHORIZED(401, "UNAUTHORIZED"),
-    ACCESS_DENIED(401, "Access Denied");
+    ACCESS_DENIED(401, "Access Denied"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    RECORD_NOT_FOUND(404, "Record not found"),
+    SCHEDULE_NOT_FOUND(404, "Schedule not found");
 
 
 

@@ -2,6 +2,8 @@ package com.codestates.mainproject.group018.somojeon.candidate.service;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -51,7 +53,8 @@ public class CandidateService {
         Optional<Candidate> optionalCandidate =
                 candidateRepository.findById(candidateId);
         Candidate findCandidate =
-                optionalCandidate.orElseThrow(() -> new RuntimeException("후보가 없습니다."));
+                optionalCandidate.orElseThrow(
+                        () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
 
         return findCandidate;
     }

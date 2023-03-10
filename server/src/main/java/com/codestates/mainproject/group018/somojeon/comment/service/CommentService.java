@@ -2,6 +2,8 @@ package com.codestates.mainproject.group018.somojeon.comment.service;
 
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.comment.repository.CommentRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,7 +57,8 @@ public class CommentService {
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment =
                 commentRepository.findById(commentId);
-        Comment findComment = optionalComment.orElseThrow(() -> new RuntimeException("댓글이 존재 하지 않음"));
+        Comment findComment = optionalComment.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
         return findComment;
     }

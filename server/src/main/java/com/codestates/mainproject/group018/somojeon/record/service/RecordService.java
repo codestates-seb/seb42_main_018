@@ -1,5 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.record.service;
 
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
 import org.springframework.data.domain.Page;
@@ -51,7 +53,8 @@ public class RecordService {
     public Record findVerifiedRecord(long recordId) {
         Optional<Record> optionalRecord =
                 recordRepository.findById(recordId);
-        Record findRecord = optionalRecord.orElseThrow(() -> new RuntimeException("기록이 존재 하지 않음"));
+        Record findRecord = optionalRecord.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.RECORD_NOT_FOUND));
 
         return findRecord;
     }

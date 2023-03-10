@@ -1,5 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.schedule.service;
 
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import org.springframework.data.domain.Page;
@@ -52,7 +54,8 @@ public class ScheduleService {
         Optional<Schedule> optionalSchedule =
                 scheduleRepository.findById(scheduleId);
         Schedule findSchedule =
-                optionalSchedule.orElseThrow(() -> new RuntimeException("일정이 없습니다."));
+                optionalSchedule.orElseThrow(
+                        () -> new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND));
 
         return findSchedule;
     }
