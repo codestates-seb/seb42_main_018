@@ -1,7 +1,5 @@
 package com.codestates.mainproject.group018.somojeon.join.service;
 
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.join.repository.JoinRepository;
 import org.springframework.data.domain.Page;
@@ -46,8 +44,7 @@ public class JoinService {
 
     public Joins findVerifiedJoin(Long joinsId) {
         Optional<Joins> findJoin = joinRepository.findById(joinsId);
-        Joins joins = findJoin.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.JOIN_NOT_FOUND));
+        Joins joins = findJoin.orElseThrow(() -> new RuntimeException());
 
         return joins;
     }

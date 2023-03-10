@@ -1,36 +1,17 @@
 package com.codestates.mainproject.group018.somojeon.club.controller;
 
-import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
-import com.codestates.mainproject.group018.somojeon.club.entity.Club;
-import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
-import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
 @RequestMapping("/clubs")
 public class ClubController {
 
-    private final ClubService clubService;
-    private final ClubMapper mapper;
-
-    public ClubController(ClubService clubService, ClubMapper mapper) {
-        this.clubService = clubService;
-        this.mapper = mapper;
-    }
-
     @PostMapping
-    public ResponseEntity postClub(@Valid @RequestBody ClubDto.Post requestBody) {
-
-        Club response = clubService.createClub(mapper.clubPostDtoToClub(requestBody),
-                requestBody.getCategoryName(), requestBody.getTagName());
-
-        return new ResponseEntity<>(mapper.clubResponseDtoToClub(response), HttpStatus.CREATED);
+    public ResponseEntity postClub() {
+        return null;
     }
 
     @PatchMapping("/{club-id}")

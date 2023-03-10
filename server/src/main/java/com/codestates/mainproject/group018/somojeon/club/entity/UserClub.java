@@ -1,7 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
@@ -20,11 +19,9 @@ public class UserClub {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userClubId;
 
-    private boolean isPlayer;
+    private String clubRole;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    private ClubRole clubRole;
+    private boolean isPlayer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
