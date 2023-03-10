@@ -37,8 +37,7 @@ public class CandidateService {
     }
 
     public Page<Candidate> findCandidates(int page, int size) {
-        return candidateRepository.findAllByAttendance(
-                PageRequest.of(page, size, Sort.by("candidateId").descending()), Candidate.Attendance.ATTEND);
+        return candidateRepository.findAll(PageRequest.of(page, size, Sort.by("candidateId").descending()));
     }
 
     public void deleteCandidate(long candidateId) {
