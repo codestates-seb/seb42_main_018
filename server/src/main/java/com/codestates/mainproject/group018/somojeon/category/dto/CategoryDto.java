@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -21,6 +22,7 @@ public class CategoryDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
 
