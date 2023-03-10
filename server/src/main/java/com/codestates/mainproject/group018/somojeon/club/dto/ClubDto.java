@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -72,6 +73,7 @@ public class ClubDto {
     //TODO:소모임장 위임 Patch
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
 
