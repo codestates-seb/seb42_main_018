@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.user.entity;
+package com.codestates.mainproject.group018.somojeon.User.Entity;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
@@ -57,6 +57,27 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Candidate> candidateList = new ArrayList<>();
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    UserStatus userStatus = UserStatus.MEMBER_NEW;
+
+
+
+    public enum UserStatus{
+
+        MEMBER_NEW("USER_NEW"),
+        USER_ACTIVE("USER_ACTIVE"),
+        USER_SLEEP("USER_SLEEP"),
+        USER_QUIT("USER_QUIT");
+
+        @Getter
+        String status;
+
+        UserStatus(String status) {
+            this.status = status;
+        }
+    }
 
 
 
