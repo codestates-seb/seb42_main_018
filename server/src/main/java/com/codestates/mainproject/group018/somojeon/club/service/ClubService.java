@@ -34,7 +34,7 @@ public class ClubService {
 
     // 소모임 생성
     public Club createClub(Club club, String categoryName, List<String> tagName) {
-        //TODO: 회원검증 추가 해야함
+        //TODO: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
         verifyExistsClubName(club.getClubName());
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
         if (tagList.size() < 3) {

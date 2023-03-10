@@ -4,12 +4,14 @@ import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
+import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 @Slf4j
 @RestController
@@ -34,8 +36,14 @@ public class ClubController {
     }
 
     @PatchMapping("/{club-id}")
-    public ResponseEntity patchClub() {
-        return null;
+    public ResponseEntity patchClub(@PathVariable("club-id") @Positive Long clubId,
+                                    @RequestBody @Valid ClubDto.Patch requestBody) {
+
+        Club response = clubService.updateClub(
+                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.clubResponseDtoToClub(response)), HttpStatus.OK);
     }
 
     @GetMapping("/{club-id}")
