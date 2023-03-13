@@ -19,7 +19,8 @@ public enum ExceptionCode {
     ACCESS_DENIED(401, "Access Denied"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     RECORD_NOT_FOUND(404, "Record not found"),
-    SCHEDULE_NOT_FOUND(404, "Schedule not found");
+    SCHEDULE_NOT_FOUND(404, "Schedule not found"),
+    NOT_FOUND_EXCEPTION(404, "Not found");
 
 
 
