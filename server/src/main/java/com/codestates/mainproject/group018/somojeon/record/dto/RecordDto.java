@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.dto;
 
+import com.codestates.mainproject.group018.somojeon.candidate.dto.CandidateDto;
 import com.codestates.mainproject.group018.somojeon.comment.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class RecordDto {
 
         private LocalDate date;
 
+        private String place;
+
     }
 
     @Getter
@@ -27,6 +30,8 @@ public class RecordDto {
         private Long recordId;
 
         private LocalDate date;
+
+        private String place;
 
         public void addRecordId(Long recordId) {
             this.recordId = recordId;
@@ -45,6 +50,6 @@ public class RecordDto {
         private LocalDateTime createdAt;
         private List<UserRecordDto.Response> UserRecords;
         private List<CommentDto.Response> comments;
-
+        private List<CandidateDto.Response> candidates;
     }
 }

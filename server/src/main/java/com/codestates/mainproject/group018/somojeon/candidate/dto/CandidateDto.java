@@ -12,8 +12,6 @@ public class CandidateDto {
     @AllArgsConstructor
     public static class Post {
 
-        private String nickName;
-
         Candidate.Attendance attendance;
     }
 
@@ -22,8 +20,6 @@ public class CandidateDto {
     public static class Patch {
 
         private Long candidateId;
-
-        private String nickName;
 
         Candidate.Attendance attendance;
 
