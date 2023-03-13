@@ -3,6 +3,9 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
+import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import org.springframework.data.domain.Page;
@@ -20,19 +23,26 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
     private final TagService tagService;
+    private final UserClubRepository userClubRepository;
 
-    public ClubService(ClubRepository clubRepository, TagService tagService) {
+    public ClubService(ClubRepository clubRepository,
+                       TagService tagService, UserClubRepository userClubRepository) {
         this.clubRepository = clubRepository;
         this.tagService = tagService;
+        this.userClubRepository = userClubRepository;
     }
 
     // 소모임 생성
-    public Club createClub(Club club, Category category, List<String> tagName) {
-        //TODO: 회원검증 추가 해야함
+    public Club createClub(Club club, String categoryName, List<String> tagName) {
+        //TODO: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
         verifyExistsClubName(club.getClubName());
+        club.getCategory().setCategoryName(categoryName);
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
-        club.setTagList(tagList);
-        club.setCategory(category);
+        if (tagList.size() < 3) {
+            club.setTagList(tagList);
+        } else {
+            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+        }
 
         return clubRepository.save(club);
     }
@@ -75,31 +85,49 @@ public class ClubService {
     }
 
     // 키워드로 소모임 찾기
-    public List<Club> searchClubs(int page, int size, String keyword) {
+    public Page<Club> searchClubs(int page, int size, String keyword) {
 
         if(keyword.matches(".*[a-zA-Z0-9가-힣]+.*") && keyword.startsWith("\"") && keyword.endsWith("\"")) {
             keyword = keyword.substring(1, keyword.length() - 1);
         }
         Pageable pageable = PageRequest.of(page, size);
 
-        return clubRepository.findByKeyword(pageable, keyword)
-                .orElseThrow(() -> new RuntimeException()).getContent();
+        return (Page<Club>) clubRepository.findByKeyword(pageable, keyword)
+                .orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND)).getContent();
     }
 
     public void deleteClub(Long clubId) {
+        //TODO: 리더 인지 검증
+        //      소모임 인원이 1명 일 경우 가능.
         Club findClub = findVerifiedClub(clubId);
         clubRepository.delete(findClub);
 
     }
 
-    //TODO: UserGroup DI - GroupRole
-    public void changeClubRoles() {
+//    public UserClub changeClubRoles(UserClub userClub) {
+//        //TODO: 회원검증
+//        if (!userClub.getClubRole().equals("Leader") || userClub.getClubRole().equals("Manager"))
+//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+//        String clubRole = userClub.getUser().getUserId()
+//
+//        switch (clubRole) {
+//            case "Manager" : userClub.setClubRole("Manager");
+//            default : userClub.setClubRole("Member");
+//        }
+//
+//        return userClubRepository.save(userClub);
+//    }
 
-    }
-    //TODO: UserGroup DI - GroupRole
-    public void changeClubLeader() {
-
-    }
+    //    //TODO: UserClub DI - ClubRole
+//    public UserClub changeClubLeader(UserClub userClub) {
+//        if (!userClub.getClubRole().equals("Leader"))
+//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+//
+//        String clubRole = userClub.getClubRole();
+//
+//        if (clubRole.equals("Leader"))
+//    }
     //TODO: user 연결해야됨
     public void changeClubMemberStatus(Long userId) {
 
@@ -112,13 +140,14 @@ public class ClubService {
     public void verifyExistsClubName(String clubName) {
         Optional<Club> club = clubRepository.findByClubName(clubName);
         if (club.isPresent()) {
-            throw new RuntimeException();
+            throw new BusinessLogicException(ExceptionCode.CLUB_EXISTS);
         }
     }
 
     public Club findVerifiedClub(Long clubId) {
         Optional<Club> findClub = clubRepository.findById(clubId);
-        Club club = findClub.orElseThrow(() -> new RuntimeException());
+        Club club = findClub.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));
 
         return club;
     }
