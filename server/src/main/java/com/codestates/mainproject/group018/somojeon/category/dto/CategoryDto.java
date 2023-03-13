@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class CategoryDto {
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
 

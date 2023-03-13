@@ -21,6 +21,7 @@ public class Category {
     private Long categoryId;
 
     @Column(nullable = false)
+    // 리스트로 미리 넣어놓는다.
     private String categoryName;
 
     private LocalDateTime createdAt;

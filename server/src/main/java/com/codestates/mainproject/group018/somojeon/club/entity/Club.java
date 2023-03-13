@@ -48,6 +48,9 @@ public class Club {
     @Column(nullable = false)
     private int viewCount;
 
+    // 멤버 수를 기록해야한다.
+    private int memberCount;
+
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;

@@ -31,16 +31,16 @@ public class CategoryController {
         this.categoryService = categoryService;
         this.mapper = mapper;
     }
-
-    @PostMapping
-    public ResponseEntity postCategory(@Valid @RequestBody CategoryDto.Post requestBody) {
-        //TODO: 회원검증
-
-        Category response = categoryService.createCategory(mapper.categoryPostDtoToCategory(requestBody));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.categoryResponseDtoToCategory(response)), HttpStatus.CREATED);
-    }
+    // 포스트 요청은 안하기로함.
+//    @PostMapping
+//    public ResponseEntity postCategory(@Valid @RequestBody CategoryDto.Post requestBody) {
+//        //TODO: 회원검증
+//
+//        Category response = categoryService.createCategory(mapper.categoryPostDtoToCategory(requestBody));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.categoryToCategoryResponseDto(response)), HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity getCategories(@RequestParam(defaultValue = "1") int page,
@@ -52,7 +52,7 @@ public class CategoryController {
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
-                        mapper.categoryResponseDtosToCategory(content), categoryPage), HttpStatus.OK);
+                        mapper.categoriesToCategoryResponseDtos(content), categoryPage), HttpStatus.OK);
     }
 
 }

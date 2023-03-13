@@ -37,7 +37,7 @@ public class ClubController {
                 requestBody.getCategoryName(), requestBody.getTagName());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.clubResponseDtoToClub(response)), HttpStatus.CREATED);
+                new SingleResponseDto<>(mapper.clubToClubResponseDto(response)), HttpStatus.CREATED);
     }
 
     // 소모임 수정 (소개글, 이미지 등)
@@ -49,7 +49,7 @@ public class ClubController {
                 mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.clubResponseDtoToClub(response)), HttpStatus.OK);
+                new SingleResponseDto<>(mapper.clubToClubResponseDto(response)), HttpStatus.OK);
     }
 
     // 소모임 단건 조회
@@ -57,7 +57,7 @@ public class ClubController {
     public ResponseEntity getClub(@PathVariable("club-id") @Positive Long clubId) {
 
         Club findClub = clubService.findClub(clubId);
-        ClubDto.Response response = mapper.clubResponseDtoToClub(findClub);
+        ClubDto.Response response = mapper.clubToClubResponseDto(findClub);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
@@ -73,7 +73,7 @@ public class ClubController {
         List<Club> content = clubPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubResponseDtosToClub(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubsToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     @GetMapping("/my")
@@ -91,7 +91,7 @@ public class ClubController {
         List<Club> content = clubPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubResponseDtosToClub(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubsToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 소모임 삭제

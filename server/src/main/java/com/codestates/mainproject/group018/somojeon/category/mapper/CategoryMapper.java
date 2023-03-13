@@ -12,7 +12,7 @@ public interface CategoryMapper {
 
     Category categoryPostDtoToCategory(CategoryDto.Post requestBody);
 
-    CategoryDto.Response categoryResponseDtoToCategory(Category category);
+    CategoryDto.Response categoryToCategoryResponseDto(Category category);
 
-    List<CategoryDto.Response> categoryResponseDtosToCategory(List<Category> categoryList);
+    List<CategoryDto.Response> categoriesToCategoryResponseDtos(List<Category> categoryList);
 }

@@ -99,9 +99,13 @@ public class ClubService {
 
     public void deleteClub(Long clubId) {
         //TODO: 리더 인지 검증
-        //      소모임 인원이 1명 일 경우 가능.
+        //      소모임 인원이 1명이하 일 경우 가능.
         Club findClub = findVerifiedClub(clubId);
-        clubRepository.delete(findClub);
+        if (findClub.getMemberCount() <= 1) {
+            throw new BusinessLogicException(ExceptionCode.CLUB_CAN_NOT_DELETE);
+        } else {
+            clubRepository.delete(findClub);
+        }
 
     }
 
