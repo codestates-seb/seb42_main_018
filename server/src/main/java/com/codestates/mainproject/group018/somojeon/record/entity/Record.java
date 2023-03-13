@@ -42,10 +42,6 @@ public class Record {
     private LocalDateTime modifiedAt;
 
     @ManyToOne
-    @JoinColumn(name = "RECORD_ID")
-    private Record record;
-
-    @ManyToOne
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
