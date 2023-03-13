@@ -10,25 +10,24 @@ import java.time.LocalDateTime;
 
 public class CategoryDto {
 
-    @Getter
-    @AllArgsConstructor
-    public static class Post {
-
-        @NotBlank(message = "카테고리 이름은 공백이 아니여야 합니다.")
-        @Pattern(regexp = "^[가-힣]*$",
-                message = "카테고리 이름은 한글로만 사용가능 합니다.")
-        private String categoryName;
-
-    }
+//    @Getter
+//    @NoArgsConstructor
+//    @AllArgsConstructor
+//    public static class Post {
+//
+//        @NotBlank(message = "카테고리 이름은 공백이 아니여야 합니다.")
+//        @Pattern(regexp = "^[가-힣]*$",
+//                message = "카테고리 이름은 한글로만 사용가능 합니다.")
+//        private String categoryName;
+//
+//    }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
 
-        private Long categoryId;
         private String categoryName;
-        private LocalDateTime createdAt;
 
     }
 

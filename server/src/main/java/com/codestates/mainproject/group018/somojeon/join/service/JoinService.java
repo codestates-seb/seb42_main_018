@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.join.service;
 
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
+import com.codestates.mainproject.group018.somojeon.join.enums.JoinDecisionStatus;
 import com.codestates.mainproject.group018.somojeon.join.repository.JoinRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,8 +21,11 @@ public class JoinService {
 
     // 소모임 가입 요청
     public Joins createJoin(Joins joins) {
-        //TODO: 회원검증
-        return joinRepository.save(joins);
+        // TODO: User 인지 검증
+        if (!joins.getClub().isPrivate()) {
+            joinRepository.save(joins);
+        }
+        return joins;
     }
 
     // 소모임 가입 요청 전체 조회
@@ -32,14 +36,24 @@ public class JoinService {
 
     // 소모임 가입 요청 취소
     public void deleteJoin(Long joinsId) {
-        //TODO: 회원검증
+        //TODO: User 인지 검증
         Joins findJoin = findVerifiedJoin(joinsId);
         joinRepository.delete(findJoin);
     }
 
-    //TODO: user 매핑 후 구현
-    public Joins decisionJoin(Joins joins) {
-        return null;
+    // 소모임 가입 승인/거절
+    public Joins decisionJoin(Long joinsId) {
+        //TODO: 리더인지 검증
+
+        Joins findJoin = findVerifiedJoin(joinsId);
+
+        if (findJoin.getJoinDecisionStatus().equals("가입 승인")) {
+            findJoin.setJoinDecisionStatus(JoinDecisionStatus.CONFIRMED);
+        } else {
+            findJoin.setJoinDecisionStatus(JoinDecisionStatus.REFUSED);
+        }
+
+        return joinRepository.save(findJoin);
     }
 
     public Joins findVerifiedJoin(Long joinsId) {
