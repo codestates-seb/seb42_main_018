@@ -24,8 +24,10 @@ public class Category {
     // 리스트로 미리 넣어놓는다.
     private String categoryName;
 
-    private LocalDateTime createdAt;
-
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Club> clubList = new ArrayList<>();
+
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

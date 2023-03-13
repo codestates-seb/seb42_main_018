@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.service;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
+import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
@@ -24,19 +25,23 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final TagService tagService;
     private final UserClubRepository userClubRepository;
+    private final CategoryService categoryService;
 
-    public ClubService(ClubRepository clubRepository,
-                       TagService tagService, UserClubRepository userClubRepository) {
+    public ClubService(ClubRepository clubRepository, TagService tagService,
+                       UserClubRepository userClubRepository, CategoryService categoryService) {
         this.clubRepository = clubRepository;
         this.tagService = tagService;
         this.userClubRepository = userClubRepository;
+        this.categoryService = categoryService;
     }
 
     // 소모임 생성
+    // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
     public Club createClub(Club club, String categoryName, List<String> tagName) {
         //TODO: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
         verifyExistsClubName(club.getClubName());
-        club.getCategory().setCategoryName(categoryName);
+        categoryService.verifyExistsCategoryName(categoryName);
+        categoryService.saveCategory(categoryName);
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
         if (tagList.size() < 3) {
             club.setTagList(tagList);
