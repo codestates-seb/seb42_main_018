@@ -2,7 +2,6 @@ package com.codestates.mainproject.group018.somojeon.record.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
-import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +30,9 @@ public class Record {
     @Column(name = "DATE", nullable = false)
     private LocalDate date;
 
+    @Column(nullable = false)
+    private String place;
+
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
@@ -40,8 +42,8 @@ public class Record {
     private LocalDateTime modifiedAt;
 
     @ManyToOne
-    @JoinColumn(name = "SCHEDULE_ID")
-    private Schedule schedule;
+    @JoinColumn(name = "RECORD_ID")
+    private Record record;
 
     @ManyToOne
     @JoinColumn(name = "CLUB_ID")
@@ -52,4 +54,7 @@ public class Record {
 
     @OneToMany(mappedBy = "record")
     private List<UserRecord> userRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "record")
+    private List<RecordCandidate> recordCandidates = new ArrayList<>();
 }
