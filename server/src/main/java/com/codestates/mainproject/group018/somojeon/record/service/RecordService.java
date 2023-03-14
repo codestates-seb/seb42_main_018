@@ -30,6 +30,8 @@ public class RecordService {
 
         Optional.ofNullable(record.getDate())
                 .ifPresent(findRecord::setDate);
+        Optional.ofNullable(record.getPlace())
+                .ifPresent(findRecord::setPlace);
 
         return recordRepository.save(findRecord);
     }
