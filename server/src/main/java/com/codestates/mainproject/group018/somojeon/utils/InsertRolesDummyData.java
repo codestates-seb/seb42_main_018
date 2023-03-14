@@ -37,7 +37,9 @@ public class InsertRolesDummyData {
                 // 패스워드 인코딩
 
                 // INSERT 문 생성
-                String sql = "INSERT INTO member_roles (member_member_id, roles) VALUES (?, ?)";
+//                String sql = "INSERT INTO member_roles (member_member_id, roles) VALUES (?, ?)";
+                String sql = "INSERT INTO user (user_id, age, create_at, ) VALUES (?, ?)";
+
 //                String sql = "DELETE FROM member_roles WHERE member_member_id = 15 LIMIT 1";
 
                 pstmt = conn.prepareStatement(sql);
