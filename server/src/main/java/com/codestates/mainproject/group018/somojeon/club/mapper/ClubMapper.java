@@ -14,7 +14,7 @@ public interface ClubMapper {
 
     Club clubPatchDtoToClub(ClubDto.Patch requestBody);
 
-    ClubDto.Response clubResponseDtoToClub(Club club);
+    ClubDto.Response clubToClubResponseDto(Club club);
 
-    List<ClubDto.Response> clubResponseDtosToClub(List<Club> clubList);
+    List<ClubDto.Response> clubsToClubResponseDtos(List<Club> clubList);
 }

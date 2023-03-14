@@ -51,5 +51,6 @@ public class RecordDto {
         private List<UserRecordDto.Response> UserRecords;
         private List<CommentDto.Response> comments;
         private List<CandidateDto.Response> candidates;
+
     }
 }

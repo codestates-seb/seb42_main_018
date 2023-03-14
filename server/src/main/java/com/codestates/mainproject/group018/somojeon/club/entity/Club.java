@@ -29,24 +29,23 @@ public class Club {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long clubId;
 
-    @NotNull
     @Column(nullable = false)
     private String clubName;
 
-    @NotNull
     @Column(nullable = false, length = 500)
     private String content;
 
-    @NotNull
     @Column(nullable = false)
     private String local;
 
-    @NotNull
     @Column(nullable = false)
     private boolean isPrivate;
 
     @Column(nullable = false)
     private int viewCount;
+
+    // 멤버 수를 기록해야한다.
+    private int memberCount;
 
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
