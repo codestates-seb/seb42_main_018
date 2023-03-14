@@ -42,4 +42,9 @@ public class CategoryController {
     public List<String> getAllCategoryNames() {
         return categoryService.getAllCategoryNames();
     }
+
+    @GetMapping("/search")
+    public List<String> searchCategories(@RequestParam String keyword) {
+        return categoryService.findByKeyword(keyword);
+    }
 }

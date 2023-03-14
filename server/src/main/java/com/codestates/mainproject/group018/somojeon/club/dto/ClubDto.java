@@ -20,14 +20,14 @@ public class ClubDto {
     public static class Post {
 
         @NotBlank(message = "소모임 이름은 공백이 아니여야 합니다.")
-        @Pattern(regexp = "\\w+",
-                message = "카테고리 이름은 특수문자를 사용할 수 없습니다.")
+//        @Pattern(regexp = "\\w+",
+//                message = "카테고리 이름은 특수문자를 사용할 수 없습니다.")
         private String clubName;
 
         private String content;
 
-        @Pattern(regexp = "^[a-zA-Z기-힣+\\sa-zA-Z기-힣]$",
-                message = "시/도 와 시/군/구 사이는 띄어쓰기 한개가 꼭 필요합니다.")
+//        @Pattern(regexp = "^[a-zA-Z기-힣+\\sa-zA-Z기-힣]$",
+//                message = "시/도 와 시/군/구 사이는 띄어쓰기 한개가 꼭 필요합니다.")
         private String local;
 
         @NotBlank(message = "카테고리 이름은 공백이 아니여야 합니다.")
@@ -35,7 +35,9 @@ public class ClubDto {
                 message = "카테고리 이름은 한글로만 사용가능 합니다.")
         private String categoryName;
 
-        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
+        private Long categoryId;
+
+//        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
         private boolean isPrivate;
 
