@@ -1,5 +1,5 @@
 import CreateCategory from './createCategory';
-import CreateTag from './CreateTag';
+import CreateTag from './createTag';
 
 function CreateClub() {
   const sampleData = {
