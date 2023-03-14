@@ -32,4 +32,10 @@ public class AuthController {
         authService.refresh(request, response);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/auth/oauth/kakao")
+    public ResponseEntity<Map<String, String>> postOauthForKakao() {
+        authService.getAuthorizeCodeForKakao();
+        return ResponseEntity.ok().build();
+    }
 }

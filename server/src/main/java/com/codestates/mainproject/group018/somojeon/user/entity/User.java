@@ -70,6 +70,8 @@ public class User {
     @Column(nullable = false)
     UserStatus userStatus = UserStatus.USER_NEW;
 
+    public User(String email) {
+    }
 
 
     public enum UserStatus{
