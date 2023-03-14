@@ -1,4 +1,5 @@
 import CreateCategory from './createCategory';
+import CreateTag from './CreateTag';
 
 function CreateClub() {
   const sampleData = {
@@ -36,11 +37,7 @@ function CreateClub() {
           <option>선택</option>
         </select>
       </div>
-      <div>
-        {/* TODO: 태그 구현 */}
-        <label htmlFor='tagName'>태그</label>
-        <input id='tagName' />
-      </div>
+      <CreateTag />
       <fieldset>
         <legend>공개여부 선택 *</legend>
         <label htmlFor='public'>공개</label>
