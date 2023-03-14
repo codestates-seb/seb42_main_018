@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : record entity update">
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/controller/FileUploadController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/external/AwsS3UploadService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/external/UploadService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/external/dto/S3Component.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/service/FileUploadService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/candidate/mapper/CandidateMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/candidate/mapper/CandidateMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/category/mapper/CategoryMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/category/mapper/CategoryMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/club/mapper/ClubMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/club/mapper/ClubMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/comment/mapper/CommentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/comment/mapper/CommentMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/join/mapper/JoinMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/join/mapper/JoinMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapperImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/tag/mapper/TagMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/tag/mapper/TagMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/config/S3Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/config/S3Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/entity/Images.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/entity/Images.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/service/S3Service.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +59,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -78,7 +79,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="ET/feat/S3" />
-                    <option name="lastUsedInstant" value="1678767534" />
+                    <option name="lastUsedInstant" value="1678769829" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="ET/feat/refactor" />
@@ -602,5 +603,16 @@
     <MESSAGE value="♻️ refactor : record candidate update" />
     <MESSAGE value="♻️ refactor : record entity update" />
     <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : record entity update" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/images/service/FileUploadService.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

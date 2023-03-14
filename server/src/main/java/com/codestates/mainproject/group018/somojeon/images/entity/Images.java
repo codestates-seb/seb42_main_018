@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Images {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long imageId;
+
+    @Column(nullable = false)
+    private String title;
 
     @Column(nullable = false)
     private String url;
@@ -42,9 +42,17 @@ public class Images {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public static Images toEntity(String url) {
-        return Images.builder()
-                .url(url)
-                .build();
+    public Images(String title, String url) {
+        this.title = title;
+        this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "Images{" +
+                "imageId=" + imageId +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }
