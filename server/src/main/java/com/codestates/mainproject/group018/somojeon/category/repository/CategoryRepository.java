@@ -19,6 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByCategoryName(String categoryName);
 
-    @Query("SELECT c FROM Category c WHERE LOWER(c.categoryName) LIKE LOWER(concat('%', :keyword, '%'))")
-    List<Category> findByKeyword(@Param("keyword") String keyword);
+//    @Query("SELECT c FROM Category c WHERE LOWER(c.categoryName) LIKE LOWER(concat('%', :keyword, '%'))")
+//    List<Category> findByKeyword(@Param("keyword") String keyword);
 }

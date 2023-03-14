@@ -43,8 +43,8 @@ public class CategoryController {
         return categoryService.getAllCategoryNames();
     }
 
-    @GetMapping("/search")
-    public List<String> searchCategories(@RequestParam String keyword) {
-        return categoryService.findByKeyword(keyword);
-    }
+//    @GetMapping("/search")
+//    public List<String> searchCategories(@RequestParam String keyword) {
+//        return categoryService.findByKeyword(keyword);
+//    }
 }

@@ -35,10 +35,10 @@ public class CategoryService {
         return categories.stream().map(Category::getCategoryName).collect(Collectors.toList());
     }
 
-    public List<String> findByKeyword(String keyword) {
-        List<Category> categories = categoryRepository.findByKeyword(keyword);
-       return categories.stream().map(Category::getCategoryName).collect(Collectors.toList());
-    }
+//    public List<String> findByKeyword(String keyword) {
+//        List<Category> categories = categoryRepository.findByKeyword(keyword);
+//       return categories.stream().map(Category::getCategoryName).collect(Collectors.toList());
+//    }
 
     public void saveCategory(String categoryName) {
         Category category = new Category();
