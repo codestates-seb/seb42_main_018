@@ -1,7 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.auth.utils;
 
+import com.codestates.mainproject.group018.somojeon.exception.ErrorResponse;
 import com.google.gson.Gson;
-import com.group5.stackoverflow.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 

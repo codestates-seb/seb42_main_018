@@ -1,7 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.auth.filter;
 
-import com.codestates.mainproject.group018.somojeon.auth.customtoken.CustomAuthenticationToken;
-import com.codestates.mainproject.group018.somojeon.auth.tokenizer.JwtTokenizer;
+import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
+import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.utils.Checker;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,23 +26,35 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
 
-    // (2)
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer,
-                                 CustomAuthorityUtils authorityUtils) {
+    private  final AuthService authService;
+
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
+                                 AuthService authService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.authService = authService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
         // (1)
         try {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
             logRequestInfo();
         } catch (ExpiredJwtException ee) {
-            log.warn("Expired JWT Exception");
+            log.warn("Expired ACCESS JWT Exception");
             request.setAttribute("exception", ee);
+            try {
+                authService.refresh(request, response);
+            }
+            catch (ExpiredJwtException expiredJwtException){
+                log.warn("Expired Refresh JWT Exception");
+                request.setAttribute("exception ", expiredJwtException);
+
+            }
+
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
@@ -60,18 +73,18 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("Authorization").replace("Bearer ", ""); // (3-1)
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey()); // (3-2)
-        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();   // (3-3)
+        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
 
         return claims;
     }
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username"); //email
-        String memberId =  String.valueOf(claims.get("memberId"));
+        String userId =  String.valueOf(claims.get("userId"));
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
-        Authentication authentication = new CustomAuthenticationToken(username, null,  memberId, authorities);
+        Authentication authentication = new CustomAuthenticationToken(username, null,  userId, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication); // (4-4)
 
     }

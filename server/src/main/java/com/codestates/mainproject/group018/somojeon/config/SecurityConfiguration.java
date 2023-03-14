@@ -7,14 +7,14 @@ import com.codestates.mainproject.group018.somojeon.auth.handler.UserAccessDenie
 import com.codestates.mainproject.group018.somojeon.auth.handler.UserAuthenticationEntryPoint;
 import com.codestates.mainproject.group018.somojeon.auth.handler.UserAuthenticationFailureHandler;
 import com.codestates.mainproject.group018.somojeon.auth.handler.UserAuthenticationSuccessHandler;
-import com.codestates.mainproject.group018.somojeon.auth.tokenizer.JwtTokenizer;
+import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -33,15 +33,17 @@ public class SecurityConfiguration {
     private final CustomAuthorityUtils authorityUtils; // 추가
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final AuthService authService;
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                             UserRepository userRepository, UserMapper userMapper) {
-    this.jwtTokenizer = jwtTokenizer;
-    this.authorityUtils = authorityUtils;
-    this.userRepository = userRepository;
-    this.userMapper = userMapper;
+                                 UserRepository userRepository, UserMapper userMapper,
+                                 AuthService authService) {
+        this.jwtTokenizer = jwtTokenizer;
+        this.authorityUtils = authorityUtils;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.authService = authService;
     }
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -103,7 +105,7 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper));  // (3) 추가
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());  // (4) 추가
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, authService);
 
 //            UserUrIVerificationFilter userUrIVerificationFilter = new UserUrIVerificationFilter();
 

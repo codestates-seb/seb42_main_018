@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.auth.tokenizer;
+package com.codestates.mainproject.group018.somojeon.auth.token;
 
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;

@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.auth.customtoken;
+package com.codestates.mainproject.group018.somojeon.auth.token;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

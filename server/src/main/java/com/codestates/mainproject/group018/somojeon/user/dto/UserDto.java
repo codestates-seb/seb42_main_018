@@ -15,8 +15,8 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
-        @NotNull
-        String name;
+        @Nullable
+        String nickName;
 
         @Email
         String email;
@@ -24,8 +24,8 @@ public class UserDto {
         @NotNull
         String password;
 
-        @Nullable
-        int age;
+//        @Nullable
+//        int age;
 
     }
     @Getter
@@ -36,7 +36,7 @@ public class UserDto {
         Long userId;
 
         @Nullable
-        String name;
+        String userName;
 
 //        @Nullable
 //        String password;
@@ -63,7 +63,7 @@ public class UserDto {
         Long userId;
 
         @NotNull
-        String name;
+        String userName;
 
         @Email
         String email;

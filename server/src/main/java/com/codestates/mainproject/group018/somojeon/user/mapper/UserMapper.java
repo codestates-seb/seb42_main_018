@@ -9,7 +9,7 @@ import org.mapstruct.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "Spring")
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     User userPostToUser(UserDto.Post userDtoPost);
     User userPatchToUser(UserDto.Patch userDtoPatch);
@@ -32,7 +32,7 @@ public interface UserMapper {
 
     default UserDto.Response userToUserResponseForPublic(User user){
         UserDto.Response response = new UserDto.Response();
-        response.setName(user.getUserName());
+        response.setUserName(user.getUserName());
         response.setEmail(user.getEmail());
         response.setUserStatus(user.getUserStatus());
         response.setUserId(user.getUserId());

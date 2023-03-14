@@ -36,9 +36,6 @@ public class MysqlQuertTest {
                 System.out.println(tableName);
             }
 
-
-
-
             System.out.println("100 rows inserted successfully.");
 
         } catch (SQLException e) {

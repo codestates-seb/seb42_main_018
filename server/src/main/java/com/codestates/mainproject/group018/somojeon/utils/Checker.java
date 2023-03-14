@@ -1,10 +1,9 @@
 package com.codestates.mainproject.group018.somojeon.utils;
 
-import com.codestates.mainproject.group018.somojeon.auth.customtoken.CustomAuthenticationToken;
+import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 

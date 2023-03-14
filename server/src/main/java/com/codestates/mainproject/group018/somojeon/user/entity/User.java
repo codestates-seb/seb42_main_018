@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.record.entity.UserRecord;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -66,13 +68,13 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    UserStatus userStatus = UserStatus.MEMBER_NEW;
+    UserStatus userStatus = UserStatus.USER_NEW;
 
 
 
     public enum UserStatus{
 
-        MEMBER_NEW("USER_NEW"),
+        USER_NEW("USER_NEW"),
         USER_ACTIVE("USER_ACTIVE"),
         USER_SLEEP("USER_SLEEP"),
         USER_QUIT("USER_QUIT");
@@ -84,7 +86,6 @@ public class User {
             this.status = status;
         }
     }
-
 
 
 }
