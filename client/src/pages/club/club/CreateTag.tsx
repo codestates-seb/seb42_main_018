@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const TagsInput = styled.div`
+const S_TagsInput = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -77,7 +77,7 @@ function CreateTag() {
 
   return (
     <>
-      <TagsInput>
+      <S_TagsInput>
         <label htmlFor='tagName'>태그</label>
         <input
           id='tagName'
@@ -106,7 +106,7 @@ function CreateTag() {
             </li>
           ))}
         </ul>
-      </TagsInput>
+      </S_TagsInput>
     </>
   );
 }
