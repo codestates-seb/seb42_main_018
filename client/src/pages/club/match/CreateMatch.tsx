@@ -35,22 +35,25 @@ const MapView = styled.div`
 `;
 
 function CreateMatch() {
-  const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
-  const [isOpenMapView, setIsOpenMapView] = useState(false);
+  const [isOpenMapSetting, setIsOpenMapSetting] = useState<boolean>(false);
+  const [isOpenMapView, setIsOpenMapView] = useState<boolean>(false);
   const [placeValue, setPlaceValue] = useState<placeType>();
 
-  const mapSettingModalHandler = () => {
+  const mapSettingModalHandler = ():void => {
     setIsOpenMapSetting(!isOpenMapSetting)
   }
 
-  const mapViewModalHandler = () => {
+  const mapViewModalHandler = ():void => {
+    if(!placeValue) return;
     setIsOpenMapView(!isOpenMapView);
   }
-  const TeamList = [
+  const [teamList, setTeamList] = useState([
     {
-      name: 'A팀'
+      id: 0,
+      members: []
     }
-  ];
+  ]);
+  const memberList:string[] = ["박대운", "우제훈", "김은택", "김아애", "문채리", "전규언"];
   return (
     <S_Container>
       <div>경기 등록</div>
@@ -89,6 +92,36 @@ function CreateMatch() {
       </div>
       <div>
         <div>팀구성</div>
+        {
+          teamList.map((team,idx) => {
+            return (
+              <div key={team.id} style={{display: "flex"}}>
+                  <span>{idx+1}팀</span>
+                  <div style={{border: '1px solid black', width: '350px'}}></div>
+                  {/* <select>
+                    {memberList.map((member,idx) => <option key={idx} value={member}>{member}</option>)}
+                  </select> */}
+                  <button>+</button>
+                  <button onClick={() => {
+                    const deleted = [...teamList];
+                    deleted.splice(idx,1)
+                    // deleted.forEach((el,idx) => el.id = idx+1)
+                    setTeamList(deleted);
+                  }}>삭제</button>
+              </div>
+            )
+          })
+        }
+        <button onClick={() => {
+          const newTeam = {
+            id: teamList.length ? teamList[teamList.length-1].id + 1 : 0,
+            members: []
+          }
+          setTeamList([...teamList, newTeam])
+        }}>신규 팀 구성 등록 +</button>
+        <div>경기 결과</div>
+        <div>경기가 종료된 뒤 결과를 입력해보세요</div>
+        <button>경기 결과 등록 +</button>
       </div>
     </S_Container>
   );
