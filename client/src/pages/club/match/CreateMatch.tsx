@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import KakaoMapSearch, { placeType } from '../../../components/kakao/KakaoMapSearch';
 import KakaoMapView from '../../../components/kakao/KakaoMapView';
-import S_Container from '../../../components/S_Container';
+import S_Container from '../../../components/UI/S_Container';
 
 const MapBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
