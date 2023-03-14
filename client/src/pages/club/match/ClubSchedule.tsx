@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ScheduleCard from "../../../components/match/ScheduleCard";
-import S_Container from "../../../components/S_Container";
+import S_Container from "../../../components/UI/S_Container";
 
 const S_MatchSchedule = styled.div`
 
