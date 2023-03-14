@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : recordservice update">
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : record entity update">
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/candidate/mapper/CandidateMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/candidate/mapper/CandidateMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/category/mapper/CategoryMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/category/mapper/CategoryMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/club/mapper/ClubMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/club/mapper/ClubMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/comment/mapper/CommentMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/comment/mapper/CommentMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/join/mapper/JoinMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/join/mapper/JoinMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapperImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/tag/mapper/TagMapperImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/generated/com/codestates/mainproject/group018/somojeon/tag/mapper/TagMapperImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,12 +28,26 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/server">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="somojeon" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -56,8 +77,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="taekie" />
-                    <option name="lastUsedInstant" value="1678324833" />
+                    <option name="branchName" value="ET/feat/S3" />
+                    <option name="lastUsedInstant" value="1678767534" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="ET/feat/refactor" />
+                    <option name="lastUsedInstant" value="1678693697" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="dev" />
@@ -85,15 +110,116 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_opened_file_path": "/Users/taekie/programming/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.codestates.mainproject.group018.somojeon.images.service" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment" />
     </key>
+  </component>
+  <component name="RunManager" selected="Application.SomojeonApplication">
+    <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="somojeon.main" />
+      <option name="VM_PARAMETERS" value="-Dcom.amazonaws.sdk.disalbeEcc2Metadata=true" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="server [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="server [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.SomojeonApplication" />
+      <item itemvalue="Gradle.server [build]" />
+      <item itemvalue="Gradle.server [clean]" />
+      <item itemvalue="Gradle.server [dependencies]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SomojeonApplication" />
+        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="Gradle.server [clean]" />
+        <item itemvalue="Gradle.server [dependencies]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -307,8 +433,124 @@
       <option name="project" value="LOCAL" />
       <updated>1678370957548</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="✨ feat : UserRecordDto add">
+      <created>1678371007001</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1678371007001</updated>
+    </task>
+    <task id="LOCAL-00031" summary="📦 chore : idea">
+      <created>1678371347584</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1678371347584</updated>
+    </task>
+    <task id="LOCAL-00032" summary="♻️ refactor : candidate update">
+      <created>1678417263163</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1678417263163</updated>
+    </task>
+    <task id="LOCAL-00033" summary="♻️ refactor : candidate update">
+      <created>1678426255588</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426255588</updated>
+    </task>
+    <task id="LOCAL-00034" summary="♻️ refactor : ExceptionCode update">
+      <created>1678426551910</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426551910</updated>
+    </task>
+    <task id="LOCAL-00035" summary="♻️ refactor : service update">
+      <created>1678427227554</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1678427227554</updated>
+    </task>
+    <task id="LOCAL-00036" summary="🔥 remove : schedule">
+      <created>1678668603975</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1678668603975</updated>
+    </task>
+    <task id="LOCAL-00037" summary="✨ feat : fileUpload, S3service">
+      <created>1678668689509</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1678668689509</updated>
+    </task>
+    <task id="LOCAL-00038" summary="♻️ refactor : mapping update">
+      <created>1678668768015</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1678668768015</updated>
+    </task>
+    <task id="LOCAL-00039" summary="📦 chore : gitignore, gradle, yml update">
+      <created>1678669027549</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1678669027549</updated>
+    </task>
+    <task id="LOCAL-00040" summary="📦 chore : MapperImpl">
+      <created>1678669058582</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1678669058582</updated>
+    </task>
+    <task id="LOCAL-00041" summary="♻️ refactor : mapping update">
+      <created>1678669066860</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1678669066860</updated>
+    </task>
+    <task id="LOCAL-00042" summary="♻️ refactor : image, S3service update">
+      <created>1678681878237</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1678681878237</updated>
+    </task>
+    <task id="LOCAL-00043" summary="♻️ refactor : record candidate update">
+      <created>1678692837493</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1678692837493</updated>
+    </task>
+    <task id="LOCAL-00044" summary="♻️ refactor : record entity update">
+      <created>1678693215505</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1678693215505</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:com.amazonaws:aws-java-sdk-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:com.amazonaws:aws-java-sdk-s3" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -321,7 +563,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="taekie" />
+                        <option value="ET/feat/S3" />
                       </list>
                     </value>
                   </entry>
@@ -334,16 +576,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=" chore : idea init" />
-    <MESSAGE value=" chore : init" />
-    <MESSAGE value=" chore : init" />
-    <MESSAGE value=" chore : build gradle" />
-    <MESSAGE value="✨ feat : annotation EnableJpaAuditing add" />
-    <MESSAGE value=" chore : init" />
-    <MESSAGE value="✨ feat : Candidate 뼈대 및 연관 관계 매핑" />
-    <MESSAGE value="✨ feat : Comment 뼈대 및 연관 관계 매핑" />
-    <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
-    <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
     <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : annotation add" />
@@ -353,10 +585,22 @@
     <MESSAGE value="✨ feat : Dto &amp; Utils" />
     <MESSAGE value=" chore : MapperImpl" />
     <MESSAGE value="✨ feat : yml 파일 생성" />
-    <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : Schedule 구현" />
     <MESSAGE value="♻️ refactor : commentservice update" />
     <MESSAGE value="♻️ refactor : recordservice update" />
-    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : recordservice update" />
+    <MESSAGE value="✨ feat : UserRecordDto add" />
+    <MESSAGE value=" chore : idea" />
+    <MESSAGE value="♻️ refactor : candidate update" />
+    <MESSAGE value="♻️ refactor : ExceptionCode update" />
+    <MESSAGE value="♻️ refactor : service update" />
+    <MESSAGE value=" remove : schedule" />
+    <MESSAGE value="✨ feat : fileUpload, S3service" />
+    <MESSAGE value=" chore : gitignore, gradle, yml update" />
+    <MESSAGE value=" chore : MapperImpl" />
+    <MESSAGE value="♻️ refactor : mapping update" />
+    <MESSAGE value="♻️ refactor : image, S3service update" />
+    <MESSAGE value="♻️ refactor : record candidate update" />
+    <MESSAGE value="♻️ refactor : record entity update" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : record entity update" />
   </component>
 </project>
