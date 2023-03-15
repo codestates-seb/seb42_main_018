@@ -9,7 +9,7 @@ interface Contents {
 
 const mainContents: Contents[] = [
   {name: '1'},
-  {name: '벌꿀오소리'},
+  {name: '별명 임시'},
   {name: '58%', color: 'var(--blue300)'},
   {name: '12'},
   {name: '10'},
