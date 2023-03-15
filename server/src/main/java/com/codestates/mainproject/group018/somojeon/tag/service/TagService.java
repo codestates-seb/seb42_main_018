@@ -37,4 +37,26 @@ public class TagService {
             return createTag(tagName);
         }
     }
+
+//    public List<Tag> updateQuestionTags(Tag tag, List<String> tagNames) {
+//
+//        // 기존 태그 삭제
+//        tagRepository.findByTag(tag).stream()
+//                .forEach(tags -> {
+//                    tagRepository.delete(tags);
+//                });
+//
+//        // 새로운 태그 유효성 검사
+//        List<Tag> findTags = findTagsElseCreateTags(tagNames);
+//
+//        // 새로운 questionTag 저장
+//        findTags.stream()
+//                .forEach(tags -> {
+//                    Tag tag1 = new Tag(tagName);
+//                    QuestionTag saveQuestionTag = questionTagRepository.save(questionTag);
+//                    updateQuestionCount(saveQuestionTag.getTag());
+//                });
+//
+//        return findTags;
+//    }
 }
