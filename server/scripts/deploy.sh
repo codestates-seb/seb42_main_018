@@ -26,5 +26,4 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/action/deploy.log
-sudo java -jar $DEPLOY_JAR --spring.profiles.active=server --server.port=8081
-#sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=server --server.port=8081>> /home/ubuntu/deploy.log 2>/home/ubuntu/action/deploy_err.log &
+sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=server --server.port=8081>> /home/ubuntu/deploy.log 2>/home/ubuntu/action/deploy_err.log &
