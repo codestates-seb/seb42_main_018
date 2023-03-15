@@ -79,7 +79,14 @@ function CreateClub() {
       <h2>신규 소모임 만들기</h2>
       <div>
         <label htmlFor='clubName'>소모임 이름 *</label>
-        <input id='clubName' name='clubName' type='text' value={clubName} onChange={onChange} />
+        <input
+          id='clubName'
+          name='clubName'
+          type='text'
+          maxLength={10}
+          value={clubName}
+          onChange={onChange}
+        />
       </div>
       <div>
         <label htmlFor='content'>소모임 소개글 *</label>
