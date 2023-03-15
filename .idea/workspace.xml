@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="✨ feat : dummy data">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/SomojeonOAuth2UserSuccessHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/service/OatuhExample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +60,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="JH/feat/userController" />
+        <entry key="$PROJECT_DIR$" value="JH/feat/kakao" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -120,17 +112,17 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils",
+    "last_opened_file_path": "C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/resources",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon\utils" />
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record" />
-      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
@@ -201,8 +193,9 @@
       <list>
         <item itemvalue="애플리케이션.SomojeonApplication" />
         <item itemvalue="애플리케이션.OatuhExample" />
-        <item itemvalue="Gradle.server [build]" />
         <item itemvalue="애플리케이션.insertDummyData" />
+        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
       </list>
     </recent_temporary>
   </component>
