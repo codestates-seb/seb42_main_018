@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
+import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
 import com.codestates.mainproject.group018.somojeon.record.entity.UserRecord;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -69,6 +70,10 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     UserStatus userStatus = UserStatus.USER_NEW;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    OAuthUser oAuthUser;
+
 
     public User(String email) {
     }
