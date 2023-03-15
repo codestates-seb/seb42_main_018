@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="✨ feat : 서버 설정 파일">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="✨ feat : 회원가입 로직 변경 OAuth 로그인 시 회원가입 처리">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +151,7 @@
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="애플리케이션.SomojeonApplication">
+  <component name="RunManager" selected="Gradle.server [build]">
     <configuration name="OatuhExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.auth.service.OatuhExample" />
       <module name="somojeon.main" />
@@ -172,19 +172,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="insertDummyData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.utils.insertDummyData" />
-      <module name="somojeon.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -234,20 +221,36 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="SomojeonApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="somojeon.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.codestates.mainproject.group018.somojeon" />
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplicationTests" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
-      <item itemvalue="애플리케이션.insertDummyData" />
+      <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
       <item itemvalue="애플리케이션.OatuhExample" />
       <item itemvalue="애플리케이션.SomojeonApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.SomojeonApplication" />
-        <item itemvalue="Gradle.server [clean]" />
-        <item itemvalue="애플리케이션.OatuhExample" />
-        <item itemvalue="애플리케이션.insertDummyData" />
         <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="Gradle.server [clean]" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
+        <item itemvalue="애플리케이션.OatuhExample" />
       </list>
     </recent_temporary>
   </component>
