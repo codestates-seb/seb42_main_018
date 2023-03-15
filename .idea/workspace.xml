@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev-somojeon.vercel.app">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/scripts/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/server/scripts/deploy.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -534,7 +535,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678884640134</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678886559966</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1678886559966</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -564,7 +572,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
     <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : annotation add" />
     <MESSAGE value="✨ feat : Candidate 구현" />
@@ -589,7 +596,8 @@
     <MESSAGE value=" remove : remove test application" />
     <MESSAGE value="♻️ refactor : add allowed Origins" />
     <MESSAGE value=" !HOTFIX dev-somojeon.vercel.app" />
-    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev-somojeon.vercel.app" />
+    <MESSAGE value=" !HOTFIX dev 자동배포" />
+    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev 자동배포" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
