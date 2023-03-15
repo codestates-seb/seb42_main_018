@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🔥 remove : remove test application" />
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="♻️ refactor : add allowed Origins">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -518,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678871591380</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="♻️ refactor : add allowed Origins">
+      <created>1678873946993</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1678873946993</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -548,7 +558,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
     <MESSAGE value=" chore : idea" />
@@ -573,7 +582,8 @@
     <MESSAGE value="✨ feat : dummy data" />
     <MESSAGE value="✨ feat : OAuth login &amp; redirect" />
     <MESSAGE value=" remove : remove test application" />
-    <option name="LAST_COMMIT_MESSAGE" value=" remove : remove test application" />
+    <MESSAGE value="♻️ refactor : add allowed Origins" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : add allowed Origins" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
