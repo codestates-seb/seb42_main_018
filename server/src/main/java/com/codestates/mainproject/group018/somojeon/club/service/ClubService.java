@@ -85,6 +85,7 @@ public class ClubService {
         return clubRepository.save(findClub);
     }
 
+    // TODO: 퍼블릭 할 필요 없음.
     // 퍼블릭 소모임 단건 조회
     // 전체 ROLE 가능
     public Club findPublicClub(Long clubId) {
@@ -98,6 +99,7 @@ public class ClubService {
         return findClub;
     }
 
+    // TODO-DW: 퍼블릭 할 필요없음
     // 퍼블릭 소모임 전체 조회
     // 전체 ROLE 가능
     public Page<Club> findPublicClubs(int page, int size) {
@@ -105,6 +107,7 @@ public class ClubService {
 
     }
 
+    // TODO-DW: 퍼블릭 할 필요없음
     // 키워드로 퍼블릭 소모임 찾기
     // 전체 ROLE 가능
     public Page<Club> searchPublicClubs(int page, int size, String keyword) {
