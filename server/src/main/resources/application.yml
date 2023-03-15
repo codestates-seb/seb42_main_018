@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    username: root
+    password : ${MYSQL_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: cc9eb581caf2361034da01b9c99c75dd
+#            client-secret: gC5CPojQczd8sgqYCI2q4sXbx7Al6tp6
+#            client-name : Kakao
+#            authorization-grant-type : authorization_code
+#            redirect-uri : https://somojeon.vercel.app
+#
+#          provider:
+#            kakao:
+#              authorization-uri: https://kauth.kakao.com/oauth/authorize
+#              token-uri: https://kauth.kakao.com/oauth/token
+#              user-info-uri: https://kapi.kakao.com/v2/user/me
+#              user-name-attribute: id
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+mail:
+  address:
+    admin: ${ADMIN_MAIL}
