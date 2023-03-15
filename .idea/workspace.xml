@@ -240,20 +240,6 @@
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
     </task>
-    <task id="LOCAL-00001" summary="📦 chore : idea init">
-      <created>1678324499624</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1678324499625</updated>
-    </task>
-    <task id="LOCAL-00002" summary="📦 chore : idea init">
-      <created>1678324517175</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1678324517175</updated>
-    </task>
     <task id="LOCAL-00003" summary="📦 chore : init">
       <created>1678324803541</created>
       <option name="number" value="00003" />
@@ -583,7 +569,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678894205849</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678894362806</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1678894362806</updated>
+    </task>
+    <task id="LOCAL-00051" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678894589839</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1678894589839</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
