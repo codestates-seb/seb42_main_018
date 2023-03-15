@@ -66,11 +66,12 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
       </select>
       <select id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
-        {districtList.map((d: DistrictType) => (
-          <option key={d.code} value={d.code}>
-            {d.name}
-          </option>
-        ))}
+        {districtList &&
+          districtList.map((d: DistrictType) => (
+            <option key={d.code} value={d.code}>
+              {d.name}
+            </option>
+          ))}
       </select>
     </>
   );
