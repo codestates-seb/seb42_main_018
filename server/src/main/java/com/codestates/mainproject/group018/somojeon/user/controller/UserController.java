@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/users")
@@ -32,13 +34,12 @@ public class UserController {
 
     // post
     @PostMapping()
-    public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost){
+    public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
+                                   HttpServletRequest request){
         User user =  mapper.userPostToUser(userDtoPost);
-//        User createdUser =  userService.createUser(user);
-//        URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, createdUser.getUserId());
-
-//        return ResponseEntity.created(location).build();
-        return null;
+        User createdUser =  userService.createUser(user, request);
+        URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{user-id}")
