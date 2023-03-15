@@ -6,36 +6,34 @@ import CreateTag from './_createTag';
 export interface clubType {
   clubName: string;
   content: string;
-  local?: string;
+  local: string;
   categoryName: string;
   tagName?: Array<string>;
   isPrivate: boolean | string;
 }
 
 function CreateClub() {
-  const sampleDataType = {
-    clubName: '',
-    content: '',
-    local: '',
-    categoryName: '',
-    isPrivate: false
-  };
+  //   const sampleData = {
+  //     clubName: '배사모',
+  //     content: '배드민턴이 좋은 사람들은 여기여기 모여라',
+  //     local: '제주 서귀포시',
+  //     categoryName: '배드민턴',
+  //     isPrivate: false
+  //   };
 
-  const sampleData = {
-    clubName: '배사모',
-    content: '배드민턴이 좋은 사람들은 여기여기 모여라',
-    local: '제주 서귀포시',
-    categoryName: '배드민턴',
-    isPrivate: false
-  };
-
-  // createTag로 내려보내야함
   const [tags, setTags] = useState<Array<string>>([]);
   const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
 
-  const [inputs, setInputs] = useState<clubType>(sampleDataType);
-  const { clubName, content, local, categoryName, tagName, isPrivate } = inputs;
+  const [inputs, setInputs] = useState<clubType>({
+    clubName: '',
+    content: '',
+    local: '',
+    categoryName: '',
+    tagName: [],
+    isPrivate: false
+  });
+  const { clubName, content, isPrivate } = inputs;
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -44,18 +42,40 @@ function CreateClub() {
     setInputs({ ...inputs, [name]: value });
   };
 
-  //   console.log(inputs);
-  //   console.log('태그: ', tags);
-  //   console.log('카테고리 종류: ', categoryValue);
-  //   console.log('local :', localValue);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  // TODO 지역 select 두 개 다 입력해야만 그 다음 진행되게 방어
-  // if (localValue === '' || localValue.includes('undefined'))
+    if (
+      clubName === '' ||
+      content === '' ||
+      categoryValue === '' ||
+      localValue === '' ||
+      localValue.includes('undefined')
+    ) {
+      // TODO: 추후 모달로 변경
+      alert('*가 표시된 항목은 필수 입력란입니다.');
+      return;
+    }
 
-  // TODO: isPrivate 서버에 보내기 전에 Boolean 처리
+    const newData: clubType = {
+      ...inputs,
+      categoryName: categoryValue,
+      local: localValue,
+      tagName: tags,
+      isPrivate: isPrivate === 'true' ? true : false
+    };
+
+    if (tags.length === 0) {
+      delete newData.tagName;
+    }
+
+    // console.log(newData);
+
+    // TODO: 서버 post 요청 로직 작성
+  };
 
   return (
-    <form>
+    <form onSubmit={onSubmit}>
       <h2>신규 소모임 만들기</h2>
       <div>
         <label htmlFor='clubName'>소모임 이름 *</label>
