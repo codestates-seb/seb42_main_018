@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.join.dto.JoinDto;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.join.mapper.JoinMapper;
 import com.codestates.mainproject.group018.somojeon.join.service.JoinService;
+import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.mapping.Join;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -33,13 +35,14 @@ public class JoinController {
     }
 
     // 소모임 가입 요청
-    @PostMapping
-    public ResponseEntity postJoin(@Valid @RequestBody JoinDto.Post requestBody) {
+    @PostMapping("/{user-id}")
+    public ResponseEntity postJoin(@PathVariable ("user-id") Long userId,
+                                   @Valid @RequestBody JoinDto.Post requestBody) {
 
-        Joins response = joinService.createJoin(mapper.joinPostDtoToJoins(requestBody));
+        Joins createdJoin = joinService.createJoin(mapper.joinPostDtoToJoins(requestBody));
+        URI location = UriCreator.createUri("/clubs/{user-id}", createdJoin.getJoinsId());
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.joinsToJoinResponseDto(response)), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     // 소모임 가입 요청 전체 조회
