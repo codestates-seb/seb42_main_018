@@ -26,6 +26,13 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      RDS_ENDPOINT: ${{ secrets.RDS_ENDPOINT }}
+      RDS_ID: ${{ secrets.RDS_ID }}
+      RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+      JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+      ADMIN_EMAIL: ${{ secrets.ADMIN_MAIL }}
+
     steps:
       - uses: actions/checkout@v3
 
