@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { register } from '../../serviceWorkerRegistration';
 import './KakaoMap.css';
 
-export interface placeType {
+export interface PlaceType {
   place_name: string;
   road_address_name: string;
   address_name: string;
@@ -20,7 +20,7 @@ const { kakao } = window as any;
 const KakaoMapSearch = (props:any) => {
   const [searchKeyword, setSearchKeyword] = useState<string | null>();
   const [value, setValue] = useState<string>('');
-  const [selectedPlace, setSelectedPlace] = useState<placeType>();
+  const [selectedPlace, setSelectedPlace] = useState<PlaceType>();
 
   const onChangeValue = (e: any) => {
     setValue(e.target.value);
@@ -141,7 +141,7 @@ const KakaoMapSearch = (props:any) => {
       map.setBounds(bounds);
     }
     // 검색결과 항목을 Element로 반환하는 함수
-    function getListItem(index: number, places: placeType) {
+    function getListItem(index: number, places: PlaceType) {
       const el = document.createElement('li') as HTMLElement;
       const itemStr = `
         <span class="markerbg marker_${index + 1}">
