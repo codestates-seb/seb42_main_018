@@ -9,7 +9,7 @@ interface HandleDropDownClick {
   (option: string): void;
 }
 
-interface CreateCategoryProps {
+export interface CreateCategoryProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }

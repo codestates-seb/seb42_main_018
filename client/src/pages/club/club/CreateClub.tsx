@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CreateCategory from './_createCategory';
+import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
 
 export interface clubType {
@@ -12,7 +13,7 @@ export interface clubType {
 }
 
 function CreateClub() {
-  const sampleData = {
+  const sampleDataType = {
     clubName: '',
     content: '',
     local: '',
@@ -20,25 +21,37 @@ function CreateClub() {
     isPrivate: false
   };
 
+  const sampleData = {
+    clubName: '배사모',
+    content: '배드민턴이 좋은 사람들은 여기여기 모여라',
+    local: '제주 서귀포시',
+    categoryName: '배드민턴',
+    isPrivate: false
+  };
+
   // createTag로 내려보내야함
   const [tags, setTags] = useState<Array<string>>([]);
-  const [categoryInputValue, setCategoryInputValue] = useState<string>('');
+  const [categoryValue, setCategoryValue] = useState('');
+  const [localValue, setLocalValue] = useState('');
 
-  const [inputs, setInputs] = useState<clubType>(sampleData);
+  const [inputs, setInputs] = useState<clubType>(sampleDataType);
   const { clubName, content, local, categoryName, tagName, isPrivate } = inputs;
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    console.log(e.target);
     setInputs({ ...inputs, [name]: value });
   };
 
-  console.log(inputs);
+  //   console.log(inputs);
   //   console.log('태그: ', tags);
-  //   console.log('카테고리 종류: ', categoryInputValue);
-  // TODO :  local 두 개 남음
+  //   console.log('카테고리 종류: ', categoryValue);
+  //   console.log('local :', localValue);
+
+  // TODO 지역 select 두 개 다 입력해야만 그 다음 진행되게 방어
+  // if (localValue === '' || localValue.includes('undefined'))
+
   // TODO: isPrivate 서버에 보내기 전에 Boolean 처리
 
   return (
@@ -58,18 +71,8 @@ function CreateClub() {
           onChange={onChange}
         />
       </div>
-      <CreateCategory inputValue={categoryInputValue} setInputValue={setCategoryInputValue} />
-      <div>
-        {/* TODO: 지역 두 단계로 나눠서 입력받을 수 있는 api 찾아봐야함 */}
-        <label htmlFor='local'>지역 선택 *</label>
-        <select id='local1'>
-          <option>선택</option>
-          <option value='11'>서울특별시</option>
-        </select>
-        <select id='local2'>
-          <option>선택</option>
-        </select>
-      </div>
+      <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
+      <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
       <CreateTag tags={tags} setTags={setTags} />
       <fieldset>
         <legend>공개여부 선택 *</legend>
