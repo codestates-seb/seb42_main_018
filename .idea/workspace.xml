@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="♻️ refactor : recordservice update">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/UserRecordDto.java" afterDir="false" />
-    </list>
+    <list default="true" id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="✨ feat : dummy data" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,6 +39,17 @@
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -52,11 +60,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
+        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="JH/feat/userController" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
@@ -94,9 +109,24 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Mkv7C8VU1B5VvUYtrPlDqgWdrU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -108,10 +138,86 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon\utils" />
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record" />
       <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="애플리케이션.SomojeonApplication">
+    <configuration name="OatuhExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.auth.service.OatuhExample" />
+      <module name="somojeon.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.auth.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="somojeon.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="insertDummyData" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.utils.insertDummyData" />
+      <module name="somojeon.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="애플리케이션.OatuhExample" />
+        <item itemvalue="애플리케이션.insertDummyData" />
+        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -325,7 +431,70 @@
       <option name="project" value="LOCAL" />
       <updated>1678370957548</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="✨ feat : user controller, dto, entity, mapper 초기 설정">
+      <created>1678415802439</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1678415802439</updated>
+    </task>
+    <task id="LOCAL-00031" summary="✨ feat : 애플리케이션 mysql, jwt 설정">
+      <created>1678426052782</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426052782</updated>
+    </task>
+    <task id="LOCAL-00032" summary="✨ feat : 깃 이그노어 업데이트  /generated/**">
+      <created>1678426186494</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426186494</updated>
+    </task>
+    <task id="LOCAL-00033" summary="✨ feat : 깃 이그노어 업데이트  /generated/**">
+      <created>1678426194613</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426194613</updated>
+    </task>
+    <task id="LOCAL-00034" summary="✨ feat : 스프링 시큐리티 &amp; JWT">
+      <created>1678426252069</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426252069</updated>
+    </task>
+    <task id="LOCAL-00035" summary="✨ feat : User 초기 뼈대 구성">
+      <created>1678426685630</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1678426685630</updated>
+    </task>
+    <task id="LOCAL-00036" summary="✨ feat : 스프링 시큐리티 &amp; JWT">
+      <created>1678429347582</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1678429347582</updated>
+    </task>
+    <task id="LOCAL-00037" summary="✨ feat : 스프링 시큐리티 &amp; JWT refresh">
+      <created>1678768087726</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1678768087726</updated>
+    </task>
+    <task id="LOCAL-00038" summary="✨ feat : dummy data">
+      <created>1678769017631</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1678769017631</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -333,31 +502,28 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="taekie" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="JH/feat/usetController" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=" chore : idea init" />
-    <MESSAGE value=" chore : init" />
-    <MESSAGE value=" chore : init" />
-    <MESSAGE value=" chore : build gradle" />
-    <MESSAGE value="✨ feat : annotation EnableJpaAuditing add" />
-    <MESSAGE value=" chore : init" />
     <MESSAGE value="✨ feat : Candidate 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : Comment 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : Record 뼈대 및 연관 관계 매핑" />
@@ -375,6 +541,51 @@
     <MESSAGE value="✨ feat : Schedule 구현" />
     <MESSAGE value="♻️ refactor : commentservice update" />
     <MESSAGE value="♻️ refactor : recordservice update" />
-    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : recordservice update" />
+    <MESSAGE value="✨ feat : user controller, dto, entity, mapper 초기 설정" />
+    <MESSAGE value="✨ feat : 애플리케이션 mysql, jwt 설정" />
+    <MESSAGE value="✨ feat : 깃 이그노어 업데이트  /generated/**" />
+    <MESSAGE value="✨ feat : 스프링 시큐리티 &amp; JWT &amp; custom utils" />
+    <MESSAGE value="✨ feat : User 초기 뼈대 구성" />
+    <MESSAGE value="✨ feat : 스프링 시큐리티 &amp; JWT" />
+    <MESSAGE value="✨ feat : 스프링 시큐리티 &amp; JWT refresh" />
+    <MESSAGE value="✨ feat : dummy data" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : dummy data" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/InsertDummyData.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/SomojeonOAuth2UserSuccessHandler.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/SomojeonOAuth2UserSuccessHandler.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.security/spring-security-oauth2-client/5.7.7/889042b4d99d5aba2f274eafa1d012b7e6c4501c/spring-security-oauth2-client-5.7.7-sources.jar!/org/springframework/security/oauth2/client/web/OAuth2LoginAuthenticationFilter.java</url>
+          <line>199</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="SecurityContextHolder.getContext().getAuthentication()" language="JAVA" />
+        <watch expression="authorizationRequest" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
