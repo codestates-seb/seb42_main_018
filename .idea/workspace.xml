@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="♻️ refactor : add allowed Origins">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev-somojeon.vercel.app">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/test/java/com/codestates/mainproject/group018/somojeon/SomojeonApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +128,7 @@
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.server [build]">
+  <component name="RunManager" selected="JUnit.SomojeonApplicationTests.contextLoads">
     <configuration name="OatuhExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.auth.service.OatuhExample" />
       <module name="somojeon.main" />
@@ -224,10 +223,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="애플리케이션.SomojeonApplication" />
-        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
         <item itemvalue="애플리케이션.OatuhExample" />
       </list>
     </recent_temporary>
@@ -528,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678873946993</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="🚑 !HOTFIX dev-somojeon.vercel.app">
+      <created>1678884640134</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1678884640134</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -558,7 +564,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : Schedule 뼈대 및 연관 관계 매핑" />
     <MESSAGE value="✨ feat : UserRecord 연관 관계 매핑" />
     <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : annotation add" />
@@ -583,7 +588,8 @@
     <MESSAGE value="✨ feat : OAuth login &amp; redirect" />
     <MESSAGE value=" remove : remove test application" />
     <MESSAGE value="♻️ refactor : add allowed Origins" />
-    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : add allowed Origins" />
+    <MESSAGE value=" !HOTFIX dev-somojeon.vercel.app" />
+    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev-somojeon.vercel.app" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

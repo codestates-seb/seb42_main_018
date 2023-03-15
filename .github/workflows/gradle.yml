@@ -9,12 +9,12 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
     paths-ignore:
       - "client/**"
 
   pull_request:
-    branches: ["main"]
+    branches: ["dev"]
     paths-ignore:
       - "client/**"
 
