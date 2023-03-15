@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.comment.repository.CommentRe
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,13 +20,17 @@ import java.util.Optional;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final RecordService recordService;
+    private final UserService userService;
 
-    public CommentService(CommentRepository commentRepository, RecordService recordService) {
+    public CommentService(CommentRepository commentRepository, RecordService recordService,
+                          UserService userService) {
         this.commentRepository = commentRepository;
         this.recordService = recordService;
+        this.userService = userService;
     }
 
     public Comment createComment(Comment comment, Long recordId) {
+        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
         recordService.findVerifiedRecord(recordId); // 경기 전적 확인
 
         return commentRepository.save(comment);
@@ -33,6 +38,9 @@ public class CommentService {
 
     public Comment updateComment(Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
+
+        if (findComment.getUser().getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(findComment::setContent);
@@ -50,6 +58,9 @@ public class CommentService {
 
     public void deleteComment(long commentId) {
         Comment comment = findComment(commentId);
+
+        if (comment.getUser().getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         commentRepository.delete(comment);
     }

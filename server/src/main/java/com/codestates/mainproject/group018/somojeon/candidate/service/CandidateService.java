@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,17 +17,25 @@ import java.util.Optional;
 @Transactional
 public class CandidateService {
     private final CandidateRepository candidateRepository;
+    private final UserService userService;
 
-    public CandidateService(CandidateRepository candidateRepository) {
+    public CandidateService(CandidateRepository candidateRepository,
+                            UserService userService) {
         this.candidateRepository = candidateRepository;
+        this.userService = userService;
     }
 
     public Candidate createCandidate(Candidate candidate) {
+        userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
+
         return candidateRepository.save(candidate);
     }
 
     public Candidate updateCandidate(Candidate candidate) {
         Candidate findCandidate = findVerifiedCandidate(candidate.getCandidateId());
+
+        if (findCandidate.getUser().getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Optional.ofNullable(candidate.getAttendance())
                 .ifPresent(findCandidate::setAttendance);
@@ -45,6 +54,9 @@ public class CandidateService {
 
     public void deleteCandidate(long candidateId) {
         Candidate candidate = findCandidate(candidateId);
+
+        if (candidate.getUser().getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         candidateRepository.delete(candidate);
     }

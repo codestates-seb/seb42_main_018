@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.service;
 
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
@@ -16,17 +17,24 @@ import java.util.Optional;
 @Transactional
 public class RecordService {
     private final RecordRepository recordRepository;
+    private final ClubService clubService;
 
-    public RecordService(RecordRepository recordRepository) {
+    public RecordService(RecordRepository recordRepository,
+                         ClubService clubService) {
         this.recordRepository = recordRepository;
+        this.clubService = clubService;
     }
 
     public Record createRecord(Record record) {
+        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
+
         return recordRepository.save(record);
     }
 
     public Record updateRecord(Record record) {
         Record findRecord = findVerifiedRecord(record.getRecordId());
+
+        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
 
         Optional.ofNullable(record.getDate())
                 .ifPresent(findRecord::setDate);
@@ -48,6 +56,8 @@ public class RecordService {
 
     public void deleteRecord(long recordId) {
         Record record = findRecord(recordId);
+
+        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
 
         recordRepository.delete(record);
     }
