@@ -5,12 +5,14 @@ import com.codestates.mainproject.group018.somojeon.auth.filter.JwtVerificationF
 import com.codestates.mainproject.group018.somojeon.auth.filter.LogFilter;
 import com.codestates.mainproject.group018.somojeon.auth.handler.*;
 import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,21 +33,24 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @Slf4j
 public class SecurityConfiguration {
+
+    @Autowired
+    private OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 추가
     private final UserRepository userRepository;
-    private final UserService userService;
     private final UserMapper userMapper;
     private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, UserRepository userRepository,
-                                 UserService userService, UserMapper userMapper, AuthService authService) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
+                                 UserRepository userRepository, UserMapper userMapper, AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.userRepository = userRepository;
-        this.userService = userService;
         this.userMapper = userMapper;
         this.authService = authService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Bean
@@ -88,16 +93,12 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
                 )
                 .oauth2Login()
-                    .successHandler(new SomojeonOAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, userService));
+                    .successHandler(oAuth2UserSuccessHandler);
 
 
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
@@ -106,7 +107,7 @@ public class SecurityConfiguration {
         return new InMemoryClientRegistrationRepository(clientRegistration);   // (3-2)
     }
     private ClientRegistration kakaoClientRegistration() {
-        return ClientRegistration.withRegistrationId("kakao")
+        return ClientRegistration.withRegistrationId("kakao") // request uri "/oauth2/authorization/kakao"
                 .clientId("cc9eb581caf2361034da01b9c99c75dd")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
