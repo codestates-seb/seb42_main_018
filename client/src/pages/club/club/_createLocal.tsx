@@ -33,13 +33,14 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
     }
   };
 
-  //! TODO: useState any 타입 해결
-  const [districtList, setDistrictList] = useState<any>([]);
+  const [districtList, setDistrictList] = useState<DistrictType[]>([]);
   useEffect(() => {
     if (divisionSelectValue) {
-      setDistrictList(
-        DIVISIONS_DATA.find((d) => d.code.startsWith(divisionSelectValue))?.districts
-      );
+      const districts = DIVISIONS_DATA.find((d) =>
+        d.code.startsWith(divisionSelectValue)
+      )?.districts;
+
+      if (districts) setDistrictList(districts);
     }
   }, [divisionSelectValue]);
 
