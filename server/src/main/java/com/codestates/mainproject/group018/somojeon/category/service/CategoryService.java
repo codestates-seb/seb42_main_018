@@ -23,13 +23,6 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-//    // 카테고리 생성
-//    public Category createCategory(Category category) {
-//        verifyExistsCategoryName(category.getCategoryName());
-//        category.setCreatedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
-//        return categoryRepository.save(category);
-//    }
-
     public List<String> getAllCategoryNames() {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream().map(Category::getCategoryName).collect(Collectors.toList());
@@ -46,18 +39,12 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-//    // 카테고리 전체 조회
-//    public Page<Category> findCategories(int page, int size, Long categoryId) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return categoryRepository.findAllByCategoryId(pageable, categoryId);
-//    }
-
-    // 기본화면 카테고리 조회 및 카테고리명 입력하면 그 카테고리에 대한 소모임만 보여줌.
-
     public void verifyExistsCategoryName(String categoryName) {
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
         if (category.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
+        } else {
+            saveCategory(categoryName);
         }
     }
 }
