@@ -65,9 +65,9 @@ public class ClubDto {
         private boolean isPrivate;
     }
 
-    //TODO:회원등급 Patch,
+    //TODO-DW:회원등급 Patch,
 
-    //TODO:소모임장 위임 Patch
+    //TODO-DW:소모임장 위임 Patch
 
     @Getter
     @Builder
@@ -105,7 +105,7 @@ public class ClubDto {
     }
 
 
-    //TODO: myResponse 는 아마도 따로해야 할듯?
+    //TODO-DW: myResponse 는 아마도 따로해야 할듯?
 
 
 }

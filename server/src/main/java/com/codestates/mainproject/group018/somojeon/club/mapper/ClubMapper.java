@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface ClubMapper {
     Club clubPostDtoToClub(ClubDto.Post requestBody);
     Club clubPatchDtoToClub(ClubDto.Patch requestBody);
 
+//    @Mapping(source = "isPrivate", target = "isPrivate")
     ClubDto.Response clubToClubResponseDto(Club club);
 
     ClubDto.GetResponse clubToClubGetResponseDto(Club club);

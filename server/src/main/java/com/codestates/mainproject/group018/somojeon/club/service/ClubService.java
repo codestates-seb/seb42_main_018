@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -46,7 +47,7 @@ public class ClubService {
     // 소모임 생성
     // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
     public Club createClub(Club club, List<String> tagName) {
-        //TODO: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
+        //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
 
         categoryService.verifyExistsCategoryName(club.getCategoryName());
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
@@ -64,17 +65,17 @@ public class ClubService {
     // 소모임 수정
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public Club updateClub(Club club, List<String> tagNames) {
-        //TODO: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
+        //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
         Club findClub = findVerifiedClub(club.getClubId());
 
         Optional.ofNullable(club.getClubName())
-                .ifPresent(clubName -> findClub.setClubName(clubName));
+                .ifPresent(findClub::setClubName);
         Optional.ofNullable(club.getContent())
-                .ifPresent(content -> findClub.setContent(content));
+                .ifPresent(findClub::setContent);
         Optional.ofNullable(club.getLocal())
-                .ifPresent(local -> findClub.setLocal(local));
+                .ifPresent(findClub::setLocal);
         Optional.ofNullable(club.isPrivate())
-                .ifPresent(isPrivate -> findClub.setPrivate(isPrivate));
+                .ifPresent(findClub::setPrivate);
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagNames);
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
@@ -112,8 +113,7 @@ public class ClubService {
     }
 
     public void deleteClub(Long clubId) {
-        //TODO: 리더 인지 검증
-        //      소모임 인원이 1명이하 일 경우 가능.
+        //TODO-DW: 리더 인지 검증
         Club findClub = findVerifiedClub(clubId);
         if (findClub.getMemberCount() <= 1) {
             throw new BusinessLogicException(ExceptionCode.CLUB_CAN_NOT_DELETE);
@@ -122,39 +122,47 @@ public class ClubService {
         }
     }
 
-    // 소모임 권한 수정
-//    public UserClub changeClubRoles(UserClub userClub) {
-//        //TODO: 회원검증
-//        if (!userClub.getClubRole().equals("Leader") || userClub.getClubRole().equals("Manager"))
-//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-//        String clubRole = userClub.getUser().getUserId()
-//
-//        switch (clubRole) {
-//            case "Manager" : userClub.setClubRole("Manager");
-//            default : userClub.setClubRole("Member");
-//        }
-//
-//        return userClubRepository.save(userClub);
-//    }
+     //소모임 회원 등급 설정
+    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
+        //TODO-DW: 회원검증
+        if (!userClub.getClubRole().getRoles().equals("Leader")
+                || userClub.getClubRole().getRoles().equals("Manager")) {
+            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+        }
+//        String clubRole = userClub.getClubRole().getRoles();
 
-    //    //TODO: UserClub DI - ClubRole
+        switch (clubRole) {
+            case "Manager" : userClub.getClubRole().setRoles("Manager");
+            default : userClub.getClubRole().setRoles("Member");
+        }
+
+        return userClubRepository.save(userClub);
+    }
+
+    //    //TODO-DW: UserClub DI - ClubRole
     // 소모임 리더 위임
-//    public UserClub changeClubLeader(UserClub userClub) {
-//        if (!userClub.getClubRole().equals("Leader"))
-//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-//
-//        String clubRole = userClub.getClubRole();
-//
-//        if (clubRole.equals("Leader"))
-//    }
+    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
+        if (!userClub.getClubRole().getRoles().equals("Leader")) {
+            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+        }
+
+        if (clubRole.equals("Leader")) {
+            Long userId = userClub.getUser().getUserId();
 
 
-    //TODO: user 연결해야됨
+        }
+        return null;
+    }
+
+
+    //TODO-DW: user 연결해야됨
+
     // 소모임 멤버 상태 변경
     public void changeClubMemberStatus(Long userId) {
 
     }
-    //TODO: user 연결해야됨
+    //TODO-DW: user 연결해야됨
+
     // 소모임 회원 탈퇴
     public void memberQuit(Long userId) {
 
