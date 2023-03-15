@@ -15,14 +15,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AuthService {
     private final JwtTokenizer jwtTokenizer;
     private final UserRepository userRepository;
-
     private final JwtTokenProvider jwtTokenProvider;
 
     public AuthService(JwtTokenizer jwtTokenizer, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
@@ -34,8 +32,7 @@ public class AuthService {
     public void refresh(HttpServletRequest request, HttpServletResponse response) {
         // RefreshToken 검증
         String refreshToken = request.getHeader("Refresh");
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-        Map<String, Object> claims = jwtTokenizer.getClaims(refreshToken, base64EncodedSecretKey).getBody();
+        Map<String, Object> claims = getClaimsValues(refreshToken);
 
         // Token 재발급
         String email = (String) claims.get("sub");
@@ -44,24 +41,13 @@ public class AuthService {
         jwtTokenProvider.provideTokens(user, response);
     }
 
-    public void getAuthorizeCodeForKakao(){
-        RestTemplate restTemplate =
-                new RestTemplate(new HttpComponentsClientHttpRequestFactory());
-
-        UriComponents uriComponents =
-                UriComponentsBuilder
-                        .newInstance()
-                        .scheme("https")
-                        .host("kauth.kakao.com")
-//                        .port(80)
-                        .path("/oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code")
-                        .encode()
-                        .build();
-        URI uri = uriComponents.expand("cc9eb581caf2361034da01b9c99c75dd", "https://somojeon.vercel.app").toUri();
-
-        String result = restTemplate.getForObject(uri, String.class);
-
-        System.out.println(result);
+    public Map<String, Object> getClaimsValues(String token) {
+        // RefreshToken 검증
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        Map<String, Object> claims = jwtTokenizer.getClaims(token, base64EncodedSecretKey).getBody();
+        return claims;
 
     }
+
+
 }
