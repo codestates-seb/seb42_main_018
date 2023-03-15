@@ -8,8 +8,8 @@ export interface clubType {
   content: string;
   local: string;
   categoryName: string;
-  tagName?: Array<string>;
-  isPrivate: boolean | string;
+  tagName?: string[];
+  isPrivate: boolean;
 }
 
 function CreateClub() {
@@ -39,17 +39,18 @@ function CreateClub() {
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // TODO: local 입력값은 local component에서 자체 해결하는 방안으로 리팩토링
     if (
-      clubName === '' ||
-      content === '' ||
-      categoryValue === '' ||
-      localValue === '' ||
+      !clubName ||
+      !content ||
+      !categoryValue ||
+      !localValue ||
       localValue.includes('undefined')
     ) {
       // TODO: 추후 모달로 변경
@@ -62,7 +63,7 @@ function CreateClub() {
       categoryName: categoryValue,
       local: localValue,
       tagName: tags,
-      isPrivate: isPrivate === 'true' ? true : false
+      isPrivate
     };
 
     if (tags.length === 0) {
