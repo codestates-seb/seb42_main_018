@@ -29,23 +29,18 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
     '당구'
   ];
 
-  //* hasText: input값 유무 확인
   //* options: input값을 포함하는 autocomplete 추천 항목 리스트 확인
-  //* currentOption: 선택한 option을 index처럼 관리
-  const [hasText, setHasText] = useState<boolean>(false);
-  const [options, setOptions] = useState(categories);
-  const [currentOption, setCurrentOption] = useState<number>(-1);
-  const input = useRef(null);
+  //* currentOption: 선택한 option을 index로 관리
+  //* hasText: input값 유무 확인
+  const INITIAL_OPTION_INDEX = -1;
 
-  useEffect(() => {
-    if (inputValue === '') {
-      setHasText(false);
-    }
-  }, [inputValue]);
+  const [options, setOptions] = useState(categories);
+  const [currentOption, setCurrentOption] = useState(INITIAL_OPTION_INDEX);
+  const input = useRef(null);
+  const hasText = !!inputValue;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setHasText(true);
     setOptions(categories.filter((item) => item.startsWith(e.target.value)));
   };
 
