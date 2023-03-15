@@ -64,19 +64,17 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             throw new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND);
         }
         boolean home = oauthUserService.IsUser(registraion, Long.parseLong(id));
-
+        response.addHeader("email", email);
         redirect(request, response, registraion, id, home);
-
-
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
                          ,String registration, String registrationId, boolean home) throws IOException, IOException {
         String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
         String refreshToken = delegateRefreshToken(registration, registrationId);
-
-        String uri = home? createURIToHome(accessToken, refreshToken).toString():
-                            createURI(accessToken, refreshToken).toString();
+        String path = home ? "" : "/signup";
+        String uri =  createURI(accessToken, refreshToken, path).toString()
+                           ;
 
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
@@ -106,7 +104,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken) {
+    private URI createURI(String accessToken, String refreshToken, String path) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
@@ -116,25 +114,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .scheme("http")
                 .host("localhost")
                 .port(8080)
-                .path("")
+                .path(path)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
     }
-
-    private URI createURIToHome(String accessToken, String refreshToken) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token", accessToken);
-        queryParams.add("refresh_token", refreshToken);
-
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8080)
-                .queryParams(queryParams)
-                .build()
-                .toUri();
-    }
-
 }

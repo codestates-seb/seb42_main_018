@@ -1,9 +1,11 @@
 package com.codestates.mainproject.group018.somojeon.user.service;
 
+import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Transactional
@@ -28,23 +31,30 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
+    private final AuthService authService;
+    private final OauthUserService oauthUserService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                         CustomAuthorityUtils authorityUtils, JwtTokenizer jwtTokenizer) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils
+            , JwtTokenizer jwtTokenizer, AuthService authService, OauthUserService oauthUserService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
         this.jwtTokenizer = jwtTokenizer;
+        this.authService = authService;
+        this.oauthUserService = oauthUserService;
     }
 
-    public User createUser(User user) {
+    public User createUser(User user, HttpServletRequest request) {
         verifyExistsEmail(user.getEmail());
-
-        // 추가: DB에 password 암호화해서 저장
+        if(IsOAuthSignUp(request)){
+            user.setPassword("OAUTH2.0");
+            oauthUserService.createOAuthUser(request, user);
+        }
+        // DB에 password 암호화해서 저장
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
-        // 추가: DB에 User Role 저장
+        // DB에 User Role 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
@@ -53,6 +63,19 @@ public class UserService {
 
         return savedUser;
     }
+
+    private boolean IsOAuthSignUp(HttpServletRequest request) {
+        String token = request.getHeader("Access");
+        if(token == null) return false;
+        Map<String, Object> claims = authService.getClaimsValues(token);
+        String registration =  (String) claims.get("registration");
+        String registrationId =  (String) claims.get("registrationId");
+        if(registration == null || registrationId == null) return false;
+        return true;
+
+    }
+
+
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public User updateUser(User user) throws IllegalAccessException {
