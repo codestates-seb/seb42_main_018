@@ -65,7 +65,7 @@ interface CreateTagProps {
 }
 
 function CreateTag({ tags, setTags }: CreateTagProps) {
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState('');
 
   // ! 끝에 스페이스 방어 못하고 있음
   const addTags = () => {
