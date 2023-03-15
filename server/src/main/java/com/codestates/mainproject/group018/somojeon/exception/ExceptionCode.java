@@ -5,6 +5,7 @@ import lombok.Getter;
 // ??
 public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
+    CLIENT_NOT_FOUND(404, "Client not found"),
     USER_EXISTS(409, "User exists"),
     CATEGORY_EXISTS(409, "Category exists"),
     CLUB_EXISTS(409, "Club exists"),

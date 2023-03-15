@@ -40,7 +40,6 @@ public class Joins {
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    //TODO: USER 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
