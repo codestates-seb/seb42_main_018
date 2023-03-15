@@ -17,6 +17,7 @@ const GlobalStyles = createGlobalStyle`
     --gray600: #272E3A;
 
     --blue100: #E3F0FF;
+    --blue200: #90C2FF;
     --blue300: #377CFB;
 
     --red100: #F04452;
@@ -24,20 +25,24 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    /* 중앙정렬 및 배경 전체 색 */
     margin: 0 auto;
-    width: 500px;
-    background-color:var(--gray100);
+    max-width: 500px;
+    background-color: var(--gray100);
+    /* 서체 시스템 통일 */
+    color: var(--gray600);
+    line-height: 1.5em;
   }
 
-  /* html element 초기화 */
   button {
     border:none; 
-    box-shadow:none; 
+    box-shadow:none;
+    font-weight: 500;
     cursor:pointer;
   }
 
   a {
-    color: var(--black);
+    color: var(--gray600);
     text-decoration: none;
     outline: none
   }
@@ -46,10 +51,10 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
-  p {
-    color: #272E3A;
-    font-size: 20px;
-    line-height: 160%;
+  input[type="number"] {
+    width: 40px;
+  }
+  input[type="date"],[type="time"] {
   }
 `
 
