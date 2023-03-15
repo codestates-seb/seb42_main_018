@@ -26,4 +26,4 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/action/deploy.log
-nohup java -jar "build/libs/somojeon-0.0.1-SNAPSHOT.jar" --spring.profiles.active=server --server.port=8081>> /home/ubuntu/action/server.log
+nohup java -jar $JAR_NAME --spring.profiles.active=server --server.port=8081>> /home/ubuntu/action/server.log
