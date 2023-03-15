@@ -12,6 +12,17 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIA2B77AXXWIPZRKN4D
+      secretKey: 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
+    s3:
+      bucket: bucket-somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 #  security:
 #    oauth2:
 #      client:
