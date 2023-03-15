@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/scripts/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/server/scripts/deploy.sh" afterDir="false" />
-    </list>
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,7 +126,7 @@
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SomojeonApplicationTests.contextLoads">
+  <component name="RunManager" selected="Gradle.server [build]">
     <configuration name="OatuhExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.auth.service.OatuhExample" />
       <module name="somojeon.main" />
@@ -224,9 +221,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
+        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
         <item itemvalue="애플리케이션.SomojeonApplication" />
         <item itemvalue="애플리케이션.OatuhExample" />
       </list>
@@ -542,7 +539,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678886559966</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678891501972</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1678891501972</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
