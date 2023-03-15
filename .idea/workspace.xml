@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/scripts/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/server/scripts/deploy.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -239,20 +240,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
-    </task>
-    <task id="LOCAL-00007" summary="📦 chore : init">
-      <created>1678327686407</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327686407</updated>
-    </task>
-    <task id="LOCAL-00008" summary="📦 chore : build gradle">
-      <created>1678327708697</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327708697</updated>
     </task>
     <task id="LOCAL-00009" summary="✨ feat : annotation EnableJpaAuditing add">
       <created>1678327848284</created>
@@ -583,7 +570,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678896078976</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678896386471</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1678896386471</updated>
+    </task>
+    <task id="LOCAL-00057" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678896541942</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1678896541942</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
