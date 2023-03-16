@@ -23,9 +23,8 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<String> getAllCategoryNames() {
-        List<Category> categories = categoryRepository.findAll();
-        return categories.stream().map(Category::getCategoryName).collect(Collectors.toList());
+    public List<Category> getAllCategoryNames() {
+        return categoryRepository.findAll();
     }
 
 //    public List<String> findByKeyword(String keyword) {
@@ -42,7 +41,7 @@ public class CategoryService {
     public void verifyExistsCategoryName(String categoryName) {
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
         if (category.isPresent()) {
-            throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
+//            throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
         } else {
             saveCategory(categoryName);
         }

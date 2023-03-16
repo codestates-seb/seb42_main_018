@@ -4,6 +4,9 @@ import com.codestates.mainproject.group018.somojeon.category.dto.CategoryDto;
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.mapper.CategoryMapper;
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
+import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
+import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
+import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,20 +30,13 @@ public class CategoryController {
         this.categoryService = categoryService;
         this.mapper = mapper;
     }
-    // 포스트 요청은 안하기로함.
-//    @PostMapping
-//    public ResponseEntity postCategory(@Valid @RequestBody CategoryDto.Post requestBody) {
-//        // TODO-DW: 회원검증
-//
-//        Category response = categoryService.createCategory(mapper.categoryPostDtoToCategory(requestBody));
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(mapper.categoryToCategoryResponseDto(response)), HttpStatus.CREATED);
-//    }
 
     @GetMapping
-    public List<String> getAllCategoryNames() {
-        return categoryService.getAllCategoryNames();
+    public ResponseEntity<?> getCategories() {
+        List<Category> categories = categoryService.getAllCategoryNames();
+
+        return new ResponseEntity<>(
+                new CategoryResponseDtos<>(mapper.categoryToCategoryResponseDtos(categories)), HttpStatus.OK);
     }
 
 //    @GetMapping("/search")

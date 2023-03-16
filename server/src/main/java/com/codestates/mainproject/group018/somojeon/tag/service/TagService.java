@@ -1,5 +1,11 @@
 package com.codestates.mainproject.group018.somojeon.tag.service;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
+import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
+import com.codestates.mainproject.group018.somojeon.club.repository.ClubTagRepository;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.repository.TagRepository;
 import org.springframework.stereotype.Service;
@@ -12,14 +18,20 @@ import java.util.stream.Collectors;
 public class TagService {
 
     private final TagRepository tagRepository;
+    private final ClubTagRepository clubTagRepository;
 
-    public TagService(TagRepository tagRepository) {
+    public TagService(TagRepository tagRepository, ClubTagRepository clubTagRepository) {
         this.tagRepository = tagRepository;
+        this.clubTagRepository = clubTagRepository;
     }
 
     public Tag createTag(String tagName) {
         Tag tag = new Tag();
         tag.setTagName(tagName);
+        return tagRepository.save(tag);
+    }
+
+    public Tag createTag(Tag tag) {
         return tagRepository.save(tag);
     }
 
@@ -38,25 +50,23 @@ public class TagService {
         }
     }
 
-//    public List<Tag> updateQuestionTags(Tag tag, List<String> tagNames) {
-//
-//        // 기존 태그 삭제
-//        tagRepository.findByTag(tag).stream()
-//                .forEach(tags -> {
-//                    tagRepository.delete(tags);
-//                });
-//
-//        // 새로운 태그 유효성 검사
-//        List<Tag> findTags = findTagsElseCreateTags(tagNames);
-//
-//        // 새로운 questionTag 저장
-//        findTags.stream()
-//                .forEach(tags -> {
-//                    Tag tag1 = new Tag(tagName);
-//                    QuestionTag saveQuestionTag = questionTagRepository.save(questionTag);
-//                    updateQuestionCount(saveQuestionTag.getTag());
-//                });
-//
-//        return findTags;
-//    }
+    // 태그 수정
+    public List<Tag> updateQuestionTags(Club club, List<String> tagNames) {
+
+        // 기존 태그 삭제
+        clubTagRepository.findAllByClub(club).stream()
+                .forEach(clubTagRepository::delete);
+
+        // 새로운 태그 유효성 검사
+        List<Tag> findTags = findTagsElseCreateTags(tagNames);
+
+        // 새로운 questionTag 저장
+        findTags.stream()
+                .forEach(tag -> {
+                    ClubTag clubTag = new ClubTag(club, tag);
+                    clubTagRepository.save(clubTag);
+                });
+
+        return findTags;
+    }
 }
