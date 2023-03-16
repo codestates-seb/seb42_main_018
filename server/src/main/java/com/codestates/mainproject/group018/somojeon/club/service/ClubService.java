@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
@@ -24,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -48,23 +50,21 @@ public class ClubService {
     // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
     public Club createClub(Club club, List<String> tagName) {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
-
-        categoryService.verifyExistsCategoryName(club.getCategoryName());
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
+        tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         } else {
-            club.setTagList(tagList);
+            categoryService.verifyExistsCategoryName(club.getCategory(),club.getCategoryName());
+            verifyExistsClubName(club.getClubName());
+            club.setCreatedAt(LocalDateTime.now());
+            return clubRepository.save(club);
         }
-        club.setCreatedAt(LocalDateTime.now());
-        club.setMemberCount(club.getMemberCount() + 1);
-
-        return clubRepository.save(club);
     }
 
     // 소모임 수정
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Club club, List<String> tagNames) {
+    public Club updateClub(Club club, List<String> tagName) {
         //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
         Club findClub = findVerifiedClub(club.getClubId());
 
@@ -74,45 +74,44 @@ public class ClubService {
                 .ifPresent(findClub::setContent);
         Optional.ofNullable(club.getLocal())
                 .ifPresent(findClub::setLocal);
-        Optional.ofNullable(club.isPrivate())
+        Optional.of(club.isPrivate())
                 .ifPresent(findClub::setPrivate);
-        List<Tag> tagList = tagService.findTagsElseCreateTags(tagNames);
+        List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
+        tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         } else {
-            findClub.setTagList(tagList);
+            return clubRepository.save(findClub);
         }
-        return clubRepository.save(findClub);
     }
 
-    // TODO: 퍼블릭 할 필요 없음.
-    // 퍼블릭 소모임 단건 조회
+    // 소모임 단건 조회
     // 전체 ROLE 가능
-    public Club findPublicClub(Long clubId) {
+    public Club findClub(Long clubId) {
         Club findClub = findVerifiedClub(clubId);
-        if (!findClub.isPrivate()) {
             findClub.setViewCount(findClub.getViewCount() + 1);
             clubRepository.save(findClub);
-        } else {
-            throw new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND);
-        }
         return findClub;
     }
 
-    // TODO-DW: 퍼블릭 할 필요없음
-    // 퍼블릭 소모임 전체 조회
+    // 소모임 전체 조회
     // 전체 ROLE 가능
-    public Page<Club> findPublicClubs(int page, int size) {
-        return clubRepository.findAllPublicClubs(PageRequest.of(page, size, Sort.by("viewCount").descending()));
+    public Page<Club> findClubs(int page, int size) {
+        return clubRepository.findAll(PageRequest.of(page, size, Sort.by("viewCount").descending()));
 
     }
 
     // TODO-DW: 퍼블릭 할 필요없음
     // 키워드로 퍼블릭 소모임 찾기
     // 전체 ROLE 가능
-    public Page<Club> searchPublicClubs(int page, int size, String keyword) {
-        Page<Club> clubPage = clubRepository.findPublicClubsByKeyword(PageRequest.of(page, size), keyword);
+    public Page<Club> searchClubs(int page, int size, String keyword) {
+        Page<Club> clubPage = clubRepository.findByKeyword(PageRequest.of(page, size), keyword);
         return clubPage;
+    }
+
+    // 카테고리별로 소모임 조회
+    public List<Club> findAllClubByCategoryName(String categoryName) {
+        return clubRepository.findAllByCategoryName(categoryName);
     }
 
     public void deleteClub(Long clubId) {
@@ -178,7 +177,7 @@ public class ClubService {
         }
     }
 
-    public Club findVerifiedClub(long clubId) {
+    public Club findVerifiedClub(Long clubId) {
         Optional<Club> findClub = clubRepository.findById(clubId);
         Club club = findClub.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));

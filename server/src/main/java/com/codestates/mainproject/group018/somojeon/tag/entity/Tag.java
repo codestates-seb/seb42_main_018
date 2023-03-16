@@ -1,12 +1,14 @@
 package com.codestates.mainproject.group018.somojeon.tag.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
-import com.sun.istack.NotNull;
+import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,7 +23,10 @@ public class Tag {
     @Column(nullable = false)
     private String tagName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CLUB_ID")
-    private Club club;
+    @OneToMany(mappedBy = "tag")
+    private List<ClubTag> clubTagList = new ArrayList<>();
+
+    public void setClubTag(ClubTag clubTag) {
+        clubTagList.add(clubTag);
+    }
 }

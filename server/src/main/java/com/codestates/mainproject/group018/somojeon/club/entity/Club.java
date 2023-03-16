@@ -7,7 +7,6 @@ import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,7 +47,6 @@ public class Club {
     @Column(nullable = false)
     private int viewCount;
 
-    // 멤버 수를 기록해야한다.
     private int memberCount;
 
 //    @ElementCollection
@@ -76,7 +74,7 @@ public class Club {
     private Category category;
 
     @OneToMany(mappedBy = "club")
-    private List<Tag> tagList = new ArrayList<>();
+    private List<ClubTag> clubTagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club")
     private List<Joins> joinsList = new ArrayList<>();
@@ -90,13 +88,8 @@ public class Club {
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL)
     private Images images;
 
-    public void addTag(Tag tag) {
-        tagList.add(tag);
-        tag.setClub(this);
-    }
 
-    public void removeTag(Tag tag) {
-        tagList.remove(tag);
-        tag.setClub(null);
+    public void setClubTag(ClubTag clubTag) {
+        clubTagList.add(clubTag);
     }
 }

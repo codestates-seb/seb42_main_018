@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,10 +19,15 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 //    @Query("SELECT c FROM Club c WHERE c.viewCount = ?1 ORDER BY c.viewCount DESC")
 //    Page<Club> findAllByClub(Pageable pageable, Club club);
 
-    @Query("SELECT c FROM Club c WHERE c.isPrivate = false AND (LOWER(c.clubName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(c.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    Page<Club> findPublicClubsByKeyword(Pageable pageable, String keyword);
+    @Query("SELECT c FROM Club c WHERE LOWER(c.clubName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(c.content) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Club> findByKeyword(Pageable pageable, String keyword);
 
-    @Query("SELECT c FROM Club c WHERE c.isPrivate = false")
-    Page<Club> findAllPublicClubs(Pageable pageable);
+//    @Query("SELECT c FROM Club c LEFT OUTER JOIN FETCH c.tags WHERE c.clubId = :clubId")
+//    Club findClubWithTags(@Param("clubId") Long clubId);
+
+//    @Query("SELECT c FROM Club c LEFT OUTER JOIN FETCH c.tags")
+//    Page<Club> findAllClubsWithTags(Pageable pageable);
+
+    List<Club> findAllByCategoryName(String categoryName);
 }

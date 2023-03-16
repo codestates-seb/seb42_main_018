@@ -80,7 +80,7 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
-        private List<TagDto.Response> tagList;
+        private List<TagDto.Response> tagResponseDtos;
         private boolean isPrivate;
         private LocalDateTime modifiedAt;
 
@@ -98,7 +98,7 @@ public class ClubDto {
         private String categoryName;
         private int viewCount;
         private int memberCount;
-        private List<TagDto.Response> tagList;
+        private List<TagDto.Response> tagResponseDtos;
         private boolean isPrivate;
         private LocalDateTime modifiedAt;
 

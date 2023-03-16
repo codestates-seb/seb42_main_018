@@ -38,10 +38,8 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    public void verifyExistsCategoryName(String categoryName) {
-        Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
-        if (category.isPresent()) {
-            throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
+    public void verifyExistsCategoryName(Category category,String categoryName) {
+        if (category.getCategoryName().equals(categoryName)) {
         } else {
             saveCategory(categoryName);
         }
