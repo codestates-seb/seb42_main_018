@@ -2,6 +2,12 @@ import { useState } from 'react';
 import CreateCategory from './_createCategory';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
+import S_Container from '../../../components/UI/S_Container';
+import { S_Input } from '../../../components/UI/S_Input';
+import { S_TextArea } from '../../../components/UI/S_TextArea';
+import { S_Button } from '../../../components/UI/S_Button';
+import { S_Title, S_Label, S_Text, S_Description } from '../../../components/UI/S_Text';
+import { S_Tag } from '../../../components/UI/S_Tag';
 
 export interface clubType {
   clubName: string;
@@ -76,48 +82,56 @@ function CreateClub() {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <h2>신규 소모임 만들기</h2>
-      <div>
-        <label htmlFor='clubName'>소모임 이름 *</label>
-        <input
-          id='clubName'
-          name='clubName'
-          type='text'
-          maxLength={10}
-          value={clubName}
-          onChange={onChange}
-        />
-      </div>
-      <div>
-        <label htmlFor='content'>소모임 소개글 *</label>
-        <textarea
-          id='content'
-          name='content'
-          placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요.'
-          value={content}
-          onChange={onChange}
-        />
-      </div>
-      <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
-      <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
-      <CreateTag tags={tags} setTags={setTags} />
-      <fieldset>
-        <legend>공개여부 선택 *</legend>
-        <label htmlFor='public'>공개</label>
-        <input
-          type='radio'
-          id='public'
-          name='isPrivate'
-          value='false'
-          onChange={onChange}
-          defaultChecked
-        />
-        <label htmlFor='private'>비공개</label>
-        <input type='radio' id='private' name='isPrivate' value='true' onChange={onChange} />
-      </fieldset>
-      <button>소모임 만들기</button>
-    </form>
+    <S_Container>
+      <form onSubmit={onSubmit}>
+        <S_Title>신규 소모임 만들기</S_Title>
+        <div>
+          <label htmlFor='clubName'>
+            <S_Label>소모임 이름 *</S_Label>
+          </label>
+          <S_Input
+            id='clubName'
+            name='clubName'
+            type='text'
+            maxLength={10}
+            value={clubName}
+            onChange={onChange}
+          />
+        </div>
+        <div>
+          <label htmlFor='content'>
+            <S_Label>소모임 소개글 *</S_Label>
+          </label>
+          <S_TextArea
+            id='content'
+            name='content'
+            placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요.'
+            value={content}
+            onChange={onChange}
+          />
+        </div>
+        <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
+        <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
+        <CreateTag tags={tags} setTags={setTags} />
+        <fieldset>
+          <legend>
+            <S_Label>공개여부 선택 *</S_Label>
+          </legend>
+          <label htmlFor='public'>공개</label>
+          <S_Input
+            type='radio'
+            id='public'
+            name='isPrivate'
+            value='false'
+            onChange={onChange}
+            defaultChecked
+          />
+          <label htmlFor='private'>비공개</label>
+          <S_Input type='radio' id='private' name='isPrivate' value='true' onChange={onChange} />
+        </fieldset>
+        <S_Button>소모임 만들기</S_Button>
+      </form>
+    </S_Container>
   );
 }
 

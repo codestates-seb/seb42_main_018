@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { S_Label, S_Description } from '../../../components/UI/S_Text';
+import { S_Input } from '../../../components/UI/S_Input';
 
+// ! 태그 공통 컴포넌트로 수정해야 함
 const S_TagsInput = styled.div`
   display: flex;
   flex-direction: column;
@@ -91,9 +94,12 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
   return (
     <>
       <S_TagsInput>
-        <label htmlFor='tagName'>태그</label>
-        <p>최대 3개까지 입력할 수 있습니다.</p>
-        <input
+        <label htmlFor='tagName'>
+          <S_Label>태그</S_Label>
+        </label>
+        <S_Description>최대 3개까지 입력할 수 있습니다.</S_Description>
+        {/* //! TODO: 스타일 확인 */}
+        <S_Input
           id='tagName'
           name='tagName'
           className='tag-input'
