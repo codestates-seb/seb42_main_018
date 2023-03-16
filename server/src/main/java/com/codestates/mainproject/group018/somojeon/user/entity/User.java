@@ -23,7 +23,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
@@ -32,13 +31,8 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String userName;
-
-    @Column(nullable = false)
     private String nickName;
 
-    private char gender;
-    private int age;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -73,11 +67,6 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     OAuthUser oAuthUser;
-
-
-    public User(String email) {
-    }
-
 
     public enum UserStatus{
 
