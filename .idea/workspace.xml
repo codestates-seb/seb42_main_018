@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
-      <change beforePath="$PROJECT_DIR$/server/scripts/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/server/scripts/deploy.sh" afterDir="false" />
-    </list>
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -239,13 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
-    </task>
-    <task id="LOCAL-00020" summary="✨ feat : Comment 구현">
-      <created>1678366376732</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366376732</updated>
     </task>
     <task id="LOCAL-00021" summary="✨ feat : Record 구현">
       <created>1678366408701</created>
@@ -583,7 +574,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678931543401</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678932123823</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1678932123823</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
