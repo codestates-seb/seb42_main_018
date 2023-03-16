@@ -238,13 +238,6 @@
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
     </task>
-    <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
-      <created>1678327953406</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327953406</updated>
-    </task>
     <task id="LOCAL-00015" summary="✨ feat : UserRecord 연관 관계 매핑">
       <created>1678327972201</created>
       <option name="number" value="00015" />
@@ -581,7 +574,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678929006953</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929964677</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929964677</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
