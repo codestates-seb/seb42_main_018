@@ -24,7 +24,7 @@ function Login() {
       로그인페이지
       <S_Button
         onClick={handleKakaoLogin}
-        addStyle={{ backgroundColor: '#FAE64C', color: 'var(--gray500)' }}
+        addStyle={{ backgroundColor: '#FEE500', color: 'var(--gray500)', hoverBgColor: '#FADA0A' }}
       >
         카카오톡 로그인
       </S_Button>
