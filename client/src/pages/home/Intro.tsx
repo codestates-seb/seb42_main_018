@@ -1,7 +1,9 @@
+
+import Tabmenu from "../../components/TabMenu";
 import { S_Button, S_ButtonBlack, S_ButtonGray, S_SelectButton, S_EditButton, S_NegativeButton } from "../../components/UI/S_Button";
 import S_Container from "../../components/UI/S_Container";
 import { S_Input } from "../../components/UI/S_Input";
-import S_Select from "../../components/UI/S_Select";
+import { S_Select } from "../../components/UI/S_Select";
 import { S_Tag, S_TagSmall } from "../../components/UI/S_Tag";
 import { S_Description, S_Label, S_SmallDescription, S_Text, S_Title } from "../../components/UI/S_Text";
 import { S_TextArea } from "../../components/UI/S_TextArea";
@@ -10,6 +12,7 @@ import { S_TextArea } from "../../components/UI/S_TextArea";
 function Intro() {
     return (
         <S_Container>
+            <Tabmenu/>
             <S_Title>가장 큰 글씨는 이렇게 보입니다</S_Title>
             <S_Label>두번째 제목이나 라벨링은 이렇구요</S_Label>
             <S_Text>안녕하세요~ 가입신청합니다. 혼자 하려고 하다보니 부족한 점이 많아 신청하게 되었습니다! 잘부탁드립니다! 텍스트 세 줄은 어떻게 표시되는지 글자 크기와 줄간격을 살피기 위한 부분입니다.</S_Text>

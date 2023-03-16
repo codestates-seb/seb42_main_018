@@ -30,7 +30,7 @@ public class CategoryController {
     // 포스트 요청은 안하기로함.
 //    @PostMapping
 //    public ResponseEntity postCategory(@Valid @RequestBody CategoryDto.Post requestBody) {
-//        //TODO: 회원검증
+//        // TODO-DW: 회원검증
 //
 //        Category response = categoryService.createCategory(mapper.categoryPostDtoToCategory(requestBody));
 //
@@ -42,4 +42,9 @@ public class CategoryController {
     public List<String> getAllCategoryNames() {
         return categoryService.getAllCategoryNames();
     }
+
+//    @GetMapping("/search")
+//    public List<String> searchCategories(@RequestParam String keyword) {
+//        return categoryService.findByKeyword(keyword);
+//    }
 }

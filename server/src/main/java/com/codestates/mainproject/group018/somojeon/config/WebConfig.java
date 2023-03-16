@@ -9,8 +9,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://seb42-main-018.vercel.app")
-                .allowedOrigins("http://seb42-main-018.vercel.app")
+                .allowedOrigins("https://dev-somojeon.vercel.app")
+                .allowedOrigins("https://somojeon.vercel.app")
                 .allowedMethods("GET","DELETE", "POST", "PATCH", "OPTIONS").allowCredentials(true)
                 .exposedHeaders("authorization");
     }
