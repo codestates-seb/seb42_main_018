@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/scripts/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/server/scripts/deploy.sh" afterDir="false" />
-    </list>
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -240,13 +237,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
-    </task>
-    <task id="LOCAL-00013" summary="✨ feat : Record 뼈대 및 연관 관계 매핑">
-      <created>1678327933329</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327933329</updated>
     </task>
     <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
       <created>1678327953406</created>
@@ -584,7 +574,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678928166266</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929006953</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929006953</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
