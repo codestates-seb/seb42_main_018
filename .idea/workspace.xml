@@ -69,7 +69,7 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="Application.SomojeonApplication">
+  <component name="RunManager" selected="Gradle.server [clean]">
     <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
       <module name="somojeon.main" />
@@ -142,14 +142,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.SomojeonApplication" />
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
       <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
+      <item itemvalue="애플리케이션.SomojeonApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SomojeonApplication" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
