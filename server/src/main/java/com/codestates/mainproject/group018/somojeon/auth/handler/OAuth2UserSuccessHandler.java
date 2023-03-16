@@ -115,7 +115,6 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .newInstance()
                 .scheme("https")
                 .host("dev-somojeon.vercel.app")
-                .port(8080)
                 .path(path)
                 .queryParams(queryParams)
                 .build()
