@@ -2,6 +2,8 @@
 import styled from 'styled-components';
 
 const S_Container = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: var(--white);
   padding: 20px;
   min-height: calc(100vh - 50px);
