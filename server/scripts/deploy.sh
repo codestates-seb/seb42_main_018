@@ -28,6 +28,7 @@ fi
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/log/deploy.log
 source ~/.bash_profile
+source ~/.bashrc
 echo $TIME >> /home/ubuntu/log/env.log
 echo $RDS_ENDPOINT >> /home/ubuntu/log/env.log
 echo $RDS_ID >> /home/ubuntu/log/env.log
