@@ -52,14 +52,17 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
       const local1 = divisionList.find((d) => d.code.startsWith(divisionSelectValue))?.name;
       // district 코드에 맞는 지역 2
       const local2 = districtList.find((d: DistrictType) => d.code === districtSelectValue)?.name;
+
       setInputValue(`${local1} ${local2}`);
     }
   }, [divisionSelectValue, districtSelectValue]);
 
+  // console.log(districtList);
+
   return (
-    <>
+    <div>
       <label htmlFor='local'>
-        <S_Label>지역 선택 *</S_Label>
+        <S_Label>지역 *</S_Label>
       </label>
       <select id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
@@ -72,13 +75,13 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
       <select id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
         {districtList &&
-          districtList.map((d: DistrictType) => (
+          districtList.map((d) => (
             <option key={d.code} value={d.code}>
               {d.name}
             </option>
           ))}
       </select>
-    </>
+    </div>
   );
 }
 

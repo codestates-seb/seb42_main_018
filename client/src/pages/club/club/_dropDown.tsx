@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { HandleDropDownClick } from './_createCategory';
 
 const S_DropDownContainer = styled.ul`
-  background-color: var(--white);
+  background-color: var(--gray100);
 
   /* TODO: 스타일링 코드 정돈 필요 */
-  width: 145px;
+  width: 100%;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -17,6 +17,7 @@ const S_DropDownContainer = styled.ul`
   padding-inline-start: 0px;
   margin-top: -1px;
   padding: 0.5rem 0;
+  border-radius: 0 0 5px 5px;
   z-index: 3;
 
   > li {
