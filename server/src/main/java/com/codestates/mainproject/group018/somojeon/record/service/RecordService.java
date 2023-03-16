@@ -17,32 +17,26 @@ import java.util.Optional;
 @Transactional
 public class RecordService {
     private final RecordRepository recordRepository;
-    private final ClubService clubService;
 
-    public RecordService(RecordRepository recordRepository,
-                         ClubService clubService) {
+    public RecordService(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
-        this.clubService = clubService;
     }
 
-    public Record createRecord(Record record) {
-        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
-
-        return recordRepository.save(record);
-    }
-
-    public Record updateRecord(Record record) {
-        Record findRecord = findVerifiedRecord(record.getRecordId());
-
-        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
-
-        Optional.ofNullable(record.getDate())
-                .ifPresent(findRecord::setDate);
-        Optional.ofNullable(record.getPlace())
-                .ifPresent(findRecord::setPlace);
-
-        return recordRepository.save(findRecord);
-    }
+//    public Record createRecord(Record record) {
+//
+//        return recordRepository.save(record);
+//    }
+//
+//    public Record updateRecord(Record record) {
+//        Record findRecord = findVerifiedRecord(record.getRecordId());
+//
+//        Optional.ofNullable(record.getDate())
+//                .ifPresent(findRecord::setDate);
+//        Optional.ofNullable(record.getPlace())
+//                .ifPresent(findRecord::setPlace);
+//
+//        return recordRepository.save(findRecord);
+//    }
 
     public Record findRecord(long recordId) {
         Record findRecord = findVerifiedRecord(recordId);
@@ -56,8 +50,6 @@ public class RecordService {
 
     public void deleteRecord(long recordId) {
         Record record = findRecord(recordId);
-
-        // TODO - ET : 클럽의 리더나 매니저, 멤버인지 검증
 
         recordRepository.delete(record);
     }
