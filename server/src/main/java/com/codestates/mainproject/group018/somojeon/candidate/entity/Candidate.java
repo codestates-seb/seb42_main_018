@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.candidate.entity;
 
-import com.codestates.mainproject.group018.somojeon.record.entity.RecordCandidate;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +28,9 @@ public class Candidate {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "candidate")
-    private List<RecordCandidate> recordCandidates = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "SCHEDULE_ID")
+    private Schedule schedule;
 
     public enum Attendance {
         ATTEND("참석"),
