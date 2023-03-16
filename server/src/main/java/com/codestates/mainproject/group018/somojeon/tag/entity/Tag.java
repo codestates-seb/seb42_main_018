@@ -18,12 +18,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long tagId;
 
-    @NotNull
     @Column(nullable = false)
     private String tagName;
-
-    @Column(nullable = false)
-    private int tagCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
