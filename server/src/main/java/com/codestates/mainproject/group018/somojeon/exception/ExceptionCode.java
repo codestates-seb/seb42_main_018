@@ -23,6 +23,8 @@ public enum ExceptionCode {
     RECORD_NOT_FOUND(404, "Record not found"),
     SCHEDULE_NOT_FOUND(404, "Schedule not found"),
     NOT_FOUND_EXCEPTION(404, "Not found");
+    SCHEDULE_NOT_FOUND(404, "Schedule not found"),
+    TEAM_NOT_FOUND(404, "Team not found");
 
 
 

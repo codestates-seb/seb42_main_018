@@ -2,8 +2,11 @@
 import styled from 'styled-components';
 
 const S_Container = styled.div`
-  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
   padding: 20px;
+  min-height: calc(100vh - 50px);
 `;
 
 export default S_Container;

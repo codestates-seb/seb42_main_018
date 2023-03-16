@@ -28,8 +28,6 @@ function S_Modal() {
     <ModalContainer>
       <S_Label>durldp </S_Label>
       <ButtonContainer>
-        <Button>버튼1</Button>
-        <Button>버튼2</Button>
       </ButtonContainer>
     </ModalContainer>
   )
