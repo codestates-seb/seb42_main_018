@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from "styled-components";
 
 interface Title {
@@ -19,20 +18,26 @@ const titleContents: Title[] = [
 
 const S_ListBox = styled.div`
   display: flex;
-  border-bottom: 1px solid var(--gray200);
-`
+  text-align: center;
+  `
 
-const S_ListContents = styled.div<{ width?:string, color?:string }>`
-  padding: 8px 0px;
-  width: ${({ width }) => (width || '50px')};
+const S_ListItem = styled.div<{ width?:string, color?:string }>`
+  padding: 5px 0px;
+  min-width: ${({ width }) => (width || '50px')};
   color: ${({ color }) => (color)};
+  border-bottom: 1px solid var(--gray100);
 `
 
 function MemberRecordTitle() {
   return (
     <S_ListBox>
       {titleContents.map((e)=>(
-        <S_ListContents key={e.name} width={e.width} color={e.color}>{e.name}</S_ListContents>
+        <S_ListItem 
+          key={e.name} 
+          width={e.width} 
+          color={e.color}>
+            {e.name}
+          </S_ListItem>
       ))}
     </S_ListBox>
   )

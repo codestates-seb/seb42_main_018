@@ -20,10 +20,11 @@ const S_Contents = styled.div`
   padding-top: 5px;
 `
 
-function ClubMemberList({memberId, profileImage, name, winRate}: ClubMemberProps) {
-  
+function ClubMemberItem({profileImage, name, winRate}: ClubMemberProps) {
+  // TODO: 전달받은 클럽 멤버 데이터를 매핑해줄 것
+
   return (
-    <S_Box key={memberId}>
+    <S_Box>
       <img src={profileImage} alt="프로필이미지" />
       <S_Contents>
         <S_Label>{name}</S_Label>
@@ -33,4 +34,4 @@ function ClubMemberList({memberId, profileImage, name, winRate}: ClubMemberProps
   )
 }
 
-export default ClubMemberList;
+export default ClubMemberItem;

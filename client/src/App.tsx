@@ -44,7 +44,7 @@ function App() {
             <Route path=':id/edit' element={<EditMatch/>}/>
             <Route path='create' element={<CreateMatch/>}/>
           </Route>
-          <Route path='member' element={<ClubMember/>}/>
+          <Route path='member' element={<MemberRecord/>}/>
         </Route>
         <Route path='/club/create' element={<CreateClub/>}/>
         <Route path='/club/edit' element={<EditClub/>}/>

@@ -110,7 +110,8 @@ public class SecurityConfiguration {
         return ClientRegistration.withRegistrationId("kakao") // request uri "/oauth2/authorization/kakao"
                 .clientId("cc9eb581caf2361034da01b9c99c75dd")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
+                // TODO - JH dev와 아닐 경우의 리다이렉트 uri 수정해야함
+                .redirectUri("https://dev.somojeon.site/login/oauth2/code/kakao")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")

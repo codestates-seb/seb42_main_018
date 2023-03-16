@@ -232,88 +232,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="" />
+      <changelist id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
       <created>1678324227673</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678324227673</updated>
-    </task>
-    <task id="LOCAL-00011" summary="✨ feat : Candidate 뼈대 및 연관 관계 매핑">
-      <created>1678327896290</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327896290</updated>
-    </task>
-    <task id="LOCAL-00012" summary="✨ feat : Comment 뼈대 및 연관 관계 매핑">
-      <created>1678327913812</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327913812</updated>
-    </task>
-    <task id="LOCAL-00013" summary="✨ feat : Record 뼈대 및 연관 관계 매핑">
-      <created>1678327933329</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327933329</updated>
-    </task>
-    <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
-      <created>1678327953406</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327953406</updated>
-    </task>
-    <task id="LOCAL-00015" summary="✨ feat : UserRecord 연관 관계 매핑">
-      <created>1678327972201</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327972201</updated>
-    </task>
-    <task id="LOCAL-00016" summary="📦 chore : idea">
-      <created>1678328983288</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1678328983288</updated>
-    </task>
-    <task id="LOCAL-00017" summary="📦 chore : idea">
-      <created>1678329344245</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1678329344245</updated>
-    </task>
-    <task id="LOCAL-00018" summary="✨ feat : annotation add">
-      <created>1678330017382</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1678330017382</updated>
-    </task>
-    <task id="LOCAL-00019" summary="✨ feat : Candidate 구현">
-      <created>1678366348621</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366348621</updated>
-    </task>
-    <task id="LOCAL-00020" summary="✨ feat : Comment 구현">
-      <created>1678366376732</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366376732</updated>
-    </task>
-    <task id="LOCAL-00021" summary="✨ feat : Record 구현">
-      <created>1678366408701</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366408701</updated>
     </task>
     <task id="LOCAL-00022" summary="✨ feat : Schedule 구현">
       <created>1678366430412</created>
@@ -581,7 +504,84 @@
       <option name="project" value="LOCAL" />
       <updated>1678899949609</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678900193814</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1678900193814</updated>
+    </task>
+    <task id="LOCAL-00061" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678928166265</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1678928166266</updated>
+    </task>
+    <task id="LOCAL-00062" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929006953</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929006953</updated>
+    </task>
+    <task id="LOCAL-00063" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929964677</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929964677</updated>
+    </task>
+    <task id="LOCAL-00064" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930143202</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930143202</updated>
+    </task>
+    <task id="LOCAL-00065" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930397237</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930397237</updated>
+    </task>
+    <task id="LOCAL-00066" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930579640</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930579640</updated>
+    </task>
+    <task id="LOCAL-00067" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678931280596</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1678931280596</updated>
+    </task>
+    <task id="LOCAL-00068" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678931543401</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1678931543401</updated>
+    </task>
+    <task id="LOCAL-00069" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678932123823</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1678932123823</updated>
+    </task>
+    <task id="LOCAL-00070" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678932613544</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1678932613544</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -611,7 +611,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : annotation add" />
     <MESSAGE value="✨ feat : Candidate 구현" />
     <MESSAGE value="✨ feat : Comment 구현" />
@@ -635,6 +634,7 @@
     <MESSAGE value=" remove : remove test application" />
     <MESSAGE value="♻️ refactor : add allowed Origins" />
     <MESSAGE value=" !HOTFIX dev-somojeon.vercel.app" />
+    <MESSAGE value=" !HOTFIX dev 자동배포" />
     <MESSAGE value=" !HOTFIX dev 자동배포" />
     <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev 자동배포" />
   </component>
