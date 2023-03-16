@@ -119,7 +119,6 @@ public class ClubService {
 
     }
 
-    // TODO-DW: 퍼블릭 할 필요없음
     // 키워드로 퍼블릭 소모임 찾기
     // 전체 ROLE 가능
     public Page<Club> searchClubs(int page, int size, String keyword) {
@@ -128,14 +127,14 @@ public class ClubService {
     }
 
     // 카테고리별로 소모임 조회
-    public List<Club> findAllClubByCategoryName(String categoryName) {
-        return clubRepository.findAllByCategoryName(categoryName);
+    public List<Club> findClubsByCategoryName(String categoryName) {
+        return clubRepository.findByCategoryName(categoryName);
     }
 
     public void deleteClub(Long clubId) {
         //TODO-DW: 리더 인지 검증
         Club findClub = findVerifiedClub(clubId);
-        if (findClub.getMemberCount() <= 1) {
+        if (findClub.getMemberCount() > 1) {
             throw new BusinessLogicException(ExceptionCode.CLUB_CAN_NOT_DELETE);
         } else {
             clubRepository.delete(findClub);

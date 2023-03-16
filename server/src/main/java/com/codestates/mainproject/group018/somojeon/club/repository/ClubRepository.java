@@ -29,5 +29,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 //    @Query("SELECT c FROM Club c LEFT OUTER JOIN FETCH c.tags")
 //    Page<Club> findAllClubsWithTags(Pageable pageable);
 
-    List<Club> findAllByCategoryName(String categoryName);
+    @Query("SELECT c FROM Club c JOIN c.category cat WHERE cat.categoryName = :categoryName")
+    List<Club> findByCategoryName(@Param("categoryName") String categoryName);
 }

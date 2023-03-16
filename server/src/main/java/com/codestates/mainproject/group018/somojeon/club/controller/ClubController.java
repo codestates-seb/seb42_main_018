@@ -35,7 +35,7 @@ public class ClubController {
 
     // 소모임 생성
     @PostMapping
-    public ResponseEntity postClub(@Valid @RequestBody ClubDto.Post requestBody) {
+    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
         Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
         URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
@@ -45,7 +45,7 @@ public class ClubController {
 
     // 소모임 수정 (소개글, 이미지 등)
     @PatchMapping("/{club-id}")
-    public ResponseEntity patchClub(@PathVariable("club-id") @Positive Long clubId,
+    public ResponseEntity<?> patchClub(@PathVariable("club-id") @Positive Long clubId,
                                     @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
@@ -58,7 +58,7 @@ public class ClubController {
 
     // 퍼블릭 소모임 단건 조회
     @GetMapping("/{club-id}")
-    public ResponseEntity getClub(@PathVariable("club-id") @Positive Long clubId) {
+    public ResponseEntity<?> getClub(@PathVariable("club-id") @Positive Long clubId) {
 
         Club findClub = clubService.findClub(clubId);
 
@@ -68,7 +68,7 @@ public class ClubController {
 
     // 퍼블릭 소모임 전체 조회
     @GetMapping
-    public ResponseEntity getClubs(@RequestParam(defaultValue = "1") int page,
+    public ResponseEntity<?> getClubs(@RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "10") int size) {
 
         Page<Club> clubPage = clubService.findClubs(page - 1, size);
@@ -79,7 +79,7 @@ public class ClubController {
 
     // 키워드로 퍼블릭 소모임 찾기
     @GetMapping("/search")
-    public ResponseEntity searchClubs(@RequestParam(defaultValue = "1") int page,
+    public ResponseEntity<?> searchClubs(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size,
                                      @RequestParam String keyword) {
 
@@ -92,11 +92,11 @@ public class ClubController {
 
     // 카테고리별로 소모임 조회
     @GetMapping("/categories")
-    public ResponseEntity findClubByCategoryName(@RequestParam String categoryName) {
-        List<Club> allClubByCategoryName = clubService.findAllClubByCategoryName(categoryName);
+    public ResponseEntity<?> findClubByCategoryName(@RequestParam String categoryName) {
+        List<Club> allClubByCategoryName = clubService.findClubsByCategoryName(categoryName);
 
         return new ResponseEntity<>(
-                new ClubCategoryResponseDtos(
+                new ClubCategoryResponseDtos<>(
                         mapper.clubToClubResponseDtos(allClubByCategoryName)), HttpStatus.OK);
     }
 
