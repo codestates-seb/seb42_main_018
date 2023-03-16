@@ -72,7 +72,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                          ,String registration, String registrationId, boolean home) throws IOException, IOException {
         String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = home ? "" : "/signup";
+//        String path = home ? "" : "/signup";
+        // TODO - JH signup 페이지 미구현
+        String path = home ? "" : "";
         String uri =  createURI(accessToken, refreshToken, path).toString()
                            ;
 
