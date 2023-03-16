@@ -13,7 +13,7 @@ const StyledButton = styled.button<ButtonStyleType>`
   font-size: 1rem;
 
   :hover {
-    background-color: var(--blue200);
+    background-color: ${(props) => props.hoverBgColor || 'var(--blue200)'};
   }
 `;
 
@@ -21,6 +21,7 @@ interface ButtonStyleType {
   width?: string;
   color?: string;
   backgroundColor?: string;
+  hoverBgColor?: string;
 }
 
 interface S_ButtonProps {
@@ -30,13 +31,21 @@ interface S_ButtonProps {
 }
 
 export function S_Button({ children, addStyle, onClick }: S_ButtonProps) {
-  if (addStyle) {
-    const { width, backgroundColor, color } = addStyle;
+  if (addStyle && !!onClick) {
+    const { width, backgroundColor, color, hoverBgColor } = addStyle;
     return (
-      <StyledButton width={width} backgroundColor={backgroundColor} color={color} onClick={onClick}>
+      <StyledButton
+        width={width}
+        backgroundColor={backgroundColor}
+        color={color}
+        hoverBgColor={hoverBgColor}
+        onClick={onClick}
+      >
         {children}
       </StyledButton>
     );
+  } else if (onClick !== undefined) {
+    return <StyledButton onClick={onClick}>{children}</StyledButton>;
   }
 
   return <StyledButton>{children}</StyledButton>;
