@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment=" !HOTFIX dev CORS 에러">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,6 +61,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="JH/feat/kakao" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
@@ -69,7 +77,17 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="Gradle.server [clean]">
+  <component name="RunManager" selected="애플리케이션.SomojeonApplication">
+    <configuration name="Somojeon Server" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
       <module name="somojeon.main" />
@@ -145,10 +163,12 @@
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
       <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
+      <item itemvalue="애플리케이션.Somojeon Server" />
       <item itemvalue="애플리케이션.SomojeonApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="애플리케이션.SomojeonApplication" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
@@ -164,13 +184,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678893498463</updated>
-    </task>
-    <task id="LOCAL-00023" summary="📦 chore : MapperImpl">
-      <created>1678366538032</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366538032</updated>
     </task>
     <task id="LOCAL-00024" summary="📦 chore : MapperImpl">
       <created>1678366574199</created>
@@ -508,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678933002593</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="✨ feat : 모든 도메인 허용">
+      <created>1678980330404</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1678980330404</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -516,26 +536,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="ET/feat/feat" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : annotation add" />
     <MESSAGE value="✨ feat : Candidate 구현" />
     <MESSAGE value="✨ feat : Comment 구현" />
     <MESSAGE value="✨ feat : Record 구현" />
@@ -560,7 +567,8 @@
     <MESSAGE value=" !HOTFIX dev-somojeon.vercel.app" />
     <MESSAGE value=" !HOTFIX dev 자동배포" />
     <MESSAGE value=" !HOTFIX dev 자동배포" />
-    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev 자동배포" />
+    <MESSAGE value="✨ feat : 모든 도메인 허용" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : 모든 도메인 허용" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -572,13 +580,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java</url>
-          <line>78</line>
+          <line>81</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
