@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,100 +53,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="JH/feat/kakao" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
-    <option name="recentBranches">
-      <RecentBranches>
-        <option name="branchesForRepo">
-          <list>
-            <RecentBranchesForRepo>
-              <option name="branches">
-                <list>
-                  <RecentBranch>
-                    <option name="branchName" value="taekie" />
-                    <option name="lastUsedInstant" value="1678324833" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="dev" />
-                    <option name="lastUsedInstant" value="1678324382" />
-                  </RecentBranch>
-                </list>
-              </option>
-              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
-            </RecentBranchesForRepo>
-          </list>
-        </option>
-      </RecentBranches>
-    </option>
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2Mkv7C8VU1B5VvUYtrPlDqgWdrU" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="abbreviatePackageNames" value="true" />
-    <option name="autoscrollToSource" value="true" />
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
-  }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon\utils" />
-      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon" />
-      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule" />
-      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record" />
-      <recent name="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Gradle.server [build]">
-    <configuration name="OatuhExample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.auth.service.OatuhExample" />
-      <module name="somojeon.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.auth.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.SomojeonApplication">
     <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
       <module name="somojeon.main" />
-      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=server" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
@@ -213,114 +142,29 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.SomojeonApplication" />
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
       <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
-      <item itemvalue="애플리케이션.OatuhExample" />
-      <item itemvalue="애플리케이션.SomojeonApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SomojeonApplication" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
-        <item itemvalue="애플리케이션.SomojeonApplication" />
-        <item itemvalue="애플리케이션.OatuhExample" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6665c0dd-a0fc-49b0-8bd8-3ab9172ac189" name="Changes" comment="" />
+      <changelist id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
+      <changelist id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="🚑 !HOTFIX dev 자동배포" />
       <created>1678324227673</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1678324227673</updated>
-    </task>
-    <task id="LOCAL-00011" summary="✨ feat : Candidate 뼈대 및 연관 관계 매핑">
-      <created>1678327896290</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327896290</updated>
-    </task>
-    <task id="LOCAL-00012" summary="✨ feat : Comment 뼈대 및 연관 관계 매핑">
-      <created>1678327913812</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327913812</updated>
-    </task>
-    <task id="LOCAL-00013" summary="✨ feat : Record 뼈대 및 연관 관계 매핑">
-      <created>1678327933329</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327933329</updated>
-    </task>
-    <task id="LOCAL-00014" summary="✨ feat : Schedule 뼈대 및 연관 관계 매핑">
-      <created>1678327953406</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327953406</updated>
-    </task>
-    <task id="LOCAL-00015" summary="✨ feat : UserRecord 연관 관계 매핑">
-      <created>1678327972201</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1678327972201</updated>
-    </task>
-    <task id="LOCAL-00016" summary="📦 chore : idea">
-      <created>1678328983288</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1678328983288</updated>
-    </task>
-    <task id="LOCAL-00017" summary="📦 chore : idea">
-      <created>1678329344245</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1678329344245</updated>
-    </task>
-    <task id="LOCAL-00018" summary="✨ feat : annotation add">
-      <created>1678330017382</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1678330017382</updated>
-    </task>
-    <task id="LOCAL-00019" summary="✨ feat : Candidate 구현">
-      <created>1678366348621</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366348621</updated>
-    </task>
-    <task id="LOCAL-00020" summary="✨ feat : Comment 구현">
-      <created>1678366376732</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366376732</updated>
-    </task>
-    <task id="LOCAL-00021" summary="✨ feat : Record 구현">
-      <created>1678366408701</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366408701</updated>
-    </task>
-    <task id="LOCAL-00022" summary="✨ feat : Schedule 구현">
-      <created>1678366430412</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366430412</updated>
+      <updated>1678893498463</updated>
     </task>
     <task id="LOCAL-00023" summary="📦 chore : MapperImpl">
       <created>1678366538032</created>
@@ -581,7 +425,91 @@
       <option name="project" value="LOCAL" />
       <updated>1678899949609</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678900193814</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1678900193814</updated>
+    </task>
+    <task id="LOCAL-00061" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678928166265</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1678928166266</updated>
+    </task>
+    <task id="LOCAL-00062" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929006953</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929006953</updated>
+    </task>
+    <task id="LOCAL-00063" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678929964677</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1678929964677</updated>
+    </task>
+    <task id="LOCAL-00064" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930143202</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930143202</updated>
+    </task>
+    <task id="LOCAL-00065" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930397237</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930397237</updated>
+    </task>
+    <task id="LOCAL-00066" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678930579640</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1678930579640</updated>
+    </task>
+    <task id="LOCAL-00067" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678931280596</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1678931280596</updated>
+    </task>
+    <task id="LOCAL-00068" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678931543401</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1678931543401</updated>
+    </task>
+    <task id="LOCAL-00069" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678932123823</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1678932123823</updated>
+    </task>
+    <task id="LOCAL-00070" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678932613544</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1678932613544</updated>
+    </task>
+    <task id="LOCAL-00071" summary="🚑 !HOTFIX dev 자동배포">
+      <created>1678933002593</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1678933002593</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -589,29 +517,25 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="JH/feat/usetController" />
-                </option>
-              </RecentGroup>
-            </list>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="ET/feat/feat" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value=" chore : idea" />
     <MESSAGE value="✨ feat : annotation add" />
     <MESSAGE value="✨ feat : Candidate 구현" />
     <MESSAGE value="✨ feat : Comment 구현" />
@@ -636,6 +560,7 @@
     <MESSAGE value="♻️ refactor : add allowed Origins" />
     <MESSAGE value=" !HOTFIX dev-somojeon.vercel.app" />
     <MESSAGE value=" !HOTFIX dev 자동배포" />
+    <MESSAGE value=" !HOTFIX dev 자동배포" />
     <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX dev 자동배포" />
   </component>
   <component name="XDebuggerManager">
@@ -653,7 +578,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java</url>
-          <line>97</line>
+          <line>99</line>
           <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>

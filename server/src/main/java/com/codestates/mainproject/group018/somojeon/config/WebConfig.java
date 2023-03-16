@@ -11,6 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://dev-somojeon.vercel.app")
                 .allowedOrigins("https://somojeon.vercel.app")
+                .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET","DELETE", "POST", "PATCH", "OPTIONS").allowCredentials(true)
                 .exposedHeaders("authorization");
     }
