@@ -3,30 +3,31 @@ import axios from 'axios';
 import S_Container from './components/UI/S_Container';
 import { clubType } from './pages/club/club/CreateClub';
 
+//? return 값 res.data 말고, res 로 하면 타입 지정 어떻게 해야할지?
+export const getFetch = async (url: string) => {
+  try {
+    const res = await axios.get(url);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const postFetch = async (url: string, newData: any, config?: any) => {
+  try {
+    const res = await axios.post(url, JSON.stringify(newData));
+    // TODO: status code 나 ok로 분기 더 명확하게 줘야함
+    if (res) {
+      return res;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 function API_TEST() {
   const POST_URL = 'https://dev.somojeon.site/clubs';
   const GET_URL = 'https://dev.somojeon.site';
-
-  const getFetch = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res.data;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const postFetch = async (url: string, newData: any) => {
-    try {
-      const res = await axios.post(url, newData);
-      // status code 나 ok로 분기 더 명확하게 줘야함
-      if (res) {
-        return res;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const [dataFromServer, setDataFromServer] = useState('');
 
