@@ -19,6 +19,7 @@ import Register from './pages/user/Register';
 import Header from './components/Header';
 
 import GlobalStyles from './GlobalStyles';
+import MemberRecord from './pages/club/member/MemberRecord';
 
 function App() {
 

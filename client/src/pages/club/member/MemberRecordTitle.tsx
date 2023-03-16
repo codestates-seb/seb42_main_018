@@ -17,7 +17,12 @@ const titleContents: Title[] = [
   {name: '패'},
 ]
 
-const S_Th = styled.th<{ width?:string, color?:string }>`
+const S_ListBox = styled.div`
+  display: flex;
+  border-bottom: 1px solid var(--gray200);
+`
+
+const S_ListContents = styled.div<{ width?:string, color?:string }>`
   padding: 8px 0px;
   width: ${({ width }) => (width || '50px')};
   color: ${({ color }) => (color)};
@@ -25,13 +30,11 @@ const S_Th = styled.th<{ width?:string, color?:string }>`
 
 function MemberRecordTitle() {
   return (
-    <thead>
-      <tr>
-        {titleContents.map((e)=>(
-          <S_Th key={e.name} width={e.width} color={e.color}>{e.name}</S_Th>
-        ))}
-      </tr>
-    </thead>
+    <S_ListBox>
+      {titleContents.map((e)=>(
+        <S_ListContents key={e.name} width={e.width} color={e.color}>{e.name}</S_ListContents>
+      ))}
+    </S_ListBox>
   )
 }
 

@@ -1,8 +1,8 @@
-import React from 'react'
 import styled from 'styled-components'
 import { S_Label, S_Description } from '../../../components/UI/S_Text'
+import { ClubMemberProps } from './ClubMember'
 
-const S_Container = styled.div`
+const S_Box = styled.div`
   // 전체 컨테이너 스타일
   display: flex;
   align-items: center;
@@ -20,15 +20,16 @@ const S_Contents = styled.div`
   padding-top: 5px;
 `
 
-function ClubMemberList() {
+function ClubMemberList({memberId, profileImage, name, winRate}: ClubMemberProps) {
+  
   return (
-    <S_Container>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcU50X1UOeDaphmUyD6T8ROKs-HjeirpOoapiWbC9cLAqewFy1gthrgUTB9E7nKjRwOVk&usqp=CAU" alt="프로필이미지" />
+    <S_Box key={memberId}>
+      <img src={profileImage} alt="프로필이미지" />
       <S_Contents>
-        <S_Label>벌꿀오소리</S_Label>
-        <S_Description>승률 56.5%</S_Description>
+        <S_Label>{name}</S_Label>
+        <S_Description>승률 {winRate}%</S_Description>
       </S_Contents>
-    </S_Container>
+    </S_Box>
   )
 }
 

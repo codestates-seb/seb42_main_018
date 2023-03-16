@@ -1,21 +1,9 @@
-import React from 'react'
 import styled from "styled-components";
 
-interface Contents {
-  name: string;
-  width?: string;
-  color?: string;
-}
-
-const mainContents: Contents[] = [
-  {name: '1'},
-  {name: '별명 임시'},
-  {name: '58%', color: 'var(--blue300)'},
-  {name: '12'},
-  {name: '10'},
-  {name: '2'},
-  {name: '0'},
-]
+const S_ListBox = styled.div`
+  display: flex;
+  border-bottom: 1px solid var(--gray200);
+`
 
 const S_Td = styled.td<{ width?:string, color?:string }>`
   padding: 20px 0px;
@@ -29,11 +17,9 @@ const S_Td = styled.td<{ width?:string, color?:string }>`
 
 function MemberRecordList() {
   return (
-    <tr>
-      {mainContents.map((e)=>(
-        <S_Td key={e.name} width={e.width} color={e.color}>{e.name}</S_Td>
-      ))}
-    </tr>
+    <S_ListBox>
+
+    </S_ListBox>
   )
 }
 

@@ -15,10 +15,9 @@ function MemberRecord() {
             <MemberNav />
             <S_Table>
                 <MemberRecordTitle/>
-                <tbody>
-                    <MemberRecordList/>
-                    <MemberRecordList/>
-                </tbody>
+                {/* {data.map(e)=>{
+                    <MemberRecordList key={e.name} />
+                }} */}
             </S_Table>
         </S_Container>
     )

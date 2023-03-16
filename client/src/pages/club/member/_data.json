@@ -1,0 +1,25 @@
+{
+  "data" : [ {
+    "memberId" : 1,
+    "name" : "John Doe",
+    "email" : "john.doe@example.com",
+    "age" : 30,
+    "gender" : "남",
+    "profileImage" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcU50X1UOeDaphmUyD6T8ROKs-HjeirpOoapiWbC9cLAqewFy1gthrgUTB9E7nKjRwOVk&usqp=CAU",
+    "memberStatus" : "MEMBER_NEW"
+  }, {
+    "memberId" : 2,
+    "name" : "Alice Smith",
+    "email" : "alice.smith@example.com",
+    "age" : 25,
+    "gender" : "여",
+    "profileImage" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcU50X1UOeDaphmUyD6T8ROKs-HjeirpOoapiWbC9cLAqewFy1gthrgUTB9E7nKjRwOVk&usqp=CAU",
+    "memberStatus" : "MEMBER_NEW"
+  } ],
+  "pageInfo" : {
+    "page" : 1,
+    "size" : 5,
+    "totalElements" : 2,
+    "totalPages" : 1
+  }
+}

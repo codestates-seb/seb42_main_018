@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import logo from '../asset/logo.svg';
-import search from '../asset/icon_search.svg';
-import mypage from '../asset/icon_mypage.svg';
+import logo from '../assets/logo.svg';
+import search from '../assets/icon_search.svg';
+import mypage from '../assets/icon_mypage.svg';
 
 const HeaderContainer = styled.div`
     height: 50px;
