@@ -28,10 +28,11 @@ fi
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/log/deploy.log
 source ~/.bash_profile
-source ~/.bashrc
-echo $TIME >> /home/ubuntu/log/env.log
+
+
 echo $RDS_ENDPOINT >> /home/ubuntu/log/env.log
 echo $RDS_ID >> /home/ubuntu/log/env.log
 echo $ADMIN_MAIL >> /home/ubuntu/log/env.log
+echo $RDS_ID >> /home/ubuntu/log/env.log
 sleep 5
 sudo nohup java -jar $DEPLOY_JAR --spring.profiles.active=server --server.port=8081 >> /home/ubuntu/log/server.log  2>/home/ubuntu/log/server_err.log &
