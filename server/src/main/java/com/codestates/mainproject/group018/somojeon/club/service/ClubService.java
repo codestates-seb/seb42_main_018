@@ -48,18 +48,36 @@ public class ClubService {
 
     // 소모임 생성
     // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
+//    public Club createClub(Club club, String categoryName, List<String> tagName) {
+//        //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
+//
+//        if (club.getCategory().getCategoryName().equals(categoryName)) {
+//        } else {
+//            categoryService.saveCategory(categoryName);
+//        }
+//        List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
+//        tagList.forEach(tag -> new ClubTag(club, tag));
+//        if (tagList.size() > 3) {
+//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+//        } else {
+////            categoryService.verifyExistsCategoryName(club.getCategory(), club.getCategoryName());
+//            verifyExistsClubName(club.getClubName());
+//            club.setCreatedAt(LocalDateTime.now());
+//            return clubRepository.save(club);
+//        }
+//    }
+
     public Club createClub(Club club, List<String> tagName) {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
+
+        categoryService.verifyExistsCategoryName(club.getCategoryName());
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
         tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
-        } else {
-            categoryService.verifyExistsCategoryName(club.getCategory(),club.getCategoryName());
-            verifyExistsClubName(club.getClubName());
-            club.setCreatedAt(LocalDateTime.now());
-            return clubRepository.save(club);
         }
+        club.setCreatedAt(LocalDateTime.now());
+        return clubRepository.save(club);
     }
 
     // 소모임 수정

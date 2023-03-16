@@ -74,7 +74,7 @@ public class ClubController {
         Page<Club> clubPage = clubService.findClubs(page - 1, size);
         List<Club> content = clubPage.getContent();
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubToClubGetResponseDtos(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 키워드로 퍼블릭 소모임 찾기
@@ -87,7 +87,7 @@ public class ClubController {
         List<Club> content = clubPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubToClubGetResponseDtos(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 카테고리별로 소모임 조회
@@ -97,7 +97,7 @@ public class ClubController {
 
         return new ResponseEntity<>(
                 new ClubCategoryResponseDtos(
-                        mapper.clubToClubGetResponseDtos(allClubByCategoryName)), HttpStatus.OK);
+                        mapper.clubToClubResponseDtos(allClubByCategoryName)), HttpStatus.OK);
     }
 
     // 소모임 삭제

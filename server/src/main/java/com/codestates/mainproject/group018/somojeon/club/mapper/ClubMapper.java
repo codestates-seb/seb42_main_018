@@ -20,7 +20,7 @@ public interface ClubMapper {
     Club clubPatchDtoToClub(ClubDto.Patch requestBody);
 //    ClubDto.Response clubToClubResponseDto(Club club);
 //    ClubDto.GetResponse clubToClubGetResponseDto(Club club);
-    List<ClubDto.GetResponse> clubToClubGetResponseDtos(List<Club> clubs);
+    List<ClubDto.Response> clubToClubResponseDtos(List<Club> clubs);
 
     default List<TagDto.Response> clubTagsToTagResponse(List<ClubTag> clubTagList) {
         return clubTagList.stream()

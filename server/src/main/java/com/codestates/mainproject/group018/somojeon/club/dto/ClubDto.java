@@ -80,22 +80,6 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
-        private List<TagDto.Response> tagResponseDtos;
-        private boolean isPrivate;
-        private LocalDateTime modifiedAt;
-
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class GetResponse {
-        private Long clubId;
-        private String clubName;
-        private String content;
-        private String local;
-        private String categoryName;
         private int viewCount;
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
