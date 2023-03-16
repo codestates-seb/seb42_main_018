@@ -20,14 +20,13 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        categoryRepository.deleteAll();
         List<String> categories = Arrays.asList(
-                "배드민턴", "축구", "풋살", "농구", "배구", "골프", "볼링", "테니스", "하키", "당구");
+                "배드민턴","탁구","축구","풋살","농구","배구","골프","볼링","테니스","당구");
 
         for (String categoryName : categories) {
-            Category category = new Category(categoryName);
-            categoryRepository.save(category);
+            if (categoryRepository.findByCategoryName(categoryName).isEmpty()) {
+                categoryRepository.save(new Category(categoryName));
+            }
         }
     }
-
 }

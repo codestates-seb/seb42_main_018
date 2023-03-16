@@ -5,6 +5,7 @@ import lombok.Getter;
 // ??
 public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
+    CLIENT_NOT_FOUND(404, "Client not found"),
     USER_EXISTS(409, "User exists"),
     CATEGORY_EXISTS(409, "Category exists"),
     CLUB_EXISTS(409, "Club exists"),
@@ -20,7 +21,8 @@ public enum ExceptionCode {
     ACCESS_DENIED(401, "Access Denied"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     RECORD_NOT_FOUND(404, "Record not found"),
-    SCHEDULE_NOT_FOUND(404, "Schedule not found");
+    SCHEDULE_NOT_FOUND(404, "Schedule not found"),
+    TEAM_NOT_FOUND(404, "Team not found");
 
 
 

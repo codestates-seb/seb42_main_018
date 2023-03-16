@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.record.entity;
+package com.codestates.mainproject.group018.somojeon.team.entity;
 
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
@@ -11,26 +11,16 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class UserRecord {
-
+public class UserTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userRecordId;
-
-    @Column(nullable = false)
-    private int score;
-
-    @Column(nullable = false)
-    private String winLose;
-
-    @Column(nullable = false)
-    private String teamName;
+    private Long userTeamId;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "RECORD_ID")
-    private Record record;
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 }

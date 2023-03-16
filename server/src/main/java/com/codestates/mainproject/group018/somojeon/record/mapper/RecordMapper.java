@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RecordMapper {
-    Record recordPostDtoToRecord(RecordDto.Post requestBody);
-    Record recordPatchDtoToRecord(RecordDto.Patch requestBody);
+//    Record recordPostDtoToRecord(RecordDto.Post requestBody);
+//    Record recordPatchDtoToRecord(RecordDto.Patch requestBody);
     RecordDto.Response recordToRecordResponseDto(Record record);
     List<RecordDto.Response> recordsToRecordResponseDtos(List<Record> records);
 }
