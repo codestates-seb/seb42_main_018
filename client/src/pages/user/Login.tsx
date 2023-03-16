@@ -1,8 +1,22 @@
+import axios from 'axios';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button } from '../../components/UI/S_Button';
+
 function Login() {
-  const handleKakaoLogin = () => {
-    console.log('카카오 로그인 클릭');
+  const getFetch = async (url: string) => {
+    try {
+      const res = await axios.get(url);
+      return res;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const KAKAO_LOGIN_URL = 'https://dev.somojeon.site/oauth2/authorization/kakao';
+
+  const handleKakaoLogin = async () => {
+    const res = await getFetch(KAKAO_LOGIN_URL);
+    console.log(res);
   };
 
   return (
