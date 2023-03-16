@@ -12,7 +12,7 @@ const StyledSelect= styled.select`
   color: var(--gray600);
 `
 
-function S_Select() {
+export function S_Select() {
   return (
     <StyledSelect name="name" id="id">
       <option value={""}>옵션을 선택해주세요</option>
@@ -23,5 +23,3 @@ function S_Select() {
     </StyledSelect>
   )
 }
-
-export default S_Select;
