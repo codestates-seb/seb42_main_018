@@ -39,9 +39,6 @@ public class CommentService {
     public Comment updateComment(Comment comment) {
         Comment findComment = findVerifiedComment(comment.getCommentId());
 
-        if (findComment.getUser().getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
         Optional.ofNullable(comment.getContent())
                 .ifPresent(findComment::setContent);
 
@@ -58,9 +55,6 @@ public class CommentService {
 
     public void deleteComment(long commentId) {
         Comment comment = findComment(commentId);
-
-        if (comment.getUser().getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         commentRepository.delete(comment);
     }

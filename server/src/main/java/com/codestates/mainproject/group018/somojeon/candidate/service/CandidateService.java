@@ -34,9 +34,6 @@ public class CandidateService {
     public Candidate updateCandidate(Candidate candidate) {
         Candidate findCandidate = findVerifiedCandidate(candidate.getCandidateId());
 
-        if (findCandidate.getUser().getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
         Optional.ofNullable(candidate.getAttendance())
                 .ifPresent(findCandidate::setAttendance);
 
@@ -54,9 +51,6 @@ public class CandidateService {
 
     public void deleteCandidate(long candidateId) {
         Candidate candidate = findCandidate(candidateId);
-
-        if (candidate.getUser().getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         candidateRepository.delete(candidate);
     }
