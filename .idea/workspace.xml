@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment=" !HOTFIX dev CORS 에러">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="♻️ refactor : user login">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application-server.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" afterDir="false" />
     </list>
     <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +76,7 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="애플리케이션.SomojeonApplication">
+  <component name="RunManager" selected="애플리케이션.Somojeon Server">
     <configuration name="Somojeon Server" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -184,13 +183,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678893498463</updated>
-    </task>
-    <task id="LOCAL-00024" summary="📦 chore : MapperImpl">
-      <created>1678366574199</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366574199</updated>
     </task>
     <task id="LOCAL-00025" summary="✨ feat : yml 파일 생성">
       <created>1678366610172</created>
@@ -528,7 +520,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678980330404</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="♻️ refactor : user login">
+      <created>1678985436754</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1678985436754</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -543,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : Candidate 구현" />
     <MESSAGE value="✨ feat : Comment 구현" />
     <MESSAGE value="✨ feat : Record 구현" />
     <MESSAGE value="✨ feat : Dto &amp; Utils" />
@@ -568,7 +566,8 @@
     <MESSAGE value=" !HOTFIX dev 자동배포" />
     <MESSAGE value=" !HOTFIX dev 자동배포" />
     <MESSAGE value="✨ feat : 모든 도메인 허용" />
-    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : 모든 도메인 허용" />
+    <MESSAGE value="♻️ refactor : user login" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : user login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -589,6 +588,7 @@
       <configuration name="Application">
         <watch expression="SecurityContextHolder.getContext().getAuthentication()" language="JAVA" />
         <watch expression="authorizationRequest" />
+        <watch expression="userRepository.findByEmail(username)" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
