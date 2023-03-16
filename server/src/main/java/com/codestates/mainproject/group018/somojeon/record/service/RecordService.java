@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.service;
 
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
@@ -21,20 +22,21 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-    public Record createRecord(Record record) {
-        return recordRepository.save(record);
-    }
-
-    public Record updateRecord(Record record) {
-        Record findRecord = findVerifiedRecord(record.getRecordId());
-
-        Optional.ofNullable(record.getDate())
-                .ifPresent(findRecord::setDate);
-        Optional.ofNullable(record.getPlace())
-                .ifPresent(findRecord::setPlace);
-
-        return recordRepository.save(findRecord);
-    }
+//    public Record createRecord(Record record) {
+//
+//        return recordRepository.save(record);
+//    }
+//
+//    public Record updateRecord(Record record) {
+//        Record findRecord = findVerifiedRecord(record.getRecordId());
+//
+//        Optional.ofNullable(record.getDate())
+//                .ifPresent(findRecord::setDate);
+//        Optional.ofNullable(record.getPlace())
+//                .ifPresent(findRecord::setPlace);
+//
+//        return recordRepository.save(findRecord);
+//    }
 
     public Record findRecord(long recordId) {
         Record findRecord = findVerifiedRecord(recordId);
