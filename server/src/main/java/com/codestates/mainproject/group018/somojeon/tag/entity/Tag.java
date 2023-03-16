@@ -20,7 +20,6 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long tagId;
 
-    @Column(nullable = false)
     private String tagName;
 
     @OneToMany(mappedBy = "tag")

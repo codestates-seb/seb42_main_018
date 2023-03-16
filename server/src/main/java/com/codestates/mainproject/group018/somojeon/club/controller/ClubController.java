@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
+import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.ClubCategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
@@ -92,12 +93,15 @@ public class ClubController {
 
     // 카테고리별로 소모임 조회
     @GetMapping("/categories")
-    public ResponseEntity<?> findClubByCategoryName(@RequestParam String categoryName) {
-        List<Club> allClubByCategoryName = clubService.findClubsByCategoryName(categoryName);
+    public ResponseEntity<?> getClubsByCategoryName(@RequestParam("categoryName") String categoryName,
+                                                    @RequestParam(defaultValue = "1") int page,
+                                                    @RequestParam(defaultValue = "10") int size) {
+        Page<Club> clubPage = clubService.findClubsByCategoryName(categoryName, page - 1, size);
+        List<Club> content = clubPage.getContent();
 
         return new ResponseEntity<>(
-                new ClubCategoryResponseDtos<>(
-                        mapper.clubToClubResponseDtos(allClubByCategoryName)), HttpStatus.OK);
+                new MultiResponseDto<>(
+                        mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 소모임 삭제

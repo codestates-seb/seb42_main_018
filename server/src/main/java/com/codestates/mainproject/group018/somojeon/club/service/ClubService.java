@@ -126,9 +126,10 @@ public class ClubService {
         return clubPage;
     }
 
+    // TODO-DW : 로직 수정해야함. data가 안나옴
     // 카테고리별로 소모임 조회
-    public List<Club> findClubsByCategoryName(String categoryName) {
-        return clubRepository.findByCategoryName(categoryName);
+    public Page<Club> findClubsByCategoryName(String categoryName, int page, int size) {
+        return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
     public void deleteClub(Long clubId) {

@@ -44,7 +44,6 @@ public class Club {
     @Column(nullable = false)
     private boolean isPrivate;
 
-    @Column(nullable = false)
     private int viewCount;
 
     private int memberCount;
