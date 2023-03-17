@@ -11,16 +11,11 @@ import java.time.LocalDateTime;
 public class CommentDto {
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
 
-        private Long recordId;
-
         private String content;
-
-        public void addRecordId(Long recordId) {
-            this.recordId = recordId;
-        }
     }
 
     @Getter
@@ -35,11 +30,6 @@ public class CommentDto {
         public void addCommentId(Long commentId) {
             this.commentId = commentId;
         }
-
-        public void addRecordId(Long recordId) {
-            this.recordId = recordId;
-        }
-
     }
 
     @Getter

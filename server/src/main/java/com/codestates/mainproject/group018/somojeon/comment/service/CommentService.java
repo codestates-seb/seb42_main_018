@@ -29,9 +29,8 @@ public class CommentService {
         this.userService = userService;
     }
 
-    public Comment createComment(Comment comment, Long recordId) {
-        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
-        recordService.findVerifiedRecord(recordId); // 경기 전적 확인
+    public Comment createComment(Comment comment) {
+//        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
 
         return commentRepository.save(comment);
     }
