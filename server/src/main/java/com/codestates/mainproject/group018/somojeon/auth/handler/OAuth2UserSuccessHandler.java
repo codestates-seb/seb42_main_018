@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUt
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -24,7 +22,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -72,7 +69,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                          ,String registration, String registrationId, boolean home) throws IOException, IOException {
         String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = home ? "" : "register";
+        String path = home ? "home" : "register";
         String uri =  createURI(accessToken, refreshToken, path).toString()
                            ;
 
