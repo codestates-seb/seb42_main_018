@@ -143,6 +143,13 @@ function CreateMatch() {
   const openAddMemberHandler = () => {
     setIsOpenAddMember(!isOpenAddMember);
   };
+  
+  const validationCheck = () => {
+    if(!placeValue || !time ) {
+      alert('*가 표시된 항목은 필수 입력란입니다.');
+      return;
+    }
+  }
 
   if (!candidateList.length && isOpenAddMember) {
     setIsOpenAddMember(false);
@@ -156,12 +163,12 @@ function CreateMatch() {
     <S_Container>
       <S_Title>경기 등록</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-        <S_Label>날짜/시간 선택</S_Label>
+        <S_Label>날짜/시간 선택 *</S_Label>
         <S_Input type='date' value={date} onChange={dateChangeHandler} />
         <S_Input type='time' value={time} onChange={timeChangeHandler} />
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-        <S_Label>장소</S_Label>
+        <S_Label>장소 *</S_Label>
         <S_Input type='text' value={placeValue?.place_name} readOnly />
         <S_SelectButton onClick={mapSettingModalHandler} style={{width: "auto"}}>지도설정</S_SelectButton>
         <S_SelectButton onClick={mapViewModalHandler} style={{width: "auto"}}>지도보기</S_SelectButton>
@@ -360,6 +367,7 @@ function CreateMatch() {
       </div>
       <div>
         <S_Button onClick={() => {
+          validationCheck();
           const copiedRecords:Record[] = [];
           const copiedValues = Object.entries(getValues());
           copiedValues.forEach(el => {

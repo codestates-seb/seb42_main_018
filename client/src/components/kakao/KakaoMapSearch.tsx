@@ -262,7 +262,6 @@ const KakaoMapSearch = (props:any) => {
   return (
     <div className='map_wrap'>
       <div id='map' style={{ width: '100%', height: '120px', overflow: 'hidden' }}></div>
-
       <div id='menu_wrap' className='bg_white'>
         <div className='option'>
           <div className='form-button'>
@@ -275,7 +274,7 @@ const KakaoMapSearch = (props:any) => {
             >
               검색어
               <span style={{margin: "0 5px"}}></span>
-              <S_Input type='text' value={value} onChange={onChangeValue} id='keyword' size={15} style={{height: "25px", paddingLeft: "10px"}}/>
+              <S_Input type='text' value={value} onChange={onChangeValue} id='keyword' size={15} style={{height: "25px", paddingLeft: "10px", margin: "0"}}/>
               <button type='submit' style={{backgroundColor: "white"}}>
                 <img style={{height: "20px"}} src={search} alt="검색 아이콘"/>
               </button>
