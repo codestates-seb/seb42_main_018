@@ -5,9 +5,9 @@
 
 import styled from 'styled-components';
 
-export const S_Input = styled.input`
+export const S_Input = styled.input<{ width?: string }>`
   border: none;
-  width: 96%;
+  width: ${(props) => props.width || 'inherit'};
   height: 40px;
   padding: 0px 10px;
   margin: 0px 10px 10px 0px;
