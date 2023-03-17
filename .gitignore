@@ -37,8 +37,8 @@ out/
 ### VS Code ###
 .vscode/
 
-*.yml
-*.application.yml
+#*.yml
+#*.application.yml
 
 *.gradle
 workspace.xml
