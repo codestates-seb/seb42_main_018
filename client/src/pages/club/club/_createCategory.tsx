@@ -80,6 +80,7 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
           onKeyUp={handleKeyUp}
           onChange={handleInputChange}
           ref={input}
+          width='96%'
         />
       </S_InputContainer>
       {hasText && (

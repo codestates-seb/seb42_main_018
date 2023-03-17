@@ -57,6 +57,7 @@ function Login() {
             id='email'
             name='email'
             type='text'
+            width='96%'
             // value={}
             // onChange={onChange}
           />
@@ -69,6 +70,7 @@ function Login() {
             id='password'
             name='password'
             type='text'
+            width='96%'
             // value={}
             // onChange={onChange}
           />

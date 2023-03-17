@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
 import { CreateCategoryProps } from './_createCategory';
 import { S_Label } from '../../../components/UI/S_Text';
-import { StyledSelect } from '../../../components/UI/S_Select';
+import { S_Select } from '../../../components/UI/S_Select';
 
 interface DistrictType {
   code: string;
@@ -62,15 +62,15 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
       <label htmlFor='local'>
         <S_Label>지역 *</S_Label>
       </label>
-      <StyledSelect id='local' name='division' onChange={handleSelectChange}>
+      <S_Select id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
         {divisionList.map((d) => (
           <option key={d.code} value={d.code}>
             {d.name}
           </option>
         ))}
-      </StyledSelect>
-      <StyledSelect id='local' name='district' onChange={handleSelectChange}>
+      </S_Select>
+      <S_Select id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
         {districtList &&
           districtList.map((d) => (
@@ -78,7 +78,7 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
               {d.name}
             </option>
           ))}
-      </StyledSelect>
+      </S_Select>
     </div>
   );
 }
