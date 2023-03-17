@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="✨ feat : auditable 클래스">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="✨ feat : auditable 클래스 한국 시간">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
     </list>
     <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,17 +81,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Git.Branch.Popup.ShowAllRemotes": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit",
-    "project.structure.last.edited": "프로젝트",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon\audit" />
@@ -182,9 +183,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
-        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
       </list>
     </recent_temporary>
   </component>
