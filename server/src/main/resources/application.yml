@@ -18,8 +18,8 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey: AKIA2B77AXXWIPZRKN4D
-      secretKey: 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
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
     s3:
       bucket: bucket-somojeon
     region:
