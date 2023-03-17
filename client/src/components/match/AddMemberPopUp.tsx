@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { S_Tag } from '../../components/UI/S_Tag';
+import { S_GridTag } from '../../components/UI/S_Tag';
 import { TeamList } from '../../pages/club/match/CreateMatch';
 
 interface AddMemberPopUpProps {
@@ -14,6 +14,7 @@ interface AddMemberPopUpProps {
 
 const S_PopupContainer = styled.div<{ top?: number }>`
   display: grid;
+  row-gap: 3px;
   grid-template-columns: repeat(4, 1fr);
   position: absolute;
   width: 60%;
@@ -48,7 +49,7 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
       {props.candidateList &&
         props.candidateList.map((member, idx) => {
           return (
-            <S_Tag
+            <S_GridTag
               key={idx}
               onClick={() => {
                 
@@ -70,7 +71,7 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
               }}
             >
               {member}+
-            </S_Tag>
+            </S_GridTag>
           );
         })}
     </S_PopupContainer>
