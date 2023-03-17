@@ -13,11 +13,17 @@ export const getFetch = async (url: string) => {
   }
 };
 
-export const postFetch = async (url: string, newData: any, config?: any) => {
+export const postFetch = async (url: string, newData: any) => {
   try {
-    const res = await axios.post(url, JSON.stringify(newData));
-    // TODO: status code 나 ok로 분기 더 명확하게 줘야함
-    if (res) {
+    const res = await axios.post(url, JSON.stringify(newData), {
+      headers: {
+        'Content-Type': 'application/json',
+        withCredentials: true
+      }
+    });
+
+    // ? res.ok 왜 안 될까?
+    if (res.status === 200 || res.status === 201) {
       return res;
     }
   } catch (err) {
@@ -65,7 +71,7 @@ function API_TEST() {
     clubName: '야구',
     content: '재밌게 야구해요',
     local: '경기도 구리시',
-    categoryName: '방탈출',
+    categoryName: '창의적카테고리',
     tagName: ['태그1', '태그2'],
     isPrivate: true
   };

@@ -48,6 +48,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
         id='tagName'
         name='tagName'
         type='text'
+        width='96%'
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
