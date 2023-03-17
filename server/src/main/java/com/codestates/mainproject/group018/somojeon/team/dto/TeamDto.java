@@ -11,13 +11,34 @@ import java.util.List;
 public class TeamDto {
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Post {
+        private Integer score;
+        private String winLoseDraw;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Patch {
+        private Long teamId;
+        private Integer score;
+        private String winLoseDraw;
+
+        public void addTeamId(Long teamId) {
+            this.teamId = teamId;
+        }
+    }
+
+    @Getter
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private Long teamId;
         private Integer score;
-        private String winLose;
+        private String winLoseDraw;
         private List<User> users;
     }
 }

@@ -23,4 +23,20 @@ public class TeamRecord {
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    public TeamRecord(Record record, Team team) {
+        addRecord(record);
+        addTeam(team);
+    }
+
+    public void addRecord(Record record) {
+        this.record = record;
+        record.setTeamRecord(this);
+    }
+
+    public void addTeam(Team team) {
+        this.team = team;
+        team.setTeamRecord(this);
+    }
+
 }

@@ -22,21 +22,16 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-//    public Record createRecord(Record record) {
-//
-//        return recordRepository.save(record);
-//    }
-//
-//    public Record updateRecord(Record record) {
-//        Record findRecord = findVerifiedRecord(record.getRecordId());
-//
-//        Optional.ofNullable(record.getDate())
-//                .ifPresent(findRecord::setDate);
-//        Optional.ofNullable(record.getPlace())
-//                .ifPresent(findRecord::setPlace);
-//
-//        return recordRepository.save(findRecord);
-//    }
+    public Record createRecord(Record record) {
+
+        return recordRepository.save(record);
+    }
+
+    public Record updateRecord(Record record) {
+        Record findRecord = findVerifiedRecord(record.getRecordId());
+
+        return recordRepository.save(findRecord);
+    }
 
     public Record findRecord(long recordId) {
         Record findRecord = findVerifiedRecord(recordId);
