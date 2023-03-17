@@ -36,4 +36,6 @@ public class UserClub {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEVEL_ID")
     private Level level;
+
+
 }

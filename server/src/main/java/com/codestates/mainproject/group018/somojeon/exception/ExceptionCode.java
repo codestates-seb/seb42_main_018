@@ -22,7 +22,9 @@ public enum ExceptionCode {
     COMMENT_NOT_FOUND(404, "Comment not found"),
     RECORD_NOT_FOUND(404, "Record not found"),
     SCHEDULE_NOT_FOUND(404, "Schedule not found"),
-    TEAM_NOT_FOUND(404, "Team not found");
+    TEAM_NOT_FOUND(404, "Team not found"),
+    // TODO - DW 검토부탁드려요
+    USER_CLUB_NOT_FOUND(404, "User_club not found");
 
 
 
