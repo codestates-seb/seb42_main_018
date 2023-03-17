@@ -8,6 +8,7 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.oauth.repository.OAuthUserRepository;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -38,19 +39,21 @@ public class SecurityConfiguration {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AuthService authService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final OAuthUserRepository oauthUserRepository;
 
     @Value("${oauth.kakao.redirect-address}")
     String redirectAddress;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                                 UserRepository userRepository, UserMapper userMapper, AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfiguration(OAuth2UserSuccessHandler oAuth2UserSuccessHandler, JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
+                                 UserRepository userRepository, UserMapper userMapper,
+                                 AuthService authService, OAuthUserRepository oauthUserRepository) {
+        this.oAuth2UserSuccessHandler = oAuth2UserSuccessHandler;
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.authService = authService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.oauthUserRepository = oauthUserRepository;
     }
 
     @Bean
@@ -126,7 +129,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, oauthUserRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper));  // (3) 추가
