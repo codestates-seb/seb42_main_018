@@ -40,9 +40,11 @@ public class CommentController {
         Comment comment = commentMapper.commentPostDtoToComment(requestBody);
 
         Comment createdComment = commentService.createComment(comment, recordId);
-        URI location = UriCreator.createUri("/records/{record-id}/comments", createdComment.getCommentId());
 
-        return ResponseEntity.created(location).build();
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(createdComment)),
+                HttpStatus.CREATED);
     }
 
     @PatchMapping("/records/{record-id}/comments/{comment-id}")
@@ -66,7 +68,7 @@ public class CommentController {
                 new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(comment)), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/comments")
     public ResponseEntity getComments(@RequestParam("page") int page,
                                       @RequestParam("size") int size) {
         Page<Comment> pageComments = commentService.findComments(page - 1, size);

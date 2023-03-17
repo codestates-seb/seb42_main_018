@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.comment.repository.CommentRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import org.springframework.data.domain.Page;
@@ -30,8 +31,9 @@ public class CommentService {
     }
 
     public Comment createComment(Comment comment, Long recordId) {
-        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
-        recordService.findVerifiedRecord(recordId); // 경기 전적 확인
+//        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
+        Record record = recordService.findVerifiedRecord(recordId);// 경기 전적 확인
+        comment.setRecord(record);
 
         return commentRepository.save(comment);
     }

@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-#    username: root
-#    password : ${MYSQL_PASSWORD}
-    url: jdbc:mysql://database-somojeon.cji8sbuqsyk5.ap-northeast-2.rds.amazonaws.com:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-    username: admin
-    password: password!
+    url: jdbc:mysql://localhost:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    username: root
+    password : ${MYSQL_PASSWORD}
+#    url: jdbc:mysql://database-somojeon.cji8sbuqsyk5.ap-northeast-2.rds.amazonaws.com:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+#    username: admin
+#    password: password!
   jpa:
     hibernate:
       ddl-auto: update
@@ -50,3 +50,6 @@ jwt:
 mail:
   address:
     admin: ${ADMIN_MAIL}
+oauth:
+  kakao:
+    redirect-address: http://localhost:8080/login/oauth2/code/kakao

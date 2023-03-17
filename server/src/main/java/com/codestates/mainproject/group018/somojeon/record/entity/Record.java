@@ -28,6 +28,18 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recordId;
 
+    @Column(nullable = false)
+    private String firstTeam;
+
+    @Column(nullable = false)
+    private String secondTeam;
+
+    @Column(nullable = false)
+    private Integer firstTeamScore;
+
+    @Column(nullable = false)
+    private Integer secondTeamScore;
+
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
@@ -45,5 +57,16 @@ public class Record {
 
     @OneToMany(mappedBy = "record")
     private List<TeamRecord> teamRecords = new ArrayList<>();
+
+    public void addTeamRecord(TeamRecord teamRecord) {
+        this.teamRecords.add(teamRecord);
+        if (teamRecord.getRecord() != this) {
+            teamRecord.setRecord(this);
+        }
+    }
+
+    public void setTeamRecord(TeamRecord teamRecord) {
+        teamRecords.add(teamRecord);
+    }
 
 }

@@ -9,9 +9,10 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CategoryMapper {
-//    Category categoryPostDtoToCategory(CategoryDto.Post requestBody);
 
-//    List<CategoryDto.Response> categoryNameToCategoryResponseDtos(List<String> categoryName);
+    CategoryDto.Response categoryToCategoryResponseDto(Category category);
+
+    List<CategoryDto.Response> categoryToCategoryResponseDtos(List<Category> categories);
 
 
 }
