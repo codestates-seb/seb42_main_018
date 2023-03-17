@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.utils;
+package com.codestates.mainproject.group018.somojeon.utils.dummy;
 
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
