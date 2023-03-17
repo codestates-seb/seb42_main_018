@@ -4,31 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d2f50cb3-90a1-4b59-8417-c931a8583541" name="Changes" comment="">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment=" !HOTFIX user column 수정 및 그에 따른 DTO 수정">
+
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="✨ feat : auditable 클래스">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/dto/CandidateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/dto/CandidateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/entity/Candidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/entity/Candidate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/service/CandidateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/service/CandidateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/dto/CommentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/dto/CommentDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/controller/RecordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/controller/RecordController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/RecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/RecordDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/entity/Record.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/entity/Record.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/mapper/RecordMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/service/RecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/service/RecordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/entity/PlaceParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/entity/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/entity/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/controller/TeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/controller/TeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/dto/TeamDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/dto/TeamDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/entity/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/entity/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/entity/TeamRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/entity/TeamRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/mapper/TeamMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/mapper/TeamMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/service/TeamService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +56,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="JH/feat/kakao" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -85,34 +64,43 @@
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2N7U0Wnl5jGDCrMWboHXrvnW671" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="RunManager" selected="Gradle.server [build]">
   <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Git.Branch.Popup.ShowAllRemotes": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon\audit" />
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\java\com\codestates\mainproject\group018\somojeon" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018" />
+    </key>
+  </component>
   <component name="RunManager" selected="애플리케이션.SomojeonApplication">
-    <configuration name="Somojeon Server" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
-      <module name="somojeon.main" />
-      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=server" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
-      <module name="somojeon.main" />
+      <module name="com.codestates.mainproject.group018.somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=server" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
@@ -169,6 +157,8 @@
       <item itemvalue="Application.SomojeonApplication" />
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
+      <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
+      <item itemvalue="애플리케이션.SomojeonApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -186,20 +176,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678893498463</updated>
-    </task>
-    <task id="LOCAL-00026" summary="📦 chore : idea">
-      <created>1678366626118</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366626118</updated>
-    </task>
-    <task id="LOCAL-00027" summary="✨ feat : Schedule 구현">
-      <created>1678367310768</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1678367310768</updated>
     </task>
     <task id="LOCAL-00028" summary="♻️ refactor : commentservice update">
       <created>1678370946061</created>
@@ -530,7 +506,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678985730527</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="📦 chore 깃 이그노어 수정">
+      <created>1679019494163</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1679019494164</updated>
+    </task>
+    <task id="LOCAL-00076" summary="✨ feat : auditable 클래스">
+      <created>1679020584001</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1679020584001</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -557,8 +547,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : Record 구현" />
-    <MESSAGE value="✨ feat : Dto &amp; Utils" />
     <MESSAGE value=" chore : MapperImpl" />
     <MESSAGE value="✨ feat : yml 파일 생성" />
     <MESSAGE value=" chore : idea" />
@@ -582,7 +570,9 @@
     <MESSAGE value="✨ feat : 모든 도메인 허용" />
     <MESSAGE value="♻️ refactor : user login" />
     <MESSAGE value=" !HOTFIX user column 수정 및 그에 따른 DTO 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX user column 수정 및 그에 따른 DTO 수정" />
+    <MESSAGE value=" chore 깃 이그노어 수정" />
+    <MESSAGE value="✨ feat : auditable 클래스" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat : auditable 클래스" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -596,6 +586,16 @@
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/config/SecurityConfiguration.java</url>
           <line>81</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/SomojeonApplication.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/SomojeonApplication.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
