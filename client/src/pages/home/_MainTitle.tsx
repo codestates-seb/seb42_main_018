@@ -5,11 +5,10 @@ import { S_Title } from '../../components/UI/S_Text'
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
   padding: 20px 0px;
-  `
+`
 const S_TagBox = styled.div`
   // 카테고리 태그 박스
   margin-top: 10px;
-
 `
 const S_Category = styled.span`
   // 카테고리 목록
@@ -21,10 +20,8 @@ const S_Category = styled.span`
   font-size: 0.9rem;
   font-weight: 600;
 `
-export interface CategoryProps {
-  categoryName: string;
-}
 function MainTitle() {
+  // TODO: 카테고리 목록 받아오고, 클릭하면 해당 카테고리의 소모임만 보여주는 필터
   return (
     <S_TitleBox>
       <S_Title>어떤 소모임이 있을까요?</S_Title>

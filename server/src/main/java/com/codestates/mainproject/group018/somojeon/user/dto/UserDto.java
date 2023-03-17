@@ -41,10 +41,6 @@ public class UserDto {
 //        @Nullable
 //        String password;
 
-        @Nullable
-        int age;
-
-        int voteCount;
 
 
         @Nullable
@@ -63,14 +59,10 @@ public class UserDto {
         Long userId;
 
         @NotNull
-        String userName;
+        String nickName;
 
         @Email
         String email;
-
-
-        @Nullable
-        int age;
 
        User.UserStatus userStatus;
 

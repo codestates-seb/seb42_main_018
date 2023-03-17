@@ -25,6 +25,9 @@ const GlobalStyles = createGlobalStyle`
 
     --kakao-main-theme: #FEE500;
     --kakao-hover-theme: #FADA0A;
+
+    --naver-main-theme: #19CE60;
+    --naver-hover-theme: #1BC15C;
   }
 
   body {

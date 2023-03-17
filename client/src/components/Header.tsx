@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
+import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.div`
     height: 50px;
@@ -16,6 +17,7 @@ const HeaderContainer = styled.div`
 
     img {
         height: 28px;
+        margin-top: 6px;
         cursor: pointer;
     }
 `
@@ -31,9 +33,13 @@ const IconContainer = styled.div`
 function Header() {
     return (
         <HeaderContainer>
-            <img src={logo} alt="소모전 로고"/>
+            <Link to='/'>
+                <img src={logo} alt="소모전 로고"/>
+            </Link>
             <IconContainer>
+                {/* TODO : 클릭시 검색창 모달 열리게 */}
                 <img src={search} alt="검색 아이콘"/>
+                {/* TODO : 비로그인->로그인페이지, 로그인->마이페이지로 */}
                 <img src={mypage} alt="마이페이지 아이콘"/>
             </IconContainer>
         </HeaderContainer>

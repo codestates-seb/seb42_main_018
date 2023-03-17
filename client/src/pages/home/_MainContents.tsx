@@ -32,6 +32,7 @@ export interface CategoryProps {
 }
 
 function MainContents() {
+  // TODO : 페이지네이션 기능 추가
   // TODO : data는 추후 axios로 get 요청
   const data:ClubProps[] = [
     {
@@ -109,21 +110,21 @@ function MainContents() {
         private: false
     }]
   return (
-    <>
+    <div>
     <MainTitle />
-        {data.map((e) => 
-                <ClubList 
-                    key={e.clubId}
-                    clubName={e.clubName}
-                    clubImg={e.clubImg}
-                    content={e.content} 
-                    local={e.local}
-                    categoryName={e.categoryName} 
-                    memberCount={e.memberCount}
-                    tagResponseDtos={e.tagResponseDtos}
-                />
-            )}
-            </>
+      {data.map((e) => 
+        <ClubList 
+          key={e.clubId}
+          clubName={e.clubName}
+          clubImg={e.clubImg}
+          content={e.content} 
+          local={e.local}
+          categoryName={e.categoryName} 
+          memberCount={e.memberCount}
+          tagResponseDtos={e.tagResponseDtos}
+        />
+      )}
+    </div>
   )
 }
 

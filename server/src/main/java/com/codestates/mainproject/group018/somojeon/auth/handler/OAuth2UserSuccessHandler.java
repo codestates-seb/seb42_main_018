@@ -72,7 +72,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                          ,String registration, String registrationId, boolean home) throws IOException, IOException {
         String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = home ? "" : "/signup";
+        String path = home ? "" : "register";
         String uri =  createURI(accessToken, refreshToken, path).toString()
                            ;
 
@@ -113,7 +113,6 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .newInstance()
                 .scheme("https")
                 .host("dev-somojeon.vercel.app")
-                .port(8080)
                 .path(path)
                 .queryParams(queryParams)
                 .build()
