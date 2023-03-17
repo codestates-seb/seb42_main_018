@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import KakaoMapSearch, { PlaceType } from '../../../components/kakao/KakaoMapSearch';
 import KakaoMapView from '../../../components/kakao/KakaoMapView';
@@ -97,9 +97,6 @@ function CreateMatch() {
 
   const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, members: [] }]);
   const [records, setRecords] = useState<Record[]>([]);
-  // const records:Record[] = [];
-
-  
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
@@ -213,14 +210,9 @@ function CreateMatch() {
                   <S_Text style={{ margin: '0' }}>{idx + 1}팀</S_Text>
                   <div
                     style={{
-                      // display: 'flex',
                       flexGrow: 1,
-                      // gridTemplateColumns: `repeat(5, 1fr)`,
-                      // rowGap: '3px',
-                      // gridAutoRows: '27px',
                       border: 'none',
                       width: '60%',
-                      // height: 'auto',
                       marginLeft: '3px',
                       paddingLeft: '1px',
                       marginBottom: '3px'
