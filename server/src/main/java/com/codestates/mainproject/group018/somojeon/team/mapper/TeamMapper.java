@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TeamMapper {
+    Team teamPostDtoToTeam(TeamDto.Post requestBody);
+    Team teamPatchDtoToTeam(TeamDto.Patch requestBody);
     TeamDto.Response teamToTeamResponseDto(Team team);
     List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teams);
 }

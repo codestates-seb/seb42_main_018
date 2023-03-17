@@ -3,11 +3,11 @@
 // <S_Input type="date" />
 // <S_Input type="time"/>
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S_Input = styled.input`
-
   border: none;
+  width: 96%;
   height: 40px;
   padding: 0px 10px;
   margin: 0px 10px 10px 0px;
@@ -18,8 +18,8 @@ export const S_Input = styled.input`
   :focus {
     outline: 1px solid var(--blue300);
   }
-  
+
   ::placeholder {
     color: var(--gray300);
   }
-`
+`;

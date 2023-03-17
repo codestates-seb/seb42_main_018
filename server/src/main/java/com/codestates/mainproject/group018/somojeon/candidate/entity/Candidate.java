@@ -22,7 +22,7 @@ public class Candidate {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    Attendance attendance = Attendance.ATTEND;
+    Attendance attendance = Attendance.HOLD;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")

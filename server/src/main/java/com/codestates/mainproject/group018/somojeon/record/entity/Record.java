@@ -46,4 +46,15 @@ public class Record {
     @OneToMany(mappedBy = "record")
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
+    public void addTeamRecord(TeamRecord teamRecord) {
+        this.teamRecords.add(teamRecord);
+        if (teamRecord.getRecord() != this) {
+            teamRecord.setRecord(this);
+        }
+    }
+
+    public void setTeamRecord(TeamRecord teamRecord) {
+        teamRecords.add(teamRecord);
+    }
+
 }
