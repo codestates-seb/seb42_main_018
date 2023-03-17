@@ -12,7 +12,8 @@ import {
   S_NegativeButton
 } from '../../../components/UI/S_Button';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
-import { S_Tag, S_GridTag } from '../../../components/UI/S_Tag';
+import { S_NameTag } from '../../../components/UI/S_Tag';
+// import { StyledSelect } from '../../../components/UI/S_Select';
 import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 
 import { useForm } from "react-hook-form";
@@ -60,7 +61,7 @@ export interface Record {
   secondTeamScore: number;
 }
 
-export interface Datas {
+export interface MatchDatas {
   schedule: {
       date: string | undefined;
       time: string | undefined;
@@ -83,13 +84,13 @@ function CreateMatch() {
     getValues,
 } = useForm({ mode: "onChange" });
 
-  const [datas, setDatas] = useState<Datas>();
+  const [matchDatas, setMatchDatas] = useState<MatchDatas>();
 
   const [date, setDate] = useState<string>();
   const [time, setTime] = useState<string>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
-  const candidates: string[] = ['박대운', '우제훈', '김은택', '김아애', '문채리', '전규언전'];
+  const candidates: string[] = ['박대운', '우제훈', '김은택', '김아애', '문채리', '전규언전규언전규','박대운2', '우제훈2', '김은택2', '김아애2', '문채리2', '전규언전'];
   
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates);
@@ -100,11 +101,12 @@ function CreateMatch() {
 
   
 
-  const [isOpenMapSetting, setIsOpenMapSetting] = useState<boolean>(false);
-  const [isOpenMapView, setIsOpenMapView] = useState<boolean>(false);
+  const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
+  const [isOpenMapView, setIsOpenMapView] = useState(false);
 
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
   const [addButtonIndex, setAddButtonIndex] = useState(0);
+  const [addButtonPos, setAddButtonPos] = useState([0,0]);
 
   const setRequestDatas = (date:string|undefined, time:string|undefined, place:PlaceType|undefined, candidates:string[], teams:TeamList[], records:Record[]) => {
     const datas = {
@@ -122,7 +124,7 @@ function CreateMatch() {
       records: records.length !== 0 ? records : []
     }
     console.log(datas)
-    setDatas(datas);
+    setMatchDatas(datas);
   }
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,8 +167,8 @@ function CreateMatch() {
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>장소</S_Label>
         <S_Input type='text' value={placeValue?.place_name} readOnly />
-        <S_SelectButton onClick={mapSettingModalHandler}>지도설정</S_SelectButton>
-        <S_SelectButton onClick={mapViewModalHandler}>지도보기</S_SelectButton>
+        <S_SelectButton onClick={mapSettingModalHandler} style={{width: "auto"}}>지도설정</S_SelectButton>
+        <S_SelectButton onClick={mapViewModalHandler} style={{width: "auto"}}>지도보기</S_SelectButton>
         {isOpenMapSetting && (
           <S_MapBackdrop onClick={mapSettingModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
@@ -190,35 +192,42 @@ function CreateMatch() {
         <S_Description>
           경기를 등록하면 경기정보 페이지에서 참석/불참을 선택할 수 있어요.
         </S_Description>
-        <S_Description>참석을 선택한 멤버는 자동으로 등록됩니다. </S_Description>
+        <S_Description>
+          참석을 선택한 멤버는 자동으로 등록됩니다. 
+          <S_EditButton style={{padding:"0 7px",float:"right"}}>추가</S_EditButton>
+        </S_Description>
+        
+        <div>
         {candidates &&
           candidates.map((member, idx) => {
-            return <S_Tag key={idx}>{member}</S_Tag>;
+            return <S_NameTag key={idx}>{member}</S_NameTag>;
           })}
-        <S_EditButton>추가</S_EditButton>
+        </div>
       </div>
-      <div style={{ position: 'relative', marginTop: '15px', marginBottom: '15px' }}>
+      <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
         {teamList &&
           teamList.map((team, idx) => {
             return (
-                <div key={team.id} style={{ display: 'flex', alignItems: 'center' }}>
+                <div key={team.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <S_Text style={{ margin: '0' }}>{idx + 1}팀</S_Text>
                   <div
                     style={{
-                      display: 'grid',
-                      gridTemplateColumns: `repeat(5, 1fr)`,
-                      rowGap: '3px',
-                      gridAutoRows: '27px',
+                      // display: 'flex',
+                      flexGrow: 1,
+                      // gridTemplateColumns: `repeat(5, 1fr)`,
+                      // rowGap: '3px',
+                      // gridAutoRows: '27px',
                       border: 'none',
-                      width: '350px',
+                      width: '60%',
+                      // height: 'auto',
                       marginLeft: '3px',
                       paddingLeft: '1px',
                       marginBottom: '3px'
                     }}
                   >
                     {teamList[idx].members.map((member, memberIdx) => (
-                      <S_GridTag
+                      <S_NameTag
                         key={team.id++}
                         onClick={() => {
                           const copied = [...teamList];
@@ -228,65 +237,70 @@ function CreateMatch() {
                         }}
                       >
                         {member}&times;
-                      </S_GridTag>
+                      </S_NameTag>
                     ))}
                   </div>
-                  <S_EditButton
-                    onClick={() => {
-                      if (!candidateList.length) {
-                        return;
-                      }
-                      if (addButtonIndex !== idx) {
-                        console.log(idx);
-                        setAddButtonIndex(idx);
-                        setIsOpenAddMember(false);
-                        setIsOpenAddMember(true);
-                      } else {
-                        setAddButtonIndex(idx);
-                        openAddMemberHandler();
-                      }
-                    }}
-                  >
-                    추가
-                    {/* {isOpenAddMember ? "확인" : "추가"} */}
-                  </S_EditButton>
-                  <S_NegativeButton
-                    onClick={() => {
-                      if (teamList.length === 1) {
-                        setCandidateList(candidates);
-                        setTeamList([
-                          {
-                            id: 0,
-                            members: []
-                          }
-                        ]);
-                        return;
-                      } else {
-                        const deleted = [...teamList];
-                        const deletedTeam = deleted.splice(idx, 1);
-                        console.log(deletedTeam);
-                        setCandidateList([...candidateList, ...deletedTeam[0].members]);
-                        setTeamList(deleted);
-                        setIsOpenAddMember(false);
-                      }
-                    }}
-                  >
-                    삭제
-                  </S_NegativeButton>
+                  <div style={{height:"100%"}}>
+                    <S_EditButton
+                      onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                        if (!candidateList.length) {
+                          return;
+                        }
+                        if (addButtonIndex !== idx) {
+                          console.log(idx);
+                          setAddButtonIndex(idx);
+                          setIsOpenAddMember(false);
+                          setIsOpenAddMember(true);
+                        } else {
+                          setAddButtonIndex(idx);
+                          openAddMemberHandler();
+                        }
+                        setAddButtonPos([e.nativeEvent.x, e.nativeEvent.pageY])
+                        console.log(e.nativeEvent.x, e.nativeEvent.pageY);
+                      }}
+                    >
+                      추가
+                      {/* {isOpenAddMember ? "확인" : "추가"} */}
+                    </S_EditButton>
+                    <S_NegativeButton
+                      onClick={() => {
+                        if (teamList.length === 1) {
+                          setCandidateList(candidates);
+                          setTeamList([
+                            {
+                              id: 0,
+                              members: []
+                            }
+                          ]);
+                          return;
+                        } else {
+                          const deleted = [...teamList];
+                          const deletedTeam = deleted.splice(idx, 1);
+                          console.log(deletedTeam);
+                          setCandidateList([...candidateList, ...deletedTeam[0].members]);
+                          setTeamList(deleted);
+                          setIsOpenAddMember(false);
+                        }
+                      }}
+                      >
+                      삭제
+                    </S_NegativeButton>
+                  </div>
                 </div>
             );
           })}
-        {isOpenAddMember && (
-          <AddMemberPopUp
-            top={(addButtonIndex + 1) * 32}
-            candidateList={candidateList}
-            setCandidateList={setCandidateList}
-            idx={addButtonIndex}
-            setTeamList={setTeamList}
-            teamList={teamList}
-            setIsOpenAddMember={setIsOpenAddMember}
-          />
-        )}
+          {isOpenAddMember && (
+                      <AddMemberPopUp
+                        top={addButtonPos[1]}
+                        left={addButtonPos[0]}
+                        candidateList={candidateList}
+                        setCandidateList={setCandidateList}
+                        idx={addButtonIndex}
+                        setTeamList={setTeamList}
+                        teamList={teamList}
+                        setIsOpenAddMember={setIsOpenAddMember}
+                      />
+                    )}
         <S_ButtonGray
           onClick={() => {
             const newTeam = {
@@ -307,6 +321,7 @@ function CreateMatch() {
             return (
               <div key={record.id} style={{display:'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <span>{idx + 1}경기</span>
+                
                 <select {...register(`${record.id}.firstTeam`)}>
                   {teamList &&
                     teamList.map((team, idx) => {
@@ -350,7 +365,7 @@ function CreateMatch() {
             setRecords([...records, newRecord]);
           }}
         >
-          경기 결과 목록 추가+
+          전적 목록 추가+
         </S_ButtonGray>
       </div>
       <div>
