@@ -26,7 +26,7 @@ public class CandidateService {
     }
 
     public Candidate createCandidate(Candidate candidate) {
-        userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
+//        userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
 
         return candidateRepository.save(candidate);
     }
