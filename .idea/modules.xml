@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/seb42_main_018.iml" filepath="$PROJECT_DIR$/.idea/seb42_main_018.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.iml" filepath="$PROJECT_DIR$/.idea/modules/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/somojeon.iml" filepath="$PROJECT_DIR$/.idea/modules/somojeon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/somojeon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/somojeon.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/somojeon.test.iml" filepath="$PROJECT_DIR$/.idea/modules/somojeon.test.iml" />
     </modules>
   </component>
 </project>

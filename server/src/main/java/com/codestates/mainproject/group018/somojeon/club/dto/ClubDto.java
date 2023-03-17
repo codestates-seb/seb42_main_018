@@ -20,9 +20,8 @@ public class ClubDto {
     @AllArgsConstructor
     public static class Post {
 
-        @NotBlank(message = "소모임 이름은 공백이 아니여야 합니다.")
-        @Pattern(regexp = "^[가-힣]*$",
-                message = "카테고리 이름은 특수문자를 사용할 수 없습니다.")
+        @Pattern(regexp = "^[ㄱ-ㅎ가-힣0-9\\s]*$",
+                message = "클럽 이름은 특수문자를 사용할 수 없습니다.")
         private String clubName;
 
         private String content;
@@ -49,9 +48,8 @@ public class ClubDto {
 
         private Long clubId;
 
-        @NotBlank(message = "소모임 이름은 공백이 아니여야 합니다.")
-        @Pattern(regexp = "^[가-힣]*$",
-                message = "카테고리 이름은 특수문자를 사용할 수 없습니다.")
+        @Pattern(regexp = "^[ㄱ-ㅎ가-힣0-9\\s]*$",
+                message = "클럽 이름은 특수문자를 사용할 수 없습니다.")
         private String clubName;
 
         private String content;
@@ -80,25 +78,9 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
-        private List<TagDto.Response> tagList;
-        private boolean isPrivate;
-        private LocalDateTime modifiedAt;
-
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class GetResponse {
-        private Long clubId;
-        private String clubName;
-        private String content;
-        private String local;
-        private String categoryName;
         private int viewCount;
         private int memberCount;
-        private List<TagDto.Response> tagList;
+        private List<TagDto.Response> tagResponseDtos;
         private boolean isPrivate;
         private LocalDateTime modifiedAt;
 
