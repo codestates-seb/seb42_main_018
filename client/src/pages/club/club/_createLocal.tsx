@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
 import { CreateCategoryProps } from './_createCategory';
 import { S_Label } from '../../../components/UI/S_Text';
-import { S_Select } from '../../../components/UI/S_Select';
+import { StyledSelect } from '../../../components/UI/S_Select';
 
 interface DistrictType {
   code: string;
@@ -27,14 +27,6 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
     name: div.name
   }));
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.name === 'division') {
-      setDivisionSelectValue(e.target.value);
-    } else if (e.target.name === 'district') {
-      setDistrictSelectValue(e.target.value);
-    }
-  };
-
   const [districtList, setDistrictList] = useState<DistrictType[]>([]);
   useEffect(() => {
     if (divisionSelectValue) {
@@ -57,22 +49,28 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
     }
   }, [divisionSelectValue, districtSelectValue]);
 
-  // console.log(districtList);
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.name === 'division') {
+      setDivisionSelectValue(e.target.value);
+    } else if (e.target.name === 'district') {
+      setDistrictSelectValue(e.target.value);
+    }
+  };
 
   return (
     <div>
       <label htmlFor='local'>
         <S_Label>지역 *</S_Label>
       </label>
-      <select id='local' name='division' onChange={handleSelectChange}>
+      <StyledSelect id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
         {divisionList.map((d) => (
           <option key={d.code} value={d.code}>
             {d.name}
           </option>
         ))}
-      </select>
-      <select id='local' name='district' onChange={handleSelectChange}>
+      </StyledSelect>
+      <StyledSelect id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
         {districtList &&
           districtList.map((d) => (
@@ -80,7 +78,7 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
               {d.name}
             </option>
           ))}
-      </select>
+      </StyledSelect>
     </div>
   );
 }

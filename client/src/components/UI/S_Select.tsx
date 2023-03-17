@@ -1,8 +1,7 @@
 // select 컴포넌트
 import styled from 'styled-components';
-import { cacheMatchIgnoreParams } from 'workbox-core/_private';
 
-const StyledSelect = styled.select`
+export const StyledSelect = styled.select`
   border: none;
   width: 40%;
   height: 50%;
@@ -16,24 +15,23 @@ const StyledSelect = styled.select`
 interface S_SelectProps {
   id?: string;
   name?: string;
-  //! any 타입 해결 : children이 두 개 이상의 요소일 때
-  // children?: React.PropsWithChildren<HTMLOptionElement>;
-  children?: React.ReactNodeArray;
+  //! TODO: children에 맞는 타입 지정 못함: any 해결해야 함
+  children?: any;
+  // children?: React.PropsWithChildren<HTMLOptionElement>; //? children이 두 개 이상의 요소일 때
+  // children?: React.ReactNodeArray; //? 시/도 셀렉트 박스 선택해도 시/군/구에 필터링 데이터 안 들어옴
+  // children?: React.ReactElement[] | React.ReactNode; // 마찬가지로 2번째 박스 못 불러옴
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export function S_Select({ children, onChange }: S_SelectProps) {
-  // console.log(children);
-  // console.log(children[1]);
-  // console.log(children[1][3]);
   return (
     <StyledSelect onChange={onChange}>
-      {children}
-      {/* <option value={''}>옵션을 선택해주세요</option>
+      {/* {children} */}
+      <option value={''}>옵션을 선택해주세요</option>
       <option value={'선택1'}>선택 1</option>
       <option value={'선택2'}>선택 2</option>
       <option value={'선택3'}>선택 4</option>
-      <option value={'선택5'}>선택 4</option> */}
+      <option value={'선택5'}>선택 4</option>
     </StyledSelect>
   );
 }
