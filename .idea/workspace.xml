@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="✨ feat : auditable 클래스">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/audit/Auditable.java" afterDir="false" />
     </list>
-    <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$/server">
-      <ProjectState />
-    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
@@ -76,6 +71,7 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="RunManager" selected="Gradle.server [build]">
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -157,23 +153,8 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="SomojeonApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="somojeon.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.codestates.mainproject.group018.somojeon" />
-      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplicationTests" />
-      <option name="METHOD_NAME" value="contextLoads" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
+      <item itemvalue="Application.SomojeonApplication" />
       <item itemvalue="Gradle.server [clean]" />
       <item itemvalue="Gradle.server [build]" />
       <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
@@ -181,14 +162,12 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="Application.SomojeonApplication" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
-        <item itemvalue="JUnit.SomojeonApplicationTests.contextLoads" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
@@ -549,7 +528,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="ET/feat/feat" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
