@@ -36,9 +36,8 @@ const S_MapView = styled.div`
   flex-direction: column;
   background-color: white;
   width: 300px;
-  height: 300px;
+  height: 320px;
   border-radius: 20px;
-  justify-content: center;
   padding: 20px;
   section {
     width: 260px;
@@ -86,7 +85,7 @@ function CreateMatch() {
 
   const [matchDatas, setMatchDatas] = useState<MatchDatas>();
 
-  const [date, setDate] = useState<string>();
+  const [date, setDate] = useState<string>(new Date().toISOString().slice(0,10));
   const [time, setTime] = useState<string>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
@@ -248,7 +247,6 @@ function CreateMatch() {
                           openAddMemberHandler();
                         }
                         setAddButtonPos([e.nativeEvent.x, e.nativeEvent.pageY])
-                        console.log(e.nativeEvent.x, e.nativeEvent.pageY);
                       }}
                     >
                       추가
