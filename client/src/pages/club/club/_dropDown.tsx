@@ -16,6 +16,7 @@ const S_DropDownContainer = styled.ul`
   margin-inline-end: 0px;
   padding-inline-start: 0px;
   margin-top: -1px;
+  margin-bottom: 10px;
   padding: 0.5rem 0;
   border-radius: 0 0 5px 5px;
   z-index: 3;

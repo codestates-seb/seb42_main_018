@@ -6,6 +6,7 @@ import { S_Tag } from '../../../components/UI/S_Tag';
 
 const S_TagWrapper = styled.ul`
   display: flex;
+  margin-bottom: 10px;
 `;
 
 interface CreateTagProps {
