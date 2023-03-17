@@ -15,6 +15,7 @@ public class CandidateDto {
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
 
