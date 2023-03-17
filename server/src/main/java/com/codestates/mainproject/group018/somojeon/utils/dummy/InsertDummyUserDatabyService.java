@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Slf4j
-@Profile("dummy-insert") // dummy` 프로파일이 활성화 될 경우에만 실행된다.
+@Profile("dummy-insert") // dummy-insert 프로파일이 활성화 될 경우에만 실행된다.
 @Component
 class InsertDummyUserDatabyService {
     @Autowired
