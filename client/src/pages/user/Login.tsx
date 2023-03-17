@@ -4,20 +4,9 @@ import { S_Button } from '../../components/UI/S_Button';
 import { postFetch } from '../../API_TEST';
 
 function Login() {
-  // * GET 요청 관련 로직
-  const getFetch = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const KAKAO_LOGIN_URL = 'https://dev.somojeon.site/oauth2/authorization/kakao';
   const handleKakaoLogin = async () => {
-    const res = await getFetch(KAKAO_LOGIN_URL);
-    console.log('카카오톡 로그인 응답 : ', res);
+    return window.location.assign(KAKAO_LOGIN_URL);
   };
 
   // * POST 요청 관련 로직
@@ -43,7 +32,7 @@ function Login() {
         카카오톡 로그인
       </S_Button>
       <form onSubmit={onSubmit}>
-        <S_Button>일반 회원가입</S_Button>
+        <S_Button>일반 로그인하기</S_Button>
       </form>
     </S_Container>
   );

@@ -4,6 +4,8 @@ import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
+import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
+import com.codestates.mainproject.group018.somojeon.dto.ClubCategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
@@ -34,7 +36,7 @@ public class ClubController {
 
     // 소모임 생성
     @PostMapping
-    public ResponseEntity postClub(@Valid @RequestBody ClubDto.Post requestBody) {
+    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
         Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
         URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
@@ -44,7 +46,7 @@ public class ClubController {
 
     // 소모임 수정 (소개글, 이미지 등)
     @PatchMapping("/{club-id}")
-    public ResponseEntity patchClub(@PathVariable("club-id") @Positive Long clubId,
+    public ResponseEntity<?> patchClub(@PathVariable("club-id") @Positive Long clubId,
                                     @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
@@ -52,41 +54,54 @@ public class ClubController {
                 mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.clubToClubResponseDto(response)), HttpStatus.OK);
+                new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
     }
 
     // 퍼블릭 소모임 단건 조회
     @GetMapping("/{club-id}")
-    public ResponseEntity getPublicClub(@PathVariable("club-id") @Positive Long clubId) {
+    public ResponseEntity<?> getClub(@PathVariable("club-id") @Positive Long clubId) {
 
-        Club findClub = clubService.findPublicClub(clubId);
+        Club findClub = clubService.findClub(clubId);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.clubToClubGetResponseDto(findClub)), HttpStatus.OK);
+                new SingleResponseDto<>(mapper.clubToClubResponse(findClub)), HttpStatus.OK);
     }
 
     // 퍼블릭 소모임 전체 조회
     @GetMapping
-    public ResponseEntity getPublicClubs(@RequestParam(defaultValue = "1") int page,
+    public ResponseEntity<?> getClubs(@RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "10") int size) {
 
-        Page<Club> clubPage = clubService.findPublicClubs(page - 1, size);
+        Page<Club> clubPage = clubService.findClubs(page - 1, size);
         List<Club> content = clubPage.getContent();
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubToClubGetResponseDtos(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 키워드로 퍼블릭 소모임 찾기
     @GetMapping("/search")
-    public ResponseEntity searchPublicClubs(@RequestParam(defaultValue = "1") int page,
+    public ResponseEntity<?> searchClubs(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size,
                                      @RequestParam String keyword) {
 
-        Page<Club> clubPage = clubService.searchPublicClubs(page - 1, size, keyword);
+        Page<Club> clubPage = clubService.searchClubs(page - 1, size, keyword);
         List<Club> content = clubPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.clubToClubGetResponseDtos(content), clubPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
+    }
+
+    // 카테고리별로 소모임 조회
+    @GetMapping("/categories")
+    public ResponseEntity<?> getClubsByCategoryName(@RequestParam("categoryName") String categoryName,
+                                                    @RequestParam(defaultValue = "1") int page,
+                                                    @RequestParam(defaultValue = "10") int size) {
+        Page<Club> clubPage = clubService.findClubsByCategoryName(categoryName, page - 1, size);
+        List<Club> content = clubPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(
+                        mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
     // 소모임 삭제

@@ -39,3 +39,6 @@ jwt:
 mail:
   address:
     admin: ${ADMIN_MAIL}
+oauth:
+  kakao:
+    redirect-address: http://localhost:8080/login/oauth2/code/kakao

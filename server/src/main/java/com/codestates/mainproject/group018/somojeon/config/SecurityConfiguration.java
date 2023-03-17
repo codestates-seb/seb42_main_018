@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-
+import org.springframework.beans.factory.annotation.Value;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -42,6 +42,9 @@ public class SecurityConfiguration {
     private final UserMapper userMapper;
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${oauth.kakao.redirect-address}")
+    String redirectAddress;
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
                                  UserRepository userRepository, UserMapper userMapper, AuthService authService, JwtTokenProvider jwtTokenProvider) {
@@ -111,7 +114,7 @@ public class SecurityConfiguration {
                 .clientId("cc9eb581caf2361034da01b9c99c75dd")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 // TODO - JH dev와 아닐 경우의 리다이렉트 uri 수정해야함
-                .redirectUri("https://dev.somojeon.site/login/oauth2/code/kakao")
+                .redirectUri(redirectAddress)
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")

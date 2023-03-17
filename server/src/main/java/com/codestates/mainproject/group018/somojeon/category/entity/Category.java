@@ -24,7 +24,7 @@ public class Category {
     // 리스트로 미리 넣어놓는다.
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category")
     private List<Club> clubList = new ArrayList<>();
 
     public Category(String categoryName) {

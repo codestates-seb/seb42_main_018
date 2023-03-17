@@ -79,7 +79,6 @@ public class UserController {
                 1L,
                 "mockUser",
                 "mock@email.com",
-                20,
                 User.UserStatus.USER_ACTIVE);
 
         response.setUserId(userId);
