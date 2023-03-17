@@ -28,6 +28,15 @@ public class ScheduleService {
     public Schedule updateSchedule(Schedule schedule) {
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
+        Optional.ofNullable(schedule.getDate())
+                .ifPresent(findSchedule::setDate);
+        Optional.ofNullable(schedule.getPlaceName())
+                .ifPresent(findSchedule::setPlaceName);
+        Optional.ofNullable(schedule.getLongitude())
+                .ifPresent(findSchedule::setLongitude);
+        Optional.ofNullable(schedule.getLatitude())
+                .ifPresent(findSchedule::setLatitude);
+
         return scheduleRepository.save(findSchedule);
     }
 
