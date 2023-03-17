@@ -2,15 +2,13 @@ package com.codestates.mainproject.group018.somojeon.schedule.dto;
 
 import com.codestates.mainproject.group018.somojeon.candidate.dto.CandidateDto;
 import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ScheduleDto {
@@ -19,8 +17,13 @@ public class ScheduleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
+
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
+
+        @DateTimeFormat(pattern = "HH:mm:ss")
+        private LocalTime time;
+
         private String placeName;
         private Double longitude;
         private Double latitude;
@@ -34,6 +37,10 @@ public class ScheduleDto {
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
+
+        @DateTimeFormat(pattern = "HH:mm:ss")
+        private LocalTime time;
+
         private String placeName;
         private Double longitude;
         private Double latitude;
@@ -45,13 +52,15 @@ public class ScheduleDto {
 
     @Getter
     @Setter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
         private Long scheduleId;
-        private Long clubId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
+        @DateTimeFormat(pattern = "HH:mm:ss")
+        private LocalTime time;
         private LocalDateTime createdAt;
         private String placeName;
         private Double longitude;
