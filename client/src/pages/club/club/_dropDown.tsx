@@ -33,14 +33,14 @@ const S_DropDownContainer = styled.ul`
 
 interface DropDownProps {
   currentOption: number;
-  options: Array<string>;
+  options: string[];
   handleComboBox: HandleDropDownClick;
 }
 
 function DropDown({ currentOption, options, handleComboBox }: DropDownProps) {
   return (
     <S_DropDownContainer>
-      {options.map((item: string, idx: number) => {
+      {options.map((item, idx) => {
         return (
           <li
             role='presentation'

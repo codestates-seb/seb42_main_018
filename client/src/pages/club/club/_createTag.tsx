@@ -10,7 +10,7 @@ const S_TagWrapper = styled.ul`
 `;
 
 interface CreateTagProps {
-  tags: string[] | undefined;
+  tags: string[];
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
@@ -28,9 +28,9 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
       setInputValue('');
     }
   };
-  const removeTags = (indexToRemove: number): void => {
+  const removeTags = (indexToRemove: number) => {
     if (tags !== undefined) {
-      setTags(tags.filter((el: string, idx: number): boolean => idx !== indexToRemove));
+      setTags(tags.filter((el, idx) => idx !== indexToRemove));
     }
   };
 
@@ -63,7 +63,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
       />
       <S_TagWrapper>
         {tags &&
-          tags.map((tag: string, index: number) => (
+          tags.map((tag, index) => (
             <li
               role='presentation'
               key={tag}

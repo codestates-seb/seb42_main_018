@@ -54,7 +54,7 @@ export interface clubType {
 }
 
 function CreateClub() {
-  const [tags, setTags] = useState<Array<string>>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
 
@@ -101,11 +101,6 @@ function CreateClub() {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
-
-    //! tagName: [null] 로 수정 -> type error
-    // if (tags.length === 0) {
-    //   setTags([null]);
-    // }
 
     const newData: clubType = {
       ...inputs,
