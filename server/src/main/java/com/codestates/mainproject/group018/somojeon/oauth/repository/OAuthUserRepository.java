@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface OAuthUserRepository extends JpaRepository<OAuthUser, Long> {
     Optional<OAuthUser> findByRegistrationAndRegistrationId(String registration, Long registrationId);
 
-    @Query("SELECT o FROM OAuthUser o INNER JOIN o.user user WHERE user.email =: email")
+    @Query("SELECT o FROM OAuthUser o INNER JOIN o.user user WHERE user.email =:email")
     Optional<OAuthUser> findByUserEmail(@Param("email")String email);
 }
