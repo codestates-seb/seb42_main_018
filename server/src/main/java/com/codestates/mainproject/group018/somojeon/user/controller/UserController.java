@@ -67,19 +67,14 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
                                     HttpServletRequest request){
 
-//        User findUser =
-//                userService.findUser(userId);
-//
+        User findUser =
+                userService.findUser(userId);
+
 //        UserDto.Response  response = (userService.verifyMyUserId(request, userId) || Checker.checkAdmin()) ?
 //                mapper.userToUserResponse(findUser):
 //                mapper.userToUserResponseForPublic(findUser);
 
-        // TODO MOCKING
-        UserDto.Response response = new UserDto.Response(
-                1L,
-                "mockUser",
-                "mock@email.com",
-                User.UserStatus.USER_ACTIVE);
+        UserDto.Response  response =mapper.userToUserResponse(findUser);
 
         response.setUserId(userId);
 
@@ -110,7 +105,7 @@ public class UserController {
     @DeleteMapping("/{user-id}")
     public ResponseEntity deleteUser(@PathVariable("user-id") @Positive long userId,
                                        HttpServletRequest request){
-//        userService.deleteUser(userId);
+        userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

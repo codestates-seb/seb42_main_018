@@ -32,26 +32,26 @@ public class RecordController {
         this.recordMapper = recordMapper;
     }
 
-//    @PostMapping
-//    public ResponseEntity postRecord(@Valid @RequestBody RecordDto.Post requestBody) {
-//        Record record = recordMapper.recordPostDtoToRecord(requestBody);
-//
-//        Record createdRecord = recordService.createRecord(record);
-//        URI location = UriCreator.createUri("/records", createdRecord.getRecordId());
-//
-//        return ResponseEntity.created(location).build();
-//    }
-//
-//    @PatchMapping("/{record-id}")
-//    public ResponseEntity patchRecord(@PathVariable("record-id") @Positive long recordId,
-//                                      @Valid @RequestBody RecordDto.Patch requestBody) {
-//        requestBody.addRecordId(recordId);
-//
-//        Record record = recordService.updateRecord(recordMapper.recordPatchDtoToRecord(requestBody));
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record)), HttpStatus.OK);
-//    }
+    @PostMapping
+    public ResponseEntity postRecord(@Valid @RequestBody RecordDto.Post requestBody) {
+        Record record = recordMapper.recordPostDtoToRecord(requestBody);
+
+        Record createdRecord = recordService.createRecord(record);
+        URI location = UriCreator.createUri("/records", createdRecord.getRecordId());
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @PatchMapping("/{record-id}")
+    public ResponseEntity patchRecord(@PathVariable("record-id") @Positive long recordId,
+                                      @Valid @RequestBody RecordDto.Patch requestBody) {
+        requestBody.addRecordId(recordId);
+
+        Record record = recordService.updateRecord(recordMapper.recordPatchDtoToRecord(requestBody));
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record)), HttpStatus.OK);
+    }
 
     @GetMapping("/{record-id}")
     public ResponseEntity getRecord(@PathVariable("record-id") @Positive long recordId) {

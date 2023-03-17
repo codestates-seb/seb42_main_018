@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.user.entity;
 
+import com.codestates.mainproject.group018.somojeon.audit.Auditable;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
@@ -22,7 +23,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
@@ -32,10 +33,6 @@ public class User {
 
     @Column(nullable = false)
     private String nickName;
-
-
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

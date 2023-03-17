@@ -21,6 +21,16 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
+    public Team createTeam(Team team) {
+        return teamRepository.save(team);
+    }
+
+    public Team updateTeam(Team team) {
+        Team findTeam = findVerifiedTeam(team.getTeamId());
+
+        return teamRepository.save(findTeam);
+    }
+
     public Team findTeam(long teamId) {
         return findVerifiedTeam(teamId);
     }
