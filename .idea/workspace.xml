@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment="♻️ refactor : user login">
+    <list default="true" id="f4f79c5a-c8b4-446c-9ce9-97f629a36632" name="변경" comment=" !HOTFIX user column 수정 및 그에 따른 DTO 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" afterDir="false" />
     </list>
     <list id="60985c79-ed47-4118-84ed-25c9fd4bce7a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -70,13 +68,20 @@
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
   </component>
+  <component name="ProjectId" id="2N7U0Wnl5jGDCrMWboHXrvnW671" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="애플리케이션.Somojeon Server">
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="애플리케이션.SomojeonApplication">
     <configuration name="Somojeon Server" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -183,13 +188,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678893498463</updated>
-    </task>
-    <task id="LOCAL-00025" summary="✨ feat : yml 파일 생성">
-      <created>1678366610172</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1678366610172</updated>
     </task>
     <task id="LOCAL-00026" summary="📦 chore : idea">
       <created>1678366626118</created>
@@ -527,7 +525,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678985436754</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary=" !HOTFIX user column 수정 및 그에 따른 DTO 수정">
+      <created>1678985730527</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1678985730527</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -542,7 +547,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="✨ feat : Comment 구현" />
     <MESSAGE value="✨ feat : Record 구현" />
     <MESSAGE value="✨ feat : Dto &amp; Utils" />
     <MESSAGE value=" chore : MapperImpl" />
@@ -567,7 +571,8 @@
     <MESSAGE value=" !HOTFIX dev 자동배포" />
     <MESSAGE value="✨ feat : 모든 도메인 허용" />
     <MESSAGE value="♻️ refactor : user login" />
-    <option name="LAST_COMMIT_MESSAGE" value="♻️ refactor : user login" />
+    <MESSAGE value=" !HOTFIX user column 수정 및 그에 따른 DTO 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX user column 수정 및 그에 따른 DTO 수정" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

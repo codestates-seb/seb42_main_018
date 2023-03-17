@@ -58,7 +58,6 @@ public class UserService {
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
-
         User savedUser = userRepository.save(user);
 
         return savedUser;
