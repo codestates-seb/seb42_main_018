@@ -1,62 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { S_Label, S_Description } from '../../../components/UI/S_Text';
+import { S_Input } from '../../../components/UI/S_Input';
+import { S_Tag } from '../../../components/UI/S_Tag';
 
-const S_TagsInput = styled.div`
+const S_TagWrapper = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex-wrap: wrap;
-
-  > input {
-    flex: 1;
-    border: none;
-    height: 40px;
-    font-size: 14px;
-    :focus {
-      outline: transparent;
-    }
-  }
-
-  > ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 8px 0 0 0;
-
-    > .tag {
-      width: auto;
-      height: 25px;
-      margin: 0 8px 8px 0;
-      padding: 0 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      background: var(--blue100);
-      color: var(--blue300);
-
-      > .tag-close-icon {
-        width: 16px;
-        height: 16px;
-        margin-left: 8px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 18px;
-        font-weight: 400;
-        line-height: 16px;
-        text-align: center;
-
-        border-radius: 50%;
-        background: var(--blue100);
-        /* 컬러 팔레트에 없는 색상 */
-        color: #7dabff;
-        cursor: pointer;
-      }
-    }
-  }
+  margin-bottom: 10px;
 `;
 
 interface CreateTagProps {
@@ -89,46 +39,46 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
   };
 
   return (
-    <>
-      <S_TagsInput>
-        <label htmlFor='tagName'>태그</label>
-        <p>최대 3개까지 입력할 수 있습니다.</p>
-        <input
-          id='tagName'
-          name='tagName'
-          className='tag-input'
-          type='text'
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === 'Enter') {
-              // 한글 입력시 마지막 글자 중복 입력 방지
-              if (e.nativeEvent.isComposing) return;
+    <div>
+      <label htmlFor='tagName'>
+        <S_Label>태그</S_Label>
+      </label>
+      <S_Description>최대 3개까지 입력할 수 있습니다.</S_Description>
+      <S_Input
+        id='tagName'
+        name='tagName'
+        type='text'
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') {
+            // 한글 입력시 마지막 글자 중복 입력 방지
+            if (e.nativeEvent.isComposing) return;
 
-              e.preventDefault();
-              addTags();
-            }
-          }}
-          placeholder='엔터 키를 누르면 태그가 추가됩니다.'
-        />
-        <ul id='tags'>
-          {tags &&
-            tags.map((tag: string, index: number) => (
-              <li key={tag} className='tag'>
-                <span className='tag-title'>{tag}</span>
-                <button
-                  className='tag-close-icon'
-                  onClick={() => {
-                    removeTags(index);
-                  }}
-                >
-                  &times;
-                </button>
-              </li>
-            ))}
-        </ul>
-      </S_TagsInput>
-    </>
+            e.preventDefault();
+            addTags();
+          }
+        }}
+        placeholder='엔터 키를 누르면 태그가 추가됩니다.'
+      />
+      <S_TagWrapper>
+        {tags &&
+          tags.map((tag: string, index: number) => (
+            <li
+              role='presentation'
+              key={tag}
+              onClick={() => {
+                removeTags(index);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <S_Tag>
+                <span>{tag}&nbsp;&times;</span>
+              </S_Tag>
+            </li>
+          ))}
+      </S_TagWrapper>
+    </div>
   );
 }
 
