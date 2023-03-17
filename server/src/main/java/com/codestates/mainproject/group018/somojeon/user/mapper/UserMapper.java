@@ -1,8 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
