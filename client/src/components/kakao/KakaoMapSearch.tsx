@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { register } from '../../serviceWorkerRegistration';
 import './KakaoMap.css';
 
 export interface PlaceType {
@@ -48,7 +47,7 @@ const KakaoMapSearch = (props:any) => {
 
     // 키워드 검색을 요청하는 함수
     function searchPlaces() {
-      const keyword: any = searchKeyword;
+      const keyword: unknown = searchKeyword;
       if (!keyword) {
         console.log('키워드를 입력해주세요!');
         return false;
@@ -276,7 +275,9 @@ const KakaoMapSearch = (props:any) => {
             </form>
             <button onClick={() => {
               props.mapSettingModalHandler();
-              props.setPlaceValue({...selectedPlace})
+              if(selectedPlace) {
+                props.setPlaceValue({...selectedPlace})
+              }
             }}>확인</button>
           </div>
         </div>
