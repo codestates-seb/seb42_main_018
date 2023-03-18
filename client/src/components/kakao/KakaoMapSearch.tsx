@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { S_SelectButton } from '../UI/S_Button';
-import search from '../../asset/icon_search.svg';
+import search from '../../assets/icon_search.svg';
 import './KakaoMap.css';
 import { S_Input } from '../UI/S_Input';
 
