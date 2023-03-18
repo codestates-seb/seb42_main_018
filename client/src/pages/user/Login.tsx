@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import { postFetch } from '../../util/api';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
+import useGoToIntro from '../../util/hooks/useGoToIntro';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
 import { S_Input } from '../../components/UI/S_Input';
 
-const S_LoginWrapper = styled.div`
+export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
   display: flex;
   flex-direction: column;
@@ -21,16 +22,19 @@ const S_LoginWrapper = styled.div`
     align-items: center;
     cursor: pointer;
   }
+
   & > .oauth-wrapper {
     margin-top: auto;
-    height: 11vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
+  & > .oauth-wrapper button:first-child {
+    margin-bottom: 8px;
+  }
 `;
 
-const S_SearchPasswordWrapper = styled.div`
+export const S_InstructionWrapper = styled.div`
   margin-top: 1.5vh;
   display: flex;
   justify-content: center;
@@ -42,6 +46,8 @@ const S_SearchPasswordWrapper = styled.div`
 
 function Login() {
   const navigate = useNavigate();
+  const goToIntro = useGoToIntro();
+
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
@@ -57,12 +63,8 @@ function Login() {
   };
   // console.log(inputs);
 
-  const goToIntro = () => {
-    navigate('/');
-  };
-
   const handleModal = () => {
-    //! TODO: 모달
+    //! TODO: 모달 연결
     console.log('modal pop up');
   };
 
@@ -73,8 +75,6 @@ function Login() {
   };
 
   // * POST 요청 관련 로직
-  const POST_URL = `${process.env.REACT_APP_URL}/auth/login`;
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -93,16 +93,17 @@ function Login() {
     if (!isValidEmail || !isValidPassword) return;
 
     // 서버에 post 요청
+    const POST_URL = `${process.env.REACT_APP_URL}/auth/login`;
     const res = await postFetch(POST_URL, inputs);
     console.log('응답 데이터: ', res);
 
-    if (res && res.status === 200) {
+    if (res) {
       // TODO 1. user data (jwt 토큰 포함) 전역 상태로 담기
       // 2. /home 으로 리다이렉트
       navigate('/home');
     }
   };
-  console.log(inputs);
+  // console.log(inputs);
 
   return (
     <S_Container>
@@ -125,11 +126,9 @@ function Login() {
                 onChange={onChange}
               />
               {emailError && (
-                <>
-                  <S_Description color={'var(--red100)'}>
-                    유효하지 않은 형식의 이메일입니다.
-                  </S_Description>
-                </>
+                <S_Description color={'var(--red100)'}>
+                  유효하지 않은 형식의 이메일입니다.
+                </S_Description>
               )}
             </div>
 
@@ -146,24 +145,21 @@ function Login() {
                 onChange={onChange}
               />
               {passwordError && (
-                <>
-                  <S_Description color={'var(--red100)'}>
-                    비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.
-                  </S_Description>
-                </>
+                <S_Description color={'var(--red100)'}>
+                  비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.
+                </S_Description>
               )}
             </div>
 
             <S_Button>로그인하기</S_Button>
           </form>
-          <S_SearchPasswordWrapper>
+          <S_InstructionWrapper>
             <S_EditButton onClick={alertPreparingService}>비밀번호 찾기</S_EditButton>
             <S_Description>&middot;</S_Description>
             <S_EditButton onClick={handleModal}>회원가입</S_EditButton>
-          </S_SearchPasswordWrapper>
+          </S_InstructionWrapper>
         </div>
         <div className='oauth-wrapper'>
-          {/* //TODO: 색상 팔레트 확인 후 변수로 수정 */}
           <S_Button
             onClick={handleKakaoLogin}
             addStyle={{
