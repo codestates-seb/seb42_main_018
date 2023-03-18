@@ -153,16 +153,19 @@ function Login() {
           <S_Button
             onClick={handleKakaoLogin}
             addStyle={{
-              backgroundColor: '#FEE500',
+              backgroundColor: 'var(--kakao-main-theme)',
               color: 'var(--gray500)',
-              hoverBgColor: '#FADA0A'
+              hoverBgColor: 'var(--kakao-hover-theme)'
             }}
           >
             카카오톡 로그인
           </S_Button>
           <S_Button
             onClick={alertPreparingService}
-            addStyle={{ backgroundColor: '#5AC466', hoverBgColor: '#33a45c' }}
+            addStyle={{
+              backgroundColor: 'var(--naver-main-theme)',
+              hoverBgColor: 'var(--naver-hover-theme)'
+            }}
           >
             네이버 로그인
           </S_Button>
