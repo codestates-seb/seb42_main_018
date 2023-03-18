@@ -168,7 +168,7 @@ function CreateMatch() {
         <S_Input type='time' value={time} onChange={timeChangeHandler} />
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-        <S_Label>장소 *</S_Label>
+        <S_Label>장소 </S_Label>
         <S_Input type='text' value={placeValue?.place_name} readOnly />
         <S_SelectButton onClick={mapSettingModalHandler} style={{width: "auto"}}>지도설정</S_SelectButton>
         <S_SelectButton onClick={mapViewModalHandler} style={{width: "auto"}}>지도보기</S_SelectButton>
@@ -185,7 +185,10 @@ function CreateMatch() {
         {isOpenMapView && (
           <S_MapBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
-              <KakaoMapView place={placeValue} />
+              {/* <KakaoMapView place={placeValue} /> */}{
+                placeValue &&
+                <KakaoMapView y={placeValue.y} x={placeValue.x}/>
+              }
             </S_MapView>
           </S_MapBackdrop>
         )}
