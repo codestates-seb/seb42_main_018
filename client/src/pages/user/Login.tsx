@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postFetch } from '../../util/api';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
@@ -18,6 +19,7 @@ const S_LoginWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
   & > .oauth-wrapper {
     margin-top: auto;
@@ -39,6 +41,7 @@ const S_SearchPasswordWrapper = styled.div`
 `;
 
 function Login() {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
@@ -53,6 +56,15 @@ function Login() {
     setInputs({ ...inputs, [name]: value });
   };
   // console.log(inputs);
+
+  const goToIntro = () => {
+    navigate('/');
+  };
+
+  const handleModal = () => {
+    //! TODO: 모달
+    console.log('modal pop up');
+  };
 
   // * 카카오톡 로그인 관련 로직
   const KAKAO_LOGIN_URL = `${process.env.REACT_APP_URL}/oauth2/authorization/kakao`;
@@ -71,7 +83,6 @@ function Login() {
     // 이메일 & 비밀번호 유효성 검사
     const isValidEmail = checkEmail(email);
     const isValidPassword = checkPassword(password);
-    console.log(isValidEmail);
 
     if (!isValidEmail) setEmailError(true);
     else setEmailError(false);
@@ -85,15 +96,18 @@ function Login() {
     const res = await postFetch(POST_URL, inputs);
     console.log('응답 데이터: ', res);
 
-    // TODO : 응답 상태에 따라 리다이렉트 로직
+    if (res && res.status === 200) {
+      // TODO 1. user data (jwt 토큰 포함) 전역 상태로 담기
+      // 2. /home 으로 리다이렉트
+      navigate('/home');
+    }
   };
-
-  // TODO : 소모전 로그인하기 섹션 클릭하면 리다이렉트
+  console.log(inputs);
 
   return (
     <S_Container>
       <S_LoginWrapper>
-        <div className='title-wrapper'>
+        <div className='title-wrapper' role='presentation' onClick={goToIntro}>
           <S_Title>소모전 로그인하기</S_Title>
         </div>
         <div className='form-wrapper'>
@@ -126,7 +140,7 @@ function Login() {
               <S_Input
                 id='password'
                 name='password'
-                type='text'
+                type='password'
                 width='96%'
                 value={password}
                 onChange={onChange}
@@ -145,7 +159,7 @@ function Login() {
           <S_SearchPasswordWrapper>
             <S_EditButton onClick={alertPreparingService}>비밀번호 찾기</S_EditButton>
             <S_Description>&middot;</S_Description>
-            <S_EditButton>회원가입</S_EditButton>
+            <S_EditButton onClick={handleModal}>회원가입</S_EditButton>
           </S_SearchPasswordWrapper>
         </div>
         <div className='oauth-wrapper'>

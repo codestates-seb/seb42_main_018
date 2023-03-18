@@ -4,7 +4,7 @@ import { clubType } from './pages/club/club/CreateClub';
 import { getFetch, postFetch } from './util/api';
 
 function API_TEST() {
-  const POST_URL = `${process.env.REACT_APP_URL}/clubs`;
+  const POST_URL = `${process.env.REACT_APP_URL}/users`;
   const GET_URL = `${process.env.REACT_APP_URL}`;
 
   const [dataFromServer, setDataFromServer] = useState('');
