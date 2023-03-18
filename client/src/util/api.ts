@@ -18,7 +18,6 @@ export const postFetch = async (url: string, newData: any) => {
       }
     });
 
-    // ? res.ok 왜 안 될까?
     if (res.status === 200 || res.status === 201) {
       return res;
     }
