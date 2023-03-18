@@ -5,10 +5,12 @@ import { postFetch } from '../../util/api';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
 import useGoToIntro from '../../util/hooks/useGoToIntro';
+import { handleKakaoLogin } from '../../util/snsLoginLogic';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
 import { S_Input } from '../../components/UI/S_Input';
+import RegisterModal from './_modal';
 
 export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
@@ -47,6 +49,7 @@ export const S_InstructionWrapper = styled.div`
 function Login() {
   const navigate = useNavigate();
   const goToIntro = useGoToIntro();
+  const [showModal, setShowModal] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -66,12 +69,7 @@ function Login() {
   const handleModal = () => {
     //! TODO: 모달 연결
     console.log('modal pop up');
-  };
-
-  // * 카카오톡 로그인 관련 로직
-  const KAKAO_LOGIN_URL = `${process.env.REACT_APP_URL}/oauth2/authorization/kakao`;
-  const handleKakaoLogin = async () => {
-    return window.location.assign(KAKAO_LOGIN_URL);
+    setShowModal((current) => !current);
   };
 
   // * POST 요청 관련 로직
@@ -181,6 +179,8 @@ function Login() {
           </S_Button>
         </div>
       </S_LoginWrapper>
+
+      <RegisterModal handleModal={handleModal} showModal={showModal} />
     </S_Container>
   );
 }
