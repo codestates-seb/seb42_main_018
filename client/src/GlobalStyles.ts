@@ -22,6 +22,12 @@ const GlobalStyles = createGlobalStyle`
 
     --red100: #F04452;
     --green100: #04D182;
+
+    --kakao-main-theme: #FEE500;
+    --kakao-hover-theme: #FADA0A;
+
+    --naver-main-theme: #19CE60;
+    --naver-hover-theme: #1BC15C;
   }
 
   body {
