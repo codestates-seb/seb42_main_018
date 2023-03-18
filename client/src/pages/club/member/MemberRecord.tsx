@@ -44,7 +44,7 @@ function MemberRecord() {
                         profileImage={e.profileImage}
                         name={e.name}
                         winRate={e.winRate}
-                        match={e.winRate}
+                        match={e.match}
                         win={e.win}
                         lose={e.lose}
                     />

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { S_Title } from '../../components/UI/S_Text'
 

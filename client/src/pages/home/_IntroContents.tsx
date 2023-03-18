@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { S_Label, S_Description, S_SmallDescription } from '../../components/UI/S_Text'
 
 const S_IntroBox = styled.div`
-// 정렬 설정
+  // 정렬 설정
   display: flex;
   flex-direction : column;
   justify-content: space-between;
@@ -35,6 +35,7 @@ function IntroContents() {
           나와 모임원들의 승률을 확인해보세요!
         </S_Description>
       </S_TextBox>
+      {/* '소모전 알아보기' 등은 일반적으로 서비스 소개 페이지로 이동됨. 현재 화면구성에는 없으므로 어떻게 처리할지 고민*/}
       <S_SmallDescription color='var(--blue200)'>소모전 알아보기</S_SmallDescription>
     </S_IntroBox>
   )
