@@ -21,7 +21,7 @@ public class UserDto {
         @Email
         String email;
 
-        @NotNull
+        @Nullable
         String password;
 
 //        @Nullable
@@ -36,20 +36,11 @@ public class UserDto {
         Long userId;
 
         @Nullable
-        String userName;
+        String nickName;
 
 //        @Nullable
 //        String password;
 
-
-
-        @Nullable
-        User.UserStatus userStatus;
-
-
-        public void setUserId(Long userId) {
-            this.userId = userId;
-        }
     }
     @Getter
     @Setter
