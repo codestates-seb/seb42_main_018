@@ -1,15 +1,23 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
+import DropDown from './_dropDown';
+import { S_Input } from '../../../components/UI/S_Input';
+import { S_Label, S_Description } from '../../../components/UI/S_Text';
 
 const S_InputContainer = styled.div<{ hasText: boolean }>`
   /* styling code  */
 `;
 
-type HandleDropDownClick = {
+export interface HandleDropDownClick {
   (option: string): void;
-};
+}
 
-function CreateCategory() {
+export interface CreateCategoryProps {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
   // TODO: 서버 api get 요청으로 카테고리 배열 데이터 받아오기
   const categories: Array<string> = [
     '배드민턴',
@@ -24,25 +32,18 @@ function CreateCategory() {
     '당구'
   ];
 
-  //* hasText: input값 유무 확인
-  //* inputValue: input값의 상태 확인
   //* options: input값을 포함하는 autocomplete 추천 항목 리스트 확인
-  //* currentOption: 선택한 option을 index처럼 관리
-  const [hasText, setHasText] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
-  const [options, setOptions] = useState(categories);
-  const [currentOption, setCurrentOption] = useState<number>(-1);
-  const input = useRef(null);
+  //* currentOption: 선택한 option을 index로 관리
+  //* hasText: input값 유무 확인
+  const INITIAL_OPTION_INDEX = -1;
 
-  useEffect(() => {
-    if (inputValue === '') {
-      setHasText(false);
-    }
-  }, [inputValue]);
+  const [options, setOptions] = useState(categories);
+  const [currentOption, setCurrentOption] = useState(INITIAL_OPTION_INDEX);
+  const input = useRef(null);
+  const hasText = !!inputValue;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setHasText(true);
     setOptions(categories.filter((item) => item.startsWith(e.target.value)));
   };
 
@@ -67,15 +68,19 @@ function CreateCategory() {
   return (
     <div>
       <S_InputContainer hasText={hasText}>
-        <label htmlFor='categoryName'>어떤 소모임을 만드실 건가요? *</label>
-        <p>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</p>
-        <input
+        <label htmlFor='categoryName'>
+          <S_Label>어떤 소모임을 만드실 건가요? *</S_Label>
+        </label>
+        <S_Description>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</S_Description>
+        <S_Input
           id='categoryName'
+          name='categoryName'
           type='text'
           value={inputValue}
           onKeyUp={handleKeyUp}
           onChange={handleInputChange}
           ref={input}
+          width='96%'
         />
       </S_InputContainer>
       {hasText && (
@@ -88,58 +93,5 @@ function CreateCategory() {
     </div>
   );
 }
-
-const S_DropDownContainer = styled.ul`
-  background-color: var(--white);
-
-  /* TODO: 스타일링 코드 정돈 필요 */
-  width: 145px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  list-style-type: none;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 0px;
-  margin-top: -1px;
-  padding: 0.5rem 0;
-  z-index: 3;
-
-  > li {
-    padding: 0 1rem;
-    cursor: pointer;
-    &.selected,
-    &:hover {
-      background-color: var(--gray200);
-    }
-  }
-`;
-
-interface DropDownProps {
-  currentOption: number;
-  options: Array<string>;
-  handleComboBox: HandleDropDownClick;
-}
-
-export const DropDown = ({ currentOption, options, handleComboBox }: DropDownProps) => {
-  return (
-    <S_DropDownContainer>
-      {options.map((item: string, idx: number) => {
-        return (
-          <li
-            role='presentation'
-            key={idx}
-            className={idx === currentOption ? 'selected' : ''}
-            onClick={() => handleComboBox(item)}
-          >
-            {item}
-          </li>
-        );
-      })}
-    </S_DropDownContainer>
-  );
-};
 
 export default CreateCategory;

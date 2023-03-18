@@ -1,4 +1,4 @@
-package com.codestates.mainproject.group018.somojeon.utils;
+package com.codestates.mainproject.group018.somojeon.utils.dummy;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

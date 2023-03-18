@@ -44,13 +44,14 @@ public class UserService {
         this.oauthUserService = oauthUserService;
     }
 
-    public User createUser(User user, HttpServletRequest request) {
+    public User createUser(User user, String token) {
         verifyExistsEmail(user.getEmail());
-        if(IsOAuthSignUp(request)){
+        if(token != null){
             user.setPassword("OAUTH2.0");
-            oauthUserService.createOAuthUser(request, user);
+            oauthUserService.createOAuthUser(token, user);
         }
         // DB에 password 암호화해서 저장
+        if(user.getPassword() == null) throw new BusinessLogicException(ExceptionCode.WRONG_REQUEST);
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
@@ -58,41 +59,23 @@ public class UserService {
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
-
         User savedUser = userRepository.save(user);
 
         return savedUser;
     }
 
-    private boolean IsOAuthSignUp(HttpServletRequest request) {
-        String token = request.getHeader("Access");
-        if(token == null) return false;
-        Map<String, Object> claims = authService.getClaimsValues(token);
-        String registration =  (String) claims.get("registration");
-        String registrationId =  (String) claims.get("registrationId");
-        if(registration == null || registrationId == null) return false;
-        return true;
 
-    }
 
 
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user) throws IllegalAccessException {
+    public User updateUser(User user)  {
         User findUser = findVerifiedUser(user.getUserId());
-        // 널이 아닌 값을 복사한다.
 
-        // TODO 로직 수정 필요
-//        Optional<String> optionalUserName = Optional.ofNullable(user.getUserName());
-//        optionalUserName.ifPresent(
-//                name -> findUser.setUserName(name)
-//        );
-//
-//        Optional<Integer> optionalAge = Optional.ofNullable(user.getAge());
-//        optionalAge.ifPresent(
-//                age -> findUser.setAge(age)
-//        );
-
+        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
+        optionalNickName.ifPresent(
+                nickName -> findUser.setNickName(nickName)
+        );
         return userRepository.save(findUser);
     }
 

@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -79,7 +80,7 @@ public class Club {
     private List<Joins> joinsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<Record> recordList = new ArrayList<>();
+    private List<Schedule> scheduleList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();

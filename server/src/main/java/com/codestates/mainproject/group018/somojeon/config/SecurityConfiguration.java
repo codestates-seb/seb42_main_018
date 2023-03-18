@@ -8,9 +8,9 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.oauth.repository.OAuthUserRepository;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,15 +19,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-
+import org.springframework.beans.factory.annotation.Value;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -41,16 +39,21 @@ public class SecurityConfiguration {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AuthService authService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final OAuthUserRepository oauthUserRepository;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                                 UserRepository userRepository, UserMapper userMapper, AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    @Value("${oauth.kakao.redirect-address}")
+    String redirectAddress;
+
+    public SecurityConfiguration(OAuth2UserSuccessHandler oAuth2UserSuccessHandler, JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
+                                 UserRepository userRepository, UserMapper userMapper,
+                                 AuthService authService, OAuthUserRepository oauthUserRepository) {
+        this.oAuth2UserSuccessHandler = oAuth2UserSuccessHandler;
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.authService = authService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.oauthUserRepository = oauthUserRepository;
     }
 
     @Bean
@@ -110,7 +113,7 @@ public class SecurityConfiguration {
         return ClientRegistration.withRegistrationId("kakao") // request uri "/oauth2/authorization/kakao"
                 .clientId("cc9eb581caf2361034da01b9c99c75dd")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
+                .redirectUri(redirectAddress)
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
@@ -126,7 +129,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, oauthUserRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper));  // (3) 추가

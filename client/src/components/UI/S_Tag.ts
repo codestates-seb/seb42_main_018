@@ -9,7 +9,7 @@ export const S_Tag = styled.span`
   background-color: var(--blue100);
   font-size: 0.8rem;
   font-weight: 600;
-  margin-right: 5px
+  margin-right: 5px;
 `
 
 export const S_TagSmall = styled(S_Tag)`

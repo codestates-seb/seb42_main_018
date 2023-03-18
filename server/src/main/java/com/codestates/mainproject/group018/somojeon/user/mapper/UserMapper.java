@@ -1,8 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 
@@ -32,13 +32,10 @@ public interface UserMapper {
 
     default UserDto.Response userToUserResponseForPublic(User user){
         UserDto.Response response = new UserDto.Response();
-        response.setUserName(user.getUserName());
+        response.setNickName(user.getNickName());
         response.setEmail(user.getEmail());
         response.setUserStatus(user.getUserStatus());
         response.setUserId(user.getUserId());
-
-        // todo 멤버 설정에 따라 변환가능
-        response.setAge(-1);
 
         return response;
 

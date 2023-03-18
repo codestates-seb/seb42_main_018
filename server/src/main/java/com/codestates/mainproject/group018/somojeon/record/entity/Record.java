@@ -2,6 +2,8 @@ package com.codestates.mainproject.group018.somojeon.record.entity;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,13 +29,6 @@ public class Record {
     private Long recordId;
 
     @CreatedDate
-    @Column(name = "DATE", nullable = false)
-    private LocalDate date;
-
-    @Column(nullable = false)
-    private String place;
-
-    @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
     private LocalDateTime createdAt;
 
@@ -42,15 +37,24 @@ public class Record {
     private LocalDateTime modifiedAt;
 
     @ManyToOne
-    @JoinColumn(name = "CLUB_ID")
-    private Club club;
+    @JoinColumn(name = "SCHEDULE_ID")
+    private Schedule schedule;
 
     @OneToMany(mappedBy = "record")
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "record")
-    private List<UserRecord> userRecords = new ArrayList<>();
+    private List<TeamRecord> teamRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "record")
-    private List<RecordCandidate> recordCandidates = new ArrayList<>();
+    public void addTeamRecord(TeamRecord teamRecord) {
+        this.teamRecords.add(teamRecord);
+        if (teamRecord.getRecord() != this) {
+            teamRecord.setRecord(this);
+        }
+    }
+
+    public void setTeamRecord(TeamRecord teamRecord) {
+        teamRecords.add(teamRecord);
+    }
+
 }
