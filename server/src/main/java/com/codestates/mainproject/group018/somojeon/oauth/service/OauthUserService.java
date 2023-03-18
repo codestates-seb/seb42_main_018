@@ -36,8 +36,7 @@ public class OauthUserService {
     }
 
 
-    public void createOAuthUser(HttpServletRequest request, User user) {
-        String token = request.getHeader("Access");
+    public void createOAuthUser(String token, User user) {
         Map<String, Object> claims = authService.getClaimsValues(token);
         String registration =  (String) claims.get("registration");
         String registrationId =  (String) claims.get("registrationId");
