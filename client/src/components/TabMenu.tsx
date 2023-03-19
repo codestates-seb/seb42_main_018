@@ -29,7 +29,7 @@ interface Tab {
 
 function Tabmenu() {
   const navigate = useNavigate();
-  const loction = useLocation().pathname
+  const location = useLocation().pathname
   
   const tabs: Tab[] = [
     {id: 1, title: '소개', path: '/club/:id'},
@@ -42,7 +42,7 @@ function Tabmenu() {
       {tabs.map((tab) => (
         <S_TabItem 
           key={tab.id}
-          active={loction === tab.path}
+          active={location === tab.path}
           onClick={() => navigate(tab.path)}>{tab.title}</S_TabItem>
       ))}
     </S_TabContainer>

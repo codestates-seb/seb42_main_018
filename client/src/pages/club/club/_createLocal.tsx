@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
 import { CreateCategoryProps } from './_createCategory';
+import { S_Label } from '../../../components/UI/S_Text';
+import { S_Select } from '../../../components/UI/S_Select';
 
 interface DistrictType {
   code: string;
@@ -25,21 +27,14 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
     name: div.name
   }));
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.name === 'division') {
-      setDivisionSelectValue(e.target.value);
-    } else if (e.target.name === 'district') {
-      setDistrictSelectValue(e.target.value);
-    }
-  };
-
-  //! TODO: useState any 타입 해결
-  const [districtList, setDistrictList] = useState<any>([]);
+  const [districtList, setDistrictList] = useState<DistrictType[]>([]);
   useEffect(() => {
     if (divisionSelectValue) {
-      setDistrictList(
-        DIVISIONS_DATA.find((d) => d.code.startsWith(divisionSelectValue))?.districts
-      );
+      const districts = DIVISIONS_DATA.find((d) =>
+        d.code.startsWith(divisionSelectValue)
+      )?.districts;
+
+      if (districts) setDistrictList(districts);
     }
   }, [divisionSelectValue]);
 
@@ -49,31 +44,42 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
       const local1 = divisionList.find((d) => d.code.startsWith(divisionSelectValue))?.name;
       // district 코드에 맞는 지역 2
       const local2 = districtList.find((d: DistrictType) => d.code === districtSelectValue)?.name;
+
       setInputValue(`${local1} ${local2}`);
     }
   }, [divisionSelectValue, districtSelectValue]);
 
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.name === 'division') {
+      setDivisionSelectValue(e.target.value);
+    } else if (e.target.name === 'district') {
+      setDistrictSelectValue(e.target.value);
+    }
+  };
+
   return (
-    <>
-      <label htmlFor='local'>지역 선택 *</label>
-      <select id='local' name='division' onChange={handleSelectChange}>
+    <div>
+      <label htmlFor='local'>
+        <S_Label>지역 *</S_Label>
+      </label>
+      <S_Select id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
         {divisionList.map((d) => (
           <option key={d.code} value={d.code}>
             {d.name}
           </option>
         ))}
-      </select>
-      <select id='local' name='district' onChange={handleSelectChange}>
+      </S_Select>
+      <S_Select id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
         {districtList &&
-          districtList.map((d: DistrictType) => (
+          districtList.map((d) => (
             <option key={d.code} value={d.code}>
               {d.name}
             </option>
           ))}
-      </select>
-    </>
+      </S_Select>
+    </div>
   );
 }
 
