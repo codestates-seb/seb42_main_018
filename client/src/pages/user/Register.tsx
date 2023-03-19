@@ -85,9 +85,11 @@ function Register() {
     const registerResponse = await postFetch(POST_URL, userInfo);
 
     // 회원가입 성공 후 로그인 post 요청 연달아 시도
-    if (registerResponse) delete userInfo.nickName;
-    const loginResponse = await handleLogin(userInfo);
-    if (loginResponse) navigate('/home');
+    if (registerResponse) {
+      delete userInfo.nickName;
+      const loginResponse = await handleLogin(userInfo);
+      if (loginResponse) navigate('/home');
+    }
   };
 
   // TODO: 이메일, 닉네임 중복 검사 요청
