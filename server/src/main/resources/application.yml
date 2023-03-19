@@ -15,6 +15,22 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: bucket-somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
 jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
