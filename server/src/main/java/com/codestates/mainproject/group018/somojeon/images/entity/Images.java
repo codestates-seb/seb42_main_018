@@ -21,9 +21,6 @@ public class Images {
     private Long imageId;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
     private String url;
 
     @CreatedDate
@@ -42,8 +39,7 @@ public class Images {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public Images(String title, String url) {
-        this.title = title;
+    public Images(String url) {
         this.url = url;
     }
 
@@ -51,7 +47,6 @@ public class Images {
     public String toString() {
         return "Images{" +
                 "imageId=" + imageId +
-                ", title='" + title + '\'' +
                 ", url='" + url + '\'' +
                 '}';
     }

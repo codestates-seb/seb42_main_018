@@ -14,7 +14,7 @@ public class ImagesService {
     private ImagesRepository imagesRepository;
 
     public void save(ImagesDto imagesDto) {
-        Images images = new Images(imagesDto.getTitle(), imagesDto.getUrl());
+        Images images = new Images(imagesDto.getUrl());
         imagesRepository.save(images);
     }
 
