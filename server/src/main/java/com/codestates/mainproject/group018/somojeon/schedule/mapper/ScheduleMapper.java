@@ -30,6 +30,7 @@ public interface ScheduleMapper {
                 .placeName(schedule.getPlaceName())
                 .longitude(schedule.getLongitude())
                 .latitude(schedule.getLatitude())
+                .clubId(schedule.getClub().getClubId())
                 .records(recordsToRecordResponseDtos(schedule.getRecords()))
                 .candidates(candidatesToCandidateResponseDtos(schedule.getCandidates()))
                 .build();

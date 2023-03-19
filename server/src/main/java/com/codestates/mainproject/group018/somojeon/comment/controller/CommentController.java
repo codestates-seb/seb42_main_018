@@ -68,10 +68,11 @@ public class CommentController {
                 new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(comment)), HttpStatus.OK);
     }
 
-    @GetMapping("/comments")
-    public ResponseEntity getComments(@RequestParam("page") int page,
+    @GetMapping("/records/{record-id}/comments")
+    public ResponseEntity getComments(@PathVariable("record-id") @Positive long recordId,
+                                      @RequestParam("page") int page,
                                       @RequestParam("size") int size) {
-        Page<Comment> pageComments = commentService.findComments(page - 1, size);
+        Page<Comment> pageComments = commentService.findComments(page - 1, size, recordId);
         List<Comment> comments = pageComments.getContent();
 
         return new ResponseEntity<>(
