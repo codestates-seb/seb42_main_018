@@ -51,8 +51,9 @@ public class CommentService {
         return findVerifiedComment(commentId);
     }
 
-    public Page<Comment> findComments(int page, int size) {
-        return commentRepository.findAll(PageRequest.of(page, size, Sort.by("commentId").descending()));
+    public Page<Comment> findComments(int page, int size, long recordId) {
+        return commentRepository.findAllByCommentId(
+                PageRequest.of(page, size, Sort.by("commentId").descending()), recordId);
     }
 
     public void deleteComment(long commentId) {
