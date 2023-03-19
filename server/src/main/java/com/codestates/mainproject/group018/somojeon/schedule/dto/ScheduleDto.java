@@ -24,9 +24,15 @@ public class ScheduleDto {
         @DateTimeFormat(pattern = "HH:mm:ss")
         private LocalTime time;
 
+        private Long clubId;
+
         private String placeName;
         private Double longitude;
         private Double latitude;
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
     }
 
     @Getter
@@ -34,6 +40,8 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Patch {
         private Long scheduleId;
+
+        private Long clubId;
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
@@ -47,6 +55,10 @@ public class ScheduleDto {
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
         }
     }
 
@@ -65,6 +77,7 @@ public class ScheduleDto {
         private String placeName;
         private Double longitude;
         private Double latitude;
+        private Long clubId;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }

@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.schedule.service;
 
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
@@ -16,12 +17,15 @@ import java.util.Optional;
 @Transactional
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final ClubService clubService;
 
-    public ScheduleService(ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, ClubService clubService) {
         this.scheduleRepository = scheduleRepository;
+        this.clubService = clubService;
     }
 
-    public Schedule createSchedule(Schedule schedule) {
+    public Schedule createSchedule(Schedule schedule, long clubId) {
+        schedule.setClub(clubService.findVerifiedClub(clubId));
         return scheduleRepository.save(schedule);
     }
 
@@ -44,8 +48,9 @@ public class ScheduleService {
         return findVerifiedSchedule(scheduleId);
     }
 
-    public Page<Schedule> findSchedules(int page, int size) {
-        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId").descending()));
+    public Page<Schedule> findSchedules(int page, int size, long clubId) {
+        return scheduleRepository.findAllByClubId(
+                PageRequest.of(page, size, Sort.by("scheduleId").descending()), clubId);
     }
 
     public void deleteSchedule(long scheduleId) {
