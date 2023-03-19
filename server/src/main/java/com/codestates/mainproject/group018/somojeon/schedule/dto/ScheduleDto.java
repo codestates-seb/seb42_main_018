@@ -21,7 +21,7 @@ public class ScheduleDto {
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
 
-        @DateTimeFormat(pattern = "HH:mm:ss")
+        @DateTimeFormat(pattern = "HH:mm")
         private LocalTime time;
 
         private Long clubId;
@@ -46,7 +46,7 @@ public class ScheduleDto {
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
 
-        @DateTimeFormat(pattern = "HH:mm:ss")
+        @DateTimeFormat(pattern = "HH:mm")
         private LocalTime time;
 
         private String placeName;
@@ -71,13 +71,12 @@ public class ScheduleDto {
         private Long scheduleId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
-        @DateTimeFormat(pattern = "HH:mm:ss")
+        @DateTimeFormat(pattern = "HH:mm")
         private LocalTime time;
         private LocalDateTime createdAt;
         private String placeName;
         private Double longitude;
         private Double latitude;
-        private Long clubId;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }

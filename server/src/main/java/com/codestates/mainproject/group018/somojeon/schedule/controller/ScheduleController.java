@@ -66,11 +66,10 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
     }
 
-    @GetMapping("/clubs/{club-id}/schedules")
-    public ResponseEntity getSchedules(@PathVariable("club-id") @Positive long clubId,
-                                       @RequestParam("page") int page,
+    @GetMapping("/schedules")
+    public ResponseEntity getSchedules(@RequestParam("page") int page,
                                        @RequestParam("size") int size) {
-        Page<Schedule> pageSchedules = scheduleService.findSchedules(page - 1, size, clubId);
+        Page<Schedule> pageSchedules = scheduleService.findSchedules(page - 1, size);
         List<Schedule> schedules = pageSchedules.getContent();
 
         return new ResponseEntity<>(
