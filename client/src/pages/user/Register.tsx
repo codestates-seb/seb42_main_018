@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import useGoToIntro from '../../util/hooks/useGoToIntro';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import { postFetch } from '../../util/api';
+import {
+  RegisterUserInputType,
+  useLoginRequestLogic
+} from '../../util/authorization/useLoginRequestLogic';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
@@ -27,18 +30,10 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
   }
 `;
 
-interface userInfoType {
-  email: string;
-  password: string;
-  nickName: string;
-  confirmPassword?: string;
-}
-
 function Register() {
   const navigate = useNavigate();
-  const goToIntro = useGoToIntro();
-  const goToLogin = () => {
-    navigate('/login');
+  const goToPath = (path: string) => {
+    navigate(path);
   };
 
   const [inputs, setInputs] = useState({
@@ -53,13 +48,15 @@ function Register() {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  console.log(inputs);
+  // console.log(inputs);
 
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   // * POST 요청 관련 로직
+  const { handleLogin } = useLoginRequestLogic();
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -80,25 +77,17 @@ function Register() {
 
     if (!isValidEmail || !isValidPassword) return;
 
-    // 서버에 post 요청
+    // 서버에 회원가입 post 요청
     const POST_URL = `${process.env.REACT_APP_URL}/users`;
-    const userInfo: userInfoType = { ...inputs };
+    const userInfo: RegisterUserInputType = { ...inputs };
     delete userInfo.confirmPassword;
 
-    // console.log(userInfo);
+    const registerResponse = await postFetch(POST_URL, userInfo);
 
-    const res = await postFetch(POST_URL, userInfo);
-
-    if (res) {
-      console.log(res);
-      // ! 성공시 res.data 빈 문자열 -> user 정보 받아야 하지 않을까?
-      // ! 헤더에 jwt 토큰 없음
-      // headers.location : "/users/104"
-
-      // TODO 1. user data (jwt 토큰 포함) 전역 상태로 담기
-      // 2. /home 으로 리다이렉트
-      //   navigate('/home');
-    }
+    // 회원가입 성공 후 로그인 post 요청 연달아 시도
+    if (registerResponse) delete userInfo.nickName;
+    const loginResponse = await handleLogin(userInfo);
+    if (loginResponse) navigate('/home');
   };
 
   // TODO: 이메일, 닉네임 중복 검사 요청
@@ -106,7 +95,7 @@ function Register() {
   return (
     <S_Container>
       <S_RegisterWrapper>
-        <div className='title-wrapper' role='presentation' onClick={goToIntro}>
+        <div className='title-wrapper' role='presentation' onClick={() => goToPath('/')}>
           <S_Title>소모전 회원가입</S_Title>
         </div>
         <form onSubmit={onSubmit}>
@@ -191,7 +180,9 @@ function Register() {
         </form>
 
         <S_InstructionWrapper>
-          <S_EditButton onClick={goToLogin}>이미 아이디가 있다면 로그인 해주세요</S_EditButton>
+          <S_EditButton onClick={() => goToPath('/login')}>
+            이미 아이디가 있다면 로그인 해주세요
+          </S_EditButton>
         </S_InstructionWrapper>
       </S_RegisterWrapper>
     </S_Container>
