@@ -34,6 +34,8 @@ public class ScheduleService {
 
         Optional.ofNullable(schedule.getDate())
                 .ifPresent(findSchedule::setDate);
+        Optional.ofNullable(schedule.getTime())
+                .ifPresent(findSchedule::setTime);
         Optional.ofNullable(schedule.getPlaceName())
                 .ifPresent(findSchedule::setPlaceName);
         Optional.ofNullable(schedule.getLongitude())
@@ -48,9 +50,8 @@ public class ScheduleService {
         return findVerifiedSchedule(scheduleId);
     }
 
-    public Page<Schedule> findSchedules(int page, int size, long clubId) {
-        return scheduleRepository.findAllByClubId(
-                PageRequest.of(page, size, Sort.by("scheduleId").descending()), clubId);
+    public Page<Schedule> findSchedules(int page, int size) {
+        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId").descending()));
     }
 
     public void deleteSchedule(long scheduleId) {
