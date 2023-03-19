@@ -36,6 +36,8 @@ public class ScheduleController {
     @PostMapping("/clubs/{club-id}/schedules")
     public ResponseEntity postSchedule(@PathVariable("club-id") @Positive long clubId,
                                        @Valid @RequestBody ScheduleDto.Post requestBody) {
+        requestBody.addClubId(clubId);
+
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId);
