@@ -10,6 +10,7 @@ const S_MemberBox = styled.div`
   padding: 20px 0px;
   line-height: 110%;
   border-bottom: 1px solid var(--gray600);
+  transition: 0.3s;
   :hover {
     border-bottom: 1px solid var(--gray400) ;
   }

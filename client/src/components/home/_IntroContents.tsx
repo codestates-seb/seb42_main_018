@@ -9,7 +9,7 @@ const S_IntroBox = styled.div`
 `
 const S_ContentsBox = styled.div`
   margin-bottom: 20px;
-  padding: 25px;
+  padding: 30px 25px 25px 25px;
   border-radius: 10px;
   background-color: var(--gray100);
 `
@@ -23,7 +23,7 @@ const S_ButtonBox = styled.div`
 `
 function IntroContents() {
   const navigate = useNavigate();
-  const gotoRegister = () => {
+  const gotoLogin = () => {
     navigate('/login')
   }
   return (
@@ -46,7 +46,7 @@ function IntroContents() {
       </S_ContentsBox>
       <S_ButtonBox>
         <S_Title>로그인하고<br/> 소모전을 즐겨보세요</S_Title>
-        <S_Button onClick={gotoRegister}>소모전 시작하기 +</S_Button>
+        <S_Button onClick={gotoLogin}>소모전 시작하기 +</S_Button>
       </S_ButtonBox>
     </S_IntroBox>
   )

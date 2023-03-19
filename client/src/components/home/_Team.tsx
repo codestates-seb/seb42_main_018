@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import { S_Label, S_Description, S_SmallDescription } from "../../components/UI/S_Text"
 import TeamMember from "./_TeamMember"
@@ -11,6 +12,21 @@ const S_TeamBox = styled.div`
 const S_IntroBox = styled.div`
   // 소개글 박스
   margin-bottom: 20px;
+`
+const S_LinkButton = styled.button`
+  // git 리포, notion 페이지 버튼
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 7px 12px;
+  color: var(--gray300);
+  border-radius: 8px;
+  border: 1px solid var(--gray300);
+  background-color: var(--gray600);
+  transition: 0.3s;
+  :hover {
+    color: var(--gray600);
+    background-color: var(--gray300);
+  }
 `
 const S_MemberBox = styled.div`
   display: flex;
@@ -30,7 +46,12 @@ function Team() {
           프론트엔드 개발자 3명, 백엔드 개발자 3명이 <br/>
           함께 프로젝트를 만들었습니다.
         </S_Description>
-
+        <div>
+          <Link to="https://github.com/codestates-seb/seb42_main_018">
+            <S_LinkButton>Git Repo</S_LinkButton></Link>
+          <Link to="https://www.notion.so/codestates/9c70acd6b4c74f37ab14ea78d02f97f7?pvs=4">
+          <S_LinkButton>Team Notion</S_LinkButton></Link>
+        </div>
       </S_IntroBox>
       <S_MemberBox>
         {teamMembers.map((e)=>(
