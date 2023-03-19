@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { S_Label, S_Description, S_SmallDescription } from '../../components/UI/S_Text'
+import { S_Label, S_Description, S_SmallDescription } from '../UI/S_Text'
 
 const S_IntroBox = styled.div`
   // 정렬 설정
@@ -23,7 +23,7 @@ const S_TextBox = styled.div`
   // 제목과 설명이 있는 박스
 `
 
-function IntroContents() {
+function HomeIntro() {
   return (
     <S_IntroBox>
       <S_TextBox>
@@ -41,4 +41,4 @@ function IntroContents() {
   )
 };
 
-export default IntroContents
+export default HomeIntro;

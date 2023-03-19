@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.category.service.CategorySer
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -142,9 +143,19 @@ public class ClubService {
         }
     }
 
+    public ClubRole getUserClub(Long userId, Long clubId) {
+        //TODO-DW: 검토 부탁드려요 by 제훈
+        Optional<UserClub> optionalUserClub =  userClubRepository.findByUserIdAndClubId(userId, clubId);
+        UserClub userClub =  optionalUserClub.orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_CLUB_NOT_FOUND));
+
+        return userClub.getClubRole();
+    }
+
      //소모임 회원 등급 설정
+
     public UserClub changeClubRoles(UserClub userClub, String clubRole) {
         //TODO-DW: 회원검증
+        //TODO-DW: identifier 객체 사용으로 리팩토링 부탁드려요 by 제훈
         if (!userClub.getClubRole().getRoles().equals("Leader")
                 || userClub.getClubRole().getRoles().equals("Manager")) {
             throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);

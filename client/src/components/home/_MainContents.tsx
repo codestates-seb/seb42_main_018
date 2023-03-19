@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import MainTitle from "./_MainTitle";
 import ClubList from "./_ClubList";
 import { S_Title } from '../../components/UI/S_Text'
 
@@ -142,6 +141,7 @@ function MainContents() {
         <S_Title>어떤 소모임이 있을까요?</S_Title>
           <S_TagBox>
             {/* 최대 5개의 카테고리만 보여주기 */}
+            <S_Category>전체보기</S_Category>
             {category.map((e) => 
             <S_Category key={e}>{e}</S_Category>)}
           </S_TagBox>
