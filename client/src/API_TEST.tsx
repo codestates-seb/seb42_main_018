@@ -1,33 +1,11 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import S_Container from './components/UI/S_Container';
 import { clubType } from './pages/club/club/CreateClub';
-
-//? return 값 res.data 말고, res 로 하면 타입 지정 어떻게 해야할지?
-export const getFetch = async (url: string) => {
-  try {
-    const res = await axios.get(url);
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const postFetch = async (url: string, newData: any, config?: any) => {
-  try {
-    const res = await axios.post(url, JSON.stringify(newData));
-    // TODO: status code 나 ok로 분기 더 명확하게 줘야함
-    if (res) {
-      return res;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
+import { getFetch, postFetch } from './util/api';
 
 function API_TEST() {
-  const POST_URL = 'https://dev.somojeon.site/clubs';
-  const GET_URL = 'https://dev.somojeon.site';
+  const POST_URL = `${process.env.REACT_APP_URL}/users`;
+  const GET_URL = `${process.env.REACT_APP_URL}`;
 
   const [dataFromServer, setDataFromServer] = useState('');
 
@@ -65,7 +43,7 @@ function API_TEST() {
     clubName: '야구',
     content: '재밌게 야구해요',
     local: '경기도 구리시',
-    categoryName: '방탈출',
+    categoryName: '창의적카테고리',
     tagName: ['태그1', '태그2'],
     isPrivate: true
   };

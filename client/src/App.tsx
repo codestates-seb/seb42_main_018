@@ -20,6 +20,7 @@ import Header from './components/Header';
 import API_TEST from './API_TEST';
 
 import GlobalStyles from './GlobalStyles';
+import MemberRecord from './pages/club/member/MemberRecord';
 
 function App() {
   return (

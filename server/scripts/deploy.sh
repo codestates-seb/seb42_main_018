@@ -35,4 +35,4 @@ echo $RDS_ID >> /home/ubuntu/log/env.log
 echo $ADMIN_MAIL >> /home/ubuntu/log/env.log
 echo $RDS_ID >> /home/ubuntu/log/env.log
 sleep 5
-nohup java -jar $DEPLOY_JAR --spring.profiles.active=server --server.port=8081 >> /home/ubuntu/log/server.log  2>/home/ubuntu/log/server_err.log &
+nohup java -jar $DEPLOY_JAR --spring.profiles.active=dummy --server.port=8081 >> /home/ubuntu/log/server.log  2>/home/ubuntu/log/server_err.log &

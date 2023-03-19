@@ -1,10 +1,13 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,19 +28,21 @@ public class UserController {
     private final static String USER_DEFAULT_URL = "/users";
     private final UserService userService;
     private final UserMapper mapper;
+    private final Identifier identifier;
 
-    public UserController(UserService userService, UserMapper mapper) {
+    public UserController(UserService userService, UserMapper mapper, Identifier identifier) {
         this.userService = userService;
         this.mapper = mapper;
+        this.identifier = identifier;
     }
-
 
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
                                    HttpServletRequest request){
         User user =  mapper.userPostToUser(userDtoPost);
-        User createdUser =  userService.createUser(user, request);
+        String token = identifier.getAccessToken(request);
+        User createdUser =  userService.createUser(user, token);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
     }
@@ -45,21 +50,18 @@ public class UserController {
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(
             @PathVariable("user-id") @Positive long userId,
-            @Valid @RequestBody UserDto.Patch requestBody,
-            HttpServletRequest request) throws IllegalAccessException {
+            @Valid @RequestBody UserDto.Patch requestBody) {
 
         requestBody.setUserId(userId);
-//        if(!(userService.verifyMyUserId(request, userId)  || Checker.checkAdmin())){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+        }
+        User user = userService.updateUser(mapper.userPatchToUser(requestBody));
 
-//        User user = userService.updateUser(mapper.userPatchToUser(requestBody));
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.userToUserResponse(user)),
+                HttpStatus.OK);
 
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(mapper.userToUserResponse(user)),
-//                HttpStatus.OK);
-
-        return null;
     }
 
     // get
@@ -67,19 +69,10 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
                                     HttpServletRequest request){
 
-//        User findUser =
-//                userService.findUser(userId);
-//
-//        UserDto.Response  response = (userService.verifyMyUserId(request, userId) || Checker.checkAdmin()) ?
-//                mapper.userToUserResponse(findUser):
-//                mapper.userToUserResponseForPublic(findUser);
+        User findUser =
+                userService.findUser(userId);
 
-        // TODO MOCKING
-        UserDto.Response response = new UserDto.Response(
-                1L,
-                "mockUser",
-                "mock@email.com",
-                User.UserStatus.USER_ACTIVE);
+        UserDto.Response  response =mapper.userToUserResponse(findUser);
 
         response.setUserId(userId);
 
@@ -110,7 +103,7 @@ public class UserController {
     @DeleteMapping("/{user-id}")
     public ResponseEntity deleteUser(@PathVariable("user-id") @Positive long userId,
                                        HttpServletRequest request){
-//        userService.deleteUser(userId);
+        userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
