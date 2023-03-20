@@ -1,11 +1,11 @@
 import S_Container from "../../components/UI/S_Container";
-import MainContents from "./_MainContents";
-import IntroContents from "./_IntroContents";
+import MainContents from "../../components/home/_MainContents";
+import HomeIntro from "../../components/home/_HomeIntro";
 
 function Home() {
     return (
         <S_Container>
-            <IntroContents />
+            <HomeIntro />
             <MainContents />
         </S_Container>
     )
