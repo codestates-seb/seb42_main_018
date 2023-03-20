@@ -9,13 +9,12 @@ import com.codestates.mainproject.group018.somojeon.club.repository.ClubReposito
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.repository.TagRepository;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,10 +22,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -131,6 +128,10 @@ public class ClubService {
     // 카테고리별로 소모임 조회
     public Page<Club> findClubsByCategoryName(String categoryName, int page, int size) {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
+    }
+
+    public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
+        return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
     public void deleteClub(Long clubId) {

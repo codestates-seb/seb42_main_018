@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.repository;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,4 +32,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 
     @Query("SELECT c FROM Club c WHERE c.categoryName = ?1 ORDER BY c.clubId")
     Page<Club> findByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
+
+    Page<Schedule> findByClubId(long clubId, Pageable pageable);
 }
