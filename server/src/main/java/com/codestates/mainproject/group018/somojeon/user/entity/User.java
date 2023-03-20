@@ -33,6 +33,9 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String nickName;
 
+    // 한 소모임에 같은 유저가 5번이상 가입요청하면 차단.
+    private int joinCount;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 

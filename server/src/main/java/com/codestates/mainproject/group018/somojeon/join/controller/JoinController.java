@@ -36,8 +36,9 @@ public class JoinController {
     @PostMapping("/{club-id}/joins")
     public ResponseEntity postJoin(@PathVariable("club-id") @Positive Long clubId,
                                    @Valid @RequestBody JoinDto.Post requestBody) {
-        // TODO-DW:클럽 확인
-        Joins createdJoin = joinService.createJoin(mapper.joinPostDtoToJoins(requestBody), clubId);
+
+        requestBody.setClubId(clubId);
+        Joins createdJoin = joinService.createJoin(mapper.joinPostDtoToJoins(requestBody));
         URI location = UriCreator.createUri("/{club-id}/joins", createdJoin.getJoinsId());
 
         return ResponseEntity.created(location).build();

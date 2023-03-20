@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/clubs")
+@RequestMapping("/club")
 public class ClubController {
 
     private final ClubService clubService;
