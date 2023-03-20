@@ -48,20 +48,21 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
 //        authentication.get
         var oAuth2User = (OAuth2User)authentication.getPrincipal();
-        String registraion = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+        String registration = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
         String id = null;
         String email = null;
-        if(registraion == "kakao"){
+        if(registration == "kakao"){
             id = String.valueOf(oAuth2User.getAttributes().get("id"));
             Map<String, Object> account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
             if((boolean)account.get("has_email")) email = (String) account.get("email");
         }
 
-        if(registraion == null || id == null){
+        if(registration == null || id == null){
             throw new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND);
         }
-        boolean home = oauthUserService.IsUser(registraion, Long.parseLong(id));
-        redirect(request, response, registraion, id, home, email);
+        boolean home = oauthUserService.IsUser(registration, Long.parseLong(id));
+        response.addHeader("email", email);
+        redirect(request, response, registration, id, home, email);
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
@@ -69,7 +70,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
         String refreshToken = delegateRefreshToken(registration, registrationId);
         String path = home ? "home" : "register";
-        String uri =  createURI(accessToken, refreshToken, email, path).toString();
+        String uri =  createURI(accessToken, refreshToken, path, email).toString();
 
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
@@ -99,7 +100,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken,String email,  String path) {
+    private URI createURI(String accessToken, String refreshToken, String path, String email) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
@@ -110,7 +111,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //                .scheme("https")
 //                .host("dev-somojeon.vercel.app")
                 .scheme("http")
-                .host("localhost:3000")
+                .host("localhost")
+                .port(3000)
                 .path(path)
                 .queryParams(queryParams)
                 .build()
