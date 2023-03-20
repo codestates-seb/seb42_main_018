@@ -1,7 +1,7 @@
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 .map_wrap {display: flex;flex-direction: column; width:100%;height:300px;}
-#menu_wrap {top:0;left:0;bottom:0;height: 50%; margin:10px 5px 10px 5px;padding:5px;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+#menu_wrap {top:0;left:0;bottom:0;height: 50%; margin:0 5px 10px 5px;padding:5px;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap .hr-top {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin-top:2px;}
 #menu_wrap .hr-bottom {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin-bottom:2px;}
@@ -36,6 +36,6 @@
 #placesList .item .marker_14 {background-position: 0 -608px;}
 #placesList .item .marker_15 {background-position: 0 -654px;}
 #listContainer {height: 100%;overflow-y: auto;}
-#pagination {padding: 15px;margin:0 10px;text-align: center;}
+#pagination {padding: 0 15px 15px 15px;margin:0 10px;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#3470e0;}

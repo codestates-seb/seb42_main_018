@@ -15,10 +15,17 @@ public class CommentDto {
     @AllArgsConstructor
     public static class Post {
 
+        private Long recordId;
+
         private String content;
+
+        public void addRecordId(Long recordId) {
+            this.recordId = recordId;
+        }
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
 
@@ -30,6 +37,11 @@ public class CommentDto {
         public void addCommentId(Long commentId) {
             this.commentId = commentId;
         }
+
+        public void addRecordId(Long recordId) {
+            this.recordId = recordId;
+        }
+
     }
 
     @Getter

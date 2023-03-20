@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { S_EditButton } from '../../components/UI/S_Button'
-import { S_TagSmall } from '../../components/UI/S_Tag'
-import { S_Description, S_Label, S_SmallDescription, } from '../../components/UI/S_Text'
-import { ClubProps, ClubTag } from '././_MainContents'
+import { S_EditButton } from '../UI/S_Button'
+import { S_TagSmall } from '../UI/S_Tag'
+import { S_Description, S_Label, S_SmallDescription, } from '../UI/S_Text'
+import { ClubProps } from '././_MainContents'
 
 
 const S_ClubBox = styled.div`

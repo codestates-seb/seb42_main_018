@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.mapper.RecordMapper;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
+import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,13 @@ import java.util.List;
 public class RecordController {
     private final RecordService recordService;
     private final RecordMapper recordMapper;
+    private final UserMapper userMapper;
 
-    public RecordController(RecordService recordService, RecordMapper recordMapper) {
+    public RecordController(RecordService recordService, RecordMapper recordMapper,
+                            UserMapper userMapper) {
         this.recordService = recordService;
         this.recordMapper = recordMapper;
+        this.userMapper = userMapper;
     }
 
     @PostMapping
@@ -50,7 +54,7 @@ public class RecordController {
         Record record = recordService.updateRecord(recordMapper.recordPatchDtoToRecord(requestBody));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record)), HttpStatus.OK);
+                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record, userMapper)), HttpStatus.OK);
     }
 
     @GetMapping("/{record-id}")
@@ -58,7 +62,7 @@ public class RecordController {
         Record record = recordService.findRecord(recordId);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record)), HttpStatus.OK);
+                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record, userMapper)), HttpStatus.OK);
     }
 
     @GetMapping
