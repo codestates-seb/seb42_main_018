@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+
 public class UserDto {
     @Getter
     @Setter
@@ -24,6 +26,8 @@ public class UserDto {
         @Nullable
         String password;
 
+        private Long profileImageId;
+
 //        @Nullable
 //        int age;
 
@@ -37,6 +41,8 @@ public class UserDto {
 
         @Nullable
         String nickName;
+
+        private Long profileImageId;
 
 //        @Nullable
 //        String password;
@@ -56,6 +62,8 @@ public class UserDto {
         String email;
 
        User.UserStatus userStatus;
+
+        private ImagesResponseDto profileImage;
 
         public String getUserStatus() {
             return userStatus.getStatus();

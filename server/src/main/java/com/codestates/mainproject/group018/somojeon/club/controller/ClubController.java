@@ -35,8 +35,9 @@ public class ClubController {
     @PostMapping
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
-        URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
+        Long profileImageId = requestBody.getProfileImageId();
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
+        URI location = UriCreator.createUri("/club", createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
@@ -47,8 +48,9 @@ public class ClubController {
                                     @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
+        Long profileImageId = requestBody.getProfileImageId();
         Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName(), profileImageId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);

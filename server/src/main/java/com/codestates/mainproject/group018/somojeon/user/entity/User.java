@@ -7,7 +7,6 @@ import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
-import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,9 @@ public class User extends Auditable {
     @Column(nullable = false)
     String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // 이미지 연관관계 매핑 바꿔봄.
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "IMAGE_ID")
     private Images images;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -65,6 +65,10 @@ public class User extends Auditable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     OAuthUser oAuthUser;
+
+    public void setImages(Images images) {
+        this.images = images;
+    }
 
     public enum UserStatus{
 
