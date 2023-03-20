@@ -72,13 +72,13 @@ public class Identifier {
     }
 
     public String getAccessToken(HttpServletRequest request) {
-        String token = request.getHeader("Access");
+        String token = request.getHeader("Authorization").replace("Bearer ", "");;
         if(token == null) return null;
         // check verified access token
         Map<String, Object> claims = authService.getClaimsValues(token);
         String registration =  (String) claims.get("registration");
         String registrationId =  (String) claims.get("registrationId");
-        if(registration != null && registrationId != null) return null;
+        if(registration == null || registrationId == null) return null;
         return token;
     }
 
