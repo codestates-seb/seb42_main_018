@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { getFetch } from '../../../util/api';
 import DropDown from './_dropDown';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_Label, S_Description } from '../../../components/UI/S_Text';
@@ -12,20 +13,22 @@ export interface CreateCategoryAndLocalProps {
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface CategoryListDataType {
+  categoryName: string;
+}
 function CreateCategory({ inputValue, setInputValue }: CreateCategoryAndLocalProps) {
-  // TODO: 서버 api get 요청으로 카테고리 배열 데이터 받아오기
-  const categories: Array<string> = [
-    '배드민턴',
-    '축구',
-    '풋살',
-    '농구',
-    '배구',
-    '골프',
-    '볼링',
-    '테니스',
-    '하키',
-    '당구'
-  ];
+  const [categories, setCategories] = useState<string[]>();
+  useEffect(() => {
+    const GET_URL = `${process.env.REACT_APP_URL}/categories`;
+    const getCategoryList = async () => {
+      const res = await getFetch(GET_URL);
+      const categoryList: CategoryListDataType[] = res.data;
+      setCategories(categoryList.map((el) => el.categoryName));
+    };
+    getCategoryList();
+  }, []);
+
+  // console.log(categories);
 
   //* options: input값을 포함하는 autocomplete 추천 항목 리스트 확인
   //* currentOption: 선택한 option을 index로 관리
@@ -39,16 +42,16 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryAndLocalPro
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-    setOptions(categories.filter((item) => item.startsWith(e.target.value)));
+    setOptions(categories?.filter((item) => item.startsWith(e.target.value)));
   };
 
   const handleDropDownClick: HandleDropDownClick = (clickedOption) => {
     setInputValue(clickedOption);
-    setOptions(categories.filter((item) => item.startsWith(clickedOption)));
+    setOptions(categories?.filter((item) => item.startsWith(clickedOption)));
   };
 
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (hasText) {
+    if (hasText && options) {
       if (e.key === 'ArrowUp' && currentOption > -1) {
         setCurrentOption((cur) => cur - 1);
       } else if (e.key === 'ArrowDown' && currentOption < options.length - 1) {
@@ -75,6 +78,7 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryAndLocalPro
           onKeyUp={handleKeyUp}
           onChange={handleInputChange}
           ref={input}
+          width='96%'
         />
       </>
       {hasText && (
