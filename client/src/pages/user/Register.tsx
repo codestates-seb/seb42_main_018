@@ -70,7 +70,7 @@ function Register() {
       // TODO: temp 리프레쉬 토큰이 만료한 경우(30분 경과) 액세스 토큰 재발급 로직 필요
       if (accessToken && refreshToken)
         setTempTokens({
-          accessToken: `Bearer ${accessToken}`,
+          accessToken,
           refreshToken
         });
 
