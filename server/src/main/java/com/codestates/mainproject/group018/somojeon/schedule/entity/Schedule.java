@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,9 @@ public class Schedule {
 
     @Column(name = "DATE", nullable = false)
     private LocalDate date;
+
+    @Column(name = "TIME", nullable = false)
+    private LocalTime time;
 
     @CreatedDate
     @Column(name = "CREATE_AT", updatable = false)

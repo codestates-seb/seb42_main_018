@@ -3,41 +3,40 @@ import S_Container from './components/UI/S_Container';
 import { clubType } from './pages/club/club/CreateClub';
 import { getFetch, postFetch } from './util/api';
 
+interface ImgFileType {
+  lastModified: number;
+  lastModifiedDate: object;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
+
 function API_TEST() {
-  const POST_URL = `${process.env.REACT_APP_URL}/users`;
+  const POST_URL = `${process.env.REACT_APP_URL}/api/upload`;
   const GET_URL = `${process.env.REACT_APP_URL}`;
 
+  const [imgFile, setImgFile] = useState<ImgFileType>();
   const [dataFromServer, setDataFromServer] = useState('');
 
   useEffect(() => {
     async function getData() {
       const res = await getFetch(GET_URL);
-      console.log('get 응답 데이터: ', res);
+      // console.log('get 응답 데이터: ', res);
 
       setDataFromServer(res);
     }
     getData();
   }, []);
 
-  console.log(dataFromServer);
+  // console.log(dataFromServer);
 
-  interface ImgFileType {
-    lastModified: number;
-    lastModifiedDate: object;
-    name: string;
-    size: number;
-    type: string;
-    webkitRelativePath: string;
-  }
+  const onFileChange = ({ target: { files } }: any) => {
+    const data = files[0];
+    // console.log('이미지 파일 객체:', data);
 
-  //   let imgFile: ImgFileType;
-
-  //   const onFileChange = ({ target: { files } }: any) => {
-  //     const data = files[0];
-  //     console.log('이미지 파일 객체:', data);
-
-  //     imgFile = data;
-  //   };
+    setImgFile(data);
+  };
 
   const dataToServer: clubType = {
     clubName: '야구',
@@ -50,9 +49,9 @@ function API_TEST() {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('제출 버튼 클릭');
-    const res = await postFetch(POST_URL, dataToServer);
-    console.log('post 응답 데이터: ', res);
+    console.log(imgFile);
+    const res = await postFetch(POST_URL, imgFile);
+    console.log('post 요청 응답 데이터: ', res);
   };
 
   return (
@@ -64,7 +63,7 @@ function API_TEST() {
             id='server'
             type='file'
             accept='image/png, image/jpeg, image/jpg'
-            // onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
           />
           <button>제출</button>
         </form>

@@ -113,11 +113,12 @@ export const clubDataAll:ClubProps = {
         ],
         modifiedAt: "2023-03-16T17:24:49.050597",
         private: false
-    }],
+    },
+  ],
   pageInfo: {
     page: 1,
-    size: 10,
-    totalElements: 2,
-    totalPages: 1,
+    size: 5,
+    totalElements: 12,
+    totalPages: 3,
   }
 }

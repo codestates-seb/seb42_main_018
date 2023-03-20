@@ -1,9 +1,10 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components'
 import ClubList from "./_ClubList";
 import { S_Title } from '../../components/UI/S_Text'
-import { clubDataAll } from './_ClubListData';
+import { ClubData, ClubPage } from './_ClubListData';
+import { getFetch } from '../../util/api';
 import S_Page from '../UI/S_Page';
-import { useState } from 'react';
 
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
@@ -28,20 +29,36 @@ const S_Category = styled.span`
   }
 `
 
+export interface CategoryProps {
+  categoryName: string;
+}
+
 function MainContents() {
   // TODO : 페이지네이션 기능 추가
-  // TODO : data는 추후 axios로 get 요청
-  // const clubData:ClubProps = getFetch(`${process.env.REACT_APP_URL}/clubs`);
 
-  console.log(clubDataAll)
+  // API로 카테고리 정보 가져오기
+  const [categories, setCategories] = useState<CategoryProps[]>([]);
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/categories`)
+      .then((data) => {
+        const categories: CategoryProps[] = (data.data).slice(0,4);
+        setCategories(categories);
+      })
+  }, []);
 
-  const [page, setPage] = useState(1); // 페이지 정보 가져오기
-  const [size, setSize] = useState(10); //  한 페이지에 보여줄 아이템 수
-  const [total, setTotal] = useState(10); // 전체 아이템 수
+  // API로 클럽 리스트 가져오기
+  const [clubs, setClubs] = useState<ClubData[]>([]); // 뿌려줄 클럽리스트
+  const [pageInfo, setPageInfo] = useState<ClubPage>(); // 페이지 인포
 
-  const pageHandler = (page: number) => {
-    setPage(page);
-  };
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs`)
+      .then((data) => {
+        const clubs: ClubData[] = data.data;
+        setClubs(clubs);
+        const pageInfo: ClubPage = data.pageInfo;
+        setPageInfo(pageInfo)
+      })
+  }, []);
 
   return (
     <div>
@@ -50,12 +67,12 @@ function MainContents() {
           <S_TagBox>
             {/* 최대 5개의 카테고리만 보여주기 */}
             <S_Category>전체보기</S_Category>
-            {clubDataAll.data.map((e) => 
+            {categories.map((e) => 
             <S_Category key={e.categoryName}>{e.categoryName}</S_Category>)}
           </S_TagBox>
         </S_TitleBox>
         {/* 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
-        {clubDataAll.data.map((e) => 
+        {clubs.map((e) => 
           <ClubList 
             key={e.clubId}
             clubName={e.clubName}
@@ -67,12 +84,7 @@ function MainContents() {
             tagResponseDtos={e.tagResponseDtos}
           />
         )}
-        <S_Page 
-          total={total}
-          size={size}
-          page={page}
-          pageHandler={pageHandler}
-        />
+        {/* <S_Page /> */}
     </div>
   )
 }

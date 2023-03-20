@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import Pagination from 'react-js-pagination';
+import { ClubPage } from '../home/_ClubListData';
+import { useState } from 'react';
 
 const S_PageBox = styled.div`
   margin-top: 50px;
@@ -27,32 +29,32 @@ const S_PageBox = styled.div`
     color: var(--gray600);
     font-weight: 600;
   }
-`
-interface PageProps {
-  total:number;
-  size: number;
-  page: number;
-  setPage?: number;
-  pageHandler: (pageNumber: number) => void;
-}
+  ul.pagination li:first-child{
+    border-radius: 5px 0 0 5px;
+  }
 
-function S_Page({total, size, page, pageHandler}: PageProps) {
-  
-  // const pageHandler = (page: number) => {
-  //   setPage(page);
-  // };
-  
+  ul.pagination li:last-child{
+    border-radius: 0 5px 5px 0;
+  }
+`
+
+function S_Page({page, size, totalElements, totalPages}: ClubPage) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const changePage = (page:number) => {
+    setCurrentPage(page)
+  }
   return (
     <S_PageBox>
     <Pagination
-      activePage={page} // 현재 페이지
+      activePage={currentPage} // 현재 페이지
       itemsCountPerPage={size} // 한 페이지에 보여줄 아이템 수
-      totalItemsCount={total} // 전체 아이템 수
-      pageRangeDisplayed={10} // 페이지네이터에서 보여줄 범위
+      totalItemsCount={totalElements} // 전체 아이템 수
+      pageRangeDisplayed={5} // 페이지네이터에서 보여줄 범위
       prevPageText={"이전"} // 이전 페이지 가기
       nextPageText={"다음"} // 다음 페이지 가기
-      hideFirstLastPages={true}
-      onChange={pageHandler} // 페이지 바뀔 때 핸들링하는 함수
+      // hideNavigation={true} // 이전/다음 버튼 숨기기
+      hideFirstLastPages={true} // 맨앞/맨뒤 버튼 숨기기
+      onChange={changePage} // 페이지 바뀔 때 핸들링하는 함수
     />
     </S_PageBox>
   );

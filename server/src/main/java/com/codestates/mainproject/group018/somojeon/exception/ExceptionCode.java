@@ -23,10 +23,12 @@ public enum ExceptionCode {
     ACCESS_DENIED_PATCH_USER(401, "Can't change other's information"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     RECORD_NOT_FOUND(404, "Record not found"),
+    NOT_FOUND_EXCEPTION(404, "Not found"),
     SCHEDULE_NOT_FOUND(404, "Schedule not found"),
     TEAM_NOT_FOUND(404, "Team not found"),
     //TODO - DW 검토부탁드려요
-    USER_CLUB_NOT_FOUND(404, "User_club not found");
+    USER_CLUB_NOT_FOUND(404, "User_club not found"),
+    S3_FILE_NOT_FOUND(404, "S3 file not found");
 
 
 

@@ -1,13 +1,11 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
-import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
-import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -85,7 +83,8 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "club", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "IMAGE_ID")
     private Images images;
 
 

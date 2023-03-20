@@ -6,7 +6,10 @@ import com.codestates.mainproject.group018.somojeon.comment.mapper.CommentMapper
 import com.codestates.mainproject.group018.somojeon.comment.service.CommentService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
+import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,37 +19,50 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.net.URI;
 import java.util.List;
 
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/comments")
+@RequestMapping
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
+    private final Identifier identifier;
+    private final UserService userService;
 
-    public CommentController(CommentService commentService, CommentMapper commentMapper) {
+    public CommentController(CommentService commentService, CommentMapper commentMapper,
+                             Identifier identifier, UserService userService) {
         this.commentService = commentService;
         this.commentMapper = commentMapper;
+        this.identifier = identifier;
+        this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity postComment(@Valid @RequestBody CommentDto.Post requestBody) {
+    @PostMapping("/records/{record-id}/comments")
+    public ResponseEntity postComment(@PathVariable("record-id") @Positive long recordId,
+                                      @Valid @RequestBody CommentDto.Post requestBody) {
+        requestBody.addRecordId(recordId);
 
         Comment comment = commentMapper.commentPostDtoToComment(requestBody);
 
-        Comment createdComment = commentService.createComment(comment);
-        URI location = UriCreator.createUri("/comments", createdComment.getCommentId());
+        Comment createdComment = commentService.createComment(comment, recordId);
 
-        return ResponseEntity.created(location).build();
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(createdComment)),
+                HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{comment-id}")
-    public ResponseEntity patchComment(@PathVariable("comment-id") @Positive long commentId,
+    @PatchMapping("/records/{record-id}/comments/{comment-id}")
+    public ResponseEntity patchComment(@PathVariable("record-id") @Positive long recordId,
+                                       @PathVariable("comment-id") @Positive long commentId,
                                        @Valid @RequestBody CommentDto.Patch requestBody) {
+        requestBody.addRecordId(recordId);
         requestBody.addCommentId(commentId);
+
+        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(requestBody));
 
@@ -54,7 +70,7 @@ public class CommentController {
                 new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(comment)), HttpStatus.OK);
     }
 
-    @GetMapping("{comment-id}")
+    @GetMapping("/comments/{comment-id}")
     public ResponseEntity getComment(@PathVariable("comment-id") @Positive long commentId) {
         Comment comment = commentService.findComment(commentId);
 
@@ -62,10 +78,11 @@ public class CommentController {
                 new SingleResponseDto<>(commentMapper.commentToCommentResponseDto(comment)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getComments(@RequestParam("page") int page,
+    @GetMapping("/records/{record-id}/comments")
+    public ResponseEntity getComments(@PathVariable("record-id") @Positive long recordId,
+                                      @RequestParam("page") int page,
                                       @RequestParam("size") int size) {
-        Page<Comment> pageComments = commentService.findComments(page - 1, size);
+        Page<Comment> pageComments = commentService.findComments(page - 1, size, recordId);
         List<Comment> comments = pageComments.getContent();
 
         return new ResponseEntity<>(
@@ -73,9 +90,12 @@ public class CommentController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/{comment-id}")
+    @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);
+
+        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
