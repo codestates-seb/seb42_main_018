@@ -10,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -25,19 +26,12 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
     private final Identifier identifier;
     private final UserService userService;
-
-    public CommentController(CommentService commentService, CommentMapper commentMapper,
-                             Identifier identifier, UserService userService) {
-        this.commentService = commentService;
-        this.commentMapper = commentMapper;
-        this.identifier = identifier;
-        this.userService = userService;
-    }
 
     @PostMapping("/records/{record-id}/comments")
     public ResponseEntity postComment(@PathVariable("record-id") @Positive long recordId,

@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.mapper.TeamMapper;
 import com.codestates.mainproject.group018.somojeon.team.service.TeamService;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,10 @@ import java.util.List;
 @Slf4j
 @Validated
 @RequestMapping("/teams")
+@RequiredArgsConstructor
 public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
-
-    public TeamController(TeamService teamService, TeamMapper teamMapper) {
-        this.teamService = teamService;
-        this.teamMapper = teamMapper;
-    }
 
     @PostMapping
     public ResponseEntity postTeam(@Valid @RequestBody TeamDto.Post requestBody) {

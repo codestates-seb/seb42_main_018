@@ -8,6 +8,7 @@ import com.codestates.mainproject.group018.somojeon.record.mapper.RecordMapper;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,17 +25,11 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/records")
+@RequiredArgsConstructor
 public class RecordController {
     private final RecordService recordService;
     private final RecordMapper recordMapper;
     private final UserMapper userMapper;
-
-    public RecordController(RecordService recordService, RecordMapper recordMapper,
-                            UserMapper userMapper) {
-        this.recordService = recordService;
-        this.recordMapper = recordMapper;
-        this.userMapper = userMapper;
-    }
 
     @PostMapping
     public ResponseEntity postRecord(@Valid @RequestBody RecordDto.Post requestBody) {
