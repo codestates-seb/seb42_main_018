@@ -3,8 +3,16 @@ import styled from 'styled-components';
 
 const S_TabContainer = styled.div`
   // 탭메뉴 전체 박스
+  margin: -20px auto 0;
+  /* margin: -20px -20px 20px -20px; */
+  max-width: 500px;
+  position: fixed;
+  top: 50;
+  left: 0;
+  right: 0;
   display: flex;
-  margin: -20px -20px 20px -20px;
+  z-index: 200;
+  background-color: tomato;
 `;
 const S_TabItem = styled.button<{ active: boolean }>`
   // 탭 하나하나 버튼 스타일
