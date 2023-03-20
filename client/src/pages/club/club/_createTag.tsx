@@ -4,7 +4,7 @@ import { S_Label, S_Description } from '../../../components/UI/S_Text';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_Tag } from '../../../components/UI/S_Tag';
 
-const S_TagWrapper = styled.ul`
+export const S_TagWrapper = styled.ul`
   display: flex;
   margin-bottom: 10px;
 `;
@@ -73,9 +73,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
               }}
               style={{ cursor: 'pointer' }}
             >
-              <S_Tag>
-                <span>{tag}&nbsp;&times;</span>
-              </S_Tag>
+              <S_Tag>{tag}&nbsp;&times;</S_Tag>
             </li>
           ))}
       </S_TagWrapper>
