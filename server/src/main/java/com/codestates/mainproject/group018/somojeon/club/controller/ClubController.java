@@ -4,12 +4,10 @@ import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
-import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
-import com.codestates.mainproject.group018.somojeon.dto.ClubCategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -38,8 +37,9 @@ public class ClubController {
     @PostMapping
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
-        URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
+        Long profileImageId = requestBody.getProfileImageId();
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
+        URI location = UriCreator.createUri("/club", createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
@@ -50,8 +50,9 @@ public class ClubController {
                                     @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
+        Long profileImageId = requestBody.getProfileImageId();
         Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName(), profileImageId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);

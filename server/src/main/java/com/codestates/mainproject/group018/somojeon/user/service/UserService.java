@@ -5,6 +5,8 @@ import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
@@ -33,18 +35,22 @@ public class UserService {
     private final JwtTokenizer jwtTokenizer;
     private final AuthService authService;
     private final OauthUserService oauthUserService;
+    private final ImageService imageService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils
-            , JwtTokenizer jwtTokenizer, AuthService authService, OauthUserService oauthUserService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       CustomAuthorityUtils authorityUtils, JwtTokenizer jwtTokenizer,
+                       AuthService authService, OauthUserService oauthUserService,
+                       ImageService imageService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
         this.jwtTokenizer = jwtTokenizer;
         this.authService = authService;
         this.oauthUserService = oauthUserService;
+        this.imageService = imageService;
     }
 
-    public User createUser(User user, String token) {
+    public User createUser(User user, String token, Long profileImageId) {
         verifyExistsEmail(user.getEmail());
         if(token != null){
             user.setPassword("OAUTH2.0");
@@ -59,6 +65,11 @@ public class UserService {
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            user.setImages(images);
+        }
+
         User savedUser = userRepository.save(user);
 
         return savedUser;
@@ -69,13 +80,19 @@ public class UserService {
 
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user)  {
+    public User updateUser(User user, Long profileImageId)  {
         User findUser = findVerifiedUser(user.getUserId());
 
         Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
         optionalNickName.ifPresent(
                 nickName -> findUser.setNickName(nickName)
         );
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            findUser.setImages(images);
+        } else {
+            findUser.setImages(null);
+        }
         return userRepository.save(findUser);
     }
 
