@@ -12,7 +12,7 @@ import { S_Title, S_Label } from '../../../components/UI/S_Text';
 import { S_Button } from '../../../components/UI/S_Button';
 
 const S_FormWrapper = styled.div`
-  height: 84vh;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -24,7 +24,7 @@ const S_FormWrapper = styled.div`
 `;
 
 const S_RadioWrapper = styled.div`
-  width: 35%;
+  width: 40%;
   display: flex;
   justify-content: space-around;
 
@@ -124,8 +124,8 @@ function CreateClub() {
   return (
     <S_Container>
       <S_Title>신규 소모임 만들기</S_Title>
-      <form onSubmit={onSubmit}>
-        <S_FormWrapper>
+      <S_FormWrapper>
+        <form onSubmit={onSubmit}>
           <div>
             <label htmlFor='clubName'>
               <S_Label>소모임 이름 *</S_Label>
@@ -185,8 +185,8 @@ function CreateClub() {
             </S_RadioWrapper>
           </fieldset>
           <S_Button>소모임 만들기</S_Button>
-        </S_FormWrapper>
-      </form>
+        </form>
+      </S_FormWrapper>
     </S_Container>
   );
 }
