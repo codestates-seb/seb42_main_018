@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -31,7 +30,7 @@ public class CommentService {
     }
 
     public Comment createComment(Comment comment, Long recordId) {
-//        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
+        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
         Record record = recordService.findVerifiedRecord(recordId);// 경기 전적 확인
         comment.setRecord(record);
 
