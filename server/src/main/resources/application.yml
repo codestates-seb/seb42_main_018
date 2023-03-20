@@ -15,23 +15,27 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          kakao:
-#            client-id: cc9eb581caf2361034da01b9c99c75dd
-#            client-secret: gC5CPojQczd8sgqYCI2q4sXbx7Al6tp6
-#            client-name : Kakao
-#            authorization-grant-type : authorization_code
-#            redirect-uri : https://somojeon.vercel.app
-#
-#          provider:
-#            kakao:
-#              authorization-uri: https://kauth.kakao.com/oauth/authorize
-#              token-uri: https://kauth.kakao.com/oauth/token
-#              user-info-uri: https://kapi.kakao.com/v2/user/me
-#              user-name-attribute: id
+  servlet:
+    multipart:
+      max-file-size: 10MB # 이미지 파일 하나당 크기
+      max-request-size: 10MB #
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: bucket-somojeon/somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
 jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30

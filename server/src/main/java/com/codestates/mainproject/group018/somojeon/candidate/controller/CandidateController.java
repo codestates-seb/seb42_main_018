@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,19 +28,12 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/candidates")
+@RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
     private final CandidateMapper candidateMapper;
     private final UserService userService;
     private final Identifier identifier;
-
-    public CandidateController(CandidateService candidateService, CandidateMapper candidateMapper,
-                               Identifier identifier, UserService userService) {
-        this.candidateService = candidateService;
-        this.candidateMapper = candidateMapper;
-        this.identifier = identifier;
-        this.userService = userService;
-    }
 
     @PostMapping
     public ResponseEntity postCandidate(@Valid @RequestBody CandidateDto.Post requestBody) {
