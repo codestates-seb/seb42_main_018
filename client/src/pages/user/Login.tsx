@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { postFetch } from '../../util/api';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
-import useGoToIntro from '../../util/hooks/useGoToIntro';
 import { handleKakaoLogin } from '../../util/snsLoginLogic';
+import { useLoginRequestLogic } from '../../util/authorization/useLoginRequestLogic';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
@@ -48,7 +47,9 @@ export const S_InstructionWrapper = styled.div`
 
 function Login() {
   const navigate = useNavigate();
-  const goToIntro = useGoToIntro();
+  const goToIntro = () => {
+    navigate('/');
+  };
   const [showModal, setShowModal] = useState(false);
 
   const [inputs, setInputs] = useState({
@@ -67,10 +68,10 @@ function Login() {
   // console.log(inputs);
 
   const handleModal = () => {
-    //! TODO: 모달 연결
-    console.log('modal pop up');
     setShowModal((current) => !current);
   };
+
+  const { handleLogin } = useLoginRequestLogic();
 
   // * POST 요청 관련 로직
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,14 +91,10 @@ function Login() {
 
     if (!isValidEmail || !isValidPassword) return;
 
-    // 서버에 post 요청
-    const POST_URL = `${process.env.REACT_APP_URL}/auth/login`;
-    const res = await postFetch(POST_URL, inputs);
-    console.log('응답 데이터: ', res);
+    // 서버에 로그인 post 요청
+    const res = await handleLogin(inputs);
 
     if (res) {
-      // TODO 1. user data (jwt 토큰 포함) 전역 상태로 담기
-      // 2. /home 으로 리다이렉트
       navigate('/home');
     }
   };

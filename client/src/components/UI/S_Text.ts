@@ -28,6 +28,7 @@ export const S_Label = styled.div<{color?: string}>`
 export const S_Text = styled.p<{color?: string}>`
   // 글로벌 스타일에 적용된 기본 글씨를 따라가는 p태그입니다.
   margin-bottom: 5px;
+  color: ${(props) => props.color || 'var(--gray600)'};
 `
 
 export const S_Description = styled.div<{color?: string}>`
@@ -35,7 +36,7 @@ export const S_Description = styled.div<{color?: string}>`
   // 또한 소모임 소개 개별 페이지에 제목 밑 카테고리/지역/인원을 설명합니다.
   // 기본 색상은 회색입니다.
   font-size: 0.9rem;
-  line-height: 1.3rem;
+  line-height: 1.5rem;
   margin-bottom: 5px;
   color: ${(props) => props.color || 'var(--gray300)'};
 `
