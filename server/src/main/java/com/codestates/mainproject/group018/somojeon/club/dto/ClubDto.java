@@ -2,16 +2,13 @@ package com.codestates.mainproject.group018.somojeon.club.dto;
 
 import com.codestates.mainproject.group018.somojeon.category.dto.CategoryDto;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
-import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import lombok.*;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 public class ClubDto {

@@ -1,14 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.join.controller;
 
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
-import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.join.dto.JoinDto;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.join.mapper.JoinMapper;
 import com.codestates.mainproject.group018.somojeon.join.service.JoinService;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.mapping.Join;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
