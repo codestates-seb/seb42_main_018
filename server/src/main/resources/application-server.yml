@@ -4,6 +4,27 @@ spring:
     url: jdbc:mysql://${RDS_ENDPOINT}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: ${RDS_ID}
     password: ${RDS_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 10MB # 이미지 파일 하나당 크기
+      max-request-size: 10MB #
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: bucket-somojeon/somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
   jpa:
     hibernate:
       ddl-auto: update

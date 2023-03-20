@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
 import com.codestates.mainproject.group018.somojeon.category.dto.CategoryDto;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import lombok.*;
@@ -39,6 +40,8 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isPrivate;
 
+        private Long profileImageId;
+
     }
 
     @Getter
@@ -61,6 +64,8 @@ public class ClubDto {
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
         private boolean isPrivate;
+
+        private Long profileImageId;
     }
 
     //TODO-DW:회원등급 Patch,
@@ -81,6 +86,7 @@ public class ClubDto {
         private int viewCount;
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
+        private ImagesResponseDto profileImage;
         private boolean isPrivate;
         private LocalDateTime modifiedAt;
 

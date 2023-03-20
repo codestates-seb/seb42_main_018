@@ -40,7 +40,9 @@ public class User extends Auditable {
     @Column(nullable = false)
     String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // 이미지 연관관계 매핑 바꿔봄.
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "IMAGE_ID")
     private Images images;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -64,6 +66,10 @@ public class User extends Auditable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     OAuthUser oAuthUser;
+
+    public void setImages(Images images) {
+        this.images = images;
+    }
 
     public enum UserStatus{
 

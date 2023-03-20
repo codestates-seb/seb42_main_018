@@ -7,6 +7,10 @@ spring:
 #    url: jdbc:mysql://database-somojeon.cji8sbuqsyk5.ap-northeast-2.rds.amazonaws.com:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
 #    username: admin
 #    password: password!
+  servlet:
+    multipart:
+      max-file-size: 10MB # 이미지 파일 하나당 크기
+      max-request-size: 10MB # 전송하려는 이미지 총 파일 크기
   jpa:
     hibernate:
       ddl-auto: update
@@ -42,3 +46,20 @@ mail:
 oauth:
   kakao:
     redirect-address: http://localhost:8080/login/oauth2/code/kakao
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: somojeon-images/somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
