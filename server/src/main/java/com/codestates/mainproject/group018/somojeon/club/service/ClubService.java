@@ -9,13 +9,15 @@ import com.codestates.mainproject.group018.somojeon.club.repository.ClubReposito
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
-import com.codestates.mainproject.group018.somojeon.tag.repository.TagRepository;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,10 +25,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -35,16 +35,16 @@ public class ClubService {
     private final TagService tagService;
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
-    private final TagRepository tagRepository;
+    private final ImageService imageService;
 
     public ClubService(ClubRepository clubRepository, TagService tagService,
                        UserClubRepository userClubRepository, CategoryService categoryService,
-                       TagRepository tagRepository) {
+                       ImageService imageService) {
         this.clubRepository = clubRepository;
         this.tagService = tagService;
         this.userClubRepository = userClubRepository;
         this.categoryService = categoryService;
-        this.tagRepository = tagRepository;
+        this.imageService = imageService;
     }
 
     // 소모임 생성
@@ -68,7 +68,8 @@ public class ClubService {
 //        }
 //    }
 
-    public Club createClub(Club club, List<String> tagName) {
+    // 소모임 생성 (일반유저 모두 가능)
+    public Club createClub(Club club, List<String> tagName, Long profileImageId) {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
 
         categoryService.verifyExistsCategoryName(club.getCategoryName());
@@ -78,12 +79,17 @@ public class ClubService {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
         club.setCreatedAt(LocalDateTime.now());
+        // profileImageId 들어오면 Image도 저장
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            club.setImages(images);
+        }
         return clubRepository.save(club);
     }
 
-    // 소모임 수정
+    // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Club club, List<String> tagName) {
+    public Club updateClub(Club club, List<String> tagName, Long profileImageId) {
         //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
         Club findClub = findVerifiedClub(club.getClubId());
 
@@ -95,6 +101,14 @@ public class ClubService {
                 .ifPresent(findClub::setLocal);
         Optional.of(club.isPrivate())
                 .ifPresent(findClub::setPrivate);
+        // profileImageId 들어오면 Image도 저장
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            club.setImages(images);
+        } else {
+            club.setImages(null);
+        }
+
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
         tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
@@ -104,8 +118,7 @@ public class ClubService {
         }
     }
 
-    // 소모임 단건 조회
-    // 전체 ROLE 가능
+    // 소모임 단건 조회 (전체 ROLE 가능)
     public Club findClub(Long clubId) {
         Club findClub = findVerifiedClub(clubId);
             findClub.setViewCount(findClub.getViewCount() + 1);
@@ -113,24 +126,26 @@ public class ClubService {
         return findClub;
     }
 
-    // 소모임 전체 조회
-    // 전체 ROLE 가능
+    // 소모임 전체 조회 (전체 ROLE 가능)
     public Page<Club> findClubs(int page, int size) {
         return clubRepository.findAll(PageRequest.of(page, size, Sort.by("viewCount").descending()));
 
     }
 
-    // 키워드로 퍼블릭 소모임 찾기
-    // 전체 ROLE 가능
+    // 키워드로 소모임 찾기 (전체 ROLE 가능)
     public Page<Club> searchClubs(int page, int size, String keyword) {
         Page<Club> clubPage = clubRepository.findByKeyword(PageRequest.of(page, size), keyword);
         return clubPage;
     }
 
-    // TODO-DW : 로직 수정해야함. data가 안나옴
-    // 카테고리별로 소모임 조회
+    // 카테고리별로 소모임 조회 (전체 ROLE 가능)
     public Page<Club> findClubsByCategoryName(String categoryName, int page, int size) {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
+    }
+
+    // 소모임 삭제 (리더만 가능)
+    public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
+        return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
     public void deleteClub(Long clubId) {
@@ -151,8 +166,7 @@ public class ClubService {
         return userClub.getClubRole();
     }
 
-     //소모임 회원 등급 설정
-
+     //소모임 회원 등급 설정 (리더와 매니저만 가능)
     public UserClub changeClubRoles(UserClub userClub, String clubRole) {
         //TODO-DW: 회원검증
         //TODO-DW: identifier 객체 사용으로 리팩토링 부탁드려요 by 제훈
@@ -171,7 +185,7 @@ public class ClubService {
     }
 
     //    //TODO-DW: UserClub DI - ClubRole
-    // 소모임 리더 위임
+    // 소모임 리더 위임 (리더만 가능)
     public UserClub changeClubLeader(UserClub userClub, String clubRole) {
         if (!userClub.getClubRole().getRoles().equals("Leader")) {
             throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
@@ -188,13 +202,13 @@ public class ClubService {
 
     //TODO-DW: user 연결해야됨
 
-    // 소모임 멤버 상태 변경
+    // 소모임 멤버 상태 변경 (리더와 매니저만 가능)
     public void changeClubMemberStatus(Long userId) {
 
     }
     //TODO-DW: user 연결해야됨
 
-    // 소모임 회원 탈퇴
+    // 소모임 회원 탈퇴 (소모임 리더, 매니저, 멤버 가능)
     public void memberQuit(Long userId) {
 
     }

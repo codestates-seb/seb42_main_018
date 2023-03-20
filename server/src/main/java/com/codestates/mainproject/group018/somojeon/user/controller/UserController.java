@@ -1,12 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -40,9 +41,10 @@ public class UserController {
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
                                    HttpServletRequest request){
+        Long profileImageId = userDtoPost.getProfileImageId();
         User user =  mapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser =  userService.createUser(user, token);
+        User createdUser =  userService.createUser(user, token, profileImageId);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
     }
@@ -52,11 +54,12 @@ public class UserController {
             @PathVariable("user-id") @Positive long userId,
             @Valid @RequestBody UserDto.Patch requestBody) {
 
+        Long profileImageId = requestBody.getProfileImageId();
         requestBody.setUserId(userId);
         if(!identifier.isVerified(userId)){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUser(mapper.userPatchToUser(requestBody));
+        User user = userService.updateUser(mapper.userPatchToUser(requestBody), profileImageId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.userToUserResponse(user)),

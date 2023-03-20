@@ -18,6 +18,9 @@ public class Images {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long imageId;
 
+    @Column
+    private String fileName;
+
     @Column(nullable = false)
     private String url;
 
@@ -29,3 +32,4 @@ public class Images {
     @JoinColumn(name = "USER_ID")
     private User user;
 }
+

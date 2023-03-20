@@ -1,11 +1,10 @@
-server/HELP.md
+HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-## generated ##
-server/src/main/generated/**
+
 ### STS ###
 .apt_generated
 .classpath
@@ -24,8 +23,6 @@ bin/
 *.iml
 *.ipr
 *.yml
-*.application.yml
-*.application-aws.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
@@ -40,8 +37,5 @@ out/
 ### VS Code ###
 .vscode/
 
-#*.yml
-#*.application.yml
-
-*.gradle
-workspace.xml
+*.yml
+application.yml

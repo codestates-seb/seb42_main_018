@@ -2,10 +2,9 @@ package com.codestates.mainproject.group018.somojeon.join.dto;
 
 import com.codestates.mainproject.group018.somojeon.join.enums.JoinDecisionStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 public class JoinDto {
 
@@ -19,7 +18,8 @@ public class JoinDto {
     @AllArgsConstructor
     public static class DecisionPatch {
         private Long joinsId;
-        private JoinDecisionStatus joinDecisionStatus;
+        private Long clubId;
+        private String decision;
 
         public void addJoinsId(Long joinsId) {
             this.joinsId = joinsId;
@@ -28,6 +28,7 @@ public class JoinDto {
 
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
@@ -36,6 +37,7 @@ public class JoinDto {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class DecisionResponse {
