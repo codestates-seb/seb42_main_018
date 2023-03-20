@@ -22,7 +22,7 @@ export function useLoginRequestLogic() {
       dispatch(setUserInfo(res.data.data));
       dispatch(
         setTokens({
-          accessToken: `Bearer ${res.headers.authorization}`,
+          accessToken: res.headers.authorization,
           refreshToken: res.headers.refresh
         })
       );
