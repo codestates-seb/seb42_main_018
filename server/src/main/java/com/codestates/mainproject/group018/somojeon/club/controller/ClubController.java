@@ -6,6 +6,8 @@ import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +25,12 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/clubs")
+@RequiredArgsConstructor
 public class ClubController {
 
     private final ClubService clubService;
     private final ClubMapper mapper;
-
-    public ClubController(ClubService clubService, ClubMapper mapper) {
-        this.clubService = clubService;
-        this.mapper = mapper;
-    }
+    private final ScheduleMapper scheduleMapper;
 
     // 소모임 생성
     @PostMapping
@@ -103,6 +102,18 @@ public class ClubController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
+    }
+
+    @GetMapping("/{club-id}/schedules")
+    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
+                                               @RequestParam(defaultValue = "1") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
+        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, page - 1, size);
+        List<Schedule> content = schedulePage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
+                HttpStatus.OK);
     }
 
     // 소모임 삭제
