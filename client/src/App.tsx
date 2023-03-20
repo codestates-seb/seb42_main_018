@@ -47,8 +47,8 @@ function App() {
           <Route path='member' element={<ClubMember />} />
         </Route>
         <Route path='/club/create' element={<CreateClub />} />
-        <Route path='/club/edit' element={<EditClub />} />
-        <Route path='/club/setting'>
+        <Route path='/club/:id/edit' element={<EditClub />} />
+        <Route path='/club/:id/setting'>
           <Route index element={<ClubSetting />} />
           <Route path='member' element={<MemberSetting />} />
         </Route>

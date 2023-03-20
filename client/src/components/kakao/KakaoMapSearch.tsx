@@ -5,13 +5,13 @@ import './KakaoMap.css';
 import { S_Input } from '../UI/S_Input';
 
 export interface PlaceType {
-  place_name: string;
-  road_address_name: string;
-  address_name: string;
-  phone: string;
-  place_url: string;
-  x:number;
-  y:number;
+  place_name?: string;
+  road_address_name?: string;
+  address_name?: string;
+  phone?: string;
+  place_url?: string;
+  x?:number;
+  y?:number;
 }
 
 
@@ -34,11 +34,12 @@ const KakaoMapSearch = (props:any) => {
   useEffect(() => {
     const mapContainer = document.getElementById('map');
     const mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+      center: props.placeValue ? new kakao.maps.LatLng(props.placeValue.y, props.placeValue.x) : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
     // 지도를 생성
     const map = new kakao.maps.Map(mapContainer, mapOption);
+    map.setDraggable(true);
     // 장소 검색 객체를 생성
     const ps = new kakao.maps.services.Places();
 
@@ -261,7 +262,7 @@ const KakaoMapSearch = (props:any) => {
 
   return (
     <div className='map_wrap'>
-      <div id='map' style={{ width: '100%', height: '120px', overflow: 'hidden' }}></div>
+      <div id='map' style={{ width: '100%', height: '150px', overflow: 'hidden' }}></div>
       <div id='menu_wrap' className='bg_white'>
         <div className='option'>
           <div className='form-button'>
