@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0b0dd914-7914-46de-bf1a-d6458e9087b3" name="Changes" comment="♻️ refactor : controller constructor refactor" />
     <list id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="" />
+    <list default="true" id="0b0dd914-7914-46de-bf1a-d6458e9087b3" name="Changes" comment="♻️ refactor : images update" />
+    <list id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,6 +60,16 @@
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="ET/feat/refactor" />
+      </map>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ET/feat/S3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -158,6 +170,11 @@
         <item itemvalue="Application.insertDummyData" />
       </list>
     </recent_temporary>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.insertDummyData" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -202,6 +219,15 @@
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
       <updated>1679295502764</updated>
+      <updated>1679295208784</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00005" summary="♻️ refactor : images update">
+      <created>1679295502764</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679295502764</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
@@ -211,6 +237,19 @@
       <map>
         <entry key="MAIN">
           <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="ET/feat/refactor" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
             <State>
               <option name="FILTERS">
                 <map>

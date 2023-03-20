@@ -1,5 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
+import com.codestates.mainproject.group018.somojeon.category.dto.CategoryDto;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import lombok.*;
