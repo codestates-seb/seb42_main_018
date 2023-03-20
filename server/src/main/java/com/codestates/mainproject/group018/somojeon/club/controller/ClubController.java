@@ -18,20 +18,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/club")
+@RequiredArgsConstructor
+@CrossOrigin(value = "https://dev.somojeon.site")
+@RequestMapping("/clubs")
 public class ClubController {
 
     private final ClubService clubService;
     private final ClubMapper mapper;
 
-    public ClubController(ClubService clubService, ClubMapper mapper) {
-        this.clubService = clubService;
-        this.mapper = mapper;
-    }
 
     // 소모임 생성
     @PostMapping
