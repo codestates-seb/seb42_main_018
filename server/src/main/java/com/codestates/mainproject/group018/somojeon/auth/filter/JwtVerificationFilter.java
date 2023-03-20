@@ -4,8 +4,6 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -44,19 +42,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             setAuthenticationToContext(claims);
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
+            if(request.getMethod().equals("POST") && request.getRequestURI().equals("/users")){
+                response.sendRedirect("http://localhost:3000/login");
+            }
             request.setAttribute("exception", ee);
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-            // TODO JH 리프레시 토큰쓸건지?
-//            try {
-//                authService.refresh(request, response);
-//            }
-//            catch (ExpiredJwtException expiredJwtException){
-//                log.warn("Expired Refresh JWT Exception");
-//                request.setAttribute("exception ", expiredJwtException);
-//
-//            }
-
-
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
