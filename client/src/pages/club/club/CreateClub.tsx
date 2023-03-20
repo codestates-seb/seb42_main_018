@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { postFetch } from '../../../util/api';
 import CreateCategory from './_createCategory';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
@@ -10,7 +12,7 @@ import { S_Title, S_Label } from '../../../components/UI/S_Text';
 import { S_Button } from '../../../components/UI/S_Button';
 
 const S_FormWrapper = styled.div`
-  height: 84vh;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -22,7 +24,7 @@ const S_FormWrapper = styled.div`
 `;
 
 const S_RadioWrapper = styled.div`
-  width: 35%;
+  width: 40%;
   display: flex;
   justify-content: space-around;
 
@@ -54,7 +56,8 @@ export interface clubType {
 }
 
 function CreateClub() {
-  const [tags, setTags] = useState<Array<string>>([]);
+  const navigate = useNavigate();
+  const [tags, setTags] = useState<string[]>([]);
   const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
 
@@ -86,7 +89,7 @@ function CreateClub() {
     setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // TODO: local 입력값은 local component에서 자체 해결하는 방안으로 리팩토링
@@ -102,12 +105,7 @@ function CreateClub() {
       return;
     }
 
-    //! tagName: [null] 로 수정 -> type error
-    // if (tags.length === 0) {
-    //   setTags([null]);
-    // }
-
-    const newData: clubType = {
+    const newClubData: clubType = {
       ...inputs,
       categoryName: categoryValue,
       local: localValue,
@@ -115,16 +113,19 @@ function CreateClub() {
       isPrivate
     };
 
-    console.log(newData);
+    // console.log(newClubData);
 
     // TODO: 서버 post 요청 로직 작성
+    const POST_URL = `${process.env.REACT_APP_URL}/clubs`;
+    const res = await postFetch(POST_URL, newClubData);
+    if (res) navigate(res.headers.location);
   };
 
   return (
     <S_Container>
-      <form onSubmit={onSubmit}>
-        <S_FormWrapper>
-          <S_Title>신규 소모임 만들기</S_Title>
+      <S_Title>신규 소모임 만들기</S_Title>
+      <S_FormWrapper>
+        <form onSubmit={onSubmit}>
           <div>
             <label htmlFor='clubName'>
               <S_Label>소모임 이름 *</S_Label>
@@ -184,8 +185,8 @@ function CreateClub() {
             </S_RadioWrapper>
           </fieldset>
           <S_Button>소모임 만들기</S_Button>
-        </S_FormWrapper>
-      </form>
+        </form>
+      </S_FormWrapper>
     </S_Container>
   );
 }
