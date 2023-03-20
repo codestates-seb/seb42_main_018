@@ -48,7 +48,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // (3)
 
 	// aws s3 image upload
-	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.2'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 }
 
