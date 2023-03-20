@@ -47,6 +47,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'     // (2)
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // (3)
 
+
+//	s3 연결 관련
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {

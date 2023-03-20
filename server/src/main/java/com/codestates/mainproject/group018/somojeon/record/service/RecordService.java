@@ -22,21 +22,25 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-//    public Record createRecord(Record record) {
-//
-//        return recordRepository.save(record);
-//    }
-//
-//    public Record updateRecord(Record record) {
-//        Record findRecord = findVerifiedRecord(record.getRecordId());
-//
-//        Optional.ofNullable(record.getDate())
-//                .ifPresent(findRecord::setDate);
-//        Optional.ofNullable(record.getPlace())
-//                .ifPresent(findRecord::setPlace);
-//
-//        return recordRepository.save(findRecord);
-//    }
+    public Record createRecord(Record record) {
+
+        return recordRepository.save(record);
+    }
+
+    public Record updateRecord(Record record) {
+        Record findRecord = findVerifiedRecord(record.getRecordId());
+
+        Optional.ofNullable(record.getFirstTeam())
+                .ifPresent(findRecord::setFirstTeam);
+        Optional.ofNullable(record.getFirstTeamScore())
+                .ifPresent(findRecord::setFirstTeamScore);
+        Optional.ofNullable(record.getSecondTeam())
+                .ifPresent(findRecord::setSecondTeam);
+        Optional.ofNullable(record.getSecondTeamScore())
+                .ifPresent(findRecord::setSecondTeamScore);
+
+        return recordRepository.save(findRecord);
+    }
 
     public Record findRecord(long recordId) {
         Record findRecord = findVerifiedRecord(recordId);
@@ -45,7 +49,7 @@ public class RecordService {
     }
 
     public Page<Record> findRecords(int page, int size) {
-        return recordRepository.findAll(PageRequest.of(page, size, Sort.by("recordId").descending()));
+        return recordRepository.findAll(PageRequest.of(page, size, Sort.by("recordId").ascending()));
     }
 
     public void deleteRecord(long recordId) {

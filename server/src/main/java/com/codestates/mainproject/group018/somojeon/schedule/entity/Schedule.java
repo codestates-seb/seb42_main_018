@@ -9,12 +9,12 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import org.springframework.data.geo.Point;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +28,11 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-    @CreatedDate
     @Column(name = "DATE", nullable = false)
     private LocalDate date;
+
+    @Column(name = "TIME", nullable = false)
+    private LocalTime time;
 
     @CreatedDate
     @Column(name = "CREATE_AT", updatable = false)
@@ -43,8 +45,11 @@ public class Schedule {
     @Column(nullable = false)
     private String placeName;
 
-    @Column(nullable = false, columnDefinition = "GEOMETRY")
-    private Point point;
+    @Column(nullable = false)
+    private Double longitude; // 경도
+
+    @Column(nullable = false)
+    private Double latitude; // 위도
 
     @ManyToOne
     @JoinColumn(name = "CLUB_ID")

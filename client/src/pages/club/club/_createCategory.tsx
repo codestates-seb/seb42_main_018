@@ -62,19 +62,21 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
 
   return (
     <div>
-      <label htmlFor='categoryName'>
-        <S_Label>어떤 소모임을 만드실 건가요? *</S_Label>
-      </label>
-      <S_Description>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</S_Description>
-      <S_Input
-        id='categoryName'
-        name='categoryName'
-        type='text'
-        value={inputValue}
-        onKeyUp={handleKeyUp}
-        onChange={handleInputChange}
-        ref={input}
-      />
+      <>
+        <label htmlFor='categoryName'>
+          <S_Label>어떤 소모임을 만드실 건가요? *</S_Label>
+        </label>
+        <S_Description>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</S_Description>
+        <S_Input
+          id='categoryName'
+          name='categoryName'
+          type='text'
+          value={inputValue}
+          onKeyUp={handleKeyUp}
+          onChange={handleInputChange}
+          ref={input}
+        />
+      </>
       {hasText && (
         <DropDown
           options={options}

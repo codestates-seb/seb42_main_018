@@ -131,6 +131,7 @@ function CreateClub() {
               maxLength={10}
               value={clubName}
               onChange={onChange}
+              width='96%'
             />
           </div>
           <div>

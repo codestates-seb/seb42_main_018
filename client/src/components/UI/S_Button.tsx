@@ -31,7 +31,7 @@ interface S_ButtonProps {
 }
 
 export function S_Button({ children, addStyle, onClick }: S_ButtonProps) {
-  if (addStyle && !!onClick) {
+  if (addStyle) {
     const { width, backgroundColor, color, hoverBgColor } = addStyle;
     return (
       <StyledButton
@@ -69,9 +69,9 @@ export const S_ButtonBlack = styled(StyledButton)`
   }
 `;
 
-export const S_SelectButton = styled.button`
+export const S_SelectButton = styled.button<{ width?: string }>`
   // 참석, 불참을 표시하기 전 기본 버튼입니다.
-  width: 46px;
+  width: ${(props) => props.width || '46px'};
   height: 30px;
   color: var(--gray600);
   background-color: var(--white);

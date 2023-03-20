@@ -12,10 +12,10 @@ public class CandidateDto {
     @AllArgsConstructor
     public static class Post {
 
-        Candidate.Attendance attendance;
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
 
@@ -37,6 +37,7 @@ public class CandidateDto {
         private Long userId;
         private String nickName;
         Candidate.Attendance attendance;
+        private Long scheduleId;
 
         public String getAttendance() {
             return attendance.getStatus();

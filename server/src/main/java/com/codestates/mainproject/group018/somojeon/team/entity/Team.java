@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,5 +21,33 @@ public class Team {
     private Integer score;
 
     @Column(nullable = false)
-    private String winLose;
+    private String winLoseDraw;
+
+    @OneToMany(mappedBy = "team")
+    private List<TeamRecord> teamRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team")
+    private List<UserTeam> userTeams = new ArrayList<>();
+
+    public void addTeamRecord(TeamRecord teamRecord) {
+        this.teamRecords.add(teamRecord);
+        if (teamRecord.getTeam() != this) {
+            teamRecord.setTeam(this);
+        }
+    }
+
+    public void setTeamRecord(TeamRecord teamRecord) {
+        teamRecords.add(teamRecord);
+    }
+
+    public void addUserTeam(UserTeam userTeam) {
+        this.userTeams.add(userTeam);
+        if (userTeam.getTeam() != this) {
+            userTeam.setTeam(this);
+        }
+    }
+
+    public void setUserTeam(UserTeam userTeam) {
+        userTeams.add(userTeam);
+    }
 }

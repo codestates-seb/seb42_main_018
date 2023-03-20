@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { S_Tag } from '../../components/UI/S_Tag';
+import { S_NameTag } from '../../components/UI/S_Tag';
 import { TeamList } from '../../pages/club/match/CreateMatch';
 
 interface AddMemberPopUpProps {
   top: number;
+  left: number;
   idx: number;
   candidateList: string[];
   teamList: TeamList[];
@@ -12,23 +13,24 @@ interface AddMemberPopUpProps {
   setIsOpenAddMember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const S_PopupContainer = styled.div<{ top?: number }>`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+const S_PopupContainer = styled.div<{ top?: number, left?: number}>`
+  /* display: grid;
+  row-gap: 3px;
+  grid-template-columns: repeat(4, 1fr); */
   position: absolute;
-  width: 60%;
+  width: 300px;
   height: auto;
   border-radius: 5px;
   z-index: 9;
   background-color: var(--white);
-  top: ${(props) => props.top || 0}px;
-  left: 35%;
+  top: ${(props) => props.top ? props.top + 20 : 0}px;
+  left: ${(props) => props.left ? props.left - 300 : 0}px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
 
 function AddMemberPopUp(props: AddMemberPopUpProps) {
-  const TEAM_ELEMENT_HEIGHT = 34;
+  // const TEAM_ELEMENT_HEIGHT = 34;
 
   // const addTeamMember = (
   //   member: string,
@@ -44,11 +46,11 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
   // };
 
   return (
-    <S_PopupContainer top={TEAM_ELEMENT_HEIGHT + props.top}>
+    <S_PopupContainer top={props.top} left={props.left}>
       {props.candidateList &&
         props.candidateList.map((member, idx) => {
           return (
-            <S_Tag
+            <S_NameTag
               key={idx}
               onClick={() => {
                 
@@ -70,7 +72,7 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
               }}
             >
               {member}+
-            </S_Tag>
+            </S_NameTag>
           );
         })}
     </S_PopupContainer>

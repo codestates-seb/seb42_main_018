@@ -21,12 +21,22 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
+    public Team createTeam(Team team) {
+        return teamRepository.save(team);
+    }
+
+    public Team updateTeam(Team team) {
+        Team findTeam = findVerifiedTeam(team.getTeamId());
+
+        return teamRepository.save(findTeam);
+    }
+
     public Team findTeam(long teamId) {
         return findVerifiedTeam(teamId);
     }
 
     public Page<Team> findTeams(int page, int size) {
-        return teamRepository.findAll(PageRequest.of(page, size, Sort.by("team-id").descending()));
+        return teamRepository.findAll(PageRequest.of(page, size, Sort.by("teamId").ascending()));
     }
 
     public void deleteteam(long teamId) {

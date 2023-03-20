@@ -1,80 +1,57 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import S_Container from './components/UI/S_Container';
 import { clubType } from './pages/club/club/CreateClub';
+import { getFetch, postFetch } from './util/api';
 
-//? return 값 res.data 말고, res 로 하면 타입 지정 어떻게 해야할지?
-export const getFetch = async (url: string) => {
-  try {
-    const res = await axios.get(url);
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export const postFetch = async (url: string, newData: any, config?: any) => {
-  try {
-    const res = await axios.post(url, JSON.stringify(newData));
-    // TODO: status code 나 ok로 분기 더 명확하게 줘야함
-    if (res) {
-      return res;
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
+interface ImgFileType {
+  lastModified: number;
+  lastModifiedDate: object;
+  name: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
+}
 
 function API_TEST() {
-  const POST_URL = 'https://dev.somojeon.site/clubs';
-  const GET_URL = 'https://dev.somojeon.site';
+  const POST_URL = `${process.env.REACT_APP_URL}/api/upload`;
+  const GET_URL = `${process.env.REACT_APP_URL}`;
 
+  const [imgFile, setImgFile] = useState<ImgFileType>();
   const [dataFromServer, setDataFromServer] = useState('');
 
   useEffect(() => {
     async function getData() {
       const res = await getFetch(GET_URL);
-      console.log('get 응답 데이터: ', res);
+      // console.log('get 응답 데이터: ', res);
 
       setDataFromServer(res);
     }
     getData();
   }, []);
 
-  console.log(dataFromServer);
+  // console.log(dataFromServer);
 
-  interface ImgFileType {
-    lastModified: number;
-    lastModifiedDate: object;
-    name: string;
-    size: number;
-    type: string;
-    webkitRelativePath: string;
-  }
+  const onFileChange = ({ target: { files } }: any) => {
+    const data = files[0];
+    // console.log('이미지 파일 객체:', data);
 
-  //   let imgFile: ImgFileType;
-
-  //   const onFileChange = ({ target: { files } }: any) => {
-  //     const data = files[0];
-  //     console.log('이미지 파일 객체:', data);
-
-  //     imgFile = data;
-  //   };
+    setImgFile(data);
+  };
 
   const dataToServer: clubType = {
     clubName: '야구',
     content: '재밌게 야구해요',
     local: '경기도 구리시',
-    categoryName: '방탈출',
+    categoryName: '창의적카테고리',
     tagName: ['태그1', '태그2'],
     isPrivate: true
   };
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('제출 버튼 클릭');
-    const res = await postFetch(POST_URL, dataToServer);
-    console.log('post 응답 데이터: ', res);
+    console.log(imgFile);
+    const res = await postFetch(POST_URL, imgFile);
+    console.log('post 요청 응답 데이터: ', res);
   };
 
   return (
@@ -86,7 +63,7 @@ function API_TEST() {
             id='server'
             type='file'
             accept='image/png, image/jpeg, image/jpg'
-            // onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
           />
           <button>제출</button>
         </form>
