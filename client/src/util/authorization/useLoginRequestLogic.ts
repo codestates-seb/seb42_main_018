@@ -4,7 +4,7 @@ import { setIsLogin, setTokens, setUserInfo } from '../../store/store';
 
 export interface RegisterUserInputType {
   email: string;
-  password: string;
+  password?: string;
   // 회원가입 요청 성공 후 로그인 요청까지 연달아 보내야 하기 때문에 nickName 필드 optional
   nickName?: string;
   confirmPassword?: string;
