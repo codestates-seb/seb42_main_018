@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-@RequestMapping("/schedules")
+@RequestMapping
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
@@ -33,19 +33,25 @@ public class ScheduleController {
         this.scheduleMapper = scheduleMapper;
     }
 
-    @PostMapping
-    public ResponseEntity postSchedule(@Valid @RequestBody ScheduleDto.Post requestBody) {
+    @PostMapping("/clubs/{club-id}/schedules")
+    public ResponseEntity postSchedule(@PathVariable("club-id") @Positive long clubId,
+                                       @Valid @RequestBody ScheduleDto.Post requestBody) {
+        requestBody.addClubId(clubId);
+
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
-        Schedule createdSchedule = scheduleService.createSchedule(schedule);
-        URI location = UriCreator.createUri("/schedules", createdSchedule.getScheduleId());
+        Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId);
 
-        return ResponseEntity.created(location).build();
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule)),
+                HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{schedule-id}")
-    public ResponseEntity patchSchedule(@PathVariable("schedule-id") @Positive long scheduleId,
+    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity patchSchedule(@PathVariable("club-id") @Positive long clubId,
+                                        @PathVariable("schedule-id") @Positive long scheduleId,
                                         @Valid @RequestBody ScheduleDto.Patch requestBody) {
+        requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody));
@@ -54,7 +60,7 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
     }
 
-    @GetMapping("/{schedule-id}")
+    @GetMapping("/schedules/{schedule-id}")
     public ResponseEntity getSchedule(@PathVariable("schedule-id") @Positive long scheduleId) {
         Schedule schedule = scheduleService.findSchedule(scheduleId);
 
@@ -62,7 +68,7 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/schedules")
     public ResponseEntity getSchedules(@RequestParam("page") int page,
                                        @RequestParam("size") int size) {
         Page<Schedule> pageSchedules = scheduleService.findSchedules(page - 1, size);
@@ -73,7 +79,7 @@ public class ScheduleController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/{schedule-id}")
+    @DeleteMapping("/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
 

@@ -17,3 +17,14 @@ export const S_TagSmall = styled(S_Tag)`
   border-radius: 3px;
   font-size: 0.7rem;
 `
+
+export const S_NameTag = styled.div`
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 5px;
+  color: var(--blue300);
+  background-color: var(--blue100);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 2px 2px;
+`

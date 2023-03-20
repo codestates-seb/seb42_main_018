@@ -1,8 +1,13 @@
+import S_Container from "../../components/UI/S_Container";
+import MainContents from "../../components/home/_MainContents";
+import HomeIntro from "../../components/home/_HomeIntro";
+
 function Home() {
     return (
-        <div>
-            메인 홈 페이지
-        </div>
+        <S_Container>
+            <HomeIntro />
+            <MainContents />
+        </S_Container>
     )
 }
 
