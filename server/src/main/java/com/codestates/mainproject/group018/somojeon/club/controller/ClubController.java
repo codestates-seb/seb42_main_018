@@ -39,7 +39,7 @@ public class ClubController {
 
         Long profileImageId = requestBody.getProfileImageId();
         Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
-        URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
+        URI location = UriCreator.createUri("/club", createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
