@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
+import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -80,5 +81,15 @@ public class User extends Auditable {
         }
     }
 
+    public void addUserTeam(UserTeam userTeam) {
+        this.userTeamList.add(userTeam);
+        if (userTeam.getUser() != this) {
+            userTeam.setUser(this);
+        }
+    }
+
+    public void setUserTeam(UserTeam userTeam) {
+        userTeamList.add(userTeam);
+    }
 
 }

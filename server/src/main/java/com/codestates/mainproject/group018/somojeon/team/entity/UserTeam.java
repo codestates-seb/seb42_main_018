@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.team.entity;
 
+import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +24,20 @@ public class UserTeam {
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    public UserTeam(User user, Team team) {
+        addUser(user);
+        addTeam(team);
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+        user.setUserTeam(this);
+    }
+
+    public void addTeam(Team team) {
+        this.team = team;
+        team.setUserTeam(this);
+    }
+
 }

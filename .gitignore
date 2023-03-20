@@ -23,6 +23,9 @@ bin/
 *.iws
 *.iml
 *.ipr
+*.yml
+*.application.yml
+*.application-aws.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/

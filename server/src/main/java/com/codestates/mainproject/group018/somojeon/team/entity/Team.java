@@ -39,4 +39,15 @@ public class Team {
     public void setTeamRecord(TeamRecord teamRecord) {
         teamRecords.add(teamRecord);
     }
+
+    public void addUserTeam(UserTeam userTeam) {
+        this.userTeams.add(userTeam);
+        if (userTeam.getTeam() != this) {
+            userTeam.setTeam(this);
+        }
+    }
+
+    public void setUserTeam(UserTeam userTeam) {
+        userTeams.add(userTeam);
+    }
 }
