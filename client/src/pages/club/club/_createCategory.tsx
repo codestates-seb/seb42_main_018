@@ -7,12 +7,12 @@ export interface HandleDropDownClick {
   (option: string): void;
 }
 
-export interface CreateCategoryProps {
+export interface CreateCategoryAndLocalProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
+function CreateCategory({ inputValue, setInputValue }: CreateCategoryAndLocalProps) {
   // TODO: 서버 api get 요청으로 카테고리 배열 데이터 받아오기
   const categories: Array<string> = [
     '배드민턴',
