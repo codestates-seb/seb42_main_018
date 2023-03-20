@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
+import { S_SelectButton } from '../UI/S_Button';
+import search from '../../assets/icon_search.svg';
 import './KakaoMap.css';
+import { S_Input } from '../UI/S_Input';
 
 export interface PlaceType {
   place_name: string;
@@ -259,26 +262,29 @@ const KakaoMapSearch = (props:any) => {
   return (
     <div className='map_wrap'>
       <div id='map' style={{ width: '100%', height: '120px', overflow: 'hidden' }}></div>
-
       <div id='menu_wrap' className='bg_white'>
         <div className='option'>
           <div className='form-button'>
             <form
+              style={{display: "flex", alignItems: "center"}}
               onSubmit={(e) => {
                 setSearchKeyword(value);
                 e.preventDefault();
               }}
             >
-              키워드 :{' '}
-              <input type='text' value={value} onChange={onChangeValue} id='keyword' size={15} />
-              <button type='submit'>검색하기</button>
+              검색어
+              <span style={{margin: "0 5px"}}></span>
+              <S_Input type='text' value={value} onChange={onChangeValue} id='keyword' size={15} style={{height: "25px", paddingLeft: "10px", margin: "0"}}/>
+              <button type='submit' style={{backgroundColor: "white"}}>
+                <img style={{height: "20px"}} src={search} alt="검색 아이콘"/>
+              </button>
             </form>
-            <button onClick={() => {
+            <S_SelectButton onClick={() => {
               props.mapSettingModalHandler();
               if(selectedPlace) {
                 props.setPlaceValue({...selectedPlace})
               }
-            }}>확인</button>
+            }}>확인</S_SelectButton>
           </div>
         </div>
         <hr className='hr-top'/>
