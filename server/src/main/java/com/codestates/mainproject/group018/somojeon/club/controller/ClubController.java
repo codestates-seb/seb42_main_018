@@ -22,16 +22,13 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/clubs")
 public class ClubController {
 
     private final ClubService clubService;
     private final ClubMapper mapper;
 
-    public ClubController(ClubService clubService, ClubMapper mapper) {
-        this.clubService = clubService;
-        this.mapper = mapper;
-    }
 
     // 소모임 생성
     @PostMapping

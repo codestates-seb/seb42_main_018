@@ -24,6 +24,7 @@ import java.util.UUID;
 @CrossOrigin
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
     @Value("${cloud.aws.s3.bucket}")
@@ -31,11 +32,6 @@ public class ImageService {
 
     private final AmazonS3 amazonS3;
     private final ImagesRepository imagesRepository;
-
-    public ImageService(AmazonS3 amazonS3, ImagesRepository imagesRepository) {
-        this.amazonS3 = amazonS3;
-        this.imagesRepository = imagesRepository;
-    }
 
     public Images uploadProfileImage(MultipartFile multipartFile) throws IOException {
         //중복 이미지 제목 피하기 위해 randomUUID 부여

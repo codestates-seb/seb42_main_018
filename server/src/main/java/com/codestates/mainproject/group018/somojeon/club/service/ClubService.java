@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClubService {
 
     private final ClubRepository clubRepository;
@@ -38,16 +39,6 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
-
-    public ClubService(ClubRepository clubRepository, TagService tagService,
-                       UserClubRepository userClubRepository, CategoryService categoryService,
-                       ImageService imageService) {
-        this.clubRepository = clubRepository;
-        this.tagService = tagService;
-        this.userClubRepository = userClubRepository;
-        this.categoryService = categoryService;
-        this.imageService = imageService;
-    }
 
     // 소모임 생성
     // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
