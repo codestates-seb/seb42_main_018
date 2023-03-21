@@ -29,10 +29,18 @@ public class RecordService {
         UserClub userClub = new UserClub();
         Team team = new Team();
         userClub.setPlayCount(userClub.getPlayCount() + 1);
-        if (team.getWinLoseDraw() == "win") userClub.setWinCount(userClub.getWinCount() + 1);
-//        if (team.getWinLoseDraw() == "lose") userClub.setWinCount(userClub.getWinCount() - 1);
-//        if (team.getWinLoseDraw() == "draw") userClub.setWinCount(userClub.getWinCount());
-//        if (userClub.getWinCount() < 0) userClub.setWinCount(0);
+        switch (team.getWinLoseDraw()) {
+            case "win":
+                userClub.setWinCount(userClub.getWinCount() + 1);
+                break;
+            case "lose":
+                userClub.setWinCount(userClub.getWinCount() - 1);
+                break;
+            case "draw":
+                userClub.setWinCount(userClub.getWinCount());
+                break;
+        }
+        if (userClub.getWinCount() < 0) userClub.setWinCount(0);
         userClub.setWinRate(userClub.getWinCount() / userClub.getPlayCount() * 100);
 
         return recordRepository.save(record);
