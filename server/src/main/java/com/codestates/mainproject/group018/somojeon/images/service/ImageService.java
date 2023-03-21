@@ -44,7 +44,7 @@ public class ImageService {
 
         Images images = new Images();
         images.setFileName(fileName);
-        images.setUrl("/user/" + fileName); //S3 저장 폴더 위치
+        images.setUrl(bucket + fileName); //S3 저장 폴더 위치
         imagesRepository.save(images);
 
         log.info("프로필 이미지 파일 업로드됨");
@@ -62,7 +62,7 @@ public class ImageService {
 
         Images images = new Images();
         images.setFileName(fileName);
-        images.setUrl("/club/" + fileName); //S3 저장 폴더 위치
+        images.setUrl(bucket + fileName); //S3 저장 폴더 위치
         imagesRepository.save(images);
 
         log.info("소모임 이미지 파일 업로드됨");
