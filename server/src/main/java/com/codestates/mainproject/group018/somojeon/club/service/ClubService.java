@@ -56,7 +56,11 @@ public class ClubService {
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             club.setImages(images);
-        } else club.getImages().setUrl(defaultClubImage);
+        }
+//        else {
+//            club.getImages().setUrl(defaultClubImage);
+//        }
+
         return clubRepository.save(club);
     }
 
