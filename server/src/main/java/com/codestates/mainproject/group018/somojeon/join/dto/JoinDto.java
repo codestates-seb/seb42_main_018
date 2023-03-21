@@ -1,17 +1,16 @@
 package com.codestates.mainproject.group018.somojeon.join.dto;
 
 import com.codestates.mainproject.group018.somojeon.join.enums.JoinDecisionStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class JoinDto {
 
     @Getter
+    @Setter
     @AllArgsConstructor
     public static class Post {
         private String content;
+        private Long clubId;
     }
 
     @Getter

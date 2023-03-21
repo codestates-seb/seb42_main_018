@@ -20,17 +20,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/clubs")
 @RequiredArgsConstructor
+@CrossOrigin(value = "https://dev.somojeon.site")
+@RequestMapping("/clubs")
 public class ClubController {
 
+    private final static String CLUB_DEFAULT_URL = "/club";
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final ScheduleMapper scheduleMapper;
+
 
     // 소모임 생성
     @PostMapping
@@ -38,9 +40,10 @@ public class ClubController {
 
         Long profileImageId = requestBody.getProfileImageId();
         Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
-        URI location = UriCreator.createUri("/club", createdClub.getClubId());
+        URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
+//        return new ResponseEntity<>(location, HttpStatus.CREATED);
     }
 
     // 소모임 수정 (소개글, 이미지 등)
@@ -105,7 +108,7 @@ public class ClubController {
     }
 
     @GetMapping("/{club-id}/schedules")
-    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
+    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
                                                @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "10") int size) {
         Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, page - 1, size);
@@ -113,7 +116,7 @@ public class ClubController {
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
-                HttpStatus.OK);
+        HttpStatus.OK);
     }
 
     // 소모임 삭제

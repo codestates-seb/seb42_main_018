@@ -12,10 +12,10 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
+import com.codestates.mainproject.group018.somojeon.utils.Identifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClubService {
 
     private final ClubRepository clubRepository;
@@ -36,37 +37,7 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
-
-    public ClubService(ClubRepository clubRepository, TagService tagService,
-                       UserClubRepository userClubRepository, CategoryService categoryService,
-                       ImageService imageService) {
-        this.clubRepository = clubRepository;
-        this.tagService = tagService;
-        this.userClubRepository = userClubRepository;
-        this.categoryService = categoryService;
-        this.imageService = imageService;
-    }
-
-    // 소모임 생성
-    // 소모임 생성시 카테고리 존재여부 검증/ 카테고리이름 저장 로직 추가
-//    public Club createClub(Club club, String categoryName, List<String> tagName) {
-//        //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
-//
-//        if (club.getCategory().getCategoryName().equals(categoryName)) {
-//        } else {
-//            categoryService.saveCategory(categoryName);
-//        }
-//        List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
-//        tagList.forEach(tag -> new ClubTag(club, tag));
-//        if (tagList.size() > 3) {
-//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
-//        } else {
-////            categoryService.verifyExistsCategoryName(club.getCategory(), club.getCategoryName());
-//            verifyExistsClubName(club.getClubName());
-//            club.setCreatedAt(LocalDateTime.now());
-//            return clubRepository.save(club);
-//        }
-//    }
+//    private final Identifier identifier;
 
     // 소모임 생성 (일반유저 모두 가능)
     public Club createClub(Club club, List<String> tagName, Long profileImageId) {
@@ -79,6 +50,7 @@ public class ClubService {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
         club.setCreatedAt(LocalDateTime.now());
+        club.setMemberCount(club.getMemberCount() + 1);
         // profileImageId 들어오면 Image도 저장
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
@@ -143,7 +115,7 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-    // 소모임 삭제 (리더만 가능)
+    // 소모임 전체 스케줄 조회
     public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
         return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
@@ -168,13 +140,8 @@ public class ClubService {
 
      //소모임 회원 등급 설정 (리더와 매니저만 가능)
     public UserClub changeClubRoles(UserClub userClub, String clubRole) {
-        //TODO-DW: 회원검증
-        //TODO-DW: identifier 객체 사용으로 리팩토링 부탁드려요 by 제훈
-        if (!userClub.getClubRole().getRoles().equals("Leader")
-                || userClub.getClubRole().getRoles().equals("Manager")) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-        }
-//        String clubRole = userClub.getClubRole().getRoles();
+
+//        identifier.checkClubRole(userClub.getUserClubId());
 
         switch (clubRole) {
             case "Manager" : userClub.getClubRole().setRoles("Manager");
@@ -203,8 +170,8 @@ public class ClubService {
     //TODO-DW: user 연결해야됨
 
     // 소모임 멤버 상태 변경 (리더와 매니저만 가능)
-    public void changeClubMemberStatus(Long userId) {
-
+    public UserClub changeClubMemberStatus(Long userId) {
+        return null;
     }
     //TODO-DW: user 연결해야됨
 

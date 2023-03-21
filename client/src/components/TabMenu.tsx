@@ -1,12 +1,20 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const S_TabContainer = styled.div`
   // 탭메뉴 전체 박스
+  margin: -20px auto 0;
+  /* margin: -20px -20px 20px -20px; */
+  max-width: 500px;
+  position: fixed;
+  top: 50;
+  left: 0;
+  right: 0;
   display: flex;
-  margin: -20px -20px 20px -20px;
-`
-const S_TabItem= styled.button<{ active: boolean }>`
+  z-index: 200;
+  background-color: tomato;
+`;
+const S_TabItem = styled.button<{ active: boolean }>`
   // 탭 하나하나 버튼 스타일
   flex-grow: 1;
   height: 50px;
@@ -15,38 +23,35 @@ const S_TabItem= styled.button<{ active: boolean }>`
   font-weight: 600;
   background-color: var(--white);
   color: ${({ active }) => (active ? 'var(--gray600)' : 'var(--gray300)')};
-  border-bottom: 2px solid ${({ active }) => (active ? 'var(--gray600)' : 'var(--white)')};;
-  
+  border-bottom: 2px solid ${({ active }) => (active ? 'var(--gray600)' : 'var(--white)')};
+
   :hover {
     color: var(--gray600);
   }
-`
+`;
 interface Tab {
   id: number;
   title: string;
   path: string;
 }
 
-function Tabmenu() {
+interface TabmenuProps {
+  tabs: Tab[];
+}
+
+function Tabmenu({ tabs }: TabmenuProps) {
   const navigate = useNavigate();
-  const location = useLocation().pathname
-  
-  const tabs: Tab[] = [
-    {id: 1, title: '소개', path: '/club/:id'},
-    {id: 2, title: '경기정보', path: '/club/:id/match'}, 
-    {id: 3, title: '멤버', path: '/club/:id/member'}, 
-  ]
+  const location = useLocation().pathname;
 
   return (
     <S_TabContainer>
       {tabs.map((tab) => (
-        <S_TabItem 
-          key={tab.id}
-          active={location === tab.path}
-          onClick={() => navigate(tab.path)}>{tab.title}</S_TabItem>
+        <S_TabItem key={tab.id} active={location === tab.path} onClick={() => navigate(tab.path)}>
+          {tab.title}
+        </S_TabItem>
       ))}
     </S_TabContainer>
-  )
+  );
 }
 
 export default Tabmenu;

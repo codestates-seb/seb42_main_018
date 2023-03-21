@@ -16,16 +16,12 @@ import java.io.IOException;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/upload")
 public class ImageController {
 
     private final ImageService imageService;
     private final ImageMapper mapper;
-
-    public ImageController(ImageService imageService, ImageMapper mapper) {
-        this.imageService = imageService;
-        this.mapper = mapper;
-    }
 
     // 유저 프로필 이미지 파일 업로드
     @PostMapping("/users")

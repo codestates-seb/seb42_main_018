@@ -15,10 +15,10 @@ export const S_Title = styled.h1<{color?: string}>`
   color: ${(props) => props.color || 'var(--gray600)'};
 `
 
-export const S_Label = styled.div<{color?: string}>`
+export const S_Label = styled.div<{color?: string, fontSize?: string}>`
   // 두번째로 큰 글씨입니다. 입력창 위에 라벨이나
   // 메인-홈의 소모임 목록의 제목, 경기 일정의 경기 장소 등에 사용했습니다. 
-  font-size: 1.3rem;
+  font-size: ${(props) => props.fontSize || '1.3rem'};
   line-height: 1.8rem;
   font-weight: 800;
   margin-bottom: 5px;

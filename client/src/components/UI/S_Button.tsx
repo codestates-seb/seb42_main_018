@@ -69,7 +69,7 @@ export const S_ButtonBlack = styled(StyledButton)`
   }
 `;
 
-export const S_SelectButton = styled.button<{ width?: string }>`
+export const S_SelectButton = styled.button<{ width?: string; clicked?: string }>`
   // 참석, 불참을 표시하기 전 기본 버튼입니다.
   width: ${(props) => props.width || '46px'};
   height: 30px;
@@ -77,6 +77,15 @@ export const S_SelectButton = styled.button<{ width?: string }>`
   background-color: var(--white);
   border: 1px solid var(--gray200);
   border-radius: 5px;
+  &.clicked {
+    background-color: ${(props) =>
+      props.clicked === 'attendance'
+        ? 'var(--green100)'
+        : props.clicked === 'absence'
+        ? 'var(--red100)'
+        : 'var(--white)'};
+    color: var(--white);
+  }
 `;
 
 export const S_EditButton = styled.button`
@@ -94,4 +103,16 @@ export const S_EditButton = styled.button`
 export const S_NegativeButton = styled(S_EditButton)`
   // 삭제/탈퇴/가입거부 등 부정을 나타내는, 글자로만 이루어진 버튼입니다.
   color: var(--red100);
+`;
+
+export const S_TabButton = styled.button`
+  border: 1px solid var(--black);
+  border-radius: 15px;
+  background-color: var(--white);
+  margin: 10px 5px 10px 0;
+  padding: 3px 7px;
+  opacity: 0.5;
+  &.clicked {
+    opacity: 1;
+  }
 `;

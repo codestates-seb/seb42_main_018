@@ -17,7 +17,7 @@ import { S_NameTag } from '../../../components/UI/S_Tag';
 import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 
 import { useForm } from 'react-hook-form';
-import { MatchDatas } from './CreateMatch';
+import { MatchData } from './CreateMatch';
 
 const S_MapBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
@@ -50,7 +50,7 @@ const S_MapView = styled.div`
 
 
 function MatchDetail() {
-  const [matchDatas, setMatchDatas] = useState<MatchDatas>({
+  const [matchData, setMatchData] = useState<MatchData>({
     schedule: {
       date: '2023-03-18',
       time: '21:05',
@@ -90,12 +90,12 @@ function MatchDetail() {
       <S_Title>경기 상세</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
-        <S_Input type='date' value={matchDatas?.schedule.date} readOnly />
-        <S_Input type='time' value={matchDatas?.schedule.time} readOnly />
+        <S_Input type='date' value={matchData?.schedule.date} readOnly />
+        <S_Input type='time' value={matchData?.schedule.time} readOnly />
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>장소 *</S_Label>
-        <S_Input type='text' value={matchDatas?.schedule.placeName} readOnly />
+        <S_Input type='text' value={matchData?.schedule.placeName} readOnly />
         <S_SelectButton onClick={mapViewModalHandler} style={{ width: 'auto' }}>
           지도보기
         </S_SelectButton>
@@ -103,8 +103,8 @@ function MatchDetail() {
           <S_MapBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
               <KakaoMapView
-                y={matchDatas.schedule.placeCoordinate.latitude}
-                x={matchDatas.schedule.placeCoordinate.longitude}
+                y={matchData.schedule.placeCoordinate.latitude}
+                x={matchData.schedule.placeCoordinate.longitude}
               />
             </S_MapView>
           </S_MapBackdrop>
@@ -125,8 +125,8 @@ function MatchDetail() {
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
-        {matchDatas.teamList &&
-          matchDatas.teamList.map((team, idx) => {
+        {matchData.teamList &&
+          matchData.teamList.map((team, idx) => {
             return (
               <div key={team.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <S_Text style={{ margin: '0' }}>{idx + 1}팀</S_Text>
@@ -140,7 +140,7 @@ function MatchDetail() {
                     marginBottom: '3px'
                   }}
                 >
-                  {matchDatas.teamList[idx].members.map((member, memberIdx) => (
+                  {matchData.teamList[idx].members.map((member, memberIdx) => (
                     <S_NameTag key={team.id++}>{member}&times;</S_NameTag>
                   ))}
                 </div>
@@ -152,8 +152,8 @@ function MatchDetail() {
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>전적</S_Label>
         <S_Description>경기가 종료된 뒤 결과를 입력해보세요.</S_Description>
-        {matchDatas.records &&
-          matchDatas.records.map((record, idx) => {
+        {matchData.records &&
+          matchData.records.map((record, idx) => {
             return (
               <div
                 key={record.id}
