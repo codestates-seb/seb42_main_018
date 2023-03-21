@@ -19,7 +19,7 @@ function KakaoMapView(props: KakaoMapViewProps) {
 
     // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
     const map = new kakao.maps.Map(mapContainer, mapOption);
-
+    map.setDraggable(true);
     // 마커가 표시될 위치입니다
     const markerPosition = new kakao.maps.LatLng(props.y, props.x);
     // const markerPosition = new kakao.maps.LatLng(props.place.y, props.place.x);

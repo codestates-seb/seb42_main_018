@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.utils.dummy;
 
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,14 @@ class InsertDummyUserDatabyService {
             String email = "user" + i + "@dummy.com";
             String nickName = "nick" + i;
             String encodedPassword = "password" + i;
+            long imageId = i;
             User user = new User();
+            Images images = new Images();
+            images.setImageId(imageId);
             user.setPassword(encodedPassword);
             user.setNickName(nickName);
             user.setEmail(email);
-            userService.createUser(user, null, null);
+            userService.createUser(user, null, images.getImageId());
         }
         System.out.println("100 rows inserted successfully.");
     }

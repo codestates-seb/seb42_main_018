@@ -1,8 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { S_EditButton } from '../UI/S_Button'
 import { S_TagSmall } from '../UI/S_Tag'
 import { S_Description, S_Label, S_SmallDescription, } from '../UI/S_Text'
-import { ClubProps } from '././_MainContents'
+import { ClubData } from './_ClubListData'
 
 
 const S_ClubBox = styled.div`
@@ -45,8 +46,7 @@ const S_Hidden = styled.div`
   margin-bottom: 5px;
 `
 
-function ClubList({clubName, clubImg, content, local, categoryName, memberCount, tagResponseDtos }: ClubProps) {
-  {console.log(tagResponseDtos)}
+function ClubList({clubName, clubImg, content, local, categoryName, memberCount, tagResponseDtos }: ClubData) {
   return (
     <S_ClubBox>
       <S_ImgBox img={clubImg} />
