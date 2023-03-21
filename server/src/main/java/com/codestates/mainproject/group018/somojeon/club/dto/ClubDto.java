@@ -18,8 +18,6 @@ public class ClubDto {
     @AllArgsConstructor
     public static class Post {
 
-        @Pattern(regexp = "^[ㄱ-ㅎ가-힣0-9\\s]*$",
-                message = "클럽 이름은 특수문자를 사용할 수 없습니다.")
         private String clubName;
 
         private String content;
@@ -48,8 +46,6 @@ public class ClubDto {
 
         private Long clubId;
 
-        @Pattern(regexp = "^[ㄱ-ㅎ가-힣0-9\\s]*$",
-                message = "클럽 이름은 특수문자를 사용할 수 없습니다.")
         private String clubName;
 
         private String content;
