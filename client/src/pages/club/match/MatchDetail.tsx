@@ -60,7 +60,7 @@ function MatchDetail() {
         longitude: 126.9786567
       }
     },
-    canidates: ['test'],
+    candidates: ['test'],
     teamList: [],
     records: []
   });
