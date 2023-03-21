@@ -4,13 +4,13 @@ import { S_Label, S_Description } from '../../../components/UI/S_Text';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_Tag } from '../../../components/UI/S_Tag';
 
-const S_TagWrapper = styled.ul`
+export const S_TagWrapper = styled.ul`
   display: flex;
   margin-bottom: 10px;
 `;
 
 interface CreateTagProps {
-  tags: string[] | undefined;
+  tags: string[];
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
@@ -28,9 +28,9 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
       setInputValue('');
     }
   };
-  const removeTags = (indexToRemove: number): void => {
+  const removeTags = (indexToRemove: number) => {
     if (tags !== undefined) {
-      setTags(tags.filter((el: string, idx: number): boolean => idx !== indexToRemove));
+      setTags(tags.filter((el, idx) => idx !== indexToRemove));
     }
   };
 
@@ -64,7 +64,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
       />
       <S_TagWrapper>
         {tags &&
-          tags.map((tag: string, index: number) => (
+          tags.map((tag, index) => (
             <li
               role='presentation'
               key={tag}
@@ -73,9 +73,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
               }}
               style={{ cursor: 'pointer' }}
             >
-              <S_Tag>
-                <span>{tag}&nbsp;&times;</span>
-              </S_Tag>
+              <S_Tag>{tag}&nbsp;&times;</S_Tag>
             </li>
           ))}
       </S_TagWrapper>

@@ -8,6 +8,7 @@ import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +23,11 @@ import javax.validation.constraints.Positive;
 @Slf4j
 @Validated
 @RequestMapping
+@RequiredArgsConstructor
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
     private final Identifier identifier;
-
-    public ScheduleController(ScheduleService scheduleService, ScheduleMapper scheduleMapper,
-                              Identifier identifier) {
-        this.scheduleService = scheduleService;
-        this.scheduleMapper = scheduleMapper;
-        this.identifier = identifier;
-    }
 
     @PostMapping("/clubs/{club-id}/schedules")
     public ResponseEntity postSchedule(@PathVariable("club-id") @Positive long clubId,

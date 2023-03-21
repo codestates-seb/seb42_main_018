@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.repository.CategoryRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -12,16 +13,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 // 카테고리는 수정, 삭제 불가
 
-    List<String> basicCategoryName;
-
     private final CategoryRepository categoryRepository;
-
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public List<Category> getAllCategoryNames() {
         return categoryRepository.findAll();
