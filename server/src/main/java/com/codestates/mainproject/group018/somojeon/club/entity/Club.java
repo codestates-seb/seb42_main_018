@@ -31,7 +31,7 @@ public class Club {
     @Column(nullable = false)
     private String clubName;
 
-    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Column(nullable = false)
