@@ -14,7 +14,6 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -185,6 +184,15 @@ public class ClubService {
         if (club.isPresent()) {
             throw new BusinessLogicException(ExceptionCode.CLUB_EXISTS);
         }
+    }
+
+    public Club findById(long clubId) {
+        Optional<Club> optionalClub =
+                clubRepository.findById(clubId);
+        Club findClub = optionalClub.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));
+
+        return findClub;
     }
 
     public Club findVerifiedClub(Long clubId) {

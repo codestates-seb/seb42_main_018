@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.user.controller;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -10,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -30,6 +31,9 @@ public class UserController {
     private final UserService userService;
     private final UserMapper mapper;
     private final Identifier identifier;
+
+    @Value("${defaultProfile.image.address")
+    private String defaultProfileImage;
 
     public UserController(UserService userService, UserMapper mapper, Identifier identifier) {
         this.userService = userService;
@@ -100,6 +104,18 @@ public class UserController {
 //        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUsers),
 //                HttpStatus.OK);
         return null;
+    }
+
+    @GetMapping("/profile/{user-id}")
+    public ResponseEntity<ImagesResponseDto> getProfile(@PathVariable("user-id") @Positive long userId) {
+        User user = userService.findById(userId);
+        if (user == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ImagesResponseDto response = new ImagesResponseDto();
+        if (user.getImages() != null) response.setUrl(response.getUrl());
+        else response.setUrl(defaultProfileImage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // delete
