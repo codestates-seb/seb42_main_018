@@ -6,18 +6,22 @@ import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
     Schedule schedulePatchDtoToSchedule(ScheduleDto.Patch requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
-    default ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule) {
+    default ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule, UserMapper userMapper) {
         if (schedule == null) {
             return null;
         }
@@ -25,14 +29,35 @@ public interface ScheduleMapper {
         return ScheduleDto.Response
                 .builder()
                 .scheduleId(schedule.getScheduleId())
+                .clubId(schedule.getClub().getClubId())
                 .date(schedule.getDate())
                 .createdAt(schedule.getCreatedAt())
                 .placeName(schedule.getPlaceName())
                 .longitude(schedule.getLongitude())
                 .latitude(schedule.getLatitude())
+                .teams(userTeamsToUserTeamResponseDtos(schedule.getUserTeams(), userMapper))
                 .records(recordsToRecordResponseDtos(schedule.getRecords()))
                 .candidates(candidatesToCandidateResponseDtos(schedule.getCandidates()))
                 .build();
+    }
+
+    default List<TeamDto.Response> userTeamsToUserTeamResponseDtos(List<UserTeam> userTeams,
+                                                                   UserMapper userMapper) {
+        return userTeams.stream()
+                .map(userTeam -> {
+                    TeamDto.Response response = new TeamDto.Response();
+                    response.setTeamId(userTeam.getTeam().getTeamId());
+
+                    List<UserTeam> teamUsers = userTeam.getTeam().getUserTeams();
+                    List<User> users = teamUsers.stream()
+                            .map(teamUser -> teamUser.getUser())
+                            .collect(Collectors.toList());
+
+                    response.setUsers(userMapper.usersToUserResponses(users));
+
+                    return response;
+                })
+                .collect(Collectors.toList());
     }
 
     default List<RecordDto.Response> recordsToRecordResponseDtos(List<Record> records) {

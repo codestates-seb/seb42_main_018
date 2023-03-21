@@ -1,10 +1,13 @@
 package com.codestates.mainproject.group018.somojeon.schedule.service;
 
+import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,12 +25,18 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ClubService clubService;
 
-    public Schedule createSchedule(Schedule schedule, long clubId) {
+    public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
+                                   List<UserTeam> userTeams, List<Candidate> candidates) {
         schedule.setClub(clubService.findVerifiedClub(clubId));
+        schedule.setUserTeams(userTeams);
+        schedule.setCandidates(candidates);
+        schedule.setRecords(records);
+
         return scheduleRepository.save(schedule);
     }
 
-    public Schedule updateSchedule(Schedule schedule) {
+    public Schedule updateSchedule(Schedule schedule, List<Record> records,
+                                   List<UserTeam> userTeams, List<Candidate> candidates) {
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
         Optional.ofNullable(schedule.getDate())
@@ -39,6 +49,10 @@ public class ScheduleService {
                 .ifPresent(findSchedule::setLongitude);
         Optional.ofNullable(schedule.getLatitude())
                 .ifPresent(findSchedule::setLatitude);
+
+        findSchedule.setRecords(records);
+        findSchedule.setCandidates(candidates);
+        findSchedule.setUserTeams(userTeams);
 
         return scheduleRepository.save(findSchedule);
     }
