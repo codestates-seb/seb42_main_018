@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,12 +15,9 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
-
-    public TeamService(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
-    }
 
     public Team createTeam(Team team) {
         return teamRepository.save(team);

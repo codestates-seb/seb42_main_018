@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.candidate.repository.Candida
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,15 +16,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CandidateService {
     private final CandidateRepository candidateRepository;
     private final UserService userService;
-
-    public CandidateService(CandidateRepository candidateRepository,
-                            UserService userService) {
-        this.candidateRepository = candidateRepository;
-        this.userService = userService;
-    }
 
     public Candidate createCandidate(Candidate candidate) {
         userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
