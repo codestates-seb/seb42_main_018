@@ -53,7 +53,7 @@ export function S_Button({ children, addStyle, onClick }: S_ButtonProps) {
 
 export const S_ButtonGray = styled(StyledButton)`
   // 가장 기본적인 회색 버튼입니다. 화면 가로너비 전체를 차지합니다.
-  color: var(--gray600);
+  color: var(--gray400);
   background-color: var(--gray100);
   :hover {
     background-color: var(--gray200);

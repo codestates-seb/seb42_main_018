@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_EditButton } from '../UI/S_Button';
 import { S_TagSmall } from '../UI/S_Tag';
 import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
-import { ClubData } from './_ClubListData';
+import { ClubData } from './ClubListData';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -48,23 +48,21 @@ const S_Hidden = styled.div`
 function ClubList({
   clubId,
   clubName,
-  clubImg,
+  profileImage,
   content,
   local,
   categoryName,
   memberCount,
   tagResponseDtos
 }: ClubData) {
-  const navigate = useNavigate();
-  const gotoClub = () => {
-    navigate(`club/${clubId}`);
-  };
   return (
     <S_ClubBox>
-      <S_ImgBox img={clubImg} />
+      <S_ImgBox img={profileImage} />
       <S_ContentsBox>
         <S_TitleBox>
-          <S_Label onClick={gotoClub}>{clubName}</S_Label>
+          <S_Label>
+            <Link to={`/club/${clubId}`}>{clubName}</Link>
+          </S_Label>
           <S_EditButton>소모임 설정</S_EditButton>
         </S_TitleBox>
         <S_SmallDescription>

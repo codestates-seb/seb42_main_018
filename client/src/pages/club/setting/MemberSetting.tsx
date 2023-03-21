@@ -41,7 +41,6 @@ function MemberSetting() {
           차단 목록
         </S_TabButton>
       </S_TapMenu>
-      
     </S_Container>
   );
 }

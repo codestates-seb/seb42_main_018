@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import ClubList from './_ClubList';
-import { S_Title } from '../../components/UI/S_Text';
-import { ClubData, ClubPage } from './_ClubListData';
+import ClubList from './ClubList';
+import { S_Title } from '../UI/S_Text';
+import { ClubData, ClubPage } from './ClubListData';
 import { getFetch } from '../../util/api';
 import S_Page from '../UI/S_Page';
 
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
-  padding: 20px 0px;
+  padding: 30px 0px;
 `;
 const S_TagBox = styled.div`
   // 카테고리 태그 박스
@@ -34,7 +34,7 @@ export interface CategoryProps {
 }
 
 function MainContents() {
-  // TODO : 페이지네이션 기능 추가
+  // TODO : 페이지네이션 기능 추가 -> 무한스크롤 도전!
 
   // API로 카테고리 정보 가져오기
   const [categories, setCategories] = useState<CategoryProps[]>([]);
@@ -76,7 +76,7 @@ function MainContents() {
           key={e.clubId}
           clubId={e.clubId}
           clubName={e.clubName}
-          clubImg={e.clubImg}
+          profileImage={e.profileImage}
           content={e.content}
           local={e.local}
           categoryName={e.categoryName}

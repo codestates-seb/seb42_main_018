@@ -38,7 +38,6 @@ function ClubMember() {
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />
-      <MemberNav />
       <S_MemberBox>
         {data.map((e) => (
           <ClubMemberItem
@@ -48,6 +47,7 @@ function ClubMember() {
             winRate={e.winRate}
           />
         ))}
+        <MemberNav />
       </S_MemberBox>
     </S_Container>
   );

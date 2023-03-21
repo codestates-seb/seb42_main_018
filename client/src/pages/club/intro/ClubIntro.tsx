@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getFetch } from '../../../util/api';
-import { ClubData } from '../../../components/home/_ClubListData';
+import { ClubData } from '../../../components/home/ClubListData';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
 import { S_Button, S_SelectButton, S_EditButton } from '../../../components/UI/S_Button';
