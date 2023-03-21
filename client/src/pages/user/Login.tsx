@@ -71,9 +71,9 @@ function Login() {
     setShowModal((current) => !current);
   };
 
+  // * POST 요청 관련 로직
   const { handleLogin } = useLoginRequestLogic();
 
-  // * POST 요청 관련 로직
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -91,7 +91,7 @@ function Login() {
 
     if (!isValidEmail || !isValidPassword) return;
 
-    // 서버에 로그인 post 요청
+    // 서버에 로그인 post 요청 및 전역 상태 설정
     const res = await handleLogin(inputs);
 
     if (res) {

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
-import { ClubData } from '../../../components/home/_ClubListData';
+import { ClubData } from '../../../components/home/ClubListData';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
 import {

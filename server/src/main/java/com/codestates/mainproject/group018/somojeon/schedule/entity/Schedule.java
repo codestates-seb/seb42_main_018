@@ -3,12 +3,12 @@ package com.codestates.mainproject.group018.somojeon.schedule.entity;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -54,6 +54,9 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name = "CLUB_ID")
     private Club club;
+
+    @OneToMany(mappedBy = "schedule")
+    private List<UserTeam> userTeams = new ArrayList<>();
 
     @OneToMany(mappedBy = "schedule")
     private List<Record> records = new ArrayList<>();

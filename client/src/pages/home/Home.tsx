@@ -1,17 +1,15 @@
-import getGlobalState from '../../util/authorization/getGlobalState';
 import S_Container from '../../components/UI/S_Container';
-import MainContents from '../../components/home/_MainContents';
-import HomeIntro from '../../components/home/_HomeIntro';
+import MainContents from '../../components/home/MainContents';
+import HomeIntro from '../../components/home/HomeIntro';
+import CreateClubImg from '../../components/home/CreateClubImg';
 
 function Home() {
-  const { isLogin, userInfo, tokens } = getGlobalState();
-  console.log(isLogin);
-  console.log(userInfo);
-  console.log(tokens);
+
   return (
     <S_Container>
       <HomeIntro />
       <MainContents />
+      <CreateClubImg />
     </S_Container>
   );
 }

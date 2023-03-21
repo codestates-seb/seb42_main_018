@@ -1,10 +1,9 @@
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { S_EditButton } from '../UI/S_Button'
-import { S_TagSmall } from '../UI/S_Tag'
-import { S_Description, S_Label, S_SmallDescription, } from '../UI/S_Text'
-import { ClubData } from './_ClubListData'
-
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { S_EditButton } from '../UI/S_Button';
+import { S_TagSmall } from '../UI/S_Tag';
+import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
+import { ClubData } from './ClubListData';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -12,7 +11,7 @@ const S_ClubBox = styled.div`
   padding: 20px 0px;
   background-color: var(--white);
   border-top: 1px solid var(--gray100);
-`
+`;
 
 const S_TitleBox = styled.div`
   // 제목 - 소모임 설정 버튼 정렬
@@ -20,8 +19,8 @@ const S_TitleBox = styled.div`
   flex-grow: 1;
   align-items: center;
   justify-content: space-between;
-`
-const S_ImgBox = styled.div<{img?: string}>`
+`;
+const S_ImgBox = styled.div<{ img?: string }>`
   // 클럽 대표 이미지 썸네일크기로 자르기
   margin-right: 15px;
   min-width: 80px;
@@ -30,11 +29,11 @@ const S_ImgBox = styled.div<{img?: string}>`
   background-size: cover;
   background-position: center center;
   background-image: url(${(props) => props.img});
-`
+`;
 const S_ContentsBox = styled.div`
   // 제목 / 카테고리, 지역, 인원 / 설명 / 태그 박스
   width: 100%;
-`
+`;
 const S_Hidden = styled.div`
   // 설명글 길어지면 잘라주기
   display: -webkit-box;
@@ -44,19 +43,34 @@ const S_Hidden = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   margin-bottom: 5px;
-`
+`;
 
-function ClubList({clubName, clubImg, content, local, categoryName, memberCount, tagResponseDtos }: ClubData) {
+function ClubList({
+  clubId,
+  clubName,
+  profileImage,
+  content,
+  local,
+  categoryName,
+  memberCount,
+  tagResponseDtos
+}: ClubData) {
   return (
     <S_ClubBox>
-      <S_ImgBox img={clubImg} />
+      <S_ImgBox img={profileImage} />
       <S_ContentsBox>
         <S_TitleBox>
-          <S_Label>{clubName}</S_Label>
+          <S_Label>
+            <Link to={`/club/${clubId}`}>{clubName}</Link>
+          </S_Label>
           <S_EditButton>소모임 설정</S_EditButton>
         </S_TitleBox>
-        <S_SmallDescription>{categoryName} ・ {local} ・ 인원 {memberCount}명</S_SmallDescription>
-        <S_Hidden><S_Description color='var(--gray600)'>{content}</S_Description></S_Hidden>
+        <S_SmallDescription>
+          {categoryName} ・ {local} ・ 인원 {memberCount}명
+        </S_SmallDescription>
+        <S_Hidden>
+          <S_Description color='var(--gray600)'>{content}</S_Description>
+        </S_Hidden>
         <div>
           {tagResponseDtos.map((e) => (
             <S_TagSmall key={e.tagId}>{e.tagName}</S_TagSmall>
@@ -64,8 +78,7 @@ function ClubList({clubName, clubImg, content, local, categoryName, memberCount,
         </div>
       </S_ContentsBox>
     </S_ClubBox>
-  
-  )
+  );
 }
 
-export default ClubList
+export default ClubList;

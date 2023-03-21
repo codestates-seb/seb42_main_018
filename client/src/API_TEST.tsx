@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import FormData from 'form-data';
+import { useState } from 'react';
 import S_Container from './components/UI/S_Container';
-import { clubType } from './pages/club/club/CreateClub';
-import { getFetch, postFetch } from './util/api';
 
 interface ImgFileType {
   lastModified: number;
-  lastModifiedDate: object;
+  lastModifiedDate?: object;
   name: string;
   size: number;
   type: string;
@@ -13,64 +13,58 @@ interface ImgFileType {
 }
 
 function API_TEST() {
-  const POST_URL = `${process.env.REACT_APP_URL}/upload/clubs`;
-  const GET_URL = `${process.env.REACT_APP_URL}`;
+  const POST_URL = `${process.env.REACT_APP_URL}/upload/users`;
 
   const [imgFile, setImgFile] = useState<ImgFileType>();
-  const [dataFromServer, setDataFromServer] = useState('');
 
-  useEffect(() => {
-    async function getData() {
-      const res = await getFetch(GET_URL);
-      // console.log('get 응답 데이터: ', res);
-
-      setDataFromServer(res);
-    }
-    getData();
-  }, []);
-
-  // console.log(dataFromServer);
-
-  const onFileChange = ({ target: { files } }: any) => {
-    const data = files[0];
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const data = e.target.files?.[0];
     // console.log('이미지 파일 객체:', data);
-
-    setImgFile(data);
+    if (data) {
+      setImgFile(data);
+    }
   };
 
-  const dataToServer: clubType = {
-    clubName: '야구',
-    content: '재밌게 야구해요',
-    local: '경기도 구리시',
-    categoryName: '창의적카테고리',
-    tagName: ['태그1', '태그2'],
-    isPrivate: true
-  };
-
-  const onSubmit = async (e: any) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(imgFile);
-    const res = await postFetch(POST_URL, imgFile);
-    console.log('post 요청 응답 데이터: ', res);
+
+    if (imgFile) {
+      // TODO : any 처리해야함 (@types/form-data 패키지 설치했는데도 미해결)
+      const formData: any = new FormData();
+      formData.append('image', imgFile);
+
+      console.log(formData);
+      console.log(Array.from(formData.entries()));
+
+      const config = {
+        headers: {
+          'content-type': `multipart/form-data; boundary=${formData._boundary}`
+        }
+      };
+
+      try {
+        const res: AxiosResponse<string> = await axios.post(POST_URL, formData, config);
+        console.log('post 요청 응답 데이터: ', res);
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   return (
     <S_Container>
       API_TEST
-      <>
-        <form onSubmit={onSubmit} style={{ marginBottom: '8px' }}>
-          <input
-            id='server'
-            type='file'
-            accept='image/png, image/jpeg, image/jpg'
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
-          />
-          <button>제출</button>
-        </form>
-        <hr></hr>
-        <p>여기 아래에 서버에서 온 문자열이 떠야해요</p>
-        <p>{dataFromServer}</p>
-      </>
+      <br />
+      <br />
+      <form onSubmit={onSubmit} style={{ marginBottom: '8px' }}>
+        <input
+          id='server'
+          type='file'
+          accept='image/png, image/jpeg, image/jpg'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileChange(e)}
+        />
+        <button type='submit'>제출</button>
+      </form>
     </S_Container>
   );
 }

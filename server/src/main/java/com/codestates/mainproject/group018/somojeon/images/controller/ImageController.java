@@ -25,7 +25,7 @@ public class ImageController {
 
     // 유저 프로필 이미지 파일 업로드
     @PostMapping("/users")
-    public ResponseEntity uploadProfileImage(@RequestParam("images") MultipartFile multipartFile) throws IOException {
+    public ResponseEntity uploadProfileImage(@RequestPart("images") MultipartFile multipartFile) throws IOException {
 
         Images images = imageService.uploadProfileImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
@@ -36,7 +36,7 @@ public class ImageController {
 
     // 클럽 소개 이미지 파일 업로드
     @PostMapping("/clubs")
-    public ResponseEntity uploadClubImage(@RequestParam("images")MultipartFile multipartFile) throws IOException{
+    public ResponseEntity uploadClubImage(@RequestPart("images")MultipartFile multipartFile) throws IOException{
 
         Images images = imageService.uploadClubImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
@@ -46,7 +46,7 @@ public class ImageController {
 
     // 유저 프로필 이미지 파일 삭제
     @DeleteMapping("/users")
-    public ResponseEntity deleteProfileImage(@RequestParam("url") String url) throws IOException{
+    public ResponseEntity deleteProfileImage(@RequestPart("url") String url) throws IOException{
 
         imageService.deleteProfileImage(url);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -54,7 +54,7 @@ public class ImageController {
 
     // 클럽 소개 이미지 파일 삭제
     @DeleteMapping("/clubs")
-    public ResponseEntity deleteClubImage(@RequestParam("url") String url) throws IOException{
+    public ResponseEntity deleteClubImage(@RequestPart("url") String url) throws IOException{
 
         imageService.deleteClubImage(url);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
