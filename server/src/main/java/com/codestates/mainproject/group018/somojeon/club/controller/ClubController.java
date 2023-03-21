@@ -108,15 +108,28 @@ public class ClubController {
     }
     // 소모임 전체 스케쥴 조회
     @GetMapping("/{club-id}/schedules")
-    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
+    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
                                                @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "10") int size) {
-        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, page - 1, size);
+        Page<Schedule> schedulePage = clubService.findSchedulesByClub(clubId, page - 1, size);
         List<Schedule> content = schedulePage.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
         HttpStatus.OK);
+    }
+
+    @GetMapping("/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
+                                               @PathVariable("schedule-id") @Positive Long scheduleId,
+                                               @RequestParam(defaultValue = "1") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
+        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, scheduleId, page - 1, size);
+        List<Schedule> content = schedulePage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
+                HttpStatus.OK);
     }
 
     // 소모임 삭제

@@ -121,8 +121,12 @@ public class ClubService {
     }
 
     // 소모임 전체 스케줄 조회
-    public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
-        return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
+    public Page<Schedule> findSchedulesByClub(long clubId, int page, int size) {
+        return clubRepository.findAllByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
+    }
+
+    public Page<Schedule> findScheduleByClub(long clubId, long scheduleId, int page, int size) {
+        return clubRepository.findByClubId(clubId, scheduleId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
     public void deleteClub(Long clubId) {

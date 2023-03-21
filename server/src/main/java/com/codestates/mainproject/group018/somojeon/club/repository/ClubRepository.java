@@ -33,5 +33,6 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     @Query("SELECT c FROM Club c WHERE c.categoryName = ?1 ORDER BY c.clubId")
     Page<Club> findByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
 
-    Page<Schedule> findByClubId(long clubId, Pageable pageable);
+    Page<Schedule> findAllByClubId(long clubId, Pageable pageable);
+    Page<Schedule> findByClubId(long clubId, long scheduleId, Pageable pageable);
 }
