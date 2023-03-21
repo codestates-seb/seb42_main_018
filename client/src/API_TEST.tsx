@@ -57,14 +57,14 @@ function API_TEST() {
       // formData.append('file', imgFile);
       // formData.append('file', new Blob([imgFile], { type: imgFile.type }));
 
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      };
+      // const config = {
+      //   headers: {
+      //     'content-type': 'multipart/form-data'
+      //   }
+      // };
 
       try {
-        const res: AxiosResponse<string> = await axios.post(POST_URL, imgFile, config);
+        const res: AxiosResponse<string> = await axios.post(POST_URL, imgFile);
         console.log('post 요청 응답 데이터: ', res);
       } catch (err) {
         console.error(err);
