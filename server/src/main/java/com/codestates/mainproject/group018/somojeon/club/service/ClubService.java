@@ -12,10 +12,8 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.repository.TagRepository;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -23,10 +21,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -150,6 +146,26 @@ public class ClubService {
 
         return userClub.getClubRole();
     }
+
+    public List<UserClub> getUserClubs(Long userId) {
+        //TODO-DW: 검토 부탁드려요 by 제훈
+        Optional<List<UserClub>> optionalUserClub =  userClubRepository.findAllByUserId(userId);
+        List<UserClub> userClubs =  optionalUserClub.orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_CLUB_NOT_FOUND));
+
+        return userClubs;
+    }
+
+    public Page<UserClub> getClubMembers(PageRequest pageRequest, Sort by,  Long clubId) {
+        //TODO-DW: 검토 부탁드려요 by 제훈
+        findVerifiedClub(clubId);
+        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, by, clubId);
+
+
+
+        return userClubs;
+    }
+
+
 
      //소모임 회원 등급 설정
 

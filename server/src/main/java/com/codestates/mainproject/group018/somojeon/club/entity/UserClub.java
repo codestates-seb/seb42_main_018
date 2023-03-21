@@ -1,6 +1,5 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
-import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
@@ -36,6 +35,13 @@ public class UserClub {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEVEL_ID")
     private Level level;
+
+    private int playCount;
+    private int winCount;
+    private int loseCount;
+    private int drawCount;
+    private int winRate;
+
 
 
 }

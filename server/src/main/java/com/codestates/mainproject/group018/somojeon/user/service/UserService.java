@@ -1,8 +1,9 @@
 package com.codestates.mainproject.group018.somojeon.user.service;
 
-import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
@@ -30,16 +31,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
-    private final AuthService authService;
+
+    private final ClubService clubService;
     private final OauthUserService oauthUserService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils
-            , JwtTokenizer jwtTokenizer, AuthService authService, OauthUserService oauthUserService) {
+            , JwtTokenizer jwtTokenizer, ClubService clubService, OauthUserService oauthUserService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityUtils = authorityUtils;
         this.jwtTokenizer = jwtTokenizer;
-        this.authService = authService;
+        this.clubService = clubService;
         this.oauthUserService = oauthUserService;
     }
 
@@ -81,17 +83,27 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findUser(long userId) {
         User findUser = findVerifiedUser(userId);
+        List<UserClub> userClubs =  clubService.getUserClubs(userId);
+
+
         return findUser;
 
     }
 
-    public Page<User> findUsers(int page, int size, String  mode) {
-        // TODO 로직 요구 조건에 맞춰 수정
-        String property = "userId";
-//        if (mode == "vote") property = "voteCount";
+    @Transactional(readOnly = true)
+    public  List<UserClub> findUserClub(long userId) {
+        List<UserClub> userClubs =  clubService.getUserClubs(userId);
 
-        return userRepository.findAll(PageRequest.of(page, size,
-                Sort.by(property).descending()));
+        return userClubs;
+
+    }
+
+    public Page<UserClub> findUsers(int page, int size, long clubId) {
+        // TODO 로직 요구 조건에 맞춰 수정
+
+        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size), Sort.by("winRate"), clubId);
+
+        return userClubPage;
     }
 
     public void deleteUser(long userId) {
@@ -120,7 +132,7 @@ public class UserService {
         return findUser;
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
