@@ -26,14 +26,11 @@ class InsertDummyUserDatabyService {
             String email = "user" + i + "@dummy.com";
             String nickName = "nick" + i;
             String encodedPassword = "password" + i;
-            long imageId = i;
             User user = new User();
-            Images images = new Images();
-            images.setImageId(imageId);
             user.setPassword(encodedPassword);
             user.setNickName(nickName);
             user.setEmail(email);
-            userService.createUser(user, null, images.getImageId());
+            userService.createUser(user, null, null);
         }
         System.out.println("100 rows inserted successfully.");
     }
