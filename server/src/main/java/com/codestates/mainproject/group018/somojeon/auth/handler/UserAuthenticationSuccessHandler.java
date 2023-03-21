@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
+import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -26,9 +27,12 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserAuthenticationSuccessHandler(UserRepository userRepository, UserMapper userMapper) {
+    private final ClubMapper clubMapper;
+
+    public UserAuthenticationSuccessHandler(UserRepository userRepository, UserMapper userMapper, ClubMapper clubMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.clubMapper =clubMapper;
     }
 
 
@@ -50,9 +54,9 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
-        UserDto.Response userResponseDto = userMapper.userToUserResponse(user);
+        UserDto.ResponseWithClubs responseWithClubs = userMapper.userToUserResponseWithClubs(user, user.getUserClubList(), clubMapper);
         //TODO GSON 사용
-        response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(userResponseDto)));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(responseWithClubs)));
         log.info("LOGIN ID: {}", userId);
 
 
