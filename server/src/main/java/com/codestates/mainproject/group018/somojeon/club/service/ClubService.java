@@ -50,6 +50,7 @@ public class ClubService {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
         club.setCreatedAt(LocalDateTime.now());
+        club.setMemberCount(club.getMemberCount() + 1);
         // profileImageId 들어오면 Image도 저장
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
@@ -114,7 +115,7 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-    // 소모임 삭제 (리더만 가능)
+    // 소모임 전체 스케줄 조회
     public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
         return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
