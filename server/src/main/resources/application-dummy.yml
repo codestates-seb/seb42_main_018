@@ -14,11 +14,19 @@ spring:
     database: mysql
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
+  access-token-expiration-minutes: 1
   refresh-token-expiration-minutes: 420
 mail:
   address:
     admin: ${ADMIN_MAIL}
 oauth:
   kakao:
-    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
+    redirect-address: http://localhost:8080/login/oauth2/code/kakao
+#    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error

@@ -1,12 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    url: jdbc:mysql://${RDS_ENDPOINT_DUMMY}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: root
     password : ${MYSQL_PASSWORD}
-#    url: jdbc:mysql://${RDS_ENDPOINT}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-#    username: ${RDS_ID}
-#    password: ${RDS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -38,7 +35,7 @@ logging:
           EC2MetadataUtils: error
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
+  access-token-expiration-minutes: 1
   refresh-token-expiration-minutes: 420
 mail:
   address:
