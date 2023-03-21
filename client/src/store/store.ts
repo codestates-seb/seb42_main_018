@@ -13,7 +13,7 @@ interface userInfoType {
   userStatus: string;
 }
 
-interface jwtTokensType {
+export interface jwtTokensType {
   accessToken: string;
   refreshToken: string;
 }

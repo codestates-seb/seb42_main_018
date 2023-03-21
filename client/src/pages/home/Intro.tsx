@@ -1,6 +1,6 @@
-import Team from '../../components/home/_Team';
-import IntroMain from '../../components/home/_IntroMain';
-import IntroContents from '../../components/home/_IntroContents';
+import Team from '../../components/home/Team';
+import IntroMain from '../../components/home/IntroMain';
+import IntroContents from '../../components/home/IntroContents';
 
 function Intro() {
   return (
