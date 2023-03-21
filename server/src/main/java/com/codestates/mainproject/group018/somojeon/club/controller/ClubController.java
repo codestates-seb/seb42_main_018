@@ -34,7 +34,7 @@ public class ClubController {
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final ScheduleMapper scheduleMapper;
-    @Value("${defaultClub.image.address")
+    @Value("${defaultClub.image.address}")
     private String defaultClubImage;
 
 

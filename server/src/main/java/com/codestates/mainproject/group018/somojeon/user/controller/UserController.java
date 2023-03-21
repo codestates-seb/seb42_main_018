@@ -32,7 +32,7 @@ public class UserController {
     private final UserMapper mapper;
     private final Identifier identifier;
 
-    @Value("${defaultProfile.image.address")
+    @Value("${defaultProfile.image.address}")
     private String defaultProfileImage;
 
     public UserController(UserService userService, UserMapper mapper, Identifier identifier) {
