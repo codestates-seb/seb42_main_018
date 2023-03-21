@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.user.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -97,7 +98,7 @@ public class UserController {
 
         List<UserClub> userClubs = userService.findUserClub(userId);
 
-        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClub(findUser, userClubs, clubMapper);
+        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper);
 
         return  new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
@@ -114,13 +115,13 @@ public class UserController {
         List<UserClub> userClubs = pageUserClubs.getContent();
 
 
-                ).collect(Collectors.toList());
+        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
+                userClub -> userMapper.userToUserResponseWithClub(userClub)
+        ).collect(Collectors.toList());
 
 
-
-//        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUsers),
-//                HttpStatus.OK);
-        return null;
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
+                HttpStatus.OK);
     }
 
     // delete

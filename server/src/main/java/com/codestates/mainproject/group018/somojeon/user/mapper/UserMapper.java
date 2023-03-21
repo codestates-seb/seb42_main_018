@@ -20,7 +20,7 @@ public interface UserMapper {
     List<UserDto.Response> usersToUserResponses(List<User> users);
 
 
-    default UserDto.ResponseWithClubs userToUserResponseWithClub(User user, List<UserClub> userClubs, ClubMapper clubMapper){
+    default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs, ClubMapper clubMapper){
         UserDto.ResponseWithClubs responseWithClubs = new UserDto.ResponseWithClubs(
                 user.getUserId(),
                 user.getNickName(),
@@ -31,14 +31,19 @@ public interface UserMapper {
         return responseWithClubs;
     }
 
-//    default List<UserDto.Response> usersToUserResponses(List<User> users, List<List<UserClub>> userClubsList, ClubMapper clubMapper){
-//        ArrayList<UserDto.Response> userResponse = new ArrayList<>();
-//        for(int i = 0 ; i < users.size(); i++){
-//            userResponse.add(this.userToUserResponse(users.get(i), userClubsList.get(i), clubMapper));
-//        }
-//        return userResponse;
-//
-//    }
+    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub){
+        User user = userClub.getUser();
+        UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
+        responseWithClub.setNickName(user.getNickName());
+//        responseWithClub.set(user.get()); //TODO-JH 이미지
+        responseWithClub.setPlayCount(userClub.getPlayCount());
+        responseWithClub.setWinCount(userClub.getWinCount());
+        responseWithClub.setLoseCount(userClub.getLoseCount());
+        responseWithClub.setDrawCount(userClub.getDrawCount());
+        responseWithClub.setWinRate(userClub.getWinRate());
+        return responseWithClub;
+    }
+
 
     default List<UserDto.Response> usersToUserResponsesForPublic(List<User> users){
         return users.stream()
