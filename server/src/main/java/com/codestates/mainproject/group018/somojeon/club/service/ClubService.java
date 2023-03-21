@@ -188,15 +188,6 @@ public class ClubService {
         }
     }
 
-    public Club findById(long clubId) {
-        Optional<Club> optionalClub =
-                clubRepository.findById(clubId);
-        Club findClub = optionalClub.orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));
-
-        return findClub;
-    }
-
     public Club findVerifiedClub(Long clubId) {
         Optional<Club> findClub = clubRepository.findById(clubId);
         Club club = findClub.orElseThrow(() ->
