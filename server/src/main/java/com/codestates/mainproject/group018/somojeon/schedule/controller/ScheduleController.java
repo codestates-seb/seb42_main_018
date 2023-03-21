@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
+import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +29,24 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;
     private final Identifier identifier;
+    private final UserMapper userMapper;
 
     @PostMapping("/clubs/{club-id}/schedules")
     public ResponseEntity postSchedule(@PathVariable("club-id") @Positive long clubId,
                                        @Valid @RequestBody ScheduleDto.Post requestBody) {
         requestBody.addClubId(clubId);
 
-        if (!identifier.checkClubRole(clubId)) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        };
+//        if (!identifier.checkClubRole(clubId)) {
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        };
 
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
-        Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId);
+        Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
+                requestBody.getUserTeams(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule)),
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);
     }
 
@@ -58,10 +61,11 @@ public class ScheduleController {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         };
 
-        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody));
+        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
+                requestBody.getRecords(), requestBody.getUserTeams(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
     }
 
 //    @GetMapping("/schedules/{schedule-id}")
