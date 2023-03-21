@@ -2,13 +2,14 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
-import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
-import com.codestates.mainproject.group018.somojeon.dto.ClubCategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,10 +29,12 @@ public class ClubController {
 
     private final ClubService clubService;
     private final ClubMapper mapper;
+    private final Identifier identifier;
 
-    public ClubController(ClubService clubService, ClubMapper mapper) {
+    public ClubController(ClubService clubService, ClubMapper mapper, Identifier identifier) {
         this.clubService = clubService;
         this.mapper = mapper;
+        this.identifier = identifier;
     }
 
     // 소모임 생성
@@ -147,6 +150,22 @@ public class ClubController {
     public ResponseEntity patchMemberQuitClub() {
         return null;
     }
+
+
+    @PostMapping("/player")
+    public ResponseEntity postPlayers(@Valid @RequestBody ClubDto.PostPlayers requestBody) {
+        if(!identifier.checkClubRole(requestBody.getClubId())){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+        List<UserClub> userClubs =  clubService.updatePlayer(requestBody.getClubId(), requestBody.getPlayerUserIds(), true);
+
+
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.userClubsToUserCLubResponses(userClubs))
+                , HttpStatus.OK);
+    }
+
+
 
 
 }

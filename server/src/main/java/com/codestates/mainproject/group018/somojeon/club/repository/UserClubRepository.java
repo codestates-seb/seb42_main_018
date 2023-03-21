@@ -3,7 +3,6 @@ package com.codestates.mainproject.group018.somojeon.club.repository;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +18,6 @@ public interface UserClubRepository extends JpaRepository<UserClub, Long> {
     @Query("SELECT uc FROM UserClub uc  WHERE uc.user = :userId")
     Optional<List<UserClub>> findAllByUserId(Long userId);
 
-    Page<UserClub> findAllByClubId(Pageable pageable, Sort sortBy, Long clubId);
+    @Query("SELECT uc FROM UserClub uc  WHERE uc.club = :clubId")
+    Page<UserClub> findAllByClubId(Pageable pageable, Long clubId);
 }

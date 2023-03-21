@@ -101,7 +101,7 @@ public class UserService {
     public Page<UserClub> findUsers(int page, int size, long clubId) {
         // TODO 로직 요구 조건에 맞춰 수정
 
-        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size), Sort.by("winRate"), clubId);
+        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
 
         return userClubPage;
     }

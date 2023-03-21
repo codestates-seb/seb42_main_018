@@ -17,7 +17,11 @@ public interface UserMapper {
 
     UserDto.Response userToUserResponse(User user);
 
-    List<UserDto.Response> usersToUserResponses(List<User> users);
+    default  List<UserDto.Response> usersToUserResponses(List<User> users){
+        return users.stream().map(
+                user -> userToUserResponse(user)
+        ).collect(Collectors.toList());
+    };
 
 
     default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs, ClubMapper clubMapper){
@@ -44,21 +48,4 @@ public interface UserMapper {
         return responseWithClub;
     }
 
-
-    default List<UserDto.Response> usersToUserResponsesForPublic(List<User> users){
-        return users.stream()
-                .map(this::userToUserResponseForPublic)
-                .collect(Collectors.toList());
-    }
-
-    default UserDto.Response userToUserResponseForPublic(User user){
-        UserDto.Response response = new UserDto.Response();
-        response.setNickName(user.getNickName());
-        response.setEmail(user.getEmail());
-        response.setUserStatus(user.getUserStatus());
-        response.setUserId(user.getUserId());
-
-        return response;
-
-    };
 }

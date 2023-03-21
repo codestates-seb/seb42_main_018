@@ -2,14 +2,11 @@ package com.codestates.mainproject.group018.somojeon.club.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.level.etity.Level;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
 public class UserClubDto {
     @Getter
     @Builder

@@ -5,14 +5,16 @@ import com.codestates.mainproject.group018.somojeon.auth.filter.JwtVerificationF
 import com.codestates.mainproject.group018.somojeon.auth.filter.LogFilter;
 import com.codestates.mainproject.group018.somojeon.auth.handler.*;
 import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
-import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.oauth.repository.OAuthUserRepository;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,11 +27,12 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.beans.factory.annotation.Value;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @Slf4j
+@RequiredArgsConstructor
 public class SecurityConfiguration {
 
     @Autowired
@@ -40,21 +43,12 @@ public class SecurityConfiguration {
     private final UserMapper userMapper;
     private final AuthService authService;
     private final OAuthUserRepository oauthUserRepository;
+    private final ClubMapper clubMapper;
 
     @Value("${oauth.kakao.redirect-address}")
     String redirectAddress;
 
-    public SecurityConfiguration(OAuth2UserSuccessHandler oAuth2UserSuccessHandler, JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                                 UserRepository userRepository, UserMapper userMapper,
-                                 AuthService authService, OAuthUserRepository oauthUserRepository) {
-        this.oAuth2UserSuccessHandler = oAuth2UserSuccessHandler;
-        this.jwtTokenizer = jwtTokenizer;
-        this.authorityUtils = authorityUtils;
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.authService = authService;
-        this.oauthUserRepository = oauthUserRepository;
-    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -132,8 +126,8 @@ public class SecurityConfiguration {
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, oauthUserRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper));  // (3) 추가
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());  // (4) 추가
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper, clubMapper));
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, authService);
 

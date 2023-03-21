@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
@@ -155,10 +156,10 @@ public class ClubService {
         return userClubs;
     }
 
-    public Page<UserClub> getClubMembers(PageRequest pageRequest, Sort by,  Long clubId) {
+    public Page<UserClub> getClubMembers(PageRequest pageRequest,  Long clubId) {
         //TODO-DW: 검토 부탁드려요 by 제훈
         findVerifiedClub(clubId);
-        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, by, clubId);
+        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, clubId);
 
 
 
@@ -228,6 +229,18 @@ public class ClubService {
                 new BusinessLogicException(ExceptionCode.CLUB_NOT_FOUND));
 
         return club;
+    }
+
+    public List<UserClub> updatePlayer(Long clubId, List<Long> playerIds, boolean flag){
+        List<UserClub> userClubs = playerIds.stream().map(
+                playerId -> {
+                    Optional<UserClub> optionalUserClub = userClubRepository.findByUserIdAndClubId(clubId, playerId);
+                    UserClub userClub =  optionalUserClub.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+                    userClub.setPlayer(flag);
+                    return userClubRepository.save(userClub);
+
+                }).collect(Collectors.toList());
+        return userClubs;
     }
 
 
