@@ -26,7 +26,7 @@ public class ImageController {
 
     // 유저 프로필 이미지 파일 업로드
     @PostMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadProfileImage(@RequestPart(value = "images", required = false) MultipartFile multipartFile) throws IOException {
+    public ResponseEntity uploadProfileImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
 
         Images images = imageService.uploadProfileImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
@@ -37,7 +37,7 @@ public class ImageController {
 
     // 클럽 소개 이미지 파일 업로드
     @PostMapping(value = "/clubs", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadClubImage(@RequestPart(value = "images", required = false) MultipartFile multipartFile) throws IOException{
+    public ResponseEntity uploadClubImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException{
 
         Images images = imageService.uploadClubImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
