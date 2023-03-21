@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const S_TabContainer = styled.div`
@@ -35,16 +35,13 @@ interface Tab {
   path: string;
 }
 
-function Tabmenu() {
+interface TabmenuProps {
+  tabs: Tab[];
+}
+
+function Tabmenu({ tabs }: TabmenuProps) {
   const navigate = useNavigate();
   const location = useLocation().pathname;
-  const { id } = useParams();
-
-  const tabs: Tab[] = [
-    { id: 1, title: '소개', path: `/club/${id}` },
-    { id: 2, title: '경기정보', path: `/club/${id}/match` },
-    { id: 3, title: '멤버', path: `/club/${id}/member` }
-  ];
 
   return (
     <S_TabContainer>
