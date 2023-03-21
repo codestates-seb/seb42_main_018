@@ -80,7 +80,7 @@ function EditMatch() {
           latitude: place?.x
         }
       },
-      canidates: candidates.length !== 0 ? candidates : [],
+      candidates: candidates.length !== 0 ? candidates : [],
       teamList: teams.length !== 0 ? teams : [],
       records: records.length !== 0 ? records : []
     };

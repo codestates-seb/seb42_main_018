@@ -71,7 +71,7 @@ export interface MatchData {
       latitude: number | undefined;
     };
   };
-  canidates: string[];
+  candidates: string[];
   teamList: TeamList[];
   records: Record[];
 }
@@ -136,11 +136,11 @@ function CreateMatch() {
           latitude: place?.x
         }
       },
-      canidates: candidates.length !== 0 ? candidates : [],
-      teamList: teams.length !== 0 ? teams : [],
+      candidates: candidates?.length !== 0 ? candidates : [],
+      teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
       records: records.length !== 0 ? records : []
     };
-    // console.log(datas);
+    console.log(datas);
     setMatchData(datas);
   };
 
@@ -212,7 +212,6 @@ function CreateMatch() {
     } else {
       const deleted = [...teamList];
       const deletedTeam = deleted.splice(idx, 1);
-      console.log(deletedTeam);
       setCandidateList([...candidateList, ...deletedTeam[0].members]);
       setTeamList(deleted);
       setIsOpenAddMember(false);

@@ -134,7 +134,7 @@ function CreateClub() {
               id='clubName'
               name='clubName'
               type='text'
-              maxLength={10}
+              maxLength={16}
               value={clubName}
               onChange={onChange}
               width='96%'
