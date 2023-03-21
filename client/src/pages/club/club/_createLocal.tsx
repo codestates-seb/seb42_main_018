@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
-import { CreateCategoryProps } from './_createCategory';
+import { CreateCategoryAndLocalProps } from './_createCategory';
 import { S_Label } from '../../../components/UI/S_Text';
 import { S_Select } from '../../../components/UI/S_Select';
 
@@ -15,8 +15,7 @@ interface DivisionType {
   districts: DistrictType[];
 }
 
-//! TODO : ts 컨벤션 정한 후 CreateCategoryProps 타입명 general하게 수정
-function CreateLocal({ inputValue, setInputValue }: CreateCategoryProps) {
+function CreateLocal({ inputValue, setInputValue }: CreateCategoryAndLocalProps) {
   // division: 지역 1단계 (광역시/도)
   // district: 지역 2단계 (시/군/구)
   const [divisionSelectValue, setDivisionSelectValue] = useState('');
