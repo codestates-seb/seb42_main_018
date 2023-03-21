@@ -11,11 +11,7 @@ public class CandidateDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
-        private Long userId;
 
-        public void addUserId(Long userId) {
-            this.userId = userId;
-        }
     }
 
     @Getter

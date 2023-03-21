@@ -10,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,8 @@ import java.util.Optional;
 @Transactional
 @Service
 public class UserService {
+    @Value("${defaultProfile.image.address")
+    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
@@ -67,7 +70,7 @@ public class UserService {
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             user.setImages(images);
-        }
+        } else user.getImages().setUrl(defaultProfileImage);
 
         User savedUser = userRepository.save(user);
 
@@ -90,7 +93,7 @@ public class UserService {
             Images images = imageService.validateVerifyFile(profileImageId);
             findUser.setImages(images);
         } else {
-            findUser.setImages(null);
+            findUser.getImages().setUrl(defaultProfileImage);
         }
         return userRepository.save(findUser);
     }

@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,14 +16,10 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ClubService clubService;
-
-    public ScheduleService(ScheduleRepository scheduleRepository, ClubService clubService) {
-        this.scheduleRepository = scheduleRepository;
-        this.clubService = clubService;
-    }
 
     public Schedule createSchedule(Schedule schedule, long clubId) {
         schedule.setClub(clubService.findVerifiedClub(clubId));

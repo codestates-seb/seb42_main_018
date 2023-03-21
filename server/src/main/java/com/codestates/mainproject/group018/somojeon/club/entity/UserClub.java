@@ -1,6 +1,5 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
-import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
@@ -21,6 +20,12 @@ public class UserClub {
     private Long userClubId;
 
     private boolean isPlayer;
+
+    private Integer playCount;
+
+    private Integer winCount;
+
+    private float winRate;
 
     @Enumerated(value = EnumType.STRING)
     private ClubRole clubRole;
