@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import ClubMember from './ClubMember'
-import MemberRecord from './MemberRecord'
+import React, { useState } from 'react';
+import ClubMember from './ClubMember';
+import MemberRecord from './MemberRecord';
 
 interface Tab {
   id: number;
@@ -9,24 +9,25 @@ interface Tab {
 }
 
 function MemberNav() {
-  const [tap, setTab] = useState(0)
+  const [tab, setTab] = useState(0);
 
   const tabs: Tab[] = [
-    {id: 1, title: '전체 멤버', contents: <ClubMember/>},
-    {id: 2, title: '멤버 기록', contents: <MemberRecord/>}
-  ]
-  
-  const onClickTap = (idx:number) => {
+    { id: 1, title: '전체 멤버', contents: <ClubMember /> },
+    { id: 2, title: '멤버 기록', contents: <MemberRecord /> }
+  ];
+
+  const onClickTap = (idx: number) => {
     setTab(idx);
-  }
+  };
   return (
     <>
       {tabs.map((e, idx) => (
-        <button key={e.id}
-        onClick={()=>onClickTap(idx)}>{e.title}</button>
+        <button key={e.id} onClick={() => onClickTap(idx)}>
+          {e.title}
+        </button>
       ))}
     </>
-  )
+  );
 }
 
-export default MemberNav
+export default MemberNav;
