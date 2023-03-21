@@ -13,7 +13,7 @@ interface ImgFileType {
 }
 
 function API_TEST() {
-  const POST_URL = `${process.env.REACT_APP_URL}/api/upload`;
+  const POST_URL = `${process.env.REACT_APP_URL}/upload/users`;
   const GET_URL = `${process.env.REACT_APP_URL}`;
 
   const [imgFile, setImgFile] = useState<ImgFileType>();

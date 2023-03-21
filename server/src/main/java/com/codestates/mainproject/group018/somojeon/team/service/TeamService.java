@@ -2,8 +2,13 @@ package com.codestates.mainproject.group018.somojeon.team.service;
 
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,19 +19,28 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
-
-    public TeamService(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
-    }
+    private final UserService userService;
+    private final RecordService recordService;
 
     public Team createTeam(Team team) {
+        UserTeam userTeam = new UserTeam();
+        TeamRecord teamRecord = new TeamRecord();
+        userService.findVerifiedUser(userTeam.getUser().getUserId());
+        recordService.findVerifiedRecord(teamRecord.getRecord().getRecordId());
+
         return teamRepository.save(team);
     }
 
     public Team updateTeam(Team team) {
         Team findTeam = findVerifiedTeam(team.getTeamId());
+
+        Optional.ofNullable(team.getScore())
+                .ifPresent(findTeam::setScore);
+        Optional.ofNullable(team.getWinLoseDraw())
+                .ifPresent(findTeam::setWinLoseDraw);
 
         return teamRepository.save(findTeam);
     }

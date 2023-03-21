@@ -1,14 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.images.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ImagesResponseDto {
     private Long imageId;
     private String fileName;

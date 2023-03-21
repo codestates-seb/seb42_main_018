@@ -14,8 +14,8 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -31,7 +31,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ClubService {
-
+    @Value("${defaultClub.image.address}")
+    private String defaultClubImage;
     private final ClubRepository clubRepository;
     private final TagService tagService;
     private final UserClubRepository userClubRepository;
@@ -50,11 +51,16 @@ public class ClubService {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
         club.setCreatedAt(LocalDateTime.now());
+        club.setMemberCount(club.getMemberCount() + 1);
         // profileImageId 들어오면 Image도 저장
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             club.setImages(images);
         }
+//        else {
+//            club.getImages().setUrl(defaultClubImage);
+//        }
+
         return clubRepository.save(club);
     }
 
@@ -77,7 +83,7 @@ public class ClubService {
             Images images = imageService.validateVerifyFile(profileImageId);
             club.setImages(images);
         } else {
-            club.setImages(null);
+            club.getImages().setUrl(defaultClubImage);
         }
 
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
@@ -114,7 +120,7 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-    // 소모임 삭제 (리더만 가능)
+    // 소모임 전체 스케줄 조회
     public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
         return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
