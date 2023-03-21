@@ -2,13 +2,11 @@ import styled from 'styled-components';
 import ClubList from '../home/ClubList';
 import { S_Button, S_ButtonGray } from '../UI/S_Button';
 import { S_Title } from '../UI/S_Text';
+import ClubListSetting from './ClubListSetting';
 
 const S_Box = styled.div`
   margin-bottom: 50px;
   background-color: var(--blue100);
-  div {
-    margin-top: 10px;
-  }
   button {
     margin: 8px 0px;
   }
@@ -19,6 +17,7 @@ function ClubYes() {
     <S_Box>
       <div>
         <S_Title>내 소모임</S_Title>
+        <ClubListSetting />
         {/* 받아온 클럽 정보 뿌려주기 */}
         {/* {{받아온 데이터 이름}.map((e) => (
           <ClubList

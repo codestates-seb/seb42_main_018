@@ -62,8 +62,8 @@ function ClubList({
         <S_TitleBox>
           <S_Label>
             <Link to={`/club/${clubId}`}>{clubName}</Link>
+            {/* 왕관 표시 조건부 렌더링 */}
           </S_Label>
-          <S_EditButton>소모임 설정</S_EditButton>
         </S_TitleBox>
         <S_SmallDescription>
           {categoryName} ・ {local} ・ 인원 {memberCount}명

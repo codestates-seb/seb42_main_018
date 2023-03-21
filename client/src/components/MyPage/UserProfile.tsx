@@ -14,8 +14,9 @@ const S_profileBox = styled.div`
   // 전체 컨테이너
   display: flex;
   align-items: center;
-  background-color: var(--gray100); // 크기 확인하기 위한 색상
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--gray600);
 `;
 
 const S_ImgBox = styled.div<{ img?: string }>`
