@@ -4,7 +4,7 @@ import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
 import { Link } from 'react-router-dom';
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   box-sizing: border-box;
   margin: 0 auto;
   max-width: 500px;
