@@ -1,8 +1,13 @@
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
 import ClubMemberItem from './_memberItem';
 import MemberNav from './_memberNav';
+
+const S_MemberBox = styled.div`
+  min-height: calc(100vh - 100px);
+`;
 
 export interface ClubMemberProps {
   // 받아올 멤버 정보 타입 설정
@@ -34,14 +39,16 @@ function ClubMember() {
     <S_Container>
       <Tabmenu tabs={tabs} />
       <MemberNav />
-      {data.map((e) => (
-        <ClubMemberItem
-          key={e.memberId}
-          profileImage={e.profileImage}
-          name={e.name}
-          winRate={e.winRate}
-        />
-      ))}
+      <S_MemberBox>
+        {data.map((e) => (
+          <ClubMemberItem
+            key={e.memberId}
+            profileImage={e.profileImage}
+            name={e.name}
+            winRate={e.winRate}
+          />
+        ))}
+      </S_MemberBox>
     </S_Container>
   );
 }
