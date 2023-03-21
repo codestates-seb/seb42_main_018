@@ -18,11 +18,6 @@ interface Tab {
 
 function MemberSetting() {
   const navigate = useNavigate();
-  // const [clickedTab, setClickedTab] = useState<string | null>('total');
-  // const tabHandler = (e: React.MouseEvent<HTMLElement>) => {
-  //   setClickedTab(e.currentTarget.getAttribute('name'));
-  // };
-
   const [tabIndex, setTabIndex] = useState(0);
   const tabs: Tab[] = [
     { id: 1, title: '전체 멤버 목록', contents: <TotalMember/>},
