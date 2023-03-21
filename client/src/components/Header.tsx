@@ -16,7 +16,7 @@ const HeaderContainer = styled.header`
   right: 0;
   background: var(--white);
   border-bottom: 1px solid var(--gray100);
-  z-index: 200;
+  z-index: 100;
 
   display: flex;
   align-items: center;
