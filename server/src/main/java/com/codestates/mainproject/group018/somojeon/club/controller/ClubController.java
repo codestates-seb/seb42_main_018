@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(value = "https://dev.somojeon.site")
+@CrossOrigin(value = {"https://dev.somojeon.site", "https://dev-somojeon.vercel.app"})
 @RequestMapping("/clubs")
 public class ClubController {
 
@@ -106,7 +106,7 @@ public class ClubController {
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
-
+    // 소모임 전체 스케쥴 조회
     @GetMapping("/{club-id}/schedules")
     public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
                                                @RequestParam(defaultValue = "1") int page,
