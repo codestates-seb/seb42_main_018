@@ -79,7 +79,7 @@ public class ClubService {
             Images images = imageService.validateVerifyFile(profileImageId);
             club.setImages(images);
         } else {
-            club.setImages(null);
+            club.getImages().setUrl(defaultClubImage);
         }
 
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);

@@ -93,7 +93,7 @@ public class UserService {
             Images images = imageService.validateVerifyFile(profileImageId);
             findUser.setImages(images);
         } else {
-            findUser.setImages(null);
+            findUser.getImages().setUrl(defaultProfileImage);
         }
         return userRepository.save(findUser);
     }
