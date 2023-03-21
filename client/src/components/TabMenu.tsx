@@ -11,8 +11,7 @@ const S_TabContainer = styled.div`
   left: 0;
   right: 0;
   display: flex;
-  z-index: 200;
-  background-color: tomato;
+  z-index: 100;
 `;
 const S_TabItem = styled.button<{ active: boolean }>`
   // 탭 하나하나 버튼 스타일
