@@ -37,8 +37,6 @@ public class CandidateController {
 
     @PostMapping
     public ResponseEntity postCandidate(@Valid @RequestBody CandidateDto.Post requestBody) {
-        Long userId = identifier.getUserId();
-        requestBody.addUserId(userId);
         Candidate candidate = candidateMapper.candidatePostDtoToCandidate(requestBody);
 
         Candidate createdCandidate = candidateService.createCandidate(candidate);

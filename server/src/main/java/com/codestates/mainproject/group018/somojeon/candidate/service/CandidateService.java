@@ -2,8 +2,10 @@ package com.codestates.mainproject.group018.somojeon.candidate.service;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +24,11 @@ public class CandidateService {
     private final UserService userService;
 
     public Candidate createCandidate(Candidate candidate) {
-        userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
+        User user = userService.findVerifiedUser(candidate.getUser().getUserId()); // 유저 확인
+        UserClub userClub = new UserClub();
+        if (userClub.isPlayer() == false) userClub.setPlayer(true);
+        candidate.setUser(user);
+        candidate.setAttendance(Candidate.Attendance.ATTEND);
 
         return candidateRepository.save(candidate);
     }
@@ -47,6 +53,10 @@ public class CandidateService {
 
     public void deleteCandidate(long candidateId) {
         Candidate candidate = findCandidate(candidateId);
+
+        UserClub userClub = new UserClub();
+        if (userClub.isPlayer() == true) userClub.setPlayer(false);
+        candidate.setAttendance(Candidate.Attendance.HOLD);
 
         candidateRepository.delete(candidate);
     }
