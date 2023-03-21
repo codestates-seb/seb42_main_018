@@ -33,7 +33,6 @@ public class ClubTag {
     public void addClub(Club club) {
         this.club = club;
         club.setClubTag(this);
-        club.setMemberCount(club.getMemberCount() + 1);
     }
 
     public void addTag(Tag tag) {

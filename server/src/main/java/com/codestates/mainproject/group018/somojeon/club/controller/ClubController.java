@@ -28,6 +28,7 @@ import java.util.List;
 @RequestMapping("/clubs")
 public class ClubController {
 
+    private final static String CLUB_DEFAULT_URL = "/club";
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final ScheduleMapper scheduleMapper;
@@ -39,9 +40,10 @@ public class ClubController {
 
         Long profileImageId = requestBody.getProfileImageId();
         Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
-        URI location = UriCreator.createUri("/club", createdClub.getClubId());
+        URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
+//        return new ResponseEntity<>(location, HttpStatus.CREATED);
     }
 
     // 소모임 수정 (소개글, 이미지 등)
