@@ -140,6 +140,16 @@ public class UserService {
         return findUser;
     }
 
+    @Transactional(readOnly = true)
+    public User findById(long userId){
+        Optional<User> optionalUser =
+                userRepository.findById(userId);
+        User findUser =
+                optionalUser.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return findUser;
+    }
+
     private void verifyExistsEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent())

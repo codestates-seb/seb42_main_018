@@ -6,11 +6,13 @@ import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class ClubController {
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final ScheduleMapper scheduleMapper;
+    @Value("${defaultClub.image.address}")
+    private String defaultClubImage;
 
 
     // 소모임 생성
@@ -117,6 +121,18 @@ public class ClubController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
         HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/{club-id}")
+    public ResponseEntity<ImagesResponseDto> getProfile(@PathVariable("club-id") @Positive long clubId) {
+        Club club = clubService.findById(clubId);
+        if (club == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ImagesResponseDto response = new ImagesResponseDto();
+        if (club.getImages() != null) response.setUrl(response.getUrl());
+        else response.setUrl(defaultClubImage);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 소모임 삭제
