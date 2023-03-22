@@ -9,7 +9,7 @@ import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
 import { S_Input } from '../../components/UI/S_Input';
-import RegisterModal from './_modal';
+import RegisterModal from './_registerModal';
 
 export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
@@ -50,7 +50,6 @@ function Login() {
   const goToIntro = () => {
     navigate('/');
   };
-  const [showModal, setShowModal] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -67,13 +66,14 @@ function Login() {
   };
   // console.log(inputs);
 
+  const [showModal, setShowModal] = useState(false);
   const handleModal = () => {
     setShowModal((current) => !current);
   };
 
+  // * POST 요청 관련 로직
   const { handleLogin } = useLoginRequestLogic();
 
-  // * POST 요청 관련 로직
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -91,7 +91,7 @@ function Login() {
 
     if (!isValidEmail || !isValidPassword) return;
 
-    // 서버에 로그인 post 요청
+    // 서버에 로그인 post 요청 및 전역 상태 설정
     const res = await handleLogin(inputs);
 
     if (res) {

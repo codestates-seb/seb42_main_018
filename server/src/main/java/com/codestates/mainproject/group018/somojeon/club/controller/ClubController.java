@@ -2,7 +2,6 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
-import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
@@ -10,7 +9,10 @@ import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -24,27 +26,27 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
+@CrossOrigin(value = {"https://dev.somojeon.site", "https://dev-somojeon.vercel.app"})
 @RequestMapping("/clubs")
 public class ClubController {
 
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final Identifier identifier;
+    private final ScheduleMapper scheduleMapper;
 
-    public ClubController(ClubService clubService, ClubMapper mapper, Identifier identifier) {
-        this.clubService = clubService;
-        this.mapper = mapper;
-        this.identifier = identifier;
-    }
 
     // 소모임 생성
     @PostMapping
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
-        URI location = UriCreator.createUri("/clubs", createdClub.getClubId());
+        Long profileImageId = requestBody.getProfileImageId();
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
+        URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
+//        return new ResponseEntity<>(location, HttpStatus.CREATED);
     }
 
     // 소모임 수정 (소개글, 이미지 등)
@@ -53,8 +55,9 @@ public class ClubController {
                                     @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
+        Long profileImageId = requestBody.getProfileImageId();
         Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName(), profileImageId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
@@ -105,6 +108,18 @@ public class ClubController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
+    }
+    // 소모임 전체 스케쥴 조회
+    @GetMapping("/{club-id}/schedules")
+    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
+                                               @RequestParam(defaultValue = "1") int page,
+                                               @RequestParam(defaultValue = "10") int size) {
+        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, page - 1, size);
+        List<Schedule> content = schedulePage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
+        HttpStatus.OK);
     }
 
     // 소모임 삭제

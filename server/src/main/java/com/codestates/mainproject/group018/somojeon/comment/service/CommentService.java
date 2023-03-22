@@ -7,31 +7,25 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
     private final RecordService recordService;
     private final UserService userService;
 
-    public CommentService(CommentRepository commentRepository, RecordService recordService,
-                          UserService userService) {
-        this.commentRepository = commentRepository;
-        this.recordService = recordService;
-        this.userService = userService;
-    }
-
     public Comment createComment(Comment comment, Long recordId) {
-//        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
+        userService.findVerifiedUser(comment.getUser().getUserId()); // 유저 확인
         Record record = recordService.findVerifiedRecord(recordId);// 경기 전적 확인
         comment.setRecord(record);
 

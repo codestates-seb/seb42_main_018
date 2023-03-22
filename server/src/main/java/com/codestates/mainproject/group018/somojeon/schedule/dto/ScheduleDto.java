@@ -1,10 +1,13 @@
 package com.codestates.mainproject.group018.somojeon.schedule.dto;
 
 import com.codestates.mainproject.group018.somojeon.candidate.dto.CandidateDto;
+import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
+import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +33,10 @@ public class ScheduleDto {
         private Double longitude;
         private Double latitude;
 
+        private List<Record> records;
+        private List<Candidate> candidates;
+        private List<UserTeam> userTeams;
+
         public void addClubId(Long clubId) {
             this.clubId = clubId;
         }
@@ -53,6 +60,10 @@ public class ScheduleDto {
         private Double longitude;
         private Double latitude;
 
+        private List<Record> records;
+        private List<Candidate> candidates;
+        private List<UserTeam> userTeams;
+
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
         }
@@ -69,6 +80,7 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Response {
         private Long scheduleId;
+        private Long clubId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
         @DateTimeFormat(pattern = "HH:mm")
@@ -77,6 +89,7 @@ public class ScheduleDto {
         private String placeName;
         private Double longitude;
         private Double latitude;
+        private List<TeamDto.Response> teams;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }

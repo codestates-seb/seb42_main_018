@@ -21,6 +21,7 @@ import API_TEST from './API_TEST';
 
 import GlobalStyles from './GlobalStyles';
 import MemberRecord from './pages/club/member/MemberRecord';
+import Admin from './pages/admin/Admin';
 
 function App() {
   return (
@@ -47,13 +48,14 @@ function App() {
           <Route path='member' element={<ClubMember />} />
         </Route>
         <Route path='/club/create' element={<CreateClub />} />
-        <Route path='/club/edit' element={<EditClub />} />
-        <Route path='/club/setting'>
+        <Route path='/club/:id/edit' element={<EditClub />} />
+        <Route path='/club/:id/setting'>
           <Route index element={<ClubSetting />} />
           <Route path='member' element={<MemberSetting />} />
         </Route>
         {/* // TODO : API 테스트 후 삭제 (import 라인 같이 삭제) */}
         <Route path='/api' element={<API_TEST />} />
+        <Route path='/admin' element={<Admin/>} /> 
       </Routes>
     </div>
   );

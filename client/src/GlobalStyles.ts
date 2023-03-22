@@ -34,6 +34,7 @@ const GlobalStyles = createGlobalStyle`
     /* 중앙정렬 및 배경 전체 색 */
     margin: 0 auto;
     max-width: 500px;
+    box-shadow: 0px 0px 30px -10px var(--gray200);
     background-color: var(--gray100);
     /* 서체 시스템 통일 */
     color: var(--gray600);
@@ -62,6 +63,6 @@ const GlobalStyles = createGlobalStyle`
   }
   input[type="date"],[type="time"] {
   }
-`
+`;
 
 export default GlobalStyles;

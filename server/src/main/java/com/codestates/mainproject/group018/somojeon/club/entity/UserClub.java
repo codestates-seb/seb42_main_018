@@ -21,6 +21,12 @@ public class UserClub {
 
     private boolean isPlayer;
 
+    private Integer playCount;
+
+    private Integer winCount;
+
+    private float winRate;
+
     @Enumerated(value = EnumType.STRING)
     private ClubRole clubRole;
 

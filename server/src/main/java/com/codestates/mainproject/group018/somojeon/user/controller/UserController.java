@@ -50,9 +50,10 @@ public class UserController {
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
                                    HttpServletRequest request){
+        Long profileImageId = userDtoPost.getProfileImageId();
         User user =  userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser =  userService.createUser(user, token);
+        User createdUser =  userService.createUser(user, token, profileImageId);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
     }
@@ -76,11 +77,12 @@ public class UserController {
             @PathVariable("user-id") @Positive long userId,
             @Valid @RequestBody UserDto.Patch requestBody) {
 
+        Long profileImageId = requestBody.getProfileImageId();
         requestBody.setUserId(userId);
         if(!identifier.isVerified(userId)){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+        User user = userService.updateUser(userMapper.userPatchToUser(requestBody), profileImageId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(user)),

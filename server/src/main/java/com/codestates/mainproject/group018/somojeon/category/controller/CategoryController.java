@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.category.service.CategorySer
 import com.codestates.mainproject.group018.somojeon.dto.CategoryResponseDtos;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +21,12 @@ import java.util.Optional;
 @Slf4j
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
     private final CategoryMapper mapper;
-
-    public CategoryController(CategoryService categoryService, CategoryMapper mapper) {
-        this.categoryService = categoryService;
-        this.mapper = mapper;
-    }
 
     @GetMapping
     public ResponseEntity<?> getCategories() {

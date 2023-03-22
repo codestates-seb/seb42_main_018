@@ -6,9 +6,13 @@ import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +30,10 @@ import java.util.Optional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class UserService {
+    @Value("${defaultProfile.image.address")
+    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
@@ -34,18 +41,11 @@ public class UserService {
 
     private final ClubService clubService;
     private final OauthUserService oauthUserService;
+    private final ImageService imageService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils
-            , JwtTokenizer jwtTokenizer, ClubService clubService, OauthUserService oauthUserService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authorityUtils = authorityUtils;
-        this.jwtTokenizer = jwtTokenizer;
-        this.clubService = clubService;
-        this.oauthUserService = oauthUserService;
-    }
 
-    public User createUser(User user, String token) {
+
+    public User createUser(User user, String token, Long profileImageId) {
         verifyExistsEmail(user.getEmail());
         if(token != null){
             user.setPassword("OAUTH2.0");
@@ -60,6 +60,12 @@ public class UserService {
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            user.setImages(images);
+        }
+//        else user.getImages().setUrl(defaultProfileImage);
+
         User savedUser = userRepository.save(user);
 
         return savedUser;
@@ -70,13 +76,20 @@ public class UserService {
 
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user)  {
+    public User updateUser(User user, Long profileImageId)  {
         User findUser = findVerifiedUser(user.getUserId());
 
         Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
         optionalNickName.ifPresent(
                 nickName -> findUser.setNickName(nickName)
         );
+        if (profileImageId != null) {
+            Images images = imageService.validateVerifyFile(profileImageId);
+            findUser.setImages(images);
+        }
+//        else {
+//            findUser.getImages().setUrl(defaultProfileImage);
+//        }
         return userRepository.save(findUser);
     }
 
