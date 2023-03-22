@@ -56,13 +56,14 @@ function Team() {
         </div>
       </S_IntroBox>
       <S_MemberBox>
-        {teamMembers.map((e) => (
+        l
+        {teamMembers.map((el) => (
           <TeamMember
-            key={e.name}
-            profileImg={e.profileImg}
-            position={e.position}
-            name={e.name}
-            url={e.url}
+            key={el.name}
+            profileImg={el.profileImg}
+            position={el.position}
+            name={el.name}
+            url={el.url}
           />
         ))}
       </S_MemberBox>
