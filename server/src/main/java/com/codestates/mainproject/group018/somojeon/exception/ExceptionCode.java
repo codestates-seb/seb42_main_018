@@ -28,7 +28,8 @@ public enum ExceptionCode {
     TEAM_NOT_FOUND(404, "Team not found"),
     //TODO - DW 검토부탁드려요
     USER_CLUB_NOT_FOUND(404, "User club not found"),
-    S3_FILE_NOT_FOUND(404, "S3 file not found");
+    S3_FILE_NOT_FOUND(404, "S3 file not found"),
+    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club");
 
 
 
