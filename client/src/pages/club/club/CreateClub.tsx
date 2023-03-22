@@ -147,7 +147,8 @@ function CreateClub() {
             <S_TextArea
               id='content'
               name='content'
-              placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요.'
+              maxLength={255}
+              placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요. (글자수 제한 255자)'
               value={content}
               onChange={onChange}
               // ref={textareaRef}

@@ -4,7 +4,7 @@ import { HandleDropDownClick } from './_createCategory';
 const S_DropDownContainer = styled.ul`
   background-color: var(--gray100);
 
-  /* TODO: 스타일링 코드 정돈 필요 */
+  /* //TODO: input이 focus를 잃으면 dropdown이 안 보이게 코드 수정 */
   width: 100%;
   display: block;
   margin-left: auto;
@@ -19,6 +19,8 @@ const S_DropDownContainer = styled.ul`
   margin-bottom: 10px;
   padding: 0.5rem 0;
   border-radius: 0 0 5px 5px;
+  box-shadow: 0px 0px 30px -10px var(--gray200);
+
   z-index: 3;
 
   > li {

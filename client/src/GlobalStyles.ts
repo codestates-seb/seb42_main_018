@@ -45,6 +45,7 @@ const GlobalStyles = createGlobalStyle`
     border:none; 
     box-shadow:none;
     font-weight: 500;
+    background-color: transparent;
     cursor:pointer;
   }
 

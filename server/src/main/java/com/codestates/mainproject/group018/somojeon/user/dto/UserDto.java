@@ -88,7 +88,10 @@ public class UserDto {
 
         User.UserStatus userStatus;
 
+        ImagesResponseDto profileImage;
+
         List<UserClubDto.Response> userClubResponses;
+
 
         public String getUserStatus() {
             return userStatus.getStatus();
@@ -102,7 +105,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class ResponseWithClub {
         String nickName;
-        String userImageUrl;
+        private ImagesResponseDto profileImage;
         private Integer playCount;
         private Integer winCount;
         private Integer loseCount;

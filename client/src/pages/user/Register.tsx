@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import { postFetch } from '../../util/api';
@@ -35,9 +35,6 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
 
 function Register() {
   const navigate = useNavigate();
-  const goToPath = (path: string) => {
-    navigate(path);
-  };
 
   const [isFromOauthLogin, setIsFromOauthLogin] = useState(false);
   const [inputs, setInputs] = useState({
@@ -148,8 +145,10 @@ function Register() {
   return (
     <S_Container>
       <S_RegisterWrapper>
-        <div className='title-wrapper' role='presentation' onClick={() => goToPath('/')}>
-          <S_Title>소모전 회원가입</S_Title>
+        <div className='title-wrapper'>
+          <Link to='/'>
+            <S_Title>소모전 로그인하기</S_Title>
+          </Link>{' '}
         </div>
         <form onSubmit={onSubmit}>
           <div className='form-wrapper'>
@@ -239,7 +238,7 @@ function Register() {
         </form>
 
         <S_InstructionWrapper>
-          <S_EditButton onClick={() => goToPath('/login')}>
+          <S_EditButton onClick={() => navigate('/login')}>
             이미 아이디가 있다면 로그인 해주세요
           </S_EditButton>
         </S_InstructionWrapper>
