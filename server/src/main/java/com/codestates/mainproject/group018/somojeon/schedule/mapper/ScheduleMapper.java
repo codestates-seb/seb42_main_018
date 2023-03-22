@@ -29,7 +29,6 @@ public interface ScheduleMapper {
         return ScheduleDto.Response
                 .builder()
                 .scheduleId(schedule.getScheduleId())
-                .clubId(schedule.getClub().getClubId())
                 .date(schedule.getDate())
                 .createdAt(schedule.getCreatedAt())
                 .placeName(schedule.getPlaceName())

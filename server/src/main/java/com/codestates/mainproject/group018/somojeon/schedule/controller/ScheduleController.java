@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.schedule.controller;
 
+import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
@@ -9,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 
 @RestController
@@ -64,6 +67,18 @@ public class ScheduleController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
+    }
+
+    @GetMapping("/clubs/{club-id}/schedules")
+    public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
+                                             @RequestParam("page") int page,
+                                             @RequestParam("size") int size) {
+        Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
+        List<Schedule> schedules = schedulePage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules), schedulePage),
+        HttpStatus.OK);
     }
 
     @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")

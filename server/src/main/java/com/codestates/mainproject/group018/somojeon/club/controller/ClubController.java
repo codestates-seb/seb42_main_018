@@ -6,7 +6,6 @@ import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -106,18 +105,19 @@ public class ClubController {
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
-    // 소모임 전체 스케쥴 조회
-    @GetMapping("/{club-id}/schedules")
-    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
-                                               @RequestParam(defaultValue = "1") int page,
-                                               @RequestParam(defaultValue = "10") int size) {
-        Page<Schedule> schedulePage = clubService.findSchedulesByClub(clubId, page - 1, size);
-        List<Schedule> content = schedulePage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
-        HttpStatus.OK);
-    }
+//    // 소모임 전체 스케쥴 조회
+//    @GetMapping("/{club-id}/schedules")
+//    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
+//                                               @RequestParam("clubName") String clubName,
+//                                               @RequestParam(defaultValue = "1") int page,
+//                                               @RequestParam(defaultValue = "10") int size) {
+//        Page<Schedule> schedulePage = clubService.findSchedulesByClub(clubId, clubName, page - 1, size);
+//        List<Schedule> content = schedulePage.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
+//        HttpStatus.OK);
+//    }
 
     // 소모임 삭제
     @DeleteMapping("/{club-id}")

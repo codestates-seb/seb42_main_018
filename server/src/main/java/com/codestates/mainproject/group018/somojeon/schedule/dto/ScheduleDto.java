@@ -80,7 +80,6 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Response {
         private Long scheduleId;
-        private Long clubId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
         @DateTimeFormat(pattern = "HH:mm")
