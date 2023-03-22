@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="✨ feat 유저 상태 변경 시, 그에 따른 권한 추가/제거 기능">
+    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🔧 update : 특정 소모임 유저 목록 조회시 요청자가 해당 소모임의 가입되어있거나 어드민이야하는 보안로직 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/mapper/UserMapper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679462105661</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="🔧 update : 특정 소모임 유저 목록 조회시 요청자가 해당 소모임의 가입되어있거나 어드민이야하는 보안로직 추가">
+      <created>1679463549140</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679463549140</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -348,7 +355,8 @@
     <MESSAGE value=" chore : yml update" />
     <MESSAGE value="♻ refactor 데브와 충돌 해결" />
     <MESSAGE value="✨ feat 유저 상태 변경 시, 그에 따른 권한 추가/제거 기능" />
-    <option name="LAST_COMMIT_MESSAGE" value="✨ feat 유저 상태 변경 시, 그에 따른 권한 추가/제거 기능" />
+    <MESSAGE value=" update : 특정 소모임 유저 목록 조회시 요청자가 해당 소모임의 가입되어있거나 어드민이야하는 보안로직 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value=" update : 특정 소모임 유저 목록 조회시 요청자가 해당 소모임의 가입되어있거나 어드민이야하는 보안로직 추가" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -39,6 +40,7 @@ public class UserController {
     private final Identifier identifier;
 
     private final ClubMapper clubMapper;
+    private final ImageMapper imageMapper;
 
 
     // post
@@ -95,7 +97,7 @@ public class UserController {
 
         List<UserClub> userClubs = userService.findUserClub(userId);
 
-        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper);
+        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper, imageMapper);
 
         return  new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
@@ -116,7 +118,7 @@ public class UserController {
 
 
         List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub)
+                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
         ).collect(Collectors.toList());
 
 
