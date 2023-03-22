@@ -62,7 +62,7 @@ function EditMatch() {
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
 
-  const setRequestDatas = (
+  const setRequestData = (
     date: string | undefined,
     time: string | undefined,
     place: PlaceType | undefined,
@@ -70,7 +70,7 @@ function EditMatch() {
     teams: TeamList[],
     records: Record[]
   ) => {
-    const datas = {
+    const data = {
       schedule: {
         date,
         time,
@@ -84,8 +84,8 @@ function EditMatch() {
       teamList: teams.length !== 0 ? teams : [],
       records: records.length !== 0 ? records : []
     };
-    // console.log(datas);
-    setMatchData(datas);
+    // console.log(data);
+    setMatchData(data);
   };
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,7 +203,7 @@ function EditMatch() {
   }
 
   useEffect(() => {
-    setRequestDatas(date, time, placeValue, candidates, teamList, records);
+    setRequestData(date, time, placeValue, candidates, teamList, records);
   }, [records]);
 
   return (
