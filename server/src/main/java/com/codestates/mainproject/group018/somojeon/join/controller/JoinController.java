@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +34,14 @@ public class JoinController {
     }
 
     // 소모임 가입 요청
-    @PostMapping("/{club-id}/joins")
-    public ResponseEntity postJoin(@PathVariable("club-id") @Positive Long clubId,
-                                   @Valid @RequestBody JoinDto.Post requestBody) {
+    @PostMapping("/joins")
+    public ResponseEntity postJoin(@Valid @RequestBody JoinDto.Post requestBody) {
 
-        requestBody.setClubId(clubId);
-        Joins createdJoin = joinService.createJoin(mapper.joinPostDtoToJoins(requestBody));
-        URI location = UriCreator.createUri("/{club-id}/joins", createdJoin.getJoinsId());
+        Long clubId = requestBody.getClubId();
+        Long userId = requestBody.getUserId();
+
+        Joins createdJoin = joinService.createJoins(mapper.joinPostDtoToJoins(requestBody), userId, clubId);
+        URI location = UriCreator.createUri("/joins", createdJoin.getJoinsId());
 
         return ResponseEntity.created(location).build();
     }

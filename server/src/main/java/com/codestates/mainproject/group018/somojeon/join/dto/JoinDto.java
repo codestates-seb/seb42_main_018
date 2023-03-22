@@ -7,13 +7,16 @@ public class JoinDto {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         private String content;
         private Long clubId;
+        private Long userId;
     }
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class DecisionPatch {
         private Long joinsId;
