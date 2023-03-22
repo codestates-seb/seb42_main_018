@@ -1,7 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
-import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,6 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-
-import javax.validation.constraints.Positive;
-
 import java.util.List;
 
 public class UserDto {
@@ -106,11 +103,11 @@ public class UserDto {
     public static class ResponseWithClub {
         String nickName;
         String userImageUrl;
-        private int playCount;
-        private int winCount;
-        private int loseCount;
-        private int drawCount;
-        private int winRate;
+        private Integer playCount;
+        private Integer winCount;
+        private Integer loseCount;
+        private Integer drawCount;
+        private float winRate;
 
 
     }

@@ -12,6 +12,7 @@ import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 @Slf4j
 @Validated
 public class UserController {
@@ -38,13 +40,6 @@ public class UserController {
 
     private final ClubMapper clubMapper;
 
-    public UserController(UserService userService, UserMapper userMapper,
-                          Identifier identifier, ClubMapper clubMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
-        this.identifier = identifier;
-        this.clubMapper = clubMapper;
-    }
 
     // post
     @PostMapping()

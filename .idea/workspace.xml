@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0b0dd914-7914-46de-bf1a-d6458e9087b3" name="Changes" comment="📦 chore : yml update">
+    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="♻ refactor 유저 로그인 시 정보 반환">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/service/CandidateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/service/CandidateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/controller/ClubController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/controller/ClubController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/entity/UserClub.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/entity/UserClub.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/comment/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/service/RecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/service/RecordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/service/TeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/team/service/TeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
     </list>
-    <list id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,7 +130,7 @@
       <recent name="com.codestates.mainproject.group018.somojeon.utils.dummy" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="애플리케이션.소모전 더미 RDS">
     <configuration name="소모전 더미 RDS" type="Application" factoryName="Application" folderName="New Folder">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -212,17 +206,16 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.소모전 RDS" />
-      <item itemvalue="Application.소모전 더미 RDS" />
-      <item itemvalue="Application.insertDummyData" />
       <item itemvalue="Gradle.server [build]" />
       <item itemvalue="Gradle.server [clean]" />
+      <item itemvalue="애플리케이션.소모전 RDS" />
+      <item itemvalue="애플리케이션.소모전 더미 RDS" />
+      <item itemvalue="애플리케이션.insertDummyData" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
-        <item itemvalue="Application.insertDummyData" />
       </list>
     </recent_temporary>
   </component>
