@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -51,11 +52,10 @@ public class JoinService {
     }
 
     // 소모임 가입 요청 전체 조회 (리더만 가능)
-    public Page<Joins> getJoins(int page, int size, Long joinsId, Long clubId) {
+    public Page<Joins> getJoins(int page, int size) {
         // 리더인지 검증
-        identifier.checkClubRole(clubId, "LEADER");
-        Pageable pageable = PageRequest.of(page, size);
-        return joinRepository.findAllByJoinId(pageable, joinsId);
+//        identifier.checkClubRole(clubId, "LEADER");
+        return joinRepository.findAll(PageRequest.of(page, size, Sort.by("joinsId").descending()));
     }
 
     // 소모임 가입 요청 취소 (유저만 가능)
