@@ -2,13 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_EditButton } from '../UI/S_Button';
 import { S_Label, S_SmallDescription } from '../UI/S_Text';
-
-interface userInfoType {
-  userId: number | undefined;
-  email: string;
-  nickName: string;
-  userStatus: string;
-}
+import { userInfoType } from '../../store/store';
 
 const S_profileBox = styled.div`
   // 전체 컨테이너

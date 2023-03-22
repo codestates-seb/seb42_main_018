@@ -2,23 +2,14 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
-import MemberNav from './_memberNav';
-import MemberRecordList from './_recordList';
-import MemberRecordTitle from './_recordTitle';
+import MemberNav from '../../../components/club/member/memberNav';
+import MemberRecordList from '../../../components/club/member/recordList';
+import MemberRecordTitle from '../../../components/club/member/recordTitle';
+import { RecodeListProps } from '../../../types';
 
 const S_MemberRecordBox = styled.div`
   overflow: auto;
 `;
-export interface RecodeListProps {
-  // 받아올 멤버 정보 타입 설정
-  memberId?: number;
-  profileImage: string;
-  name: string;
-  winRate: string;
-  match: string;
-  win: string;
-  lose: string;
-}
 
 function MemberRecord() {
   const { id } = useParams();

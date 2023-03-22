@@ -8,6 +8,7 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +25,8 @@ public class ImageController {
     private final ImageMapper mapper;
 
     // 유저 프로필 이미지 파일 업로드
-    @PostMapping("/users")
-    public ResponseEntity uploadProfileImage(@RequestParam("images") MultipartFile multipartFile) throws IOException {
+    @PostMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity uploadProfileImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
 
         Images images = imageService.uploadProfileImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
@@ -35,8 +36,8 @@ public class ImageController {
 
 
     // 클럽 소개 이미지 파일 업로드
-    @PostMapping("/clubs")
-    public ResponseEntity uploadClubImage(@RequestParam("images")MultipartFile multipartFile) throws IOException{
+    @PostMapping(value = "/clubs", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity uploadClubImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException{
 
         Images images = imageService.uploadClubImage(multipartFile);
         ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
@@ -46,7 +47,7 @@ public class ImageController {
 
     // 유저 프로필 이미지 파일 삭제
     @DeleteMapping("/users")
-    public ResponseEntity deleteProfileImage(@RequestParam("url") String url) throws IOException{
+    public ResponseEntity deleteProfileImage(@RequestPart("url") String url) throws IOException{
 
         imageService.deleteProfileImage(url);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -54,7 +55,7 @@ public class ImageController {
 
     // 클럽 소개 이미지 파일 삭제
     @DeleteMapping("/clubs")
-    public ResponseEntity deleteClubImage(@RequestParam("url") String url) throws IOException{
+    public ResponseEntity deleteClubImage(@RequestPart("url") String url) throws IOException{
 
         imageService.deleteClubImage(url);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

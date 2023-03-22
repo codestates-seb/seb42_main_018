@@ -1,6 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.team.entity;
 
-import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +24,10 @@ public class UserTeam {
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "SCHEDULE_ID")
+    private Schedule schedule;
 
     public UserTeam(User user, Team team) {
         addUser(user);

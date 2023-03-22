@@ -27,7 +27,6 @@ const S_SnsButtonBox = styled.div`
   & > .sns-btn {
     width: 60px;
     height: 60px;
-    background-color: coral;
     border-radius: 50%;
   }
   & .kakao {

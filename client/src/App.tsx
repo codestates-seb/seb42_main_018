@@ -21,6 +21,7 @@ import API_TEST from './API_TEST';
 
 import GlobalStyles from './GlobalStyles';
 import MemberRecord from './pages/club/member/MemberRecord';
+import Admin from './pages/admin/Admin';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         </Route>
         {/* // TODO : API 테스트 후 삭제 (import 라인 같이 삭제) */}
         <Route path='/api' element={<API_TEST />} />
+        <Route path='/admin' element={<Admin/>} /> 
       </Routes>
     </div>
   );

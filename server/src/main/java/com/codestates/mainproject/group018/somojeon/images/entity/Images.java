@@ -21,7 +21,7 @@ public class Images {
     @Column
     private String fileName;
 
-    @Column(nullable = false)
+    @Column
     private String url;
 
     @OneToOne

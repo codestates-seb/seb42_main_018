@@ -6,14 +6,14 @@ export interface RootState {
   tokens: jwtTokensType;
 }
 
-interface userInfoType {
+export interface userInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;
   userStatus: string;
 }
 
-interface jwtTokensType {
+export interface jwtTokensType {
   accessToken: string;
   refreshToken: string;
 }

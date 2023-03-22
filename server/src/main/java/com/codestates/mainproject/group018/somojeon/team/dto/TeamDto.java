@@ -14,10 +14,6 @@ public class TeamDto {
         private Long recordId;
         private Integer score;
         private String winLoseDraw;
-
-        public void addRecordId(Long recordId) {
-            this.recordId = recordId;
-        }
     }
 
     @Getter
@@ -25,16 +21,11 @@ public class TeamDto {
     @AllArgsConstructor
     public static class Patch {
         private Long teamId;
-        private Long recordId;
         private Integer score;
         private String winLoseDraw;
 
         public void addTeamId(Long teamId) {
             this.teamId = teamId;
-        }
-
-        public void addRecordId(Long recordId) {
-            this.recordId = recordId;
         }
     }
 

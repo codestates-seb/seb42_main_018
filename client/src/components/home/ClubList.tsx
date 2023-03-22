@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_EditButton } from '../UI/S_Button';
 import { S_TagSmall } from '../UI/S_Tag';
 import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
-import { ClubData } from './ClubListData';
+import { ClubData } from '../../types';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너

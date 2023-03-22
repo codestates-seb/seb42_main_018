@@ -4,6 +4,7 @@ import HomeIntro from '../../components/home/HomeIntro';
 import CreateClubImg from '../../components/home/CreateClubImg';
 
 function Home() {
+
   return (
     <S_Container>
       <HomeIntro />
