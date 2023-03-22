@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
@@ -47,9 +47,6 @@ export const S_InstructionWrapper = styled.div`
 
 function Login() {
   const navigate = useNavigate();
-  const goToIntro = () => {
-    navigate('/');
-  };
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -103,8 +100,10 @@ function Login() {
   return (
     <S_Container>
       <S_LoginWrapper>
-        <div className='title-wrapper' role='presentation' onClick={goToIntro}>
-          <S_Title>소모전 로그인하기</S_Title>
+        <div className='title-wrapper'>
+          <Link to='/'>
+            <S_Title>소모전 로그인하기</S_Title>
+          </Link>
         </div>
         <div className='form-wrapper'>
           <form onSubmit={onSubmit}>
