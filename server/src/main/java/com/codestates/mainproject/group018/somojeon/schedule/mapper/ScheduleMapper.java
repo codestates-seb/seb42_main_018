@@ -47,7 +47,7 @@ public interface ScheduleMapper {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(userTeam.getTeam().getTeamId());
 
-                    List<UserTeam> teamUsers = userTeam.getTeam().getUserTeams();
+                    List<UserTeam> teamUsers = userTeam.getUser().getUserTeamList();
                     List<User> users = teamUsers.stream()
                             .map(teamUser -> teamUser.getUser())
                             .collect(Collectors.toList());

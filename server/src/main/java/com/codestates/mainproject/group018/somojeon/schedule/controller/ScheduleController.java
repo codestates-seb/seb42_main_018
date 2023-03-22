@@ -81,6 +81,16 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity getScheduleByClub(@PathVariable("club-id") @Positive long clubId,
+                                            @PathVariable("schedule-id") @Positive long scheduleId) {
+        Schedule schedule = scheduleService.findScheduleByClub(clubId, scheduleId);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)),
+        HttpStatus.OK);
+    }
+
     @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {

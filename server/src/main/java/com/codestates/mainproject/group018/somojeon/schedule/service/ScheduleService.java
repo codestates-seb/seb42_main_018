@@ -66,6 +66,13 @@ public class ScheduleService {
         return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
+    public Schedule findScheduleByClub(long clubId, long scheduleId) {
+        clubService.findVerifiedClub(clubId);
+        Schedule findSchedule = findVerifiedSchedule(scheduleId);
+
+        return findSchedule;
+    }
+
     public void deleteSchedule(long scheduleId, long clubId) {
         clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findSchedule(scheduleId);
