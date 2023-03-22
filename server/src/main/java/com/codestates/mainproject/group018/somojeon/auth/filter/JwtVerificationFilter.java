@@ -42,12 +42,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             setAuthenticationToContext(claims);
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
-            if(request.getMethod().equals("POST") && request.getRequestURI().equals("/users")){
+            if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
                 response.sendRedirect("http://localhost:3000/login");
             }
             request.setAttribute("exception", ee);
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
         }
 
         filterChain.doFilter(request, response);
@@ -71,7 +69,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username"); //email
-        String userId =  (String) claims.get("userId");
+        String userId =  String.valueOf(claims.get("userId"));
         List<String> roles = (List)claims.get("roles");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities(roles);
         Authentication authentication = new CustomAuthenticationToken(username, null,  userId, authorities);

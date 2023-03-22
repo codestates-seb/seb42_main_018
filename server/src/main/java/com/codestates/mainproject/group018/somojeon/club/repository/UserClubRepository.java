@@ -12,12 +12,12 @@ import java.util.Optional;
 
 public interface UserClubRepository extends JpaRepository<UserClub, Long> {
 //    @Query("SELECT uc FROM UserClub uc  WHERE uc.userId = :userId AND uc.clubId = :clubId")
-    @Query("SELECT uc FROM UserClub uc  WHERE uc.user = :userId AND uc.club = :clubId")
+    @Query("SELECT uc FROM UserClub uc  WHERE uc.user.userId = :userId AND uc.club = :clubId")
     Optional<UserClub> findByUserIdAndClubId(@Param("userId") Long userId, @Param("clubId") Long clubId);
 
-    @Query("SELECT uc FROM UserClub uc  WHERE uc.user = :userId")
-    Optional<List<UserClub>> findAllByUserId(Long userId);
+    @Query("SELECT uc FROM UserClub uc  WHERE uc.user.userId = :userId")
+    List<UserClub> findAllByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT uc FROM UserClub uc  WHERE uc.club = :clubId")
-    Page<UserClub> findAllByClubId(Pageable pageable, Long clubId);
+    @Query("SELECT uc FROM UserClub uc  WHERE uc.club.clubId = :clubId")
+    Page<UserClub> findAllByClubId(Pageable pageable, @Param("clubId") Long clubId);
 }

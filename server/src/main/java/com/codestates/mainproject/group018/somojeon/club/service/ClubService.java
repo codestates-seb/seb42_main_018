@@ -150,8 +150,7 @@ public class ClubService {
 
     public List<UserClub> getUserClubs(Long userId) {
         //TODO-DW: 검토 부탁드려요 by 제훈
-        Optional<List<UserClub>> optionalUserClub =  userClubRepository.findAllByUserId(userId);
-        List<UserClub> userClubs =  optionalUserClub.orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_CLUB_NOT_FOUND));
+        List<UserClub> userClubs =  userClubRepository.findAllByUserId(userId);
 
         return userClubs;
     }

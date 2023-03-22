@@ -10,7 +10,7 @@ import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUt
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.oauth.repository.OAuthUserRepository;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
-import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class SecurityConfiguration {
     private OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 추가
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UserMapper userMapper;
     private final AuthService authService;
     private final OAuthUserRepository oauthUserRepository;
@@ -126,7 +126,7 @@ public class SecurityConfiguration {
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, oauthUserRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userRepository, userMapper, clubMapper));
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userService, userMapper, clubMapper));
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, authService);
