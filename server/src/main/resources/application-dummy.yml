@@ -22,7 +22,7 @@ cloud:
       accessKey: ${AWS_ACCESS_KEY}
       secretKey: ${AWS_SECRET_KEY}
     s3:
-      bucket: bucket-somojeon/somojeon
+      bucket: somojeon-images/somojeon
     region:
       static: ap-northeast-2
     stack:
@@ -43,3 +43,9 @@ mail:
 oauth:
   kakao:
     redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
+defaultProfile:
+  image:
+    address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_profile.svg
+defaultClub:
+  image:
+    address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_Img.svg

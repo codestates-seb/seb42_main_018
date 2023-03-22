@@ -6,7 +6,7 @@ export interface RootState {
   tokens: jwtTokensType;
 }
 
-interface userInfoType {
+export interface userInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;

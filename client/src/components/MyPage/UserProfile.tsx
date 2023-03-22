@@ -2,20 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_EditButton } from '../UI/S_Button';
 import { S_Label, S_SmallDescription } from '../UI/S_Text';
-
-interface userInfoType {
-  userId: number | undefined;
-  email: string;
-  nickName: string;
-  userStatus: string;
-}
+import { userInfoType } from '../../store/store';
 
 const S_profileBox = styled.div`
   // 전체 컨테이너
   display: flex;
   align-items: center;
-  background-color: var(--gray100); // 크기 확인하기 위한 색상
-  margin-bottom: 30px;
+  padding-bottom: 30px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid var(--gray600);
 `;
 
 const S_ImgBox = styled.div<{ img?: string }>`

@@ -2,20 +2,13 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
-import ClubMemberItem from './_memberItem';
-import MemberNav from './_memberNav';
+import ClubMemberItem from '../../../components/club/member/memberItem';
+import MemberNav from '../../../components/club/member/memberNav';
+import { ClubMemberProps } from '../../../types';
 
 const S_MemberBox = styled.div`
   min-height: calc(100vh - 100px);
 `;
-
-export interface ClubMemberProps {
-  // 받아올 멤버 정보 타입 설정
-  memberId?: number;
-  profileImage: string;
-  name: string;
-  winRate: string;
-}
 
 function ClubMember() {
   const { id } = useParams();
