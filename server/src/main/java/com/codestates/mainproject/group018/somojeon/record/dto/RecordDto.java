@@ -13,17 +13,27 @@ public class RecordDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
+        private Long clubId;
+        private Long scheduleId;
         private String firstTeam;
         private String secondTeam;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
     }
 
     @Getter
     @AllArgsConstructor
     public static class Patch {
-
+        private Long clubId;
+        private Long scheduleId;
         private Long recordId;
         private String firstTeam;
         private String secondTeam;
@@ -33,6 +43,14 @@ public class RecordDto {
         public void addRecordId(Long recordId) {
             this.recordId = recordId;
         }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
     }
 
     @Getter
@@ -41,7 +59,7 @@ public class RecordDto {
     @NoArgsConstructor
     @Builder
     public static class Response {
-
+        private Long scheduleId;
         private Long recordId;
         private LocalDateTime createdAt;
         private String firstTeam;

@@ -11,7 +11,6 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
-import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -123,10 +122,11 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-    // 소모임 전체 스케줄 조회
-    public Page<Schedule> findScheduleByClub(long clubId, int page, int size) {
-        return clubRepository.findByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
-    }
+//    // 소모임 전체 스케줄 조회
+//    public Page<Schedule> findSchedulesByClub(long clubId, String clubName, int page, int size) {
+//        findVerifiedClub(clubId);
+//        return clubRepository.findSchedulesByClubName(clubName, PageRequest.of(page, size, Sort.by("scheduleId")));
+//    }
 
     public void deleteClub(Long clubId) {
         //TODO-DW: 리더 인지 검증

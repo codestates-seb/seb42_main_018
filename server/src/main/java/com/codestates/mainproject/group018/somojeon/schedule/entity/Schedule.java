@@ -51,7 +51,7 @@ public class Schedule {
     @Column(nullable = false)
     private Double latitude; // 위도
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
