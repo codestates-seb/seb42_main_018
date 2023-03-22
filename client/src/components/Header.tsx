@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import alertPreparingService from '../util/alertPreparingService';
+import getGlobalState from '../util/authorization/getGlobalState';
 
 const HeaderContainer = styled.header`
   box-sizing: border-box;
@@ -29,25 +31,44 @@ const HeaderContainer = styled.header`
   }
 `;
 const IconContainer = styled.div`
+  button {
+    border-radius: 8px;
+    background-color: var(--white);
+    :hover {
+      background-color: var(--gray100);
+    }
+  }
   img {
     height: 25px;
-    margin-left: 6px;
-    margin-top: 8px;
     cursor: pointer;
   }
 `;
 
 function Header() {
+  // const { isLogin } = getGlobalState;
+  const navigate = useNavigate();
+  const isLogin = true; // gotoPage 함수 작동여부 확인하기 위한 임시 변수
+
+  const gotoPage = () => {
+    // 로그인여부에 따라 마이페이지 또는 로그인 페이지로 보내기
+    if (isLogin) navigate('mypage');
+    else navigate('login');
+  };
+
   return (
     <HeaderContainer>
       <Link to='/'>
         <img src={logo} alt='소모전 로고' />
       </Link>
       <IconContainer>
-        {/* TODO : 클릭시 검색창 모달 열리게 */}
-        <img src={search} alt='검색 아이콘' />
+        {/* TODO : 클릭시 검색창 모달 열리게, 지금은 준비중인 서비스로 알람 */}
+        <button onClick={alertPreparingService}>
+          <img src={search} alt='검색 아이콘' />
+        </button>
         {/* TODO : 비로그인->로그인페이지, 로그인->마이페이지로 */}
-        <img src={mypage} alt='마이페이지 아이콘' />
+        <button onClick={gotoPage}>
+          <img src={mypage} alt='마이페이지 아이콘' />
+        </button>
       </IconContainer>
     </HeaderContainer>
   );
