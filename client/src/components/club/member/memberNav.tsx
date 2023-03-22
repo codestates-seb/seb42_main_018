@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ClubMember from './ClubMember';
-import MemberRecord from './MemberRecord';
+import ClubMember from '../../../pages/club/member/ClubMember';
+import MemberRecord from '../../../pages/club/member/MemberRecord';
 
 interface Tab {
   id: number;

@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_EditButton } from '../UI/S_Button';
 import { S_TagSmall } from '../UI/S_Tag';
 import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
-import { ClubData } from './ClubListData';
+import { ClubData } from '../../types';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -62,8 +61,8 @@ function ClubList({
         <S_TitleBox>
           <S_Label>
             <Link to={`/club/${clubId}`}>{clubName}</Link>
+            {/* 왕관 표시 조건부 렌더링 */}
           </S_Label>
-          <S_EditButton>소모임 설정</S_EditButton>
         </S_TitleBox>
         <S_SmallDescription>
           {categoryName} ・ {local} ・ 인원 {memberCount}명
