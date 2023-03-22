@@ -7,9 +7,8 @@ import { RecodeListProps } from '../../../types';
 const S_Box = styled.div`
   // 컨텐츠 전체 박스
   margin-top: 20px;
-  overflow: auto;
-  div {
-  }
+  overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 function MemberRecord() {
@@ -17,7 +16,7 @@ function MemberRecord() {
   const data: RecodeListProps[] = [
     {
       memberId: 1,
-      profileImage: 'https://avatars.githubusercontent.com/u/97533911?s=120&v=4',
+      profileImage: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4',
       name: '벌꿀오소리',
       winRate: '80',
       match: '10',
@@ -26,12 +25,12 @@ function MemberRecord() {
     },
     {
       memberId: 1,
-      profileImage: '이미지',
-      name: '별명',
-      winRate: 'string',
-      match: 'string',
-      win: 'string',
-      lose: 'string'
+      profileImage: 'https://avatars.githubusercontent.com/u/97533911?s=120&v=4',
+      name: '벌꿀오소리',
+      winRate: '80',
+      match: '10',
+      win: '8',
+      lose: '2'
     }
   ];
   return (

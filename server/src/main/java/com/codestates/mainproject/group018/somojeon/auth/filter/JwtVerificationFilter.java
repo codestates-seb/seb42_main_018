@@ -4,7 +4,6 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -43,18 +42,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             setAuthenticationToContext(claims);
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
+            if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
+                response.sendRedirect("http://localhost:3000/login");
+            }
             request.setAttribute("exception", ee);
-            try {
-                authService.refresh(request, response);
-            }
-            catch (ExpiredJwtException expiredJwtException){
-                log.warn("Expired Refresh JWT Exception");
-                request.setAttribute("exception ", expiredJwtException);
-
-            }
-
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
         }
 
         filterChain.doFilter(request, response);
@@ -78,7 +69,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username"); //email
-        String userId =  (String) claims.get("userId");
+        String userId =  String.valueOf(claims.get("userId"));
         List<String> roles = (List)claims.get("roles");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities(roles);
         Authentication authentication = new CustomAuthenticationToken(username, null,  userId, authorities);

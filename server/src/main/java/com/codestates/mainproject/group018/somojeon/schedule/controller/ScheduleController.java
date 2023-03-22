@@ -1,8 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.schedule.controller;
 
+import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
@@ -11,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 
 @RestController
@@ -57,9 +58,9 @@ public class ScheduleController {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
 
-        if (!identifier.checkClubRole(clubId)) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        };
+//        if (!identifier.checkClubRole(clubId)) {
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
                 requestBody.getRecords(), requestBody.getUserTeams(), requestBody.getCandidates());
@@ -68,33 +69,26 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
     }
 
-//    @GetMapping("/schedules/{schedule-id}")
-//    public ResponseEntity getSchedule(@PathVariable("schedule-id") @Positive long scheduleId) {
-//        Schedule schedule = scheduleService.findSchedule(scheduleId);
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/schedules")
-//    public ResponseEntity getSchedules(@RequestParam("page") int page,
-//                                       @RequestParam("size") int size) {
-//        Page<Schedule> pageSchedules = scheduleService.findSchedules(page - 1, size);
-//        List<Schedule> schedules = pageSchedules.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules), pageSchedules),
-//                HttpStatus.OK);
-//    }
+    @GetMapping("/clubs/{club-id}/schedules")
+    public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
+                                             @RequestParam("page") int page,
+                                             @RequestParam("size") int size) {
+        Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
+        List<Schedule> schedules = schedulePage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules), schedulePage),
+        HttpStatus.OK);
+    }
 
     @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId);
+        scheduleService.deleteSchedule(scheduleId, clubId);
 
-        if (!identifier.checkClubRole(clubId)) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        };
+//        if (!identifier.checkClubRole(clubId)) {
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        };
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

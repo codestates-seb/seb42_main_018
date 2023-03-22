@@ -12,9 +12,15 @@ function MemberList() {
   const data: ClubMemberProps[] = [
     {
       memberId: 1,
-      profileImage: '이미지',
-      name: '별명',
-      winRate: 'string'
+      profileImage: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4',
+      name: '벌꿀오소리',
+      winRate: '80'
+    },
+    {
+      memberId: 2,
+      profileImage: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4',
+      name: '꿀소리',
+      winRate: '75'
     }
   ];
 
