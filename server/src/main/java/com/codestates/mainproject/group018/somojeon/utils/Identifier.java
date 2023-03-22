@@ -40,6 +40,11 @@ public class Identifier {
         return currentUserRole.contains("ROLE_ADMIN");
     }
 
+    public boolean isAdmin(Long userId){
+        User user = userService.findUser(userId);
+        return  user.getRoles().contains("ADMIN");
+    }
+
 
 
     public Long getUserId(){

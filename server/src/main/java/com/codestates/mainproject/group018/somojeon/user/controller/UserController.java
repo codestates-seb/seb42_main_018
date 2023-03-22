@@ -139,6 +139,8 @@ public class UserController {
         if(!identifier.isAdmin()){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
+
+        if(identifier.isAdmin(userId) && state.equals("BLOCK")) throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         User user =  userService.changeUserState(userId, state);
 
         return new ResponseEntity<>(

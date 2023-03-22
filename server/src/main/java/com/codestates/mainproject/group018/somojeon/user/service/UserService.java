@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,6 @@ public class UserService {
     private final ClubService clubService;
     private final OauthUserService oauthUserService;
     private final ImageService imageService;
-
 
 
     public User createUser(User user, String token, Long profileImageId) {
@@ -169,6 +169,7 @@ public class UserService {
 
     public User changeUserState(long userId, String state) {
         User user = findVerifiedUser(userId);
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
         switch (state){
             case "NEW":
                 user.setUserStatus(User.UserStatus.USER_NEW);
@@ -184,10 +185,11 @@ public class UserService {
                 break;
             case "BLOCK":
                 user.setUserStatus(User.UserStatus.USER_BLOCK);
+                roles = null;
                 break;
-            default:
-                user = userRepository.save(user);
         }
+        user.setRoles(new ArrayList<>(roles));
+        user = userRepository.save(user);
 
         return user;
     }
