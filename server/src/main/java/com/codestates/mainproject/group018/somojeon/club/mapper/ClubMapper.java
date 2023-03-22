@@ -1,12 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.club.mapper;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
+import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
-import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -52,4 +52,13 @@ public interface ClubMapper {
                 .tagResponseDtos(clubTagsToTagResponse(club.getClubTagList()))
                 .build();
     }
+
+    UserClubDto.Response userClubToUserCLubResponse(UserClub userClub);
+
+    default List<UserClubDto.Response> userClubsToUserCLubResponses(List<UserClub> userClubs){
+        return userClubs.stream()
+                .map(this::userClubToUserCLubResponse)
+                .collect(Collectors.toList());
+    };
+
 }

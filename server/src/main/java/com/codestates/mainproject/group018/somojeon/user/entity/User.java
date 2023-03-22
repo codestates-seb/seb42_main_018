@@ -78,7 +78,8 @@ public class User extends Auditable {
         USER_NEW("USER_NEW"),
         USER_ACTIVE("USER_ACTIVE"),
         USER_SLEEP("USER_SLEEP"),
-        USER_QUIT("USER_QUIT");
+        USER_QUIT("USER_QUIT"),
+        USER_BLOCK("USER_BLOCK");
 
         @Getter
         String status;

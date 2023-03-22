@@ -1,5 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -9,7 +12,9 @@ import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,33 +24,47 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 @Slf4j
 @Validated
 public class UserController {
     private final static String USER_DEFAULT_URL = "/users";
     private final UserService userService;
-    private final UserMapper mapper;
+    private final UserMapper userMapper;
     private final Identifier identifier;
 
-    public UserController(UserService userService, UserMapper mapper, Identifier identifier) {
-        this.userService = userService;
-        this.mapper = mapper;
-        this.identifier = identifier;
-    }
+    private final ClubMapper clubMapper;
+
 
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
                                    HttpServletRequest request){
         Long profileImageId = userDtoPost.getProfileImageId();
-        User user =  mapper.userPostToUser(userDtoPost);
+        User user =  userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
         User createdUser =  userService.createUser(user, token, profileImageId);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity checkUserEmail(@Valid @RequestBody UserDto.Post userDtoPost,
+                                   HttpServletRequest request){
+        User user =  userMapper.userPostToUser(userDtoPost);
+        try{
+            userService.verifyExistsEmail(user.getEmail());
+        }
+        catch (BusinessLogicException exception){
+            return ResponseEntity.status(409).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/{user-id}")
@@ -58,10 +77,10 @@ public class UserController {
         if(!identifier.isVerified(userId)){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUser(mapper.userPatchToUser(requestBody), profileImageId);
+        User user = userService.updateUser(userMapper.userPatchToUser(requestBody), profileImageId);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.userToUserResponse(user)),
+                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
                 HttpStatus.OK);
 
     }
@@ -74,9 +93,9 @@ public class UserController {
         User findUser =
                 userService.findUser(userId);
 
-        UserDto.Response  response =mapper.userToUserResponse(findUser);
+        List<UserClub> userClubs = userService.findUserClub(userId);
 
-        response.setUserId(userId);
+        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper);
 
         return  new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
@@ -84,28 +103,52 @@ public class UserController {
     }
 
 
-    @GetMapping()
-    public ResponseEntity getUsers(@RequestParam @Positive int page,
+    @GetMapping("/clubs/{club-id}")
+    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
                                      @RequestParam @Positive int size,
-                                     @RequestParam(required = false, defaultValue = "base") String mode,
-                                     HttpServletRequest request){
-//        Page<User> pageUsers = userService.findUsers(page-1, size, mode);
-//        List<User> users = pageUsers.getContent();
-//        List<UserDto.Response>  response = Checker.checkAdmin() ?
-//                mapper.usersToUserResponses(users):
-//                mapper.usersToUserResponsesForPublic(users);
+                                       @PathVariable("club-id") @Positive Long clubId){
+        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
+        List<UserClub> userClubs = pageUserClubs.getContent();
 
 
-//        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUsers),
-//                HttpStatus.OK);
-        return null;
+        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
+                userClub -> userMapper.userToUserResponseWithClub(userClub)
+        ).collect(Collectors.toList());
+
+
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
+                HttpStatus.OK);
     }
 
     // delete
     @DeleteMapping("/{user-id}")
     public ResponseEntity deleteUser(@PathVariable("user-id") @Positive long userId,
                                        HttpServletRequest request){
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/admin/{user-id}")
+    public ResponseEntity patchUserState(@PathVariable("user-id") @Positive long userId,
+                                    @RequestParam String state) {
+
+        if(!identifier.isAdmin()){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+        if(identifier.isAdmin(userId) && state.equals("BLOCK")) throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        User user =  userService.changeUserState(userId, state);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+                HttpStatus.OK);
+
     }
 }

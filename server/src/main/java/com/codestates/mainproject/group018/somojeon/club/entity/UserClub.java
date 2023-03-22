@@ -25,6 +25,10 @@ public class UserClub {
 
     private Integer winCount;
 
+    private Integer loseCount;
+
+    private Integer drawCount;
+
     private float winRate;
 
     @Enumerated(value = EnumType.STRING)
@@ -41,6 +45,5 @@ public class UserClub {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEVEL_ID")
     private Level level;
-
 
 }

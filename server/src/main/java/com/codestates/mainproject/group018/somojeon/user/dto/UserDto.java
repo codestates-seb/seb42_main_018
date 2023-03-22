@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
+import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-
-import javax.validation.constraints.Positive;
+import java.util.List;
 
 public class UserDto {
     @Getter
@@ -70,6 +70,45 @@ public class UserDto {
         public String getUserStatus() {
             return userStatus.getStatus();
         }
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ResponseWithClubs {
+        Long userId;
+
+        @NotNull
+        String nickName;
+
+        @Email
+        String email;
+
+        User.UserStatus userStatus;
+
+        List<UserClubDto.Response> userClubResponses;
+
+        public String getUserStatus() {
+            return userStatus.getStatus();
+        }
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ResponseWithClub {
+        String nickName;
+        String userImageUrl;
+        private Integer playCount;
+        private Integer winCount;
+        private Integer loseCount;
+        private Integer drawCount;
+        private float winRate;
+
 
     }
 }

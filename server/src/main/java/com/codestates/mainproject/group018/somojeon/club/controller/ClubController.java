@@ -30,6 +30,7 @@ public class ClubController {
     private final static String CLUB_DEFAULT_URL = "/club";
     private final ClubService clubService;
     private final ClubMapper mapper;
+    private final Identifier identifier;
     private final ScheduleMapper scheduleMapper;
 
 
@@ -162,6 +163,22 @@ public class ClubController {
     public ResponseEntity patchMemberQuitClub() {
         return null;
     }
+
+
+    @PostMapping("/player")
+    public ResponseEntity postPlayers(@Valid @RequestBody ClubDto.PostPlayers requestBody) {
+        if(!identifier.checkClubRole(requestBody.getClubId())){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+        List<UserClub> userClubs =  clubService.updatePlayer(requestBody.getClubId(), requestBody.getPlayerUserIds(), true);
+
+
+        return new ResponseEntity<>(new SingleResponseDto<>(mapper.userClubsToUserCLubResponses(userClubs))
+                , HttpStatus.OK);
+    }
+
+
 
 
 }
