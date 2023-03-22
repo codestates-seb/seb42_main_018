@@ -2,10 +2,12 @@ package com.codestates.mainproject.group018.somojeon.utils;
 
 import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class Identifier {
     private final UserService userService;
     private final ClubService clubService;
@@ -23,11 +26,6 @@ public class Identifier {
     private final AuthService authService;
     private String[] DEFAULT_ALLOWED_CLUBROLES = new String[]{"MANAGER", "LEADER"};
 
-    public Identifier(UserService userService, ClubService clubService, AuthService authService) {
-        this.userService = userService;
-        this.clubService = clubService;
-        this.authService = authService;
-    }
 
     public boolean isVerified(Long targetId){
         // admin이거나 본인이 본인을 타겟으로 하면 true를 리턴
@@ -85,6 +83,15 @@ public class Identifier {
         String registrationId =  (String) claims.get("registrationId");
         if(registration == null || registrationId == null) return null;
         return token;
+    }
+
+    public List<Long> getClubIds(){
+        Long userId = getUserId();
+        List<UserClub> userClubs = clubService.getUserClubs(userId);
+        return userClubs.stream()
+                .map(
+                        userClub -> userClub.getClub().getClubId()
+                ).collect(Collectors.toList());
     }
 
 }

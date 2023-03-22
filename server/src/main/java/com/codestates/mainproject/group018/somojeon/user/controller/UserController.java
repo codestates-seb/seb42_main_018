@@ -106,8 +106,11 @@ public class UserController {
     @GetMapping("/clubs/{club-id}")
     public ResponseEntity getClubUsers(@RequestParam @Positive int page,
                                      @RequestParam @Positive int size,
-                                       @PathVariable("club-id") @Positive long clubId,
-                                     HttpServletRequest request){
+                                       @PathVariable("club-id") @Positive Long clubId){
+        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
         Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
         List<UserClub> userClubs = pageUserClubs.getContent();
 
