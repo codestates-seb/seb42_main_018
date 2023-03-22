@@ -106,7 +106,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{club-id}")
+    @GetMapping("/clubs/{club-id}")
     public ResponseEntity getClubUsers(@RequestParam @Positive int page,
                                      @RequestParam @Positive int size,
                                        @PathVariable("club-id") @Positive long clubId,
@@ -128,7 +128,25 @@ public class UserController {
     @DeleteMapping("/{user-id}")
     public ResponseEntity deleteUser(@PathVariable("user-id") @Positive long userId,
                                        HttpServletRequest request){
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/admin/{user-id}")
+    public ResponseEntity patchUserState(@PathVariable("user-id") @Positive long userId,
+                                    @RequestParam String state) {
+
+        if(!identifier.isAdmin()){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+        User user =  userService.changeUserState(userId, state);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+                HttpStatus.OK);
+
     }
 }

@@ -83,7 +83,6 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findUser(long userId) {
         User findUser = findVerifiedUser(userId);
-        List<UserClub> userClubs =  clubService.getUserClubs(userId);
 
 
         return findUser;
@@ -91,7 +90,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public  List<UserClub> findUserClub(long userId) {
+    public  List<UserClub> findUserClub(Long userId) {
         List<UserClub> userClubs =  clubService.getUserClubs(userId);
 
         return userClubs;
@@ -99,7 +98,6 @@ public class UserService {
     }
 
     public Page<UserClub> findUsers(int page, int size, long clubId) {
-        // TODO 로직 요구 조건에 맞춰 수정
 
         Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
 
@@ -156,4 +154,28 @@ public class UserService {
     }
 
 
+    public User changeUserState(long userId, String state) {
+        User user = findVerifiedUser(userId);
+        switch (state){
+            case "NEW":
+                user.setUserStatus(User.UserStatus.USER_NEW);
+                break;
+            case "ACTIVE":
+                user.setUserStatus(User.UserStatus.USER_ACTIVE);
+                break;
+            case "SLEEP":
+                user.setUserStatus(User.UserStatus.USER_SLEEP);
+                break;
+            case "QUIT":
+                user.setUserStatus(User.UserStatus.USER_QUIT);
+                break;
+            case "BLOCK":
+                user.setUserStatus(User.UserStatus.USER_BLOCK);
+                break;
+            default:
+                user = userRepository.save(user);
+        }
+
+        return user;
+    }
 }

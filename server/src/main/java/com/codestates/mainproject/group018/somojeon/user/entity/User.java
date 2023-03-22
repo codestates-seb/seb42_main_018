@@ -7,7 +7,6 @@ import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
-import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +69,8 @@ public class User extends Auditable {
         USER_NEW("USER_NEW"),
         USER_ACTIVE("USER_ACTIVE"),
         USER_SLEEP("USER_SLEEP"),
-        USER_QUIT("USER_QUIT");
+        USER_QUIT("USER_QUIT"),
+        USER_BLOCK("USER_BLOCK");
 
         @Getter
         String status;
