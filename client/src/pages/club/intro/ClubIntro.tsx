@@ -4,15 +4,10 @@ import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
-import { ClubData } from '../../../components/home/ClubListData';
+import { ClubData } from '../../../types';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
-import {
-  S_ButtonGray,
-  S_Button,
-  S_SelectButton,
-  S_EditButton
-} from '../../../components/UI/S_Button';
+import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
 import { S_TagWrapper } from '../club/_createTag';
@@ -50,11 +45,7 @@ const ClubIntroWrapper = styled.div`
   }
 
   & .club-setting-btn-area {
-    flex: 1;
-    text-align: end;
-  }
-  & .club-setting-btn {
-    margin-top: 5vh;
+    /* flex: 1; */
   }
 
   & > .club-content-box {
@@ -73,7 +64,7 @@ const ClubIntroWrapper = styled.div`
   }
 `;
 function ClubIntro() {
-  const { isLogin } = getGlobalState();
+  const { isLogin, userInfo } = getGlobalState();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -94,8 +85,14 @@ function ClubIntro() {
   //   console.log(clubInfo);
 
   // TODO : profileImage 데이터 필드 추가
-  const { clubName, content, categoryName, local, memberCount, tagResponseDtos } = clubInfo || {};
-  const tags = tagResponseDtos?.map((el) => el.tagName);
+  const {
+    clubName,
+    content,
+    categoryName,
+    local,
+    memberCount,
+    tagResponseDtos: tags
+  } = clubInfo || {};
 
   // const longText =
   //   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non est a ligula suscipit euismod vel sed nunc. In eu pellentesque ipsum. Aliquam leo erat, eleifend ut risus ut, condimentum iaculis nulla. In sit amet cursus ante. Donec nec ligula id mauris hendrerit dignissim eu et sem. Morbi sodales venenatis bibendum. Etiam vitae suscipit lectus. Pellentesque vel dolor lorem. Maecenas in consequat felis. Nunc massa nulla, congue quis malesuada vitae, porta non nunc. Maecenas ultricies lacinia ipsum, vel accumsan turpis elementum eget. In in leo vulputate, feugiat nulla eget, mattis dolor.\nSed dignissim velit a tempor ultrices. Aliquam sed congue nisl. Nunc rutrum, ex at rhoncus semper, tortor mi mollis erat, sed auctor ante sem nec diam. Maecenas sollicitudin mattis purus, a pellentesque ante pharetra eget. Cras viverra massa at eleifend elementum. Aenean ut ante laoreet, mattis lacus eget, convallis nunc. Suspendisse imperdiet cursus tortor, eu pulvinar quam ullamcorper sed. In sollicitudin rhoncus nisl at ullamcorper. Nulla tincidunt quam a ipsum vulputate pulvinar. Nam sit amet consectetur augue. Etiam egestas a risus eget posuere. Aenean faucibus ultrices urna, sed commodo quam. Integer felis neque, hendrerit et venenatis id, pulvinar quis ligula. Aliquam tempus sollicitudin augue, vitae gravida dolor fermentum non. Quisque posuere arcu ac mauris commodo, ut malesuada tortor aliquet.\nNullam a neque ipsum. Nunc vitae quam turpis. Donec consequat ligula quis velit sodales tincidunt. In sit amet sodales nunc, eget commodo diam. Mauris dignissim tempus nibh, eget ullamcorper purus vehicula eget. Aliquam vel dolor fringilla, vulputate libero nec, dictum ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc cursus risus eget nisi tempor, vitae porttitor neque convallis. Donec sit amet augue nibh. Vestibulum ac odio vitae tellus scelerisque malesuada.\nCras varius turpis eget felis egestas, eu molestie neque ultricies. Etiam efficitur diam at nulla venenatis, vitae euismod mauris dapibus. Cras condimentum elementum nisl, vitae sodales nisl facilisis et. Etiam lacus lacus, porttitor at sapien id, auctor pulvinar est. Mauris ac congue ipsum, et iaculis enim. Nam lacinia ante ligula, gravida auctor quam accumsan eu. Aliquam eu justo ex. Duis et quam at tortor luctus sollicitudin nec ut mauris. Donec pulvinar placerat nunc, a pulvinar justo dapibus eu. Etiam condimentum nisl in tempor rhoncus. Morbi quis diam lectus. Vestibulum quis ligula id tortor tempus aliquam. Integer bibendum feugiat metus nec blandit. Nulla a tincidunt elit. Donec commodo arcu ut enim tincidunt molestie.\nSuspendisse potenti. Donec ut ex sit amet risus condimentum semper vel ac metus. Quisque sed enim tincidunt, cursus tellus quis, lobortis nibh. Ut a vehicula massa, ac sodales nisi. Nulla in feugiat orci, eu pretium lacus. Nulla eleifend placerat eros eget lobortis. Pellentesque tincidunt tincidunt bibendum. Sed ac fermentum diam. Nullam accumsan metus a scelerisque tempor.\n\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non est a ligula suscipit euismod vel sed nunc. In eu pellentesque ipsum. Aliquam leo erat, eleifend ut risus ut, condimentum iaculis nulla. In sit amet cursus ante. Donec nec ligula id mauris hendrerit dignissim eu et sem. Morbi sodales venenatis bibendum. Etiam vitae suscipit lectus. Pellentesque vel dolor lorem. Maecenas in consequat felis. Nunc massa nulla, congue quis malesuada vitae, porta non nunc. Maecenas ultricies lacinia ipsum, vel accumsan turpis elementum eget. In in leo vulputate, feugiat nulla eget, mattis dolor.\nSed dignissim velit a tempor ultrices. Aliquam sed congue nisl. Nunc rutrum, ex at rhoncus semper, tortor mi mollis erat, sed auctor ante sem nec diam. Maecenas sollicitudin mattis purus, a pellentesque ante pharetra eget. Cras viverra massa at eleifend elementum. Aenean ut ante laoreet, mattis lacus eget, convallis nunc. Suspendisse imperdiet cursus tortor, eu pulvinar quam ullamcorper sed. In sollicitudin rhoncus nisl at ullamcorper. Nulla tincidunt quam a ipsum vulputate pulvinar. Nam sit amet consectetur augue. Etiam egestas a risus eget posuere. Aenean faucibus ultrices urna, sed commodo quam. Integer felis neque, hendrerit et venenatis id, pulvinar quis ligula. Aliquam tempus sollicitudin augue, vitae gravida dolor fermentum non. Quisque posuere arcu ac mauris commodo, ut malesuada tortor aliquet.\nNullam a neque ipsum. Nunc vitae quam turpis. Donec consequat ligula quis velit sodales tincidunt. In sit amet sodales nunc, eget commodo diam. Mauris dignissim tempus nibh, eget ullamcorper purus vehicula eget. Aliquam vel dolor fringilla, vulputate libero nec, dictum ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc cursus risus eget nisi tempor, vitae porttitor neque convallis. Donec sit amet augue nibh. Vestibulum ac odio vitae tellus scelerisque malesuada.\nCras varius turpis eget felis egestas, eu molestie neque ultricies. Etiam efficitur diam at nulla venenatis, vitae euismod mauris dapibus. Cras condimentum elementum nisl, vitae sodales nisl facilisis et. Etiam lacus lacus, porttitor at sapien id, auctor pulvinar est. Mauris ac congue ipsum, et iaculis enim. Nam lacinia ante ligula, gravida auctor quam accumsan eu. Aliquam eu justo ex. Duis et quam at tortor luctus sollicitudin nec ut mauris. Donec pulvinar placerat nunc, a pulvinar justo dapibus eu. Etiam condimentum nisl in tempor rhoncus. Morbi quis diam lectus. Vestibulum quis ligula id tortor tempus aliquam. Integer bibendum feugiat metus nec blandit. Nulla a tincidunt elit. Donec commodo arcu ut enim tincidunt molestie.\nSuspendisse potenti. Donec ut ex sit amet risus condimentum semper vel ac metus. Quisque sed enim tincidunt, cursus tellus quis, lobortis nibh. Ut a vehicula massa, ac sodales nisi. Nulla in feugiat orci, eu pretium lacus. Nulla eleifend placerat eros eget lobortis. Pellentesque tincidunt tincidunt bibendum. Sed ac fermentum diam. Nullam accumsan metus a scelerisque tempor.\n';
@@ -137,8 +134,8 @@ function ClubIntro() {
             <div className='club-info-area'>
               <div className='club-title-box'>
                 <S_Title>{clubName}</S_Title>
-                {/* 클럽장에게만 badge 렌더링 */}
-                {/* <span>leader badge</span> */}
+                {/* TODO: 권한 확인 후 클럽장에게만 렌더링 */}
+                {/* <img>leader badge</img> */}
               </div>
               <div className='club-detail-box'>
                 <S_Description>
@@ -148,23 +145,18 @@ function ClubIntro() {
               </div>
               <S_TagWrapper>
                 {tags &&
-                  tags.map((tag, index) => (
-                    <li key={index}>
-                      <S_Tag>{tag}</S_Tag>
+                  tags.map((tag) => (
+                    <li key={tag.tagId}>
+                      <S_Tag>{tag.tagName}</S_Tag>
                     </li>
                   ))}
               </S_TagWrapper>
             </div>
+            {/* TODO: 권한 확인 후 클럽장에게만 렌더링 */}
             <div className='club-setting-btn-area'>
-              <S_SelectButton width='auto' onClick={() => goToPath(`/club/${id}/edit`)}>
-                프로필 설정
+              <S_SelectButton width='auto' onClick={() => goToPath(`/club/${id}/setting`)}>
+                소모임 설정
               </S_SelectButton>
-              <S_EditButton
-                className='club-setting-btn'
-                onClick={() => goToPath(`/club/${id}/setting`)}
-              >
-                모임 설정
-              </S_EditButton>
             </div>
           </div>
           <div className='club-content-box'>

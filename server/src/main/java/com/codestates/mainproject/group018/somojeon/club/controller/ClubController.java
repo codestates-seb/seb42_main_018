@@ -9,7 +9,6 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
@@ -110,18 +109,6 @@ public class ClubController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
-    }
-    // 소모임 전체 스케쥴 조회
-    @GetMapping("/{club-id}/schedules")
-    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
-                                               @RequestParam(defaultValue = "1") int page,
-                                               @RequestParam(defaultValue = "10") int size) {
-        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, page - 1, size);
-        List<Schedule> content = schedulePage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
-        HttpStatus.OK);
     }
 
     // 소모임 삭제

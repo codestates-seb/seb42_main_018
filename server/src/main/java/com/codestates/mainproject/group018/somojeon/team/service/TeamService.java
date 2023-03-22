@@ -4,8 +4,6 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
-import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +24,10 @@ public class TeamService {
     private final RecordService recordService;
 
     public Team createTeam(Team team) {
-        UserTeam userTeam = new UserTeam();
-        TeamRecord teamRecord = new TeamRecord();
-        userService.findVerifiedUser(userTeam.getUser().getUserId());
-        recordService.findVerifiedRecord(teamRecord.getRecord().getRecordId());
+//        UserTeam userTeam = new UserTeam();
+//        TeamRecord teamRecord = new TeamRecord();
+//        userService.findVerifiedUser(userTeam.getUser().getUserId());
+//        recordService.findVerifiedRecord(teamRecord.getRecord().getRecordId());
 
         return teamRepository.save(team);
     }

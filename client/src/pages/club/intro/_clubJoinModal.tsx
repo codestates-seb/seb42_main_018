@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import styled from 'styled-components';
 import { postFetch } from '../../../util/api';
@@ -36,6 +37,7 @@ interface RegisterModalProps {
 
 function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
   const { userInfo, tokens } = getGlobalState();
+  const { id: clubId } = useParams();
   const [content, setContent] = useState('');
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,12 +47,22 @@ function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
   const onsubmit = async () => {
     if (!content) return;
 
-    // TODO 1): joins/:id post 요청 테스트
-    // TODO 2): jwt 전달인자에 추가
-    const POST_URL = `${process.env.REACT_APP_URL}/joins/${userInfo.userId}`;
-    const res = await postFetch(POST_URL, { content });
-    if (res) handleModal();
+    const POST_URL = `${process.env.REACT_APP_URL}/joins`;
+    const membershipRequestData = {
+      clubId,
+      userId: userInfo.userId,
+      content
+    };
+
+    const res = await postFetch(POST_URL, membershipRequestData, tokens.accessToken);
+    // console.log(res);
+    if (res) {
+      setContent('');
+      alert('가입신청을 완료했어요. 마이페이지에서 가입신청 승인 현황을 확인할 수 있습니다.');
+      handleModal();
+    }
   };
+
   return (
     <>
       {showModal && (

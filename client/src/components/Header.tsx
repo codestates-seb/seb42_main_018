@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
+import getGlobalState from '../util/authorization/getGlobalState';
 import logo from '../assets/logo.svg';
 import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
-import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   box-sizing: border-box;
@@ -38,6 +39,14 @@ const IconContainer = styled.div`
 `;
 
 function Header() {
+  const { isLogin } = getGlobalState();
+  const navigate = useNavigate();
+
+  const handleMyPageIcon = () => {
+    if (isLogin) navigate('/mypage');
+    else navigate('/login');
+  };
+
   return (
     <HeaderContainer>
       <Link to='/'>
@@ -45,9 +54,12 @@ function Header() {
       </Link>
       <IconContainer>
         {/* TODO : 클릭시 검색창 모달 열리게 */}
-        <img src={search} alt='검색 아이콘' />
-        {/* TODO : 비로그인->로그인페이지, 로그인->마이페이지로 */}
-        <img src={mypage} alt='마이페이지 아이콘' />
+        <button>
+          <img src={search} alt='검색 아이콘' />
+        </button>
+        <button onClick={handleMyPageIcon}>
+          <img src={mypage} alt='마이페이지 아이콘' />
+        </button>
       </IconContainer>
     </HeaderContainer>
   );
