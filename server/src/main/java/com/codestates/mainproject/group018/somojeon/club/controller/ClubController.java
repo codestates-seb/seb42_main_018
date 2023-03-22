@@ -119,19 +119,6 @@ public class ClubController {
         HttpStatus.OK);
     }
 
-    @GetMapping("/{club-id}/schedules/{schedule-id}")
-    public ResponseEntity<?> getScheduleByClub(@PathVariable("club-id") @Positive Long clubId,
-                                               @PathVariable("schedule-id") @Positive Long scheduleId,
-                                               @RequestParam(defaultValue = "1") int page,
-                                               @RequestParam(defaultValue = "10") int size) {
-        Page<Schedule> schedulePage = clubService.findScheduleByClub(clubId, scheduleId, page - 1, size);
-        List<Schedule> content = schedulePage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
-                HttpStatus.OK);
-    }
-
     // 소모임 삭제
     @DeleteMapping("/{club-id}")
     public ResponseEntity deleteClub(@PathVariable("club-id") @Positive Long clubId) {

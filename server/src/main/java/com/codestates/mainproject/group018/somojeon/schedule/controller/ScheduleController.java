@@ -1,8 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.schedule.controller;
 
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
@@ -57,9 +55,9 @@ public class ScheduleController {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
 
-        if (!identifier.checkClubRole(clubId)) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        };
+//        if (!identifier.checkClubRole(clubId)) {
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
                 requestBody.getRecords(), requestBody.getUserTeams(), requestBody.getCandidates());

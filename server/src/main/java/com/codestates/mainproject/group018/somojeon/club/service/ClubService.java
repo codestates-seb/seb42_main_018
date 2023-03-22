@@ -125,10 +125,6 @@ public class ClubService {
         return clubRepository.findAllByClubId(clubId, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
-    public Page<Schedule> findScheduleByClub(long clubId, long scheduleId, int page, int size) {
-        return clubRepository.findByClubId(clubId, scheduleId, PageRequest.of(page, size, Sort.by("scheduleId")));
-    }
-
     public void deleteClub(Long clubId) {
         //TODO-DW: 리더 인지 검증
         Club findClub = findVerifiedClub(clubId);

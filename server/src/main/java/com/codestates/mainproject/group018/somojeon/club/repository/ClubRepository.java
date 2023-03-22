@@ -34,5 +34,4 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     Page<Club> findByCategoryName(@Param("categoryName") String categoryName, Pageable pageable);
 
     Page<Schedule> findAllByClubId(long clubId, Pageable pageable);
-    Page<Schedule> findByClubId(long clubId, long scheduleId, Pageable pageable);
 }
