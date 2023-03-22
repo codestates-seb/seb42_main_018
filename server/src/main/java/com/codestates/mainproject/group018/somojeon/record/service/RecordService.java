@@ -1,12 +1,11 @@
 package com.codestates.mainproject.group018.somojeon.record.service;
 
-import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
 import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
-import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,26 +21,28 @@ import java.util.Optional;
 public class RecordService {
     private final RecordRepository recordRepository;
     private final ScheduleService scheduleService;
+    private final ClubService clubService;
 
-    public Record createRecord(Record record) {
-        scheduleService.findVerifiedSchedule(record.getSchedule().getScheduleId());
+    public Record createRecord(Record record, long clubId, long scheduleId) {
+        clubService.findVerifiedClub(clubId);
+        scheduleService.findVerifiedSchedule(scheduleId);
 
-        UserClub userClub = new UserClub();
-        Team team = new Team();
-        userClub.setPlayCount(userClub.getPlayCount() + 1);
-        switch (team.getWinLoseDraw()) {
-            case "win":
-                userClub.setWinCount(userClub.getWinCount() + 1);
-                break;
-            case "lose":
-                userClub.setWinCount(userClub.getWinCount() - 1);
-                break;
-            case "draw":
-                userClub.setWinCount(userClub.getWinCount());
-                break;
-        }
-        if (userClub.getWinCount() < 0) userClub.setWinCount(0);
-        userClub.setWinRate(userClub.getWinCount() / userClub.getPlayCount() * 100);
+//        UserClub userClub = new UserClub();
+//        Team team = new Team();
+//        userClub.setPlayCount(userClub.getPlayCount() + 1);
+//        switch (team.getWinLoseDraw()) {
+//            case "win":
+//                userClub.setWinCount(userClub.getWinCount() + 1);
+//                break;
+//            case "lose":
+//                userClub.setWinCount(userClub.getWinCount() - 1);
+//                break;
+//            case "draw":
+//                userClub.setWinCount(userClub.getWinCount());
+//                break;
+//        }
+//        if (userClub.getWinCount() < 0) userClub.setWinCount(0);
+//        userClub.setWinRate(userClub.getWinCount() / userClub.getPlayCount() * 100);
 
         return recordRepository.save(record);
     }
@@ -67,11 +68,15 @@ public class RecordService {
         return findRecord;
     }
 
-    public Page<Record> findRecords(int page, int size) {
-        return recordRepository.findAll(PageRequest.of(page, size, Sort.by("recordId").ascending()));
+    public Page<Record> findRecords(long clubId, long scheduleId, int page, int size) {
+        clubService.findVerifiedClub(clubId);
+        scheduleService.findVerifiedSchedule(scheduleId);
+        return recordRepository.findAll(PageRequest.of(page, size, Sort.by("recordId")));
     }
 
-    public void deleteRecord(long recordId) {
+    public void deleteRecord(long recordId, long clubId, long scheduleId) {
+        clubService.findVerifiedClub(clubId);
+        scheduleService.findVerifiedSchedule(scheduleId);
         Record record = findRecord(recordId);
 
         recordRepository.delete(record);
