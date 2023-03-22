@@ -4,15 +4,10 @@ import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
-import { ClubData } from '../../../components/home/ClubListData';
+import { ClubData } from '../../../types';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
-import {
-  S_ButtonGray,
-  S_Button,
-  S_SelectButton,
-  S_EditButton
-} from '../../../components/UI/S_Button';
+import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
 import { S_TagWrapper } from '../club/_createTag';
