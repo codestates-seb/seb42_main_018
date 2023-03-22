@@ -62,7 +62,7 @@ public class RecordController {
     }
 
     @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/records")
-    public ResponseEntity getRecordsBySchedule(@PathVariable("club-id") @Positive long clubId,
+    public ResponseEntity getRecords(@PathVariable("club-id") @Positive long clubId,
                                                @PathVariable("schedule-id") @Positive long scheduleId,
                                                @RequestParam("page") int page,
                                                @RequestParam("size") int size) {
