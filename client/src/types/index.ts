@@ -47,3 +47,15 @@ export interface RecodeListProps {
   win: string;
   lose: string;
 }
+
+export interface SubTab {
+  // 탭보다 작은 서브탭 타입
+  id: number;
+  title: string;
+  contents: React.ReactNode;
+}
+
+export interface SubTabProps {
+  // subtaps props 받아오기 위한 타입
+  subtabs: SubTab[];
+}

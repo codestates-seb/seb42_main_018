@@ -4,11 +4,12 @@ import { RecodeListProps } from '../../../types';
 const S_ListBox = styled.div`
   display: flex;
   text-align: center;
+  align-items: center;
+  height: 60px;
 `;
 
 const S_ListItem = styled.div<{ width?: string; color?: string; bgcolor?: string }>`
   // 기본 아이템 형식
-  padding: 18px 0px;
   min-width: ${({ width }) => width || '50px'};
   color: ${({ color }) => color};
   background-color: ${({ bgcolor }) => bgcolor};
@@ -16,11 +17,14 @@ const S_ListItem = styled.div<{ width?: string; color?: string; bgcolor?: string
 `;
 const S_ProfileItem = styled(S_ListItem)`
   // 프로필사진 및 이름 부분
+  display: flex;
+  align-items: center;
   min-width: 190px;
   text-align: left;
   font-size: 1.3rem;
   font-weight: 800;
   img {
+    width: 40px;
     font-size: 0.8rem;
     font-weight: 600;
     border-radius: 10px;
@@ -41,7 +45,6 @@ function MemberRecordList({ profileImage, name, winRate, match, win, lose }: Rec
       <S_ListItem width='80px'>{match}</S_ListItem>
       <S_ListItem>{win}</S_ListItem>
       <S_ListItem>{lose}</S_ListItem>
-      <S_ListItem>03</S_ListItem>
     </S_ListBox>
   );
 }

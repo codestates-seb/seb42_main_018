@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
 import ClubMemberItem from '../../../components/club/member/memberItem';
-import MemberNav from '../../../components/club/member/memberNav';
-import { ClubMemberProps } from '../../../types';
+import { ClubMemberProps, SubTab } from '../../../types';
+import MemberRecord from './MemberRecord';
+import SubTabMenu from '../../../components/SubTabMenu';
+import MemberList from './MemberList';
 
-const S_MemberBox = styled.div`
-  min-height: calc(100vh - 100px);
-`;
+const S_MemberBox = styled.div``;
 
 function ClubMember() {
   const { id } = useParams();
@@ -17,31 +17,15 @@ function ClubMember() {
     { id: 2, title: '경기정보', path: `/club/${id}/match` },
     { id: 3, title: '멤버', path: `/club/${id}/member` }
   ];
-
-  // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
-  const data: ClubMemberProps[] = [
-    {
-      memberId: 1,
-      profileImage: '이미지',
-      name: '별명',
-      winRate: 'string'
-    }
+  const subtabs = [
+    { id: 1, title: '전체 멤버', contents: <MemberList /> },
+    { id: 2, title: '멤버 기록', contents: <MemberRecord /> }
   ];
 
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />
-      <S_MemberBox>
-        {data.map((e) => (
-          <ClubMemberItem
-            key={e.memberId}
-            profileImage={e.profileImage}
-            name={e.name}
-            winRate={e.winRate}
-          />
-        ))}
-        <MemberNav />
-      </S_MemberBox>
+      <SubTabMenu subtabs={subtabs} />
     </S_Container>
   );
 }
