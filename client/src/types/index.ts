@@ -29,14 +29,6 @@ export interface ClubProps {
   pageInfo: ClubPage;
 }
 
-export interface ClubMemberProps {
-  // 클럽-멤버-전체멤버 : 받아올 멤버 정보 타입 설정
-  memberId?: number;
-  profileImage: string;
-  name: string;
-  winRate: string;
-}
-
 export interface RecodeListProps {
   // 클럽-멤버-멤버기록 : 받아올 멤버 정보 타입 설정
   memberId?: number;
@@ -58,4 +50,29 @@ export interface SubTab {
 export interface SubTabProps {
   // subtaps props 받아오기 위한 타입
   subtabs: SubTab[];
+}
+
+export interface MemberData {
+  // 멤버목록 확인을 위한 데이터 타입
+  nickName: string;
+  profileImage: {
+    imageId?: number;
+    fileName?: string;
+    url?: string;
+  };
+  playCount?: number;
+  winCount?: number;
+  loseCount?: number;
+  drawCount?: number;
+  winRate?: number;
+}
+
+export interface MemberProps {
+  // 같은 소모임 멤버 정보 목록 조회
+  data?: MemberData[];
+  pageInfo?: ClubPage;
+}
+
+export interface ClubMemberProps {
+  members: MemberData[];
 }

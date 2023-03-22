@@ -12,6 +12,7 @@ const titleContents: Title[] = [
   { name: '승률', width: '80px', color: 'var(--blue300)' },
   { name: '경기 수', width: '80px' },
   { name: '승' },
+  { name: '무' },
   { name: '패' }
 ];
 

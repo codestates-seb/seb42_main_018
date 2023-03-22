@@ -15,6 +15,7 @@ function SubTabMenu({ subtabs }: SubTabProps) {
   const onClickTap = (idx: number) => {
     setTabIndex(idx);
   };
+
   return (
     <S_SubTapBox>
       {subtabs.map((el, idx) => (

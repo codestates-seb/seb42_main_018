@@ -57,6 +57,7 @@ function MainContents() {
       setPageInfo(pageInfo);
     });
   }, []);
+  console.log(clubs);
 
   return (
     <div>

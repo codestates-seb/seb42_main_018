@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { RecodeListProps } from '../../../types';
+import { MemberData } from '../../../types';
 
 const S_ListBox = styled.div`
   display: flex;
@@ -31,20 +31,29 @@ const S_ProfileItem = styled(S_ListItem)`
   }
 `;
 
-function MemberRecordList({ profileImage, name, winRate, match, win, lose }: RecodeListProps) {
+function MemberRecordList({
+  profileImage,
+  nickName,
+  winRate,
+  playCount,
+  winCount,
+  drawCount,
+  loseCount
+}: MemberData) {
   return (
     <S_ListBox>
       <S_ListItem>1위</S_ListItem>
       <S_ProfileItem>
-        <img src={profileImage} alt='프로필사진'></img>
-        {name}
+        <img src={profileImage.url} alt='프로필사진'></img>
+        {nickName}
       </S_ProfileItem>
       <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>
         {winRate}%
       </S_ListItem>
-      <S_ListItem width='80px'>{match}</S_ListItem>
-      <S_ListItem>{win}</S_ListItem>
-      <S_ListItem>{lose}</S_ListItem>
+      <S_ListItem width='80px'>{playCount}</S_ListItem>
+      <S_ListItem>{winCount}</S_ListItem>
+      <S_ListItem>{drawCount}</S_ListItem>
+      <S_ListItem>{loseCount}</S_ListItem>
     </S_ListBox>
   );
 }
