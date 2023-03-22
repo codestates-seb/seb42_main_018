@@ -14,7 +14,6 @@ import { S_Description, S_Label, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
 import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 
-import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
 
@@ -49,16 +48,15 @@ export const S_MapView = styled.div`
 `;
 
 export interface TeamList {
-  id: number;
+  id: string;
   members: string[];
 }
 
 export interface Record {
-  id: number;
   firstTeam: string;
   secondTeam: string;
-  firstTeamScore: number;
-  secondTeamScore: number;
+  firstTeamScore: string;
+  secondTeamScore: string;
 }
 
 export interface MatchData {
@@ -77,13 +75,6 @@ export interface MatchData {
 }
 
 function CreateMatch() {
-  const {
-    register,
-    unregister,
-    // formState: { errors },
-    getValues
-  } = useForm({ mode: 'onChange' });
-
   const [matchData, setMatchData] = useState<MatchData>();
 
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
@@ -108,7 +99,7 @@ function CreateMatch() {
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates);
 
-  const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, members: [] }]);
+  const [teamList, setTeamList] = useState<TeamList[]>([{ id: '1', members: [] }]);
   const [records, setRecords] = useState<Record[]>([]);
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
@@ -193,7 +184,7 @@ function CreateMatch() {
   };
   const addTeam = () => {
     const newTeam = {
-      id: teamList[teamList.length - 1].id + 1,
+      id: String(teamList.length + 1),
       members: []
     };
     setTeamList([...teamList, newTeam]);
@@ -204,7 +195,7 @@ function CreateMatch() {
       setCandidateList(candidates);
       setTeamList([
         {
-          id: 0,
+          id: '1',
           members: []
         }
       ]);
@@ -220,20 +211,32 @@ function CreateMatch() {
 
   const addRecord = () => {
     const newRecord: Record = {
-      id: records.length ? records[records.length - 1].id + 1 : 0,
-      firstTeam: '1',
-      secondTeam: '1',
-      firstTeamScore: 0,
-      secondTeamScore: 0
+      firstTeam: teamList[0].id,
+      secondTeam: teamList[0].id,
+      firstTeamScore: '0',
+      secondTeamScore: '0'
     };
     setRecords([...records, newRecord]);
   };
 
-  const deleteRecord = (idx: number, record: Record) => {
+  const onChangeRecord = ({
+    idx,
+    key,
+    value
+  }: {
+    idx: number;
+    key: keyof Record;
+    value: string;
+  }) => {
+    const prevRecord = [...records];
+    prevRecord[idx][key] = value;
+    setRecords(prevRecord);
+  };
+
+  const deleteRecord = (idx: number) => {
     const deleted = [...records];
     deleted.splice(idx, 1);
     setRecords(deleted);
-    unregister(`${record.id}`);
   };
 
   const saveMatchData = () => {
@@ -241,16 +244,7 @@ function CreateMatch() {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
-    const copiedRecords: Record[] = [];
-    const copiedValues = Object.entries(getValues());
-    copiedValues.forEach((el) => {
-      const temp = {
-        id: Number(el[0]),
-        ...el[1]
-      };
-      copiedRecords.push(temp);
-    });
-    setRecords(copiedRecords);
+    // 제생각엔 여긴 API에 저장하는 코드가 있어야 할 것 같아요
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -357,13 +351,13 @@ function CreateMatch() {
         {records &&
           records.map((record, idx) => {
             return (
-              <div key={record.id}>
+              <div key={idx}>
                 <RecordCard
+                  round={idx + 1}
                   record={record}
-                  idx={idx}
                   teamList={teamList}
-                  deleteRecord={deleteRecord}
-                  register={register}
+                  onClickDelete={() => deleteRecord(idx)}
+                  onChangeField={({ key, value }) => onChangeRecord({ idx, key, value })}
                 />
               </div>
             );
