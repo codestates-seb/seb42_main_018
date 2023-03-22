@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.mapstruct.Mapper;
@@ -10,7 +11,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {ClubMapper.class})
+@Mapper(componentModel = "spring", uses = {ClubMapper.class, ImageMapper.class})
 public interface UserMapper {
     User userPostToUser(UserDto.Post userDtoPost);
     User userPatchToUser(UserDto.Patch userDtoPatch);
@@ -24,22 +25,24 @@ public interface UserMapper {
     };
 
 
-    default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs, ClubMapper clubMapper){
+    default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs
+            , ClubMapper clubMapper, ImageMapper imageMapper){
         UserDto.ResponseWithClubs responseWithClubs = new UserDto.ResponseWithClubs(
                 user.getUserId(),
                 user.getNickName(),
                 user.getEmail(),
                 user.getUserStatus(),
+                imageMapper.imagesToImageResponseDto(user.getImages()),
                 clubMapper.userClubsToUserCLubResponses(userClubs)
         );
         return responseWithClubs;
     }
 
-    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub){
+    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub, ImageMapper imageMapper){
         User user = userClub.getUser();
         UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
         responseWithClub.setNickName(user.getNickName());
-//        responseWithClub.set(user.get()); //TODO-JH 이미지
+        responseWithClub.setProfileImage(imageMapper.imagesToImageResponseDto(user.getImages()));
         responseWithClub.setPlayCount(userClub.getPlayCount());
         responseWithClub.setWinCount(userClub.getWinCount());
         responseWithClub.setLoseCount(userClub.getLoseCount());

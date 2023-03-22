@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.auth.handler;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -28,6 +29,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private final UserService userService;
     private final UserMapper userMapper;
     private final ClubMapper clubMapper;
+    private final ImageMapper imageMapper;
 
 
 
@@ -50,7 +52,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         List<UserClub> userClubs =  userService.findUserClub(user.getUserId());
 
-        UserDto.ResponseWithClubs responseWithClubs = userMapper.userToUserResponseWithClubs(user, userClubs, clubMapper);
+        UserDto.ResponseWithClubs responseWithClubs = userMapper.userToUserResponseWithClubs(user, userClubs, clubMapper, imageMapper);
         //TODO GSON 사용
         response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(responseWithClubs)));
         log.info("LOGIN ID: {}", userId);
