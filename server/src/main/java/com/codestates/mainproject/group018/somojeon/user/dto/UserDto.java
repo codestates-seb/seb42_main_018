@@ -88,7 +88,7 @@ public class UserDto {
 
         User.UserStatus userStatus;
 
-        private ImagesResponseDto profileImage;
+        ImagesResponseDto profileImage;
 
         List<UserClubDto.Response> userClubResponses;
 

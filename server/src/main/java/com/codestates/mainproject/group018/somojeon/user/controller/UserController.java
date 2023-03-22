@@ -92,11 +92,8 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
                                     HttpServletRequest request){
 
-        User findUser =
-                userService.findUser(userId);
-
+        User findUser = userService.findUser(userId);
         List<UserClub> userClubs = userService.findUserClub(userId);
-
         UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper, imageMapper);
 
         return  new ResponseEntity<>(
