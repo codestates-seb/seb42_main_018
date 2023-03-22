@@ -51,7 +51,7 @@ public class TeamService {
         return teamRepository.findAll(PageRequest.of(page, size, Sort.by("teamId").ascending()));
     }
 
-    public void deleteteam(long teamId) {
+    public void deleteTeam(long teamId) {
         Team findTeam = findTeam(teamId);
 
         teamRepository.delete(findTeam);

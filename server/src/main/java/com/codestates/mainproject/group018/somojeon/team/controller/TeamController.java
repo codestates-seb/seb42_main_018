@@ -71,7 +71,7 @@ public class TeamController {
 
     @DeleteMapping("/{team-id}")
     public ResponseEntity deleteTeam(@PathVariable("team-id") @Positive long teamId) {
-        teamService.deleteteam(teamId);
+        teamService.deleteTeam(teamId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
