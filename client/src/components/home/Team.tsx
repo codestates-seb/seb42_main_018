@@ -50,9 +50,9 @@ function Team() {
           <Link to='https://github.com/codestates-seb/seb42_main_018'>
             <S_LinkButton>GitHub Repo</S_LinkButton>
           </Link>
-          {/* <Link to='https://www.notion.so/codestates/9c70acd6b4c74f37ab14ea78d02f97f7?pvs=4'>
+          <Link to='https://www.notion.so/codestates/9c70acd6b4c74f37ab14ea78d02f97f7?pvs=4'>
             <S_LinkButton>Team Notion</S_LinkButton>
-          </Link> */}
+          </Link>
         </div>
       </S_IntroBox>
       <S_MemberBox>
