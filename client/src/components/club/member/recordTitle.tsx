@@ -31,9 +31,9 @@ const S_ListItem = styled.div<{ width?: string; color?: string }>`
 function MemberRecordTitle() {
   return (
     <S_ListBox>
-      {titleContents.map((e) => (
-        <S_ListItem key={e.name} width={e.width} color={e.color}>
-          {e.name}
+      {titleContents.map((el) => (
+        <S_ListItem key={el.name} width={el.width} color={el.color}>
+          {el.name}
         </S_ListItem>
       ))}
     </S_ListBox>

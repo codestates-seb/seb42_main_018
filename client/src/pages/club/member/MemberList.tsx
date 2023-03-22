@@ -11,12 +11,12 @@ function MemberList({ members }: ClubMemberProps) {
   return (
     <S_Box>
       {/* 받아온 데이터 맵핑 */}
-      {members.map((e) => (
+      {members.map((el) => (
         <ClubMemberItem
-          key={e.nickName}
-          profileImage={e.profileImage}
-          nickName={e.nickName}
-          winRate={e.winRate}
+          key={el.nickName}
+          profileImage={el.profileImage}
+          nickName={el.nickName}
+          winRate={el.winRate}
         />
       ))}
     </S_Box>

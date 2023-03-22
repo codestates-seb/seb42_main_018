@@ -52,16 +52,16 @@ function MemberRecord({ members }: ClubMemberProps) {
   return (
     <S_Box>
       <MemberRecordTitle />
-      {members.map((e) => (
+      {members.map((el) => (
         <MemberRecordList
-          key={e.nickName}
-          profileImage={e.profileImage}
-          nickName={e.nickName}
-          winRate={e.winRate}
-          playCount={e.playCount}
-          winCount={e.winCount}
-          drawCount={e.drawCount}
-          loseCount={e.loseCount}
+          key={el.nickName}
+          profileImage={el.profileImage}
+          nickName={el.nickName}
+          winRate={el.winRate}
+          playCount={el.playCount}
+          winCount={el.winCount}
+          drawCount={el.drawCount}
+          loseCount={el.loseCount}
         />
       ))}
     </S_Box>
