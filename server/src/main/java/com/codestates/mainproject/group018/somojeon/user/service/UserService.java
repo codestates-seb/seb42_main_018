@@ -70,7 +70,8 @@ public class UserService {
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             user.setImages(images);
-        } else user.getImages().setUrl(defaultProfileImage);
+        }
+//        else user.getImages().setUrl(defaultProfileImage);
 
         User savedUser = userRepository.save(user);
 
@@ -92,9 +93,10 @@ public class UserService {
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             findUser.setImages(images);
-        } else {
-            findUser.getImages().setUrl(defaultProfileImage);
         }
+//        else {
+//            findUser.getImages().setUrl(defaultProfileImage);
+//        }
         return userRepository.save(findUser);
     }
 
