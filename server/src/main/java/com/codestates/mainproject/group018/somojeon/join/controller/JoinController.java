@@ -49,11 +49,9 @@ public class JoinController {
     // 소모임 가입 요청 전체 조회
     @GetMapping("/joins")
     public ResponseEntity getJoins(@RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(defaultValue = "10") int size,
-                                   @Positive Long joinsId,
-                                   @Positive Long clubId) {
+                                   @RequestParam(defaultValue = "10") int size) {
 
-        Page<Joins> joinsPage = joinService.getJoins(page - 1, size, joinsId, clubId);
+        Page<Joins> joinsPage = joinService.getJoins(page - 1, size);
         List<Joins> content = joinsPage.getContent();
 
         return new ResponseEntity<>(
