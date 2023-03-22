@@ -2,11 +2,15 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
+import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -106,19 +110,6 @@ public class ClubController {
                 new MultiResponseDto<>(
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
-//    // 소모임 전체 스케쥴 조회
-//    @GetMapping("/{club-id}/schedules")
-//    public ResponseEntity<?> getSchedulesByClub(@PathVariable("club-id") @Positive Long clubId,
-//                                               @RequestParam("clubName") String clubName,
-//                                               @RequestParam(defaultValue = "1") int page,
-//                                               @RequestParam(defaultValue = "10") int size) {
-//        Page<Schedule> schedulePage = clubService.findSchedulesByClub(clubId, clubName, page - 1, size);
-//        List<Schedule> content = schedulePage.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(content), schedulePage),
-//        HttpStatus.OK);
-//    }
 
     // 소모임 삭제
     @DeleteMapping("/{club-id}")
