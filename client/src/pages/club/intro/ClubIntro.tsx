@@ -50,11 +50,7 @@ const ClubIntroWrapper = styled.div`
   }
 
   & .club-setting-btn-area {
-    flex: 1;
-    text-align: end;
-  }
-  & .club-setting-btn {
-    margin-top: 5vh;
+    /* flex: 1; */
   }
 
   & > .club-content-box {
@@ -73,7 +69,7 @@ const ClubIntroWrapper = styled.div`
   }
 `;
 function ClubIntro() {
-  const { isLogin } = getGlobalState();
+  const { isLogin, userInfo } = getGlobalState();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -137,8 +133,8 @@ function ClubIntro() {
             <div className='club-info-area'>
               <div className='club-title-box'>
                 <S_Title>{clubName}</S_Title>
-                {/* 클럽장에게만 badge 렌더링 */}
-                {/* <span>leader badge</span> */}
+                {/* TODO: 권한 확인 후 클럽장에게만 렌더링 */}
+                {/* <img>leader badge</img> */}
               </div>
               <div className='club-detail-box'>
                 <S_Description>
@@ -155,16 +151,11 @@ function ClubIntro() {
                   ))}
               </S_TagWrapper>
             </div>
+            {/* TODO: 권한 확인 후 클럽장에게만 렌더링 */}
             <div className='club-setting-btn-area'>
-              <S_SelectButton width='auto' onClick={() => goToPath(`/club/${id}/edit`)}>
-                프로필 설정
+              <S_SelectButton width='auto' onClick={() => goToPath(`/club/${id}/setting`)}>
+                소모임 설정
               </S_SelectButton>
-              <S_EditButton
-                className='club-setting-btn'
-                onClick={() => goToPath(`/club/${id}/setting`)}
-              >
-                모임 설정
-              </S_EditButton>
             </div>
           </div>
           <div className='club-content-box'>
