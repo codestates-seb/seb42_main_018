@@ -4,6 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -40,11 +41,14 @@ public class ImageService {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getInputStream().available());
 
-        amazonS3.putObject(bucket + "user", fileName, multipartFile.getInputStream(), objectMetadata);
+        // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
+        objectMetadata.setContentType(multipartFile.getContentType());
+
+        amazonS3.putObject(new PutObjectRequest(bucket + "/user", fileName, multipartFile.getInputStream(), objectMetadata));
 
         Images images = new Images();
         images.setFileName(fileName);
-        images.setUrl(bucket + fileName); //S3 저장 폴더 위치
+        images.setUrl(bucket + fileName);
         imagesRepository.save(images);
 
         log.info("프로필 이미지 파일 업로드됨");
@@ -58,7 +62,10 @@ public class ImageService {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getInputStream().available());
 
-        amazonS3.putObject(bucket + "club", fileName, multipartFile.getInputStream(), objectMetadata);
+        // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
+        objectMetadata.setContentType(multipartFile.getContentType());
+
+        amazonS3.putObject(bucket + "/club/", fileName, multipartFile.getInputStream(), objectMetadata);
 
         Images images = new Images();
         images.setFileName(fileName);
