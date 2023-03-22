@@ -64,6 +64,7 @@ public interface ScheduleMapper {
         return records.stream()
                 .map(record -> {
                     RecordDto.Response response = new RecordDto.Response();
+                    response.setScheduleId(record.getSchedule().getScheduleId());
                     response.setRecordId(record.getRecordId());
                     response.setCreatedAt(record.getCreatedAt());
                     response.setFirstTeam(record.getFirstTeam());

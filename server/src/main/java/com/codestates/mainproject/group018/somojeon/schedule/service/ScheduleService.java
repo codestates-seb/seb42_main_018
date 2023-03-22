@@ -9,9 +9,6 @@ import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,11 +58,8 @@ public class ScheduleService {
         return findVerifiedSchedule(scheduleId);
     }
 
-    public Page<Schedule> findSchedules(int page, int size) {
-        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId").descending()));
-    }
-
-    public void deleteSchedule(long scheduleId) {
+    public void deleteSchedule(long scheduleId, long clubId) {
+        clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findSchedule(scheduleId);
 
         scheduleRepository.delete(findSchedule);

@@ -68,33 +68,14 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
     }
 
-//    @GetMapping("/schedules/{schedule-id}")
-//    public ResponseEntity getSchedule(@PathVariable("schedule-id") @Positive long scheduleId) {
-//        Schedule schedule = scheduleService.findSchedule(scheduleId);
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule)), HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/schedules")
-//    public ResponseEntity getSchedules(@RequestParam("page") int page,
-//                                       @RequestParam("size") int size) {
-//        Page<Schedule> pageSchedules = scheduleService.findSchedules(page - 1, size);
-//        List<Schedule> schedules = pageSchedules.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules), pageSchedules),
-//                HttpStatus.OK);
-//    }
-
     @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId);
+        scheduleService.deleteSchedule(scheduleId, clubId);
 
-        if (!identifier.checkClubRole(clubId)) {
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        };
+//        if (!identifier.checkClubRole(clubId)) {
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        };
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
