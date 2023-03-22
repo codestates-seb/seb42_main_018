@@ -37,6 +37,13 @@ public class ClubDto {
         private Long profileImageId;
 
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class PostPlayers {
+        Long clubId;
+        List<Long> playerUserIds;
+    }
 
     @Getter
     @Setter
