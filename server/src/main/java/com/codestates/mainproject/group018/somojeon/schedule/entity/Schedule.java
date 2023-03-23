@@ -3,7 +3,7 @@ package com.codestates.mainproject.group018.somojeon.schedule.entity;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
+import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,7 +56,7 @@ public class Schedule {
     private Club club;
 
     @OneToMany(mappedBy = "schedule")
-    private List<UserTeam> userTeams = new ArrayList<>();
+    private List<Team> teams = new ArrayList<>();
 
     @OneToMany(mappedBy = "schedule")
     private List<Record> records = new ArrayList<>();

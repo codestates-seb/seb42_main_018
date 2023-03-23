@@ -11,8 +11,8 @@ import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
-import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
+import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -31,15 +31,15 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ClubRepository clubRepository;
     private final RecordRepository recordRepository;
-    private final UserTeamRepository userTeamRepository;
+    private final TeamRepository teamRepository;
     private final CandidateRepository candidateRepository;
     private final ClubService clubService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<UserTeam> userTeams, List<Candidate> candidates) {
+                                   List<Team> teams, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
-        schedule.setUserTeams(userTeams);
+        schedule.setTeams(teams);
         schedule.setCandidates(candidates);
         schedule.setRecords(records);
 
@@ -48,10 +48,10 @@ public class ScheduleService {
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
 
-            // userTeam 정보 저장
-            for (UserTeam userTeam : userTeams) {
-                userTeam.setSchedule(schedule);
-                userTeamRepository.save(userTeam);
+            // team 정보 저장
+            for (Team team : teams) {
+                team.setSchedule(schedule);
+                teamRepository.save(team);
             }
 
             // candidate 정보 저장
@@ -72,8 +72,8 @@ public class ScheduleService {
                 String exceptionMessage = dataAccessException.getMessage();
                 if (exceptionMessage.contains("club")) {
                     throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
-                } else if (exceptionMessage.contains("userTeam")) {
-                    throw new BusinessLogicException(ExceptionCode.USER_TEAM_SAVE_ERROR);
+                } else if (exceptionMessage.contains("team")) {
+                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
                 } else if (exceptionMessage.contains("candidate")) {
                     throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
                 } else if (exceptionMessage.contains("record")) {
@@ -87,7 +87,7 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(Schedule schedule, List<Record> records,
-                                   List<UserTeam> userTeams, List<Candidate> candidates) {
+                                   List<Team> teams, List<Candidate> candidates) {
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
         Optional.ofNullable(schedule.getDate())
@@ -103,7 +103,7 @@ public class ScheduleService {
 
         findSchedule.setRecords(records);
         findSchedule.setCandidates(candidates);
-        findSchedule.setUserTeams(userTeams);
+        findSchedule.setTeams(teams);
 
         return scheduleRepository.save(findSchedule);
     }

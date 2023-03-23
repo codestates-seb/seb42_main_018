@@ -2,8 +2,6 @@ package com.codestates.mainproject.group018.somojeon.schedule.controller;
 
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
@@ -46,7 +44,7 @@ public class ScheduleController {
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
-                requestBody.getUserTeams(), requestBody.getCandidates());
+                requestBody.getTeams(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
@@ -65,7 +63,7 @@ public class ScheduleController {
 //        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
-                requestBody.getRecords(), requestBody.getUserTeams(), requestBody.getCandidates());
+                requestBody.getRecords(), requestBody.getTeams(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);

@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
+import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -34,22 +35,22 @@ public interface ScheduleMapper {
                 .placeName(schedule.getPlaceName())
                 .longitude(schedule.getLongitude())
                 .latitude(schedule.getLatitude())
-                .teams(userTeamsToUserTeamResponseDtos(schedule.getUserTeams(), userMapper))
+                .teams(teamsToTeamResponseDtos(schedule.getTeams(), userMapper))
                 .records(recordsToRecordResponseDtos(schedule.getRecords()))
                 .candidates(candidatesToCandidateResponseDtos(schedule.getCandidates()))
                 .build();
     }
 
-    default List<TeamDto.Response> userTeamsToUserTeamResponseDtos(List<UserTeam> userTeams,
+    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teams,
                                                                    UserMapper userMapper) {
-        return userTeams.stream()
-                .map(userTeam -> {
+        return teams.stream()
+                .map(team -> {
                     TeamDto.Response response = new TeamDto.Response();
-                    response.setTeamId(userTeam.getTeam().getTeamId());
+                    response.setTeamId(team.getTeamId());
 
-                    List<UserTeam> teams = userTeam.getUser().getUserTeamList();
-                    List<User> users = teams.stream()
-                            .map(team -> team.getUser())
+                    List<UserTeam> userTeams = team.getUserTeams();
+                    List<User> users = userTeams.stream()
+                            .map(userTeam -> userTeam.getUser())
                             .collect(Collectors.toList());
 
                     response.setUsers(userMapper.usersToUserResponses(users));
@@ -57,6 +58,21 @@ public interface ScheduleMapper {
                     return response;
                 })
                 .collect(Collectors.toList());
+//        return userTeams.stream()
+//                .map(userTeam -> {
+//                    TeamDto.Response response = new TeamDto.Response();
+//                    response.setTeamId(userTeam.getTeam().getTeamId());
+//
+//                    List<UserTeam> teams = userTeam.getUser().getUserTeamList();
+//                    List<User> users = teams.stream()
+//                            .map(team -> team.getUser())
+//                            .collect(Collectors.toList());
+//
+//                    response.setUsers(userMapper.usersToUserResponses(users));
+//
+//                    return response;
+//                })
+//                .collect(Collectors.toList());
     }
 
     default List<RecordDto.Response> recordsToRecordResponseDtos(List<Record> records) {
@@ -81,7 +97,7 @@ public interface ScheduleMapper {
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
                     response.setCandidateId(candidate.getCandidateId());
-                    response.setNickName(candidate.getUser().getNickName());
+//                    response.setNickName(candidate.getUser().getNickName());
                     response.setAttendance(candidate.getAttendance());
 
                     return response;
