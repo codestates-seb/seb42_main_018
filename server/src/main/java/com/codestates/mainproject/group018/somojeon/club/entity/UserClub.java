@@ -42,6 +42,7 @@ public class UserClub {
     JoinStatus joinStatus;
 
     @Enumerated(value = EnumType.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     ClubMemberStatus clubMemberStatus;
 
     @Enumerated(value = EnumType.STRING)
