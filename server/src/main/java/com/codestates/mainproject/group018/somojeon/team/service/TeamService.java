@@ -24,10 +24,10 @@ public class TeamService {
     private final RecordService recordService;
 
     public Team createTeam(Team team) {
-//        UserTeam userTeam = new UserTeam();
-//        TeamRecord teamRecord = new TeamRecord();
-//        userService.findVerifiedUser(userTeam.getUser().getUserId());
-//        recordService.findVerifiedRecord(teamRecord.getRecord().getRecordId());
+//        User user = new User();
+//        Record record = new Record();
+//        userService.findVerifiedUser(user.getUserId());
+//        recordService.findVerifiedRecord(record.getRecordId());
 
         return teamRepository.save(team);
     }
