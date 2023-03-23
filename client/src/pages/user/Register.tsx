@@ -7,14 +7,13 @@ import {
   RegisterUserInputType,
   useLoginRequestLogic
 } from '../../util/authorization/useLoginRequestLogic';
-import { jwtTokensType } from '../../store/store';
+import { jwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
 import { S_Input } from '../../components/UI/S_Input';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { useDispatch } from 'react-redux';
-import { setIsLogin, setTokens, setUserInfo } from '../../store/store';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
   & .title-wrapper {

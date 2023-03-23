@@ -118,7 +118,7 @@ function CreateMatch() {
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
 
-  const setRequestDatas = (
+  const setRequestData = (
     date: string | undefined,
     time: string | undefined,
     place: PlaceType | undefined,
@@ -126,7 +126,7 @@ function CreateMatch() {
     teams: TeamList[],
     records: Record[]
   ) => {
-    const datas = {
+    const data = {
       schedule: {
         date,
         time,
@@ -140,8 +140,8 @@ function CreateMatch() {
       teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
       records: records.length !== 0 ? records : []
     };
-    console.log(datas);
-    setMatchData(datas);
+    console.log(data);
+    setMatchData(data);
   };
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,7 +183,7 @@ function CreateMatch() {
     }
     if (addButtonIndex !== idx) {
       setAddButtonIndex(idx);
-      setIsOpenAddMember(false);
+      // setIsOpenAddMember(false);
       setIsOpenAddMember(true);
     } else {
       setAddButtonIndex(idx);
@@ -236,11 +236,7 @@ function CreateMatch() {
     unregister(`${record.id}`);
   };
 
-  const saveMatchData = () => {
-    if (!checkValidation()) {
-      alert('*가 표시된 항목은 필수 입력란입니다.');
-      return;
-    }
+  const updateRecord = () => {
     const copiedRecords: Record[] = [];
     const copiedValues = Object.entries(getValues());
     copiedValues.forEach((el) => {
@@ -253,16 +249,24 @@ function CreateMatch() {
     setRecords(copiedRecords);
   };
 
+  const saveMatchData = () => {
+    if (!checkValidation()) {
+      alert('*가 표시된 항목은 필수 입력란입니다.');
+      return;
+    }
+    updateRecord();
+  };
+
   if (!candidateList.length && isOpenAddMember) {
     setIsOpenAddMember(false);
   }
 
   useEffect(() => {
-    setRequestDatas(date, time, placeValue, candidates, teamList, records);
+    setRequestData(date, time, placeValue, candidates, teamList, records);
   }, [records]);
 
   return (
-    <S_Container>
+    <S_Container onClick={() => setIsOpenAddMember(false)}>
       <S_Title>경기 등록</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>

@@ -59,12 +59,7 @@ public class UserController {
     public ResponseEntity checkUserEmail(@Valid @RequestBody UserDto.Post userDtoPost,
                                    HttpServletRequest request){
         User user =  userMapper.userPostToUser(userDtoPost);
-        try{
-            userService.verifyExistsEmail(user.getEmail());
-        }
-        catch (BusinessLogicException exception){
-            return ResponseEntity.status(409).build();
-        }
+        userService.verifyExistsEmail(user.getEmail());
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
