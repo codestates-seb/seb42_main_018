@@ -22,10 +22,10 @@ function WaitingMember() {
   // const data: WaitingUser[] = [];
   const { id } = useParams();
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_URL}/clubs/${id}/joins`)
-      .then((res) => setData(res.data.data));
-    // getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`);
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((data) => {
+      console.log(data);
+      setData(data.data);
+    });
   }, []);
   return (
     <>
