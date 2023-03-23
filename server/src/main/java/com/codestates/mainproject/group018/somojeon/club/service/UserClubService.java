@@ -127,15 +127,14 @@ public class UserClubService {
     // TODO-DW: 소모임장 위임
 
     // 소모임 안에 활동중인 멤버 목록 조회
-    public Page<UserClub> findAllMembersByClubMemberStatus(int page, int size, Long clubId) {
-        clubService.findVerifiedClub(clubId);
-        return userClubRepository.findByClubMemberStatus(
-                PageRequest.of(page, size, Sort.by("userClubId")), ClubMemberStatus.MEMBER_ACTIVE);
-    }
+//    public Page<UserClub> findAllMembersByClubMemberStatus(int page, int size, Long clubId) {
+//        clubService.findVerifiedClub(clubId);
+//        return userClubRepository.findByClubMemberStatus(
+//                PageRequest.of(page, size, Sort.by("userClubId")), ClubMemberStatus.MEMBER_ACTIVE);
+//    }
 
     // 소모임 안에 멤버들 기록 조회
     public Page<UserClub> findUsers(int page, int size, long clubId) {
-
         Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
 
         return userClubPage;

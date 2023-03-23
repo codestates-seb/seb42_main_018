@@ -139,17 +139,17 @@ public class UserClubController {
     }
 
     // 소모임 안에 멤버 목록 조회
-    @GetMapping("{club-id}/members")
-    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
-                                            @RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "10") int size) {
-        Page<UserClub> clubMembersPage = userClubService.findAllMembersByClubMemberStatus(page - 1, size, clubId);
-        List<UserClub> content = clubMembersPage.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(
-                        userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
-    }
+//    @GetMapping("{club-id}/members")
+//    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
+//                                            @RequestParam(defaultValue = "1") int page,
+//                                            @RequestParam(defaultValue = "10") int size) {
+//        Page<UserClub> clubMembersPage = userClubService.findAllMembersByClubMemberStatus(page - 1, size, clubId);
+//        List<UserClub> content = clubMembersPage.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(
+//                        userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
+//    }
 
 
     // 소모임 안에 멤버들 기록 조회
