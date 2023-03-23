@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Tabmenu from '../../../components/TabMenu';
 import { S_Button, S_TabButton } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Title } from '../../../components/UI/S_Text';
@@ -19,7 +20,7 @@ export interface Schedule {
   candidates: string[];
 }
 
-interface Tab {
+interface SubTab {
   id: number;
   title: string;
   contents: React.ReactNode;
@@ -27,8 +28,17 @@ interface Tab {
 
 function ClubSchedule() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
   const [tabIndex, setTabIndex] = useState(0);
-  const tabs: Tab[] = [
+
+  const tabs = [
+    { id: 1, title: '소개', path: `/club/${id}` },
+    { id: 2, title: '경기정보', path: `/club/${id}/match` },
+    { id: 3, title: '멤버', path: `/club/${id}/member` }
+  ];
+
+  const subTabs: SubTab[] = [
     { id: 1, title: '예정 경기', contents: <ScheduledMatch /> },
     { id: 2, title: '지난 경기', contents: <PastMatch /> }
   ];
@@ -38,17 +48,18 @@ function ClubSchedule() {
   };
   return (
     <S_Container>
-      <div>
+      <Tabmenu tabs={tabs}></Tabmenu>
+      <div style={{ marginTop: '35px' }}>
         <S_Button
           onClick={() => {
-            navigate('/club/:id/match/create');
+            navigate(`/club/${id}/match/create`);
           }}
         >
           새 경기 또는 지난 경기 등록하기 +
         </S_Button>
       </div>
       <div>
-        {tabs.map((el, idx) => (
+        {subTabs.map((el, idx) => (
           <S_TabButton
             key={el.id}
             onClick={() => onClickTap(idx)}
@@ -59,7 +70,7 @@ function ClubSchedule() {
         ))}
       </div>
       <S_Title>경기 일정</S_Title>
-      {tabs[tabIndex].contents}
+      {subTabs[tabIndex].contents}
     </S_Container>
   );
 }
