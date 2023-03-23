@@ -59,7 +59,6 @@ public class RecordDto {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private Long scheduleId;
         private Long recordId;
         private LocalDateTime createdAt;
         private String firstTeam;

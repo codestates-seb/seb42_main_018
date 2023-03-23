@@ -28,7 +28,6 @@ public interface RecordMapper {
         return RecordDto.Response
                 .builder()
                 .recordId(record.getRecordId())
-                .scheduleId(record.getSchedule().getScheduleId())
                 .createdAt(record.getCreatedAt())
                 .firstTeam(record.getFirstTeam())
                 .firstTeamScore(record.getFirstTeamScore())
