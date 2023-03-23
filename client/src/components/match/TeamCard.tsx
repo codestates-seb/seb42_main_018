@@ -40,6 +40,7 @@ function TeamCard(props: TeamCardProps) {
       <div style={{ height: '100%' }}>
         <S_EditButton
           onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.stopPropagation();
             props.openMemberListPopup(props.idx, e);
           }}
         >
