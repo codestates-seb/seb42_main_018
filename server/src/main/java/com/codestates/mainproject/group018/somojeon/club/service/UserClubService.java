@@ -133,6 +133,14 @@ public class UserClubService {
                 PageRequest.of(page, size, Sort.by("userClubId")), ClubMemberStatus.MEMBER_ACTIVE);
     }
 
+    // 소모임 안에 멤버들 기록 조회
+    public Page<UserClub> findUsers(int page, int size, long clubId) {
+
+        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+
+        return userClubPage;
+    }
+
     public void existsUserClubByUserIdAndClubId(Long userId, Long clubId) {
         Optional<UserClub> optionalUserClub = userClubRepository.findByUserIdAndClubId(userId, clubId);
         if (optionalUserClub.isPresent()) {

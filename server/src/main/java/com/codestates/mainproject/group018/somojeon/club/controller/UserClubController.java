@@ -10,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
+import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Validated
 @RestController
@@ -147,5 +149,26 @@ public class UserClubController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
                         userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
+    }
+
+
+    // 소모임 안에 멤버들 기록 조회
+    @GetMapping("/{club-id}/members")
+    public ResponseEntity getClubUsers(@RequestParam (defaultValue = "1") int page,
+                                       @RequestParam (defaultValue = "10") int size,
+                                       @PathVariable("club-id") @Positive Long clubId) {
+//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        }
+
+        Page<UserClub> pageUserClubs = userClubService.findUsers(page - 1, size, clubId);
+        List<UserClub> userClubs = pageUserClubs.getContent();
+
+
+        List<UserDto.ResponseWithClub> response = userClubs.stream().map(
+                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
+        ).collect(Collectors.toList());
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
+                HttpStatus.OK);
     }
 }
