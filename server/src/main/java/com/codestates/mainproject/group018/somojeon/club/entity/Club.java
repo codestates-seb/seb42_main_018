@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
@@ -60,12 +61,10 @@ public class Club {
     private LocalDateTime modifiedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
     ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    ClubMemberStatus clubMemberStatus = ClubMemberStatus.MEMBER_ACTIVE;
+    ClubRole clubRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
@@ -80,7 +79,7 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<UserClub> userClubList = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -90,5 +89,14 @@ public class Club {
 
     public void setClubTag(ClubTag clubTag) {
         clubTagList.add(clubTag);
+    }
+
+    public UserClub addUserClub(UserClub userClub) {
+        this.userClubList.add(userClub);
+        if (userClub.getClub() != this) {
+            userClub.setClub(this);
+        }
+
+        return userClub;
     }
 }
