@@ -23,13 +23,13 @@ public class UserClub {
 
     private boolean isPlayer;
 
-    private Integer playCount;
+    private int playCount;
 
-    private Integer winCount;
+    private int winCount;
 
-    private Integer loseCount;
+    private int loseCount;
 
-    private Integer drawCount;
+    private int drawCount;
 
     private float winRate;
 
