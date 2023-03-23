@@ -3,6 +3,8 @@ package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
@@ -49,6 +51,32 @@ public interface UserMapper {
         responseWithClub.setDrawCount(userClub.getDrawCount());
         responseWithClub.setWinRate(userClub.getWinRate());
         return responseWithClub;
+    }
+
+    default UserDto.UserClubResponse userToUserClubResponse(User user, ImagesResponseDto imagesResponseDto) {
+
+        UserDto.UserClubResponse userClubResponse = new UserDto.UserClubResponse();
+        userClubResponse.setUserId(user.getUserId());
+        userClubResponse.setEmail(user.getEmail());
+        userClubResponse.setNickName(user.getNickName());
+        userClubResponse.setProfileImage(imagesToImagesResponseDto(user.getImages()));
+
+
+        return userClubResponse;
+    }
+
+    default ImagesResponseDto imagesToImagesResponseDto(Images images) {
+        if ( images == null ) {
+            return null;
+        }
+
+        ImagesResponseDto response = new ImagesResponseDto();
+
+        response.setImageId(images.getImageId());
+        response.setFileName(images.getFileName());
+        response.setUrl(images.getUrl());
+
+        return response;
     }
 
 }
