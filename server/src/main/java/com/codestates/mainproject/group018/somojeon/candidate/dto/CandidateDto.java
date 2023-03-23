@@ -9,6 +9,7 @@ import lombok.Setter;
 public class CandidateDto {
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
         private Long clubId;
