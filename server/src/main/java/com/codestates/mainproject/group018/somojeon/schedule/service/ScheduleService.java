@@ -12,6 +12,8 @@ import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepo
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
+import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -32,6 +34,7 @@ public class ScheduleService {
     private final ClubRepository clubRepository;
     private final RecordRepository recordRepository;
     private final TeamRepository teamRepository;
+    private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final ClubService clubService;
 
@@ -48,10 +51,14 @@ public class ScheduleService {
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
 
-            // team 정보 저장
+            // team 정보 저장 (teamRecord 로 team 과 record 연결)
             for (Team team : teams) {
                 team.setSchedule(schedule);
                 teamRepository.save(team);
+                for (Record record : records) {
+                    TeamRecord teamRecord = new TeamRecord(record, team);
+                    teamRecordRepository.save(teamRecord);
+                }
             }
 
             // candidate 정보 저장

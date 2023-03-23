@@ -7,11 +7,8 @@ import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ScheduleDto {
@@ -21,11 +18,8 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Post {
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
 
         private Long clubId;
 
@@ -50,11 +44,8 @@ public class ScheduleDto {
 
         private Long clubId;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
 
         private String placeName;
         private Double longitude;
@@ -80,10 +71,8 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Response {
         private Long scheduleId;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
         private LocalDateTime createdAt;
         private String placeName;
         private Double longitude;
