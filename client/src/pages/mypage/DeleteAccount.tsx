@@ -30,6 +30,7 @@ function DeleteAccount() {
           없습니다.
         </S_Description>
         <div className='box'></div>
+        {/* TODO : 회원탈퇴 버튼 클릭시 유저정보 delete 요청 및 모달*/}
         <S_ButtonBlack>회원탈퇴</S_ButtonBlack>
       </S_DeleteBox>
     </S_Container>
