@@ -25,6 +25,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RequestMapping
+@CrossOrigin(value = {"https://dev.somojeon.site", "https://dev-somojeon.vercel.app"})
 @RequiredArgsConstructor
 public class ScheduleController {
     private final ScheduleService scheduleService;
