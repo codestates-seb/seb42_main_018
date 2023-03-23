@@ -103,7 +103,7 @@ public class UserClubController {
     }
 
     // 소모임 회원 탈퇴/추방 (소모임 회원, 리더, 매니저 가능)
-    @PatchMapping("/memberStatus/{user-id}")
+    @PatchMapping("{club-id}/memberStatus/{user-id}")
     public ResponseEntity<?> patchClubMemberStatus(@PathVariable("club-id") @Positive Long clubId,
                                                    @PathVariable("user-id") @Positive Long userId,
                                                    @RequestBody UserClubDto.MemberStatusPatch requestBody) {
@@ -114,14 +114,14 @@ public class UserClubController {
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
         UserClub userClub = userClubService.rejectUserClub(userId, clubId, requestBody.getClubMemberStatus());
-        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub);
+        UserClubDto.UserClubMemberResponse response = userClubMapper.userClubToUserClubMemberResponse(userClub);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
 
     }
 
     // 소모임 회원 등급 설정 (리더, 매니저만 가능)
-    @PatchMapping("/clubRole/{user-id}")
+    @PatchMapping("/{club-id}/clubRole/{user-id}")
     public ResponseEntity<?> patchClubRole(@PathVariable("club-id") @Positive Long clubId,
                                            @PathVariable("user-id") @Positive Long userId,
                                            @RequestBody UserClubDto.ClubRolePatch requestBody) {

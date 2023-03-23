@@ -40,8 +40,8 @@ public class UserClubDto {
     @AllArgsConstructor
     public static class MemberStatusPatch {
 
-        private Long clubId;
         private Long userId;
+        private Long clubId;
         private ClubMemberStatus clubMemberStatus;
     }
 
@@ -52,8 +52,8 @@ public class UserClubDto {
     @AllArgsConstructor
     public static class ClubRolePatch {
 
-        private Long clubId;
         private Long userId;
+        private Long clubId;
         private ClubRole clubRole;
     }
 
@@ -64,8 +64,8 @@ public class UserClubDto {
     @AllArgsConstructor
     public static class JoinDecisionPatch{
 
-        private Long clubId;
         private Long userId;
+        private Long clubId;
         private JoinStatus joinStatus;
     }
 
@@ -76,18 +76,13 @@ public class UserClubDto {
     public static class Response {
 
         private Long userClubId;
-
         private boolean isPlayer;
-
         private ClubRole clubRole;
-
         private Level level;
-
         private int playCount;
-
         private int winCount;
-
         private int winRate;
+        private UserDto.UserInfoResponse userInfo;
 
     }
 
@@ -110,7 +105,6 @@ public class UserClubDto {
 
         private Long userClubId;
         private ClubMemberStatus clubMemberStatus;
-        private ClubRole clubRole;
         private UserDto.UserInfoResponse userInfo;
 
     }
