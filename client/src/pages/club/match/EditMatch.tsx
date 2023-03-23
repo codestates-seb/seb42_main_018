@@ -70,15 +70,11 @@ function EditMatch() {
     records: Record[]
   ) => {
     const data = {
-      schedule: {
-        date,
-        time,
-        placeName: place?.place_name,
-        placeCoordinate: {
-          longitude: place?.y,
-          latitude: place?.x
-        }
-      },
+      date,
+      time,
+      placeName: place?.place_name,
+      longitude: place?.y,
+      latitude: place?.x,
       candidates: candidates.length !== 0 ? candidates : [],
       teamList: teams.length !== 0 ? teams : [],
       records: records.length !== 0 ? records : []

@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import KakaoMapSearch, { PlaceType } from '../../../components/kakao/KakaoMapSearch';
 import KakaoMapView from '../../../components/kakao/KakaoMapView';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Input } from '../../../components/UI/S_Input';
-import {
-  S_Button,
-  S_ButtonGray,
-  S_EditButton,
-  S_SelectButton,
-  S_NegativeButton
-} from '../../../components/UI/S_Button';
+import { S_SelectButton, S_NegativeButton } from '../../../components/UI/S_Button';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
-// import { StyledSelect } from '../../../components/UI/S_Select';
-import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
-
-import { useForm } from 'react-hook-form';
 import { MatchData } from './CreateMatch';
 
 const S_MapBackdrop = styled.div`
@@ -50,15 +39,11 @@ const S_MapView = styled.div`
 
 function MatchDetail() {
   const [matchData, setMatchData] = useState<MatchData>({
-    schedule: {
-      date: '2023-03-18',
-      time: '21:05',
-      placeName: '서울 숲',
-      placeCoordinate: {
-        latitude: 37.566826,
-        longitude: 126.9786567
-      }
-    },
+    date: '2023-03-18',
+    time: '21:05',
+    placeName: '서울 숲',
+    latitude: 37.566826,
+    longitude: 126.9786567,
     candidates: ['test'],
     teamList: [],
     records: []
@@ -89,22 +74,19 @@ function MatchDetail() {
       <S_Title>경기 상세</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
-        <S_Input type='date' value={matchData?.schedule.date} readOnly />
-        <S_Input type='time' value={matchData?.schedule.time} readOnly />
+        <S_Input type='date' value={matchData?.date} readOnly />
+        <S_Input type='time' value={matchData?.time} readOnly />
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>장소 *</S_Label>
-        <S_Input type='text' value={matchData?.schedule.placeName} readOnly />
+        <S_Input type='text' value={matchData?.placeName} readOnly />
         <S_SelectButton onClick={mapViewModalHandler} style={{ width: 'auto' }}>
           지도보기
         </S_SelectButton>
         {isOpenMapView && (
           <S_MapBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
-              <KakaoMapView
-                y={matchData.schedule.placeCoordinate.latitude}
-                x={matchData.schedule.placeCoordinate.longitude}
-              />
+              <KakaoMapView y={matchData.latitude} x={matchData.longitude} />
             </S_MapView>
           </S_MapBackdrop>
         )}

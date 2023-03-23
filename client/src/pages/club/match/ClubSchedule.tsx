@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tabmenu from '../../../components/TabMenu';
 import { S_Button, S_TabButton } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Title } from '../../../components/UI/S_Text';
+import { getFetch } from '../../../util/api';
 import { Record } from './CreateMatch';
 import PastMatch from './_pastMatch';
 import ScheduledMatch from './_scheduledMatch';
@@ -12,6 +13,7 @@ export interface Schedule {
   scheduleId: number;
   clubId: number;
   date: string;
+  time: string;
   placeName: string;
   latitude: number;
   logitude: number;
@@ -32,6 +34,8 @@ function ClubSchedule() {
 
   const [tabIndex, setTabIndex] = useState(0);
 
+  const [clubSchedules, setClubSchedules] = useState<Schedule[]>([]);
+
   const tabs = [
     { id: 1, title: '소개', path: `/club/${id}` },
     { id: 2, title: '경기정보', path: `/club/${id}/match` },
@@ -39,13 +43,32 @@ function ClubSchedule() {
   ];
 
   const subTabs: SubTab[] = [
-    { id: 1, title: '예정 경기', contents: <ScheduledMatch /> },
-    { id: 2, title: '지난 경기', contents: <PastMatch /> }
+    {
+      id: 1,
+      title: '예정 경기',
+      contents: (
+        <ScheduledMatch schedule={clubSchedules.filter((el) => new Date(el.date) >= new Date())} />
+      )
+    },
+    {
+      id: 2,
+      title: '지난 경기',
+      contents: (
+        <PastMatch schedule={clubSchedules.filter((el) => new Date(el.date) < new Date())} />
+      )
+    }
   ];
 
   const onClickTap = (idx: number) => {
     setTabIndex(idx);
   };
+
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/${id}/schedules`).then((data) => {
+      console.log(data);
+      setClubSchedules([...data]);
+    });
+  }, []);
   return (
     <S_Container>
       <Tabmenu tabs={tabs}></Tabmenu>
