@@ -2,6 +2,8 @@ package com.codestates.mainproject.group018.somojeon.schedule.controller;
 
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
@@ -37,7 +39,7 @@ public class ScheduleController {
                                        @Valid @RequestBody ScheduleDto.Post requestBody) {
         requestBody.addClubId(clubId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
@@ -51,14 +53,14 @@ public class ScheduleController {
                 HttpStatus.CREATED);
     }
 
-    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}")
-    public ResponseEntity patchSchedule(@PathVariable("club-id") @Positive long clubId,
+    @PutMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity putSchedule(@PathVariable("club-id") @Positive long clubId,
                                         @PathVariable("schedule-id") @Positive long scheduleId,
                                         @Valid @RequestBody ScheduleDto.Patch requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
@@ -96,7 +98,7 @@ public class ScheduleController {
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 

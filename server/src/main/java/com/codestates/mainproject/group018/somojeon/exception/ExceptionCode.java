@@ -29,7 +29,12 @@ public enum ExceptionCode {
     //TODO - DW 검토부탁드려요
     USER_CLUB_NOT_FOUND(404, "User club not found"),
     S3_FILE_NOT_FOUND(404, "S3 file not found"),
-    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club");
+    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
+    CLUB_SAVE_ERROR(400, "Club data error, please try again"),
+    USER_TEAM_SAVE_ERROR(400, "Team data error, please try again"),
+    CANDIDATE_SAVE_ERROR(400, "Candidate data error, please try again"),
+    RECORD_SAVE_ERROR(400, "Record data error, please try again"),
+    GENERAL_ERROR(400, "Data error, please try again");
 
 
 
