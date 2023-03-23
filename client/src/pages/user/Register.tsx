@@ -131,18 +131,21 @@ function Register() {
       delete userInfo.confirmPassword;
 
       const registerResponse = await postFetch(POST_URL, userInfo, tempTokens?.accessToken);
+      // ! post 요청 이후 서버가 일괄적으로 return url 쿼리 값으로 보내주도록 시도
 
       // * access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌
       if (registerResponse) {
-        dispatch(setIsLogin(true));
-        dispatch(setUserInfo(registerResponse.data.data));
-        dispatch(
-          setTokens({
-            accessToken: registerResponse.headers.authorization,
-            refreshToken: registerResponse.headers.refresh
-          })
-        );
-        navigate('/home');
+        // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)
+        // console.log(registerResponse);
+        // dispatch(setIsLogin(true));
+        // dispatch(setUserInfo(registerResponse.data.data));
+        // dispatch(
+        //   setTokens({
+        //     accessToken: registerResponse.headers.authorization,
+        //     refreshToken: registerResponse.headers.refresh
+        //   })
+        // );
+        // navigate('/home');
       }
     } else {
       console.log('일반 회원가입 요청');
@@ -157,7 +160,6 @@ function Register() {
       delete userInfo.confirmPassword;
 
       const registerResponse = await postFetch(POST_URL, userInfo);
-      console.log(registerResponse);
 
       // 회원가입 성공 후 로그인 post 요청 연달아 시도
       if (registerResponse) {
@@ -178,21 +180,20 @@ function Register() {
     const result = checkEmailValidation();
     if (!result) return;
 
-    console.log('post 요청');
     const POST_URL = `${process.env.REACT_APP_URL}/users/email`;
     const res = await postFetch(POST_URL, { email });
-    console.log(res);
 
     if (res) {
-      if (res.status === 200) {
+      // 중복 여부에 대한 확인 - true: 중복 / false: 중복 아님
+      if (res.headers.request === 'True') {
+        alert('이미 가입된 이메일 주소입니다.');
+        setIsEmailDuplicationChecked(false);
+      } else {
         alert('사용할 수 있는 이메일 주소입니다.');
         setIsEmailDuplicationChecked(true);
-      } else {
-        alert('이미 가입된 이메일 주소입니다.');
       }
     }
   };
-  // console.log(isEmailDuplicationChecked);
 
   return (
     <S_Container>
