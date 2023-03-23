@@ -5,7 +5,7 @@ import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
+
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -72,9 +72,6 @@ public class Club {
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<ClubTag> clubTagList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<Joins> joinsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
