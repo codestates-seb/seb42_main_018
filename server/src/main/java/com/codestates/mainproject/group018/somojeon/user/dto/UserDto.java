@@ -112,10 +112,8 @@ public class UserDto {
 
     @Getter
     @Setter
-    @Builder
     @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserClubResponse {
+    public static class UserInfoResponse {
 
         private Long userId;
         private String nickName;
