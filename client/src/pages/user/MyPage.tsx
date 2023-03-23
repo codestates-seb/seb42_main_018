@@ -6,6 +6,7 @@ import S_Container from '../../components/UI/S_Container';
 import { setIsLogin } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import getGlobalState from '../../util/authorization/getGlobalState';
+import EditProfile from './EditProfile';
 
 function MyPage() {
   // TODO : 유저프로필 구성
@@ -34,6 +35,7 @@ function MyPage() {
       <ClubYes />
       {/* 버튼 클릭시 로그아웃&메인페이지로 */}
       <S_ButtonBlack onClick={clickLogout}>로그아웃</S_ButtonBlack>
+      <EditProfile />
     </S_Container>
   );
 }
