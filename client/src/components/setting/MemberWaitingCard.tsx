@@ -31,14 +31,21 @@ const S_ButtonWrapper = styled.div`
 
 interface MemberWaitingCardProps {
   member: WaitingUser;
+  totalMembers: WaitingUser[];
+  setTotalMembers: React.Dispatch<React.SetStateAction<WaitingUser[]>>;
 }
 
 function MemberWaitingCard(props: MemberWaitingCardProps) {
   const { id } = useParams();
-  const acceptMember = () => {
-    axios.patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
-      joinStatus: 'CONFIRMED'
-    });
+  const acceptMember = async () => {
+    await axios
+      .patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+        joinStatus: 'CONFIRMED'
+      })
+      .then(() => {
+        const temp = [...props.totalMembers].filter((el) => el.joinStatus === 'PENDING');
+        props.setTotalMembers([...temp]);
+      });
   };
 
   const rejectMember = () => {
