@@ -154,7 +154,7 @@ public class UserService {
     public void verifyExistsEmail(String email, HttpServletResponse response) {
         Optional<User> user = userRepository.findByEmail(email);
         String answer = user.isPresent() ? "True" : "False";
-        response.addHeader("Reqeust", answer);
+        response.addHeader("Request", answer);
     }
 
     public boolean verifyMyUserId(HttpServletRequest request, Long userId){
