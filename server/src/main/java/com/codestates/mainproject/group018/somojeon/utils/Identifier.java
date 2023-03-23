@@ -75,8 +75,9 @@ public class Identifier {
     }
 
     public String getAccessToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").replace("Bearer ", "");;
+        String token = request.getHeader("Authorization");
         if(token == null) return null;
+        token = token.replace("Bearer ", "");
         // check verified access token
         Map<String, Object> claims = authService.getClaimsValues(token);
         String registration =  (String) claims.get("registration");
