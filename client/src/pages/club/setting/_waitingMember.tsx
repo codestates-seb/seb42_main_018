@@ -30,7 +30,12 @@ function WaitingMember() {
   return (
     <>
       {data?.map((el) => (
-        <MemberWaitingCard key={el.userInfo.userId} member={el} />
+        <MemberWaitingCard
+          key={el.userInfo.userId}
+          member={el}
+          totalMembers={data}
+          setTotalMembers={setData}
+        />
       ))}
     </>
   );
