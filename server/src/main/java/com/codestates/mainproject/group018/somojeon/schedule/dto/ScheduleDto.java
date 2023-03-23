@@ -24,8 +24,8 @@ public class ScheduleDto {
         private Long clubId;
 
         private String placeName;
-        private Double longitude;
-        private Double latitude;
+        private String longitude;
+        private String latitude;
 
         private List<Record> records;
         private List<Candidate> candidates;
@@ -48,8 +48,8 @@ public class ScheduleDto {
         private String time;
 
         private String placeName;
-        private Double longitude;
-        private Double latitude;
+        private String longitude;
+        private String latitude;
 
         private List<Record> records;
         private List<Candidate> candidates;
@@ -75,8 +75,8 @@ public class ScheduleDto {
         private String time;
         private LocalDateTime createdAt;
         private String placeName;
-        private Double longitude;
-        private Double latitude;
+        private String longitude;
+        private String latitude;
         private List<TeamDto.Response> teams;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;

@@ -64,6 +64,7 @@ public class ScheduleService {
             // candidate 정보 저장
             for (Candidate candidate : candidates) {
                 candidate.setSchedule(schedule);
+                candidate.setAttendance(Candidate.Attendance.ATTEND);
                 candidateRepository.save(candidate);
             }
 
