@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MemberWaitingCard from '../../../components/setting/MemberWaitingCard';
@@ -17,11 +18,12 @@ export interface WaitingUser {
 }
 
 function WaitingMember() {
-  const [data, setData] = useState<WaitingUser[]>();
+  const [data, setData] = useState<WaitingUser[]>([]);
   // const data: WaitingUser[] = [];
   const { id } = useParams();
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((data) => setData([...data]));
+    axios.get(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((res) => setData(res.data));
+    // getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`);
   }, []);
   return (
     <>
