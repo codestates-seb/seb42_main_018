@@ -50,10 +50,10 @@ public class Record {
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "record")
+    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "record")
+    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {
