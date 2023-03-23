@@ -31,7 +31,7 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<UserTeam> userTeams = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {
