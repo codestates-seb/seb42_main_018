@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_EditButton } from '../UI/S_Button';
 import { S_Label, S_SmallDescription } from '../UI/S_Text';
-import { userInfoType } from '../../store/store';
+import { UserInfoType } from '../../store/store';
 
 const S_profileBox = styled.div`
   // 전체 컨테이너
@@ -25,7 +25,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   background-image: url(${(props) => props.img});
 `;
 
-function UserProfile({ userId, email, nickName, userStatus }: userInfoType) {
+function UserProfile({ userId, email, nickName, userStatus }: UserInfoType) {
   // TODO : 받아온 유저 프로필 정보 뿌려주기
   // TODO : 필요정보 -> 프로필이미지, 별명
   const navigate = useNavigate();
