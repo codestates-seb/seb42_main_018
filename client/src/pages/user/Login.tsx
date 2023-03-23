@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
-import { handleKakaoLogin } from '../../util/snsLoginLogic';
+import { handleKakaoLogin } from '../../util/authorization/handleSnsLogin';
 import { useLoginRequestLogic } from '../../util/authorization/useLoginRequestLogic';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import getGlobalState from '../util/authorization/getGlobalState';
 import logo from '../assets/logo.svg';
 import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
@@ -18,11 +17,11 @@ const HeaderContainer = styled.header`
   background: var(--white);
   border-bottom: 1px solid var(--gray100);
   z-index: 100;
-
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  
   img {
     height: 28px;
     margin-top: 6px;
@@ -39,13 +38,7 @@ const IconContainer = styled.div`
 `;
 
 function Header() {
-  const { isLogin } = getGlobalState();
   const navigate = useNavigate();
-
-  const handleMyPageIcon = () => {
-    if (isLogin) navigate('/mypage');
-    else navigate('/login');
-  };
 
   return (
     <HeaderContainer>
@@ -57,7 +50,7 @@ function Header() {
         <button>
           <img src={search} alt='검색 아이콘' />
         </button>
-        <button onClick={handleMyPageIcon}>
+        <button onClick={() => navigate('/mypage')}>
           <img src={mypage} alt='마이페이지 아이콘' />
         </button>
       </IconContainer>

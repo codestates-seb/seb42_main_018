@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { handleKakaoLogin } from '../../util/snsLoginLogic';
+import { handleKakaoLogin } from '../../util/authorization/handleSnsLogin';
 import alertPreparingService from '../../util/alertPreparingService';
 import { ModalBackdrop, ModalContainer } from '../../components/UI/S_Modal';
 import { S_Label } from '../../components/UI/S_Text';
 import { S_EditButton } from '../../components/UI/S_Button';
 import logo from '../../assets/logo.svg';
+import kakaoLogo from '../../assets/login_kakao.svg';
+import naverLogo from '../../assets/login_naver.svg';
 
 const S_RegisterModalContainer = styled(ModalContainer)`
   height: 220px;
@@ -30,10 +32,10 @@ const S_SnsButtonBox = styled.div`
     border-radius: 50%;
   }
   & .kakao {
-    background-color: var(--kakao-main-theme);
+    background-image: url(${kakaoLogo});
   }
   & .naver {
-    background-color: var(--naver-main-theme);
+    background-image: url(${naverLogo});
   }
 `;
 

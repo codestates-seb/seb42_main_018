@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
@@ -57,9 +58,9 @@ public class UserController {
 
     @PostMapping("/email")
     public ResponseEntity checkUserEmail(@Valid @RequestBody UserDto.Post userDtoPost,
-                                   HttpServletRequest request){
+                                   HttpServletResponse response){
         User user =  userMapper.userPostToUser(userDtoPost);
-        userService.verifyExistsEmail(user.getEmail());
+        userService.verifyExistsEmail(user.getEmail(), response);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }

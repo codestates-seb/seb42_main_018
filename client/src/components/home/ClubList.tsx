@@ -71,8 +71,8 @@ function ClubList({
           <S_Description color='var(--gray600)'>{content}</S_Description>
         </S_Hidden>
         <div>
-          {tagResponseDtos.map((e) => (
-            <S_TagSmall key={e.tagId}>{e.tagName}</S_TagSmall>
+          {tagResponseDtos.map((el) => (
+            <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
           ))}
         </div>
       </S_ContentsBox>

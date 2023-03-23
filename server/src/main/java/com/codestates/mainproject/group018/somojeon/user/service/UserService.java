@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -145,8 +146,15 @@ public class UserService {
 
     public void verifyExistsEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent())
-            throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXIT);
+        if(user.isPresent()){
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+        }
+    }
+
+    public void verifyExistsEmail(String email, HttpServletResponse response) {
+        Optional<User> user = userRepository.findByEmail(email);
+        String answer = user.isPresent() ? "True" : "False";
+        response.addHeader("Request", answer);
     }
 
     public boolean verifyMyUserId(HttpServletRequest request, Long userId){
