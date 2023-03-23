@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import alertPreparingService from '../../util/alertPreparingService';
@@ -47,6 +47,8 @@ export const S_InstructionWrapper = styled.div`
 
 function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnUrl = searchParams.get('returnUrl'); // 바로 디코딩해줌. query string이 없으면 null
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -88,11 +90,12 @@ function Login() {
 
     if (!isValidEmail || !isValidPassword) return;
 
-    // 서버에 로그인 post 요청 및 전역 상태 설정
+    // * 서버에 로그인 post 요청 및 전역 상태 설정
     const res = await handleLogin(inputs);
 
     if (res) {
-      navigate('/home');
+      if (returnUrl) navigate(returnUrl, { replace: true });
+      else navigate('/home');
     }
   };
   // console.log(inputs);
