@@ -2,18 +2,29 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 export interface RootState {
   isLogin: boolean;
-  userInfo: userInfoType;
-  tokens: jwtTokensType;
+  userInfo: UserInfoType;
+  tokens: JwtTokensType;
 }
 
-export interface userInfoType {
+export interface UserClubResponsesType {
+  userClubId: number;
+  isPlayer: boolean;
+  clubRole: string;
+  playCount: number;
+  winCount: number;
+  winRate: number;
+}
+export interface UserInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;
   userStatus: string;
+  // TODO: MyPage 컴포넌트 수정 후 optional ? 제거
+  profileImage: string;
+  userClubResponses?: UserClubResponsesType[];
 }
 
-export interface jwtTokensType {
+export interface JwtTokensType {
   accessToken: string;
   refreshToken: string;
 }
@@ -28,11 +39,13 @@ const isLogin = createSlice({
 });
 
 // 전역상태 #2. 로그인한 사용자의 정보
-const userInitialState: userInfoType = {
+const userInitialState: UserInfoType = {
   userId: undefined,
   email: '',
   nickName: '',
-  userStatus: ''
+  userStatus: '',
+  profileImage: '',
+  userClubResponses: []
 };
 
 const userInfo = createSlice({
@@ -44,7 +57,7 @@ const userInfo = createSlice({
 });
 
 // 전역상태 #3. 로그인한 사용자의 jwt 토큰
-const tokensInitialState: jwtTokensType = {
+const tokensInitialState: JwtTokensType = {
   accessToken: '',
   refreshToken: ''
 };
