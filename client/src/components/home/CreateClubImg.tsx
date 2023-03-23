@@ -21,16 +21,16 @@ const S_Plusbutton = styled.div`
 
 function CreateClubImg() {
   return (
-    <S_ImgBox>
-      <S_Label color='var(--white)'>
-        마음에 드는 소모임이 없나요?
-        <br />
-        직접 소모임을 만들어 보세요!
-      </S_Label>
-      <Link to='/club/create'>
+    <Link to='/club/create'>
+      <S_ImgBox>
+        <S_Label color='var(--white)'>
+          마음에 드는 소모임이 없나요?
+          <br />
+          직접 소모임을 만들어 보세요!
+        </S_Label>
         <S_Plusbutton>+</S_Plusbutton>
-      </Link>
-    </S_ImgBox>
+      </S_ImgBox>
+    </Link>
   );
 }
 
