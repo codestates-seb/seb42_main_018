@@ -91,7 +91,7 @@ public class ScheduleService {
             throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
         }
 
-        return scheduleRepository.save(schedule);
+        return schedule;
     }
 
     public Schedule updateSchedule(Schedule schedule, List<Record> records,
