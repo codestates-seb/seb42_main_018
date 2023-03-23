@@ -32,7 +32,7 @@ public enum ExceptionCode {
     ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
     EMAIL_ALREADY_EXIT(1000, "Same email already exits"),
     CLUB_SAVE_ERROR(400, "Club data error, please try again"),
-    USER_TEAM_SAVE_ERROR(400, "Team data error, please try again"),
+    TEAM_SAVE_ERROR(400, "Team data error, please try again"),
     CANDIDATE_SAVE_ERROR(400, "Candidate data error, please try again"),
     RECORD_SAVE_ERROR(400, "Record data error, please try again"),
     GENERAL_ERROR(400, "Data error, please try again");

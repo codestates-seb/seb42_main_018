@@ -1,11 +1,11 @@
 package com.codestates.mainproject.group018.somojeon.team.service;
 
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
+import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,20 +20,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
-    private final UserService userService;
-    private final RecordService recordService;
+    private final ScheduleService scheduleService;
+    private final ClubService clubService;
 
-    public Team createTeam(Team team) {
-//        User user = new User();
-//        Record record = new Record();
-//        userService.findVerifiedUser(user.getUserId());
-//        recordService.findVerifiedRecord(record.getRecordId());
+    public Team createTeam(Team team, long clubId, long scheduleId) {
+        scheduleService.findVerifiedSchedule(scheduleId);
+        clubService.findVerifiedClub(clubId);
 
         return teamRepository.save(team);
     }
 
-    public Team updateTeam(Team team) {
+    public Team updateTeam(Team team, long clubId, long scheduleId) {
         Team findTeam = findVerifiedTeam(team.getTeamId());
+        clubService.findClub(clubId);
+        scheduleService.findSchedule(scheduleId);
 
         Optional.ofNullable(team.getScore())
                 .ifPresent(findTeam::setScore);
@@ -43,16 +43,20 @@ public class TeamService {
         return teamRepository.save(findTeam);
     }
 
-    public Team findTeam(long teamId) {
+    public Team findTeam(long teamId, long clubId, long scheduleId) {
+        clubService.findClub(clubId);
+        scheduleService.findSchedule(scheduleId);
         return findVerifiedTeam(teamId);
     }
 
-    public Page<Team> findTeams(int page, int size) {
+    public Page<Team> findTeams(long clubId, long scheduleId, int page, int size) {
+        clubService.findClub(clubId);
+        scheduleService.findSchedule(scheduleId);
         return teamRepository.findAll(PageRequest.of(page, size, Sort.by("teamId").ascending()));
     }
 
-    public void deleteTeam(long teamId) {
-        Team findTeam = findTeam(teamId);
+    public void deleteTeam(long teamId, long clubId, long scheduleId) {
+        Team findTeam = findTeam(teamId, clubId, scheduleId);
 
         teamRepository.delete(findTeam);
     }
