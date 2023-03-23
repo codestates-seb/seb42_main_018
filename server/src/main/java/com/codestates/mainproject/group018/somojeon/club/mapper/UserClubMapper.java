@@ -53,7 +53,7 @@ public interface UserClubMapper {
 
     UserClub joinDecisionPatchToUserClub(UserClubDto.JoinDecisionPatch requestBody);
 
-    default UserClubDto.JoinResponse userClubToJoinResponse(UserClub userClub, UserMapper userMapper, ImageMapper imageMapper) {
+    default UserClubDto.JoinResponse userClubToJoinResponse(UserClub userClub) {
 
         if (userClub == null) {
             return null;
@@ -62,23 +62,50 @@ public interface UserClubMapper {
         UserClubDto.JoinResponse joinResponse = new UserClubDto.JoinResponse();
         joinResponse.setUserClubId(userClub.getUserClubId());
         joinResponse.setContent(userClub.getContent());
-        userMapper.userToUserClubResponse(userClub.getUser(), imageMapper);
+        joinResponse.setJoinStatus(userClub.getJoinStatus());
+        joinResponse.setUserInfo(userToUserInfoResponse(userClub.getUser()));
 
         return joinResponse;
     }
 
-    default List<UserClubDto.JoinResponse> userClubsToJoinResponses(List<UserClub> userClubList, UserMapper userMapper, ImageMapper imageMapper) {
+    default List<UserClubDto.JoinResponse> userClubsToJoinResponses(List<UserClub> userClubList) {
         if ( userClubList == null ) {
             return null;
         }
 
         List<UserClubDto.JoinResponse> list = new ArrayList<UserClubDto.JoinResponse>( userClubList.size() );
         for ( UserClub userClub : userClubList ) {
-            list.add( userClubToJoinResponse( userClub, userMapper, imageMapper) );
+            list.add( userClubToJoinResponse( userClub ) );
         }
 
         return list;
     }
+
+    default UserDto.UserInfoResponse userToUserInfoResponse(User user) {
+
+        UserDto.UserInfoResponse userInfoResponse = new UserDto.UserInfoResponse();
+        userInfoResponse.setUserId(user.getUserId());
+        userInfoResponse.setEmail(user.getEmail());
+        userInfoResponse.setNickName(user.getNickName());
+        userInfoResponse.setProfileImage(imagesToImagesResponseDto(user.getImages()));
+
+        return userInfoResponse;
+    }
+
+    default ImagesResponseDto imagesToImagesResponseDto(Images images) {
+        if ( images == null ) {
+            return null;
+        }
+
+        ImagesResponseDto response = new ImagesResponseDto();
+
+        response.setImageId(images.getImageId());
+        response.setFileName(images.getFileName());
+        response.setUrl(images.getUrl());
+
+        return response;
+    }
+
 
 
     // TODO-JH : 제훈님 여기꺼 갖다 쓰셔도 될꺼같습니다. ClubMapper 말구요~
@@ -91,7 +118,7 @@ public interface UserClubMapper {
     };
 
 
-    default UserClubDto.UserClubMemberResponse userClubToUserClubMemberResponse(UserClub userClub, UserMapper userMapper, ImageMapper imageMapper) {
+    default UserClubDto.UserClubMemberResponse userClubToUserClubMemberResponse(UserClub userClub) {
         if (userClub == null) {
             return null;
         }
@@ -101,18 +128,17 @@ public interface UserClubMapper {
         userClubMemberResponse.setUserClubId(userClub.getUserClubId());
         userClubMemberResponse.setClubMemberStatus(userClub.getClubMemberStatus());
         userClubMemberResponse.setClubRole(userClub.getClubRole());
-        userMapper.userToUserClubResponse(userClub.getUser(), imageMapper);
 
         return userClubMemberResponse;
     }
-    default List<UserClubDto.UserClubMemberResponse> userClubsToUserClubMembersResponses(List<UserClub> userClubList, UserMapper userMapper, ImageMapper imageMapper) {
+    default List<UserClubDto.UserClubMemberResponse> userClubsToUserClubMembersResponses(List<UserClub> userClubList) {
         if ( userClubList == null ) {
             return null;
         }
 
         List<UserClubDto.UserClubMemberResponse> list = new ArrayList<UserClubDto.UserClubMemberResponse>( userClubList.size() );
         for ( UserClub userClub : userClubList ) {
-            list.add( userClubToUserClubMemberResponse(userClub, userMapper, imageMapper));
+            list.add( userClubToUserClubMemberResponse(userClub));
         }
 
         return list;
