@@ -230,6 +230,7 @@ function CreateMatch() {
       copiedRecords.push(temp);
     });
     setRecords(copiedRecords);
+    setRequestData(date, time, placeValue, candidates, teamList, records);
   };
 
   const saveMatchData = () => {
@@ -237,7 +238,10 @@ function CreateMatch() {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
-    updateRecord();
+    // updateRecord();
+    postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
+      console.log(res)
+    );
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -245,11 +249,8 @@ function CreateMatch() {
   }
 
   useEffect(() => {
-    setRequestData(date, time, placeValue, candidates, teamList, records);
-    postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
-      console.log(res)
-    );
-  }, [records]);
+    // setRequestData(date, time, placeValue, candidates, teamList, records);
+  }, []);
 
   return (
     <S_Container onClick={() => setIsOpenAddMember(false)}>
@@ -370,6 +371,7 @@ function CreateMatch() {
       <div>
         <S_Button
           onClick={() => {
+            updateRecord();
             saveMatchData();
           }}
         >
