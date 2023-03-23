@@ -47,9 +47,9 @@ public interface ScheduleMapper {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(userTeam.getTeam().getTeamId());
 
-                    List<UserTeam> teamUsers = userTeam.getUser().getUserTeamList();
-                    List<User> users = teamUsers.stream()
-                            .map(teamUser -> teamUser.getUser())
+                    List<UserTeam> teams = userTeam.getUser().getUserTeamList();
+                    List<User> users = teams.stream()
+                            .map(team -> team.getUser())
                             .collect(Collectors.toList());
 
                     response.setUsers(userMapper.usersToUserResponses(users));
@@ -63,7 +63,6 @@ public interface ScheduleMapper {
         return records.stream()
                 .map(record -> {
                     RecordDto.Response response = new RecordDto.Response();
-                    response.setScheduleId(record.getSchedule().getScheduleId());
                     response.setRecordId(record.getRecordId());
                     response.setCreatedAt(record.getCreatedAt());
                     response.setFirstTeam(record.getFirstTeam());
@@ -82,8 +81,6 @@ public interface ScheduleMapper {
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
                     response.setCandidateId(candidate.getCandidateId());
-                    response.setScheduleId(candidate.getSchedule().getScheduleId());
-                    response.setUserId(candidate.getUser().getUserId());
                     response.setNickName(candidate.getUser().getNickName());
                     response.setAttendance(candidate.getAttendance());
 
