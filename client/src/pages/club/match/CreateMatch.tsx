@@ -111,27 +111,6 @@ function CreateMatch() {
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
 
-  const setRequestData = (
-    date: string | undefined,
-    time: string | undefined,
-    place: PlaceType | undefined,
-    candidates: string[],
-    teams: TeamList[],
-    records: Record[]
-  ) => {
-    const data = {
-      date,
-      time,
-      placeName: place?.place_name,
-      longitude: place?.y,
-      latitude: place?.x,
-      candidates: candidates?.length !== 0 ? candidates : [],
-      teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
-      records: records.length !== 0 ? records : []
-    };
-    setMatchData(data);
-  };
-
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
   };
@@ -147,10 +126,6 @@ function CreateMatch() {
   const mapViewModalHandler = () => {
     if (!placeValue) return;
     setIsOpenMapView(!isOpenMapView);
-  };
-
-  const confirmHandler = () => {
-    setIsOpenConfirm(!isOpenConfirm);
   };
 
   const openAddMemberHandler = () => {
@@ -249,8 +224,8 @@ function CreateMatch() {
       date,
       time,
       placeName: placeValue?.place_name,
-      longitude: placeValue?.y,
-      latitude: placeValue?.x,
+      longitude: Number(placeValue?.y),
+      latitude: Number(placeValue?.x),
       candidates: candidates?.length !== 0 ? candidates : [],
       teamList: !(teamList?.length === 1 && teamList[0].members.length === 0) ? teamList : [],
       records: records.length !== 0 ? records : []
