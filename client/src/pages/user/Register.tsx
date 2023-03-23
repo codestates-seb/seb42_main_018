@@ -7,14 +7,13 @@ import {
   RegisterUserInputType,
   useLoginRequestLogic
 } from '../../util/authorization/useLoginRequestLogic';
-import { jwtTokensType } from '../../store/store';
+import { jwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
 import { S_Input } from '../../components/UI/S_Input';
-import { S_Button, S_EditButton } from '../../components/UI/S_Button';
+import { S_Button, S_EditButton, S_SelectButton } from '../../components/UI/S_Button';
 import { useDispatch } from 'react-redux';
-import { setIsLogin, setTokens, setUserInfo } from '../../store/store';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
   & .title-wrapper {
@@ -27,6 +26,15 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+  }
+  & .email-input-area {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    & > input {
+      margin: 0 0.8rem 0 0;
+    }
   }
   & .register-btn {
     margin-top: 1vh;
@@ -75,6 +83,7 @@ function Register() {
     }
   }, []);
 
+  const [isEmailDuplicationChecked, setIsEmailDuplicationChecked] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
@@ -84,12 +93,38 @@ function Register() {
   const POST_URL = `${process.env.REACT_APP_URL}/users`;
   const dispatch = useDispatch();
 
+  const checkEmailValidation = () => {
+    const isValidEmail = checkEmail(email);
+    if (!isValidEmail) setEmailError(true);
+    else setEmailError(false);
+
+    return isValidEmail;
+  };
+
+  const checkPasswordValidation = () => {
+    const isValidPassword = checkPassword(password);
+
+    if (!isValidPassword) setPasswordError(true);
+    else setPasswordError(false);
+
+    if (password !== confirmPassword) setConfirmPasswordError(true);
+    else setConfirmPasswordError(false);
+
+    return isValidPassword;
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isEmailDuplicationChecked) {
+      alert('먼저 이메일 중복 확인을 해주세요');
+      return;
+    }
 
     const userInfo: RegisterUserInputType = { ...inputs };
 
     if (isFromOauthLogin) {
+      console.log('카톡 회원가입 요청');
+
       if (!email || !nickName) return;
 
       delete userInfo.password;
@@ -110,26 +145,19 @@ function Register() {
         navigate('/home');
       }
     } else {
+      console.log('일반 회원가입 요청');
       if (!email || !password || !confirmPassword || !nickName) return;
+
       // 이메일 & 비밀번호 유효성 검사
-      const isValidEmail = checkEmail(email);
-      const isValidPassword = checkPassword(password);
-
-      if (!isValidEmail) setEmailError(true);
-      else setEmailError(false);
-
-      if (!isValidPassword) setPasswordError(true);
-      else setPasswordError(false);
-
-      if (password !== confirmPassword) setConfirmPasswordError(true);
-      else setConfirmPasswordError(false);
-
-      if (!isValidEmail || !isValidPassword) return;
+      const result1 = checkEmailValidation();
+      const result2 = checkPasswordValidation();
+      if (!result1 || !result2) return;
 
       // 서버에 회원가입 post 요청
       delete userInfo.confirmPassword;
 
       const registerResponse = await postFetch(POST_URL, userInfo);
+      console.log(registerResponse);
 
       // 회원가입 성공 후 로그인 post 요청 연달아 시도
       if (registerResponse) {
@@ -140,7 +168,31 @@ function Register() {
     }
   };
 
-  // TODO: 이메일, 닉네임 중복 검사 요청
+  const checkEmailDuplication = async () => {
+    if (!email) {
+      alert('이메일 주소를 먼저 입력해 주세요.');
+      return;
+    }
+
+    // 이메일 유효성 검사
+    const result = checkEmailValidation();
+    if (!result) return;
+
+    console.log('post 요청');
+    const POST_URL = `${process.env.REACT_APP_URL}/users/email`;
+    const res = await postFetch(POST_URL, { email });
+    console.log(res);
+
+    if (res) {
+      if (res.status === 200) {
+        alert('사용할 수 있는 이메일 주소입니다.');
+        setIsEmailDuplicationChecked(true);
+      } else {
+        alert('이미 가입된 이메일 주소입니다.');
+      }
+    }
+  };
+  // console.log(isEmailDuplicationChecked);
 
   return (
     <S_Container>
@@ -148,22 +200,32 @@ function Register() {
         <div className='title-wrapper'>
           <Link to='/'>
             <S_Title>소모전 로그인하기</S_Title>
-          </Link>{' '}
+          </Link>
         </div>
         <form onSubmit={onSubmit}>
           <div className='form-wrapper'>
-            <div>
+            <div className='email-box'>
               <label htmlFor='email'>
                 <S_Label>이메일</S_Label>
               </label>
-              <S_Input
-                id='email'
-                name='email'
-                type='text'
-                width='96%'
-                value={email}
-                onChange={onChange}
-              />
+              <div className='email-input-area'>
+                <S_Input
+                  id='email'
+                  name='email'
+                  type='text'
+                  width='96%'
+                  value={email}
+                  onChange={onChange}
+                />
+                <S_SelectButton
+                  type='button'
+                  width='auto'
+                  style={{ whiteSpace: 'nowrap' }}
+                  onClick={checkEmailDuplication}
+                >
+                  중복 확인
+                </S_SelectButton>
+              </div>
 
               {emailError && (
                 <S_Description color={'var(--red100)'}>
