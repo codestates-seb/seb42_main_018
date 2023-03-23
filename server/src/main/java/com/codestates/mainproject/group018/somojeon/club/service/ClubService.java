@@ -13,11 +13,11 @@ import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +39,6 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
-//    private final Identifier identifier;
 
     // 소모임 생성 (일반유저 모두 가능)
     public Club createClub(Club club, List<String> tagName, Long profileImageId) {
@@ -62,6 +60,9 @@ public class ClubService {
 //        else {
 //            club.getImages().setUrl(defaultClubImage);
 //        }
+        // 리더 권한 추가.
+//        club.getUserClubList().stream().forEach(userClub -> userClub.setClubRole(ClubRole.LEADER));
+        club.setClubRole(ClubRole.LEADER);
 
         return clubRepository.save(club);
     }
@@ -122,11 +123,6 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-//    // 소모임 전체 스케줄 조회
-//    public Page<Schedule> findSchedulesByClub(long clubId, String clubName, int page, int size) {
-//        findVerifiedClub(clubId);
-//        return clubRepository.findSchedulesByClubName(clubName, PageRequest.of(page, size, Sort.by("scheduleId")));
-//    }
 
     public void deleteClub(Long clubId) {
         //TODO-DW: 리더 인지 검증
@@ -168,32 +164,32 @@ public class ClubService {
      //소모임 회원 등급 설정
 
      //소모임 회원 등급 설정 (리더와 매니저만 가능)
-    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
-
-//        identifier.checkClubRole(userClub.getUserClubId());
-
-        switch (clubRole) {
-            case "Manager" : userClub.getClubRole().setRoles("Manager");
-            default : userClub.getClubRole().setRoles("Member");
-        }
-
-        return userClubRepository.save(userClub);
-    }
+//    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
+//
+////        identifier.checkClubRole(userClub.getUserClubId());
+//
+//        switch (clubRole) {
+//            case "Manager" : userClub.getClubRole().setRoles("Manager");
+//            default : userClub.getClubRole().setRoles("Member");
+//        }
+//
+//        return userClubRepository.save(userClub);
+//    }
 
     //    //TODO-DW: UserClub DI - ClubRole
     // 소모임 리더 위임 (리더만 가능)
-    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
-        if (!userClub.getClubRole().getRoles().equals("Leader")) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-        }
-
-        if (clubRole.equals("Leader")) {
-            Long userId = userClub.getUser().getUserId();
-
-
-        }
-        return null;
-    }
+//    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
+//        if (!userClub.getClubRole().getRoles().equals("Leader")) {
+//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+//        }
+//
+//        if (clubRole.equals("Leader")) {
+//            Long userId = userClub.getUser().getUserId();
+//
+//
+//        }
+//        return null;
+//    }
 
 
     //TODO-DW: user 연결해야됨

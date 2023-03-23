@@ -1,6 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
+import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
 import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.Getter;
@@ -31,8 +33,18 @@ public class UserClub {
 
     private float winRate;
 
+    private String content;
+
+    private int joinCount;
+
     @Enumerated(value = EnumType.STRING)
-    private ClubRole clubRole;
+    JoinStatus joinStatus;
+
+    @Enumerated(value = EnumType.STRING)
+    ClubMemberStatus clubMemberStatus;
+
+    @Enumerated(value = EnumType.STRING)
+    ClubRole clubRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")

@@ -4,18 +4,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 
-public enum ClubMemberStatus {
-
-    MEMBER_ACTIVE("MEMBER ACTIVE"),
-    MEMBER_BLACKED("MEMBER BLACKED"),
-    MEMBER_BANISHED("MEMBER BANISHED"),
-    MEMBER_QUIT("MEMBER QUIT");
+public enum JoinStatus {
+    PENDING("PENDING"),
+    CONFIRMED("CONFIRMED"),
+    REFUSED("REFUSED"),
+    BANISHED("BANISHED");
 
     @Setter
     @Getter
     String status;
 
-    ClubMemberStatus(String status) {
+    JoinStatus(String status) {
         this.status = status;
     }
 

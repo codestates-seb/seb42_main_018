@@ -5,7 +5,6 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
 import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.AllArgsConstructor;
@@ -46,9 +45,6 @@ public class User extends Auditable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_ID")
     private Images images;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Joins> joinsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
