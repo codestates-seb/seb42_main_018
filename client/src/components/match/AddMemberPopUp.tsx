@@ -13,7 +13,7 @@ interface AddMemberPopUpProps {
   setIsOpenAddMember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const S_PopupContainer = styled.div<{ top?: number, left?: number}>`
+const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
   /* display: grid;
   row-gap: 3px;
   grid-template-columns: repeat(4, 1fr); */
@@ -23,8 +23,8 @@ const S_PopupContainer = styled.div<{ top?: number, left?: number}>`
   border-radius: 5px;
   z-index: 9;
   background-color: var(--white);
-  top: ${(props) => props.top ? props.top + 20 : 0}px;
-  left: ${(props) => props.left ? props.left - 300 : 0}px;
+  top: ${(props) => (props.top ? props.top + 20 : 0)}px;
+  left: ${(props) => (props.left ? props.left - 300 : 0)}px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
@@ -53,7 +53,6 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
             <S_NameTag
               key={idx}
               onClick={() => {
-                
                 // addTeamMember(member, idx, props.teamList, props.setTeamList);
 
                 //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
@@ -64,11 +63,9 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
                 props.setTeamList([...copiedTeamList]);
 
                 //클릭한 멤버를 후보 멤버리스트에서 빼주는 기능
-                const copiedCandidateList = [...props.candidateList]; 
+                const copiedCandidateList = [...props.candidateList];
                 copiedCandidateList.splice(idx, 1);
                 props.setCandidateList(copiedCandidateList);
-
-                
               }}
             >
               {member}+

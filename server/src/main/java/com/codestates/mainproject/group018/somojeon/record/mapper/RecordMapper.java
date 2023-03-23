@@ -11,7 +11,6 @@ import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +28,7 @@ public interface RecordMapper {
         return RecordDto.Response
                 .builder()
                 .recordId(record.getRecordId())
+                .scheduleId(record.getSchedule().getScheduleId())
                 .createdAt(record.getCreatedAt())
                 .firstTeam(record.getFirstTeam())
                 .firstTeamScore(record.getFirstTeamScore())

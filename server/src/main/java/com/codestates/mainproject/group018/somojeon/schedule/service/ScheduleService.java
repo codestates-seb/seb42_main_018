@@ -61,11 +61,13 @@ public class ScheduleService {
         return findVerifiedSchedule(scheduleId);
     }
 
-    public Page<Schedule> findSchedules(int page, int size) {
-        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId").descending()));
+    public Page<Schedule> findSchedules(long clubId, int page, int size) {
+        clubService.findVerifiedClub(clubId);
+        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
-    public void deleteSchedule(long scheduleId) {
+    public void deleteSchedule(long scheduleId, long clubId) {
+        clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findSchedule(scheduleId);
 
         scheduleRepository.delete(findSchedule);

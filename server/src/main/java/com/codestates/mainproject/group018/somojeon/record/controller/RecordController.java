@@ -24,26 +24,35 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/records")
+@RequestMapping
 @RequiredArgsConstructor
 public class RecordController {
     private final RecordService recordService;
     private final RecordMapper recordMapper;
     private final UserMapper userMapper;
 
-    @PostMapping
-    public ResponseEntity postRecord(@Valid @RequestBody RecordDto.Post requestBody) {
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/records")
+    public ResponseEntity postRecord(@PathVariable("club-id") @Positive long clubId,
+                                     @PathVariable("schedule-id") @Positive long scheduleId,
+                                     @Valid @RequestBody RecordDto.Post requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+
         Record record = recordMapper.recordPostDtoToRecord(requestBody);
 
-        Record createdRecord = recordService.createRecord(record);
+        Record createdRecord = recordService.createRecord(record, clubId, scheduleId);
         URI location = UriCreator.createUri("/records", createdRecord.getRecordId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{record-id}")
-    public ResponseEntity patchRecord(@PathVariable("record-id") @Positive long recordId,
+    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}/records/{record-id}")
+    public ResponseEntity patchRecord(@PathVariable("club-id") @Positive long clubId,
+                                      @PathVariable("schedule-id") @Positive long scheduleId,
+                                      @PathVariable("record-id") @Positive long recordId,
                                       @Valid @RequestBody RecordDto.Patch requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
         requestBody.addRecordId(recordId);
 
         Record record = recordService.updateRecord(recordMapper.recordPatchDtoToRecord(requestBody));
@@ -52,27 +61,24 @@ public class RecordController {
                 new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record, userMapper)), HttpStatus.OK);
     }
 
-    @GetMapping("/{record-id}")
-    public ResponseEntity getRecord(@PathVariable("record-id") @Positive long recordId) {
-        Record record = recordService.findRecord(recordId);
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/records")
+    public ResponseEntity getRecords(@PathVariable("club-id") @Positive long clubId,
+                                               @PathVariable("schedule-id") @Positive long scheduleId,
+                                               @RequestParam("page") int page,
+                                               @RequestParam("size") int size) {
+        Page<Record> recordPage = recordService.findRecords(clubId, scheduleId, page - 1, size);
+        List<Record> records = recordPage.getContent();
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(recordMapper.recordToRecordResponseDto(record, userMapper)), HttpStatus.OK);
+                new MultiResponseDto<>(recordMapper.recordsToRecordResponseDtos(records), recordPage),
+                HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getRecords(@RequestParam("page") int page,
-                                     @RequestParam("size") int size) {
-        Page<Record> pageRecords = recordService.findRecords(page - 1, size);
-        List<Record> records = pageRecords.getContent();
-
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(recordMapper.recordsToRecordResponseDtos(records), pageRecords), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{record-id}")
-    public ResponseEntity deleteRecord(@PathVariable("record-id") @Positive long recordId) {
-        recordService.deleteRecord(recordId);
+    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}/records/{record-id}")
+    public ResponseEntity deleteRecord(@PathVariable("club-id") @Positive long clubId,
+                                       @PathVariable("schedule-id") @Positive long scheduleId,
+                                       @PathVariable("record-id") @Positive long recordId) {
+        recordService.deleteRecord(recordId, clubId, scheduleId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.comment.mapper.CommentMapper
 import com.codestates.mainproject.group018.somojeon.comment.service.CommentService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +31,7 @@ public class CommentController {
     private final Identifier identifier;
     private final UserService userService;
 
+    // TODO-ET: identifier 구현
     @PostMapping("/records/{record-id}/comments")
     public ResponseEntity postComment(@PathVariable("record-id") @Positive long recordId,
                                       @Valid @RequestBody CommentDto.Post requestBody) {
@@ -55,8 +54,8 @@ public class CommentController {
         requestBody.addRecordId(recordId);
         requestBody.addCommentId(commentId);
 
-        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(requestBody));
 
@@ -88,8 +87,8 @@ public class CommentController {
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);
 
-        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

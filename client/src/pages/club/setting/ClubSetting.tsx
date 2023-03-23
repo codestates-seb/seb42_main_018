@@ -12,7 +12,15 @@ function ClubSetting() {
       </S_Label>
       <S_Label fontSize='1.1rem'>회원 관리</S_Label>
       <S_Label fontSize='1.1rem'>가입 대기중인 회원</S_Label>
-      <hr style={{ display: 'block', width: '100%', height: '1px', border: '0', borderTop: '1px solid var(--gray200)' }} />
+      <hr
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '1px',
+          border: '0',
+          borderTop: '1px solid var(--gray200)'
+        }}
+      />
       <S_Label fontSize='1.1rem'>소모임장 위임</S_Label>
       <S_Label fontSize='1.1rem' color='var(--red100)'>
         소모임 해체

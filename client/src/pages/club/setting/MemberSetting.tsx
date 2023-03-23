@@ -20,28 +20,30 @@ function MemberSetting() {
   const navigate = useNavigate();
   const [tabIndex, setTabIndex] = useState(0);
   const tabs: Tab[] = [
-    { id: 1, title: '전체 멤버 목록', contents: <TotalMember/>},
-    { id: 2, title: '가입 대기 목록', contents: <WaitingMember/> },
-    { id: 3, title: '차단 목록', contents: <BannedMember/> }
+    { id: 1, title: '전체 멤버 목록', contents: <TotalMember /> },
+    { id: 2, title: '가입 대기 목록', contents: <WaitingMember /> },
+    { id: 3, title: '차단 목록', contents: <BannedMember /> }
   ];
 
-  const onClickTap = (idx:number) => {
+  const onClickTap = (idx: number) => {
     setTabIndex(idx);
-  }
+  };
 
   return (
     <S_Container>
       <S_Title>회원 관리</S_Title>
       <div>
         {tabs.map((el, idx) => (
-          <S_TabButton key={el.id} onClick={() => onClickTap(idx)} className={tabIndex === idx ? "clicked" : ""}>
+          <S_TabButton
+            key={el.id}
+            onClick={() => onClickTap(idx)}
+            className={tabIndex === idx ? 'clicked' : ''}
+          >
             {el.title}
           </S_TabButton>
         ))}
       </div>
-      {
-        tabs[tabIndex].contents
-      }
+      {tabs[tabIndex].contents}
     </S_Container>
   );
 }

@@ -17,11 +17,11 @@ const HeaderContainer = styled.header`
   background: var(--white);
   border-bottom: 1px solid var(--gray100);
   z-index: 100;
-
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  
   img {
     height: 28px;
     margin-top: 6px;

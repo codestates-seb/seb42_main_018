@@ -1,13 +1,15 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
-import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,18 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {  // (1)
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final UserMapper userMapper;
+    private final ClubMapper clubMapper;
+    private final ImageMapper imageMapper;
 
-    public UserAuthenticationSuccessHandler(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
+
 
 
     // (2)
@@ -40,9 +42,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         // 인증 성공 후, 로그를 기록하거나 사용자 정보를 response로 전송하는 등의 추가 작업을 할 수 있다.
         log.info("# Authenticated successfully!");
 
-        Optional<User> optionalUser = userRepository.findByEmail(authentication.getName());
-        User user =  optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
-
+        User user = userService.findUserByEmail(authentication.getName());
         String userId =String.valueOf(user.getUserId());
         response.addHeader("memeber-id", userId);
 
@@ -50,9 +50,11 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
-        UserDto.Response userResponseDto = userMapper.userToUserResponse(user);
+        List<UserClub> userClubs =  userService.findUserClub(user.getUserId());
+
+        UserDto.ResponseWithClubs responseWithClubs = userMapper.userToUserResponseWithClubs(user, userClubs, clubMapper, imageMapper);
         //TODO GSON 사용
-        response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(userResponseDto)));
+        response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(responseWithClubs)));
         log.info("LOGIN ID: {}", userId);
 
 

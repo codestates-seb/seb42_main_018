@@ -1,11 +1,10 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
-import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
-import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,7 +14,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,28 +23,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {   // (1)
+@RequiredArgsConstructor
+public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
-    private final CustomAuthorityUtils authorityUtils;
     private final OauthUserService oauthUserService;
 
-    private final JwtTokenProvider jwtTokenProvider;
-
-    // (2)
-
-
-    public OAuth2UserSuccessHandler(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils
-            , OauthUserService oauthUserService, JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenizer = jwtTokenizer;
-        this.authorityUtils = authorityUtils;
-        this.oauthUserService = oauthUserService;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-//        authentication.get
+
         var oAuth2User = (OAuth2User)authentication.getPrincipal();
         String registration = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
         String id = null;
@@ -66,8 +51,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
-                         ,String registration, String registrationId, boolean home, String email) throws IOException, IOException {
-        String accessToken = delegateAccessToken(registration, registrationId);  // (6-1)
+                         ,String registration, String registrationId, boolean home, String email) throws IOException {
+        String accessToken = delegateAccessToken(registration, registrationId);
         String refreshToken = delegateRefreshToken(registration, registrationId);
         String path = home ? "home" : "register";
         String uri =  createURI(accessToken, refreshToken, path, email).toString();
@@ -85,7 +70,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+        String accessToken = "Bearer " + jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;
     }

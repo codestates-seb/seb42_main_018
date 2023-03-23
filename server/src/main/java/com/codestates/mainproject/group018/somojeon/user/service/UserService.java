@@ -1,8 +1,9 @@
 package com.codestates.mainproject.group018.somojeon.user.service;
 
-import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
@@ -10,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,11 +25,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class UserService {
     @Value("${defaultProfile.image.address")
     private String defaultProfileImage;
@@ -35,22 +40,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
-    private final AuthService authService;
+
+    private final ClubService clubService;
     private final OauthUserService oauthUserService;
     private final ImageService imageService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                       CustomAuthorityUtils authorityUtils, JwtTokenizer jwtTokenizer,
-                       AuthService authService, OauthUserService oauthUserService,
-                       ImageService imageService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.authorityUtils = authorityUtils;
-        this.jwtTokenizer = jwtTokenizer;
-        this.authService = authService;
-        this.oauthUserService = oauthUserService;
-        this.imageService = imageService;
-    }
 
     public User createUser(User user, String token, Long profileImageId) {
         verifyExistsEmail(user.getEmail());
@@ -103,17 +97,25 @@ public class UserService {
     @Transactional(readOnly = true)
     public User findUser(long userId) {
         User findUser = findVerifiedUser(userId);
+
+
         return findUser;
 
     }
 
-    public Page<User> findUsers(int page, int size, String  mode) {
-        // TODO 로직 요구 조건에 맞춰 수정
-        String property = "userId";
-//        if (mode == "vote") property = "voteCount";
+    @Transactional(readOnly = true)
+    public  List<UserClub> findUserClub(Long userId) {
+        List<UserClub> userClubs =  clubService.getUserClubs(userId);
 
-        return userRepository.findAll(PageRequest.of(page, size,
-                Sort.by(property).descending()));
+        return userClubs;
+
+    }
+
+    public Page<UserClub> findUsers(int page, int size, long clubId) {
+
+        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+
+        return userClubPage;
     }
 
     public void deleteUser(long userId) {
@@ -142,10 +144,17 @@ public class UserService {
         return findUser;
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent())
+        if(user.isPresent()){
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+        }
+    }
+
+    public void verifyExistsEmail(String email, HttpServletResponse response) {
+        Optional<User> user = userRepository.findByEmail(email);
+        String answer = user.isPresent() ? "True" : "False";
+        response.addHeader("Request", answer);
     }
 
     public boolean verifyMyUserId(HttpServletRequest request, Long userId){
@@ -166,4 +175,30 @@ public class UserService {
     }
 
 
+    public User changeUserState(long userId, String state) {
+        User user = findVerifiedUser(userId);
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
+        switch (state){
+            case "NEW":
+                user.setUserStatus(User.UserStatus.USER_NEW);
+                break;
+            case "ACTIVE":
+                user.setUserStatus(User.UserStatus.USER_ACTIVE);
+                break;
+            case "SLEEP":
+                user.setUserStatus(User.UserStatus.USER_SLEEP);
+                break;
+            case "QUIT":
+                user.setUserStatus(User.UserStatus.USER_QUIT);
+                break;
+            case "BLOCK":
+                user.setUserStatus(User.UserStatus.USER_BLOCK);
+                roles = null;
+                break;
+        }
+        user.setRoles(new ArrayList<>(roles));
+        user = userRepository.save(user);
+
+        return user;
+    }
 }

@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.candidate.mapper.CandidateMa
 import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
@@ -50,8 +48,8 @@ public class CandidateController {
                                          @Valid @RequestBody CandidateDto.Patch requestBody) {
         requestBody.addCandidateId(candidateId);
 
-        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Candidate candidate = candidateService.updateCandidate(candidateMapper.candidatePatchDtoToCandidate(requestBody));
 
@@ -82,8 +80,8 @@ public class CandidateController {
     public ResponseEntity deleteCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
         candidateService.deleteCandidate(candidateId);
 
-        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

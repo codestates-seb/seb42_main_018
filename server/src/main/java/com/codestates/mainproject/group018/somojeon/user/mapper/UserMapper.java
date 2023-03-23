@@ -1,43 +1,54 @@
 package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Named;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ClubMapper.class, ImageMapper.class})
 public interface UserMapper {
     User userPostToUser(UserDto.Post userDtoPost);
     User userPatchToUser(UserDto.Patch userDtoPatch);
 
-
-    @Named("private")
     UserDto.Response userToUserResponse(User user);
 
-    default List<UserDto.Response> usersToUserResponses(List<User> users){
-        return users.stream()
-                .map(this::userToUserResponse)
-                .collect(Collectors.toList());
-    }
-
-    default List<UserDto.Response> usersToUserResponsesForPublic(List<User> users){
-        return users.stream()
-                .map(this::userToUserResponseForPublic)
-                .collect(Collectors.toList());
-    }
-
-    default UserDto.Response userToUserResponseForPublic(User user){
-        UserDto.Response response = new UserDto.Response();
-        response.setNickName(user.getNickName());
-        response.setEmail(user.getEmail());
-        response.setUserStatus(user.getUserStatus());
-        response.setUserId(user.getUserId());
-
-        return response;
-
+    default  List<UserDto.Response> usersToUserResponses(List<User> users){
+        return users.stream().map(
+                user -> userToUserResponse(user)
+        ).collect(Collectors.toList());
     };
+
+
+    default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs
+            , ClubMapper clubMapper, ImageMapper imageMapper){
+        UserDto.ResponseWithClubs responseWithClubs = new UserDto.ResponseWithClubs(
+                user.getUserId(),
+                user.getNickName(),
+                user.getEmail(),
+                user.getUserStatus(),
+                imageMapper.imagesToImageResponseDto(user.getImages()),
+                clubMapper.userClubsToUserCLubResponses(userClubs)
+        );
+        return responseWithClubs;
+    }
+
+    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub, ImageMapper imageMapper){
+        User user = userClub.getUser();
+        UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
+        responseWithClub.setNickName(user.getNickName());
+        responseWithClub.setProfileImage(imageMapper.imagesToImageResponseDto(user.getImages()));
+        responseWithClub.setPlayCount(userClub.getPlayCount());
+        responseWithClub.setWinCount(userClub.getWinCount());
+        responseWithClub.setLoseCount(userClub.getLoseCount());
+        responseWithClub.setDrawCount(userClub.getDrawCount());
+        responseWithClub.setWinRate(userClub.getWinRate());
+        return responseWithClub;
+    }
+
 }

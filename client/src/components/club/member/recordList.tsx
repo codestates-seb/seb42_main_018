@@ -1,47 +1,59 @@
 import styled from 'styled-components';
-import { RecodeListProps } from '../../../types';
+import { MemberData } from '../../../types';
 
 const S_ListBox = styled.div`
   display: flex;
   text-align: center;
+  align-items: center;
+  height: 60px;
+  border-bottom: 1px solid var(--gray100);
 `;
 
 const S_ListItem = styled.div<{ width?: string; color?: string; bgcolor?: string }>`
   // 기본 아이템 형식
-  padding: 18px 0px;
+  padding: 20px 0px;
   min-width: ${({ width }) => width || '50px'};
   color: ${({ color }) => color};
   background-color: ${({ bgcolor }) => bgcolor};
-  border-bottom: 1px solid var(--gray100);
 `;
 const S_ProfileItem = styled(S_ListItem)`
   // 프로필사진 및 이름 부분
+  display: flex;
+  align-items: center;
   min-width: 190px;
   text-align: left;
   font-size: 1.3rem;
   font-weight: 800;
   img {
-    font-size: 0.8rem;
-    font-weight: 600;
-    border-radius: 10px;
+    width: 40px;
+    border-radius: 8px;
+    margin-right: 8px;
   }
 `;
 
-function MemberRecordList({ profileImage, name, winRate, match, win, lose }: RecodeListProps) {
+function MemberRecordList({
+  profileImage,
+  nickName,
+  winRate,
+  playCount,
+  winCount,
+  drawCount,
+  loseCount
+}: MemberData) {
   return (
     <S_ListBox>
-      <S_ListItem>1</S_ListItem>
+      <S_ListItem>1위</S_ListItem>
       <S_ProfileItem>
-        <img src={profileImage} alt='프로필사진'></img>
-        {name}
+        <img src={profileImage.url} alt='프로필사진'></img>
+        {nickName}
       </S_ProfileItem>
-      <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--gray100)'>
+      <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>
         {winRate}%
       </S_ListItem>
-      <S_ListItem width='80px'>{match}</S_ListItem>
-      <S_ListItem>{win}</S_ListItem>
-      <S_ListItem>{lose}</S_ListItem>
-      <S_ListItem>03</S_ListItem>
+      <S_ListItem width='80px'>{playCount}</S_ListItem>
+      <S_ListItem>{winCount}</S_ListItem>
+      <S_ListItem>{drawCount}</S_ListItem>
+      <S_ListItem>{loseCount}</S_ListItem>
     </S_ListBox>
   );
 }
