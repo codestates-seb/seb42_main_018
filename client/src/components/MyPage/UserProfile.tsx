@@ -25,14 +25,12 @@ const S_ImgBox = styled.div<{ img?: string }>`
   background-image: url(${(props) => props.img});
 `;
 
-function UserProfile({ userId, email, nickName, userStatus }: UserInfoType) {
-  // TODO : 받아온 유저 프로필 정보 뿌려주기
-  // TODO : 필요정보 -> 프로필이미지, 별명
+function UserProfile({ userId, email, nickName, userStatus, profileImage }: UserInfoType) {
   const navigate = useNavigate();
 
   return (
     <S_profileBox>
-      <S_ImgBox img='' />
+      <S_ImgBox img={profileImage} />
       <div>
         <S_Label>벌꿀오소리{userId}</S_Label>
         <S_EditButton onClick={() => navigate('edit')}>프로필 수정</S_EditButton>
