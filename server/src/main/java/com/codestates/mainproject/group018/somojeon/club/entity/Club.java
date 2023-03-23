@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -62,6 +63,10 @@ public class Club {
 
     @Enumerated(value = EnumType.STRING)
     ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
+
+    @Enumerated(value = EnumType.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    ClubMemberStatus clubMemberStatus;
 
     @Enumerated(value = EnumType.STRING)
     ClubRole clubRole;
