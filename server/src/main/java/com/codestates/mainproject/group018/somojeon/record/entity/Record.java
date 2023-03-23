@@ -53,7 +53,7 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "record")
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {
