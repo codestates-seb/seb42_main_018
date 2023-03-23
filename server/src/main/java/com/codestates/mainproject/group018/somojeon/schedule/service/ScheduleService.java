@@ -12,9 +12,11 @@ import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepo
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -44,50 +46,50 @@ public class ScheduleService {
         schedule.setCandidates(candidates);
         schedule.setRecords(records);
 
-//        try {
-//            // club 정보 저장
-//            club.getScheduleList().add(schedule);
-//            clubRepository.save(club);
-//
-//            // team 정보 저장 (teamRecord 로 team 과 record 연결)
-//            for (Team team : teams) {
-//                team.setSchedule(schedule);
-//                teamRepository.save(team);
-//                for (Record record : records) {
-//                    TeamRecord teamRecord = new TeamRecord(record, team);
-//                    teamRecordRepository.save(teamRecord);
-//                }
-//            }
-//
-//            // candidate 정보 저장
-//            for (Candidate candidate : candidates) {
-//                candidate.setSchedule(schedule);
-//                candidate.setAttendance(Candidate.Attendance.ATTEND);
-//                candidateRepository.save(candidate);
-//            }
-//
-//            // record 정보 저장
-//            for (Record record : records) {
-//                record.setSchedule(schedule);
-//                recordRepository.save(record);
-//            }
-//        } catch (Exception e) {
-//            if (e instanceof DataAccessException) {
-//                // 데이터 저장 예외 처리
-//                DataAccessException dataAccessException = (DataAccessException) e;
-//                String exceptionMessage = dataAccessException.getMessage();
-//                if (exceptionMessage.contains("club")) {
-//                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("team")) {
-//                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("candidate")) {
-//                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("record")) {
-//                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
-//                }
-//            }
-//            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
-//        }
+        try {
+            // club 정보 저장
+            club.getScheduleList().add(schedule);
+            clubRepository.save(club);
+
+            // team 정보 저장 (teamRecord 로 team 과 record 연결)
+            for (Team team : teams) {
+                team.setSchedule(schedule);
+                teamRepository.save(team);
+                for (Record record : records) {
+                    TeamRecord teamRecord = new TeamRecord(record, team);
+                    teamRecordRepository.save(teamRecord);
+                }
+            }
+
+            // candidate 정보 저장
+            for (Candidate candidate : candidates) {
+                candidate.setSchedule(schedule);
+                candidate.setAttendance(Candidate.Attendance.ATTEND);
+                candidateRepository.save(candidate);
+            }
+
+            // record 정보 저장
+            for (Record record : records) {
+                record.setSchedule(schedule);
+                recordRepository.save(record);
+            }
+        } catch (Exception e) {
+            if (e instanceof DataAccessException) {
+                // 데이터 저장 예외 처리
+                DataAccessException dataAccessException = (DataAccessException) e;
+                String exceptionMessage = dataAccessException.getMessage();
+                if (exceptionMessage.contains("club")) {
+                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
+                } else if (exceptionMessage.contains("team")) {
+                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
+                } else if (exceptionMessage.contains("candidate")) {
+                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
+                } else if (exceptionMessage.contains("record")) {
+                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
+                }
+            }
+            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
+        }
 
         return scheduleRepository.save(schedule);
     }
