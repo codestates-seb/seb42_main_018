@@ -30,7 +30,8 @@ public interface ScheduleMapper {
         return ScheduleDto.Response
                 .builder()
                 .scheduleId(schedule.getScheduleId())
-                .date(schedule.getDate())
+                .date(schedule.getDate().toString())
+                .time(schedule.getTime().toString())
                 .createdAt(schedule.getCreatedAt())
                 .placeName(schedule.getPlaceName())
                 .longitude(schedule.getLongitude())
