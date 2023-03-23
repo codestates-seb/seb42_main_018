@@ -4,6 +4,9 @@ export interface WaitingUser {
   id: number;
   nickName: string;
   contents: string;
+  email?: string;
+  userStatus?: string;
+  profileImage?: string;
 }
 
 function WaitingMember() {
