@@ -53,14 +53,13 @@ public interface UserMapper {
         return responseWithClub;
     }
 
-    default UserDto.UserClubResponse userToUserClubResponse(User user, ImagesResponseDto imagesResponseDto) {
+    default UserDto.UserClubResponse userToUserClubResponse(User user, ImageMapper imageMapper) {
 
         UserDto.UserClubResponse userClubResponse = new UserDto.UserClubResponse();
         userClubResponse.setUserId(user.getUserId());
         userClubResponse.setEmail(user.getEmail());
         userClubResponse.setNickName(user.getNickName());
-        userClubResponse.setProfileImage(imagesToImagesResponseDto(user.getImages()));
-
+        imageMapper.imagesToImageResponseDto(user.getImages());
 
         return userClubResponse;
     }

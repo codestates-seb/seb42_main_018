@@ -2,6 +2,7 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.mapper.UserClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
@@ -65,7 +66,7 @@ public class UserClubController {
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(
-                        userClubMapper.userClubsToJoinResponses(content), userClubPage), HttpStatus.OK);
+                        userClubMapper.userClubsToJoinResponses(content, userMapper, imageMapper), userClubPage), HttpStatus.OK);
     }
 
     // 소모임 가입 요청 취소 (가입 신청한 유저 또는 리더만 가능)
@@ -94,7 +95,7 @@ public class UserClubController {
         requestBody.setUserId(userId);
 
         UserClub userClub = userClubService.joinDecision(userId, clubId, requestBody.getJoinStatus());
-        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper);
+        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper, imageMapper);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -111,7 +112,7 @@ public class UserClubController {
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
         UserClub userClub = userClubService.rejectUserClub(userId, clubId, requestBody.getClubMemberStatus());
-        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper);
+        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper, imageMapper);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
 
@@ -130,8 +131,21 @@ public class UserClubController {
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
         UserClub userClub = userClubService.updateClubRole(userId, clubId, requestBody.getClubRole());
-        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper);
+        UserClubDto.JoinResponse response = userClubMapper.userClubToJoinResponse(userClub, userMapper, imageMapper);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    // 소모임 안에 멤버 목록 조회
+    @GetMapping("{club-id}/members")
+    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
+                                            @RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(defaultValue = "10") int size) {
+        Page<UserClub> clubMembersPage = userClubService.findAllMembersByClubMemberStatus(page - 1, size, clubId);
+        List<UserClub> content = clubMembersPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(
+                        userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
     }
 }

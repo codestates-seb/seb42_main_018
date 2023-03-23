@@ -119,6 +119,9 @@ public class ClubController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    // 소모임 안에 멤버 목록 조회
+
+
     // 내 소모임 찾기
     @GetMapping("/my")
     public ResponseEntity getMyClub() {
