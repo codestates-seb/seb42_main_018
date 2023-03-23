@@ -17,6 +17,7 @@ import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
+import { postFetch } from '../../../util/api';
 
 export const S_MapBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
@@ -247,6 +248,7 @@ function CreateMatch() {
       return;
     }
     updateRecord();
+    postFetch(`${process.env.REACT_APP_URL}`, matchData).then((res) => console.log(res));
   };
 
   if (!candidateList.length && isOpenAddMember) {
