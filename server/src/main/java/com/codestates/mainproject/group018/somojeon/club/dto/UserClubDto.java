@@ -99,7 +99,7 @@ public class UserClubDto {
         private Long userClubId;
         private String content;
         private ClubRole clubRole;
-        private UserDto.UserClubResponse userInfo;
+        private UserDto.UserInfoResponse userInfo;
         private JoinStatus joinStatus;
     }
 
@@ -111,7 +111,7 @@ public class UserClubDto {
         private Long userClubId;
         private ClubMemberStatus clubMemberStatus;
         private ClubRole clubRole;
-        private UserDto.UserClubResponse userInfo;
+        private UserDto.UserInfoResponse userInfo;
 
     }
 
