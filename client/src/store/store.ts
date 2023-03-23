@@ -19,7 +19,6 @@ export interface UserInfoType {
   email: string;
   nickName: string;
   userStatus: string;
-  // TODO: MyPage 컴포넌트 수정 후 optional ? 제거
   profileImage: string;
   userClubResponses?: UserClubResponsesType[];
 }
