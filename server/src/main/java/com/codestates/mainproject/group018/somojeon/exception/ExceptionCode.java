@@ -30,9 +30,7 @@ public enum ExceptionCode {
     USER_CLUB_NOT_FOUND(404, "User club not found"),
     S3_FILE_NOT_FOUND(404, "S3 file not found"),
     ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
-
-    EMAIL_ALREADY_EXIT(1000, "Same email already exits");
-    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
+    EMAIL_ALREADY_EXIT(1000, "Same email already exits"),
     CLUB_SAVE_ERROR(400, "Club data error, please try again"),
     USER_TEAM_SAVE_ERROR(400, "Team data error, please try again"),
     CANDIDATE_SAVE_ERROR(400, "Candidate data error, please try again"),
