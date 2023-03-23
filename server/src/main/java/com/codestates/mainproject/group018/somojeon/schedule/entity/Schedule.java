@@ -44,10 +44,10 @@ public class Schedule {
     private String placeName;
 
     @Column(nullable = false)
-    private String longitude; // 경도
+    private Double longitude; // 경도
 
     @Column(nullable = false)
-    private String latitude; // 위도
+    private Double latitude; // 위도
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
