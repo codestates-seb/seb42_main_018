@@ -29,7 +29,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teams;
+        private List<Team> teamList;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -53,7 +53,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teams;
+        private List<Team> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
@@ -77,7 +77,7 @@ public class ScheduleDto {
         private String placeName;
         private Double longitude;
         private Double latitude;
-        private List<TeamDto.Response> teams;
+        private List<TeamDto.Response> teamList;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }
