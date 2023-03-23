@@ -8,6 +8,7 @@ import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import lombok.*;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 public class UserClubDto {
 
@@ -101,4 +102,17 @@ public class UserClubDto {
         private UserDto.UserClubResponse userInfo;
         private JoinStatus joinStatus;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UserClubMemberResponse {
+
+        private Long userClubId;
+        private ClubMemberStatus clubMemberStatus;
+        private ClubRole clubRole;
+        private UserDto.UserClubResponse userInfo;
+
+    }
+
 }
