@@ -7,7 +7,7 @@ import {
   RegisterUserInputType,
   useLoginRequestLogic
 } from '../../util/authorization/useLoginRequestLogic';
-import { jwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
+import { JwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
 import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
@@ -60,7 +60,7 @@ function Register() {
 
   // 소셜 로그인 최초 시도 후 회원가입 페이지로 보내진 경우
   // tempTokens: 소셜 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
-  const [tempTokens, setTempTokens] = useState<jwtTokensType>();
+  const [tempTokens, setTempTokens] = useState<JwtTokensType>();
 
   useEffect(() => {
     const url = new URL(window.location.href);
