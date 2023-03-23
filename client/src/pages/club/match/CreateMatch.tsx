@@ -183,7 +183,7 @@ function CreateMatch() {
     }
     if (addButtonIndex !== idx) {
       setAddButtonIndex(idx);
-      setIsOpenAddMember(false);
+      // setIsOpenAddMember(false);
       setIsOpenAddMember(true);
     } else {
       setAddButtonIndex(idx);
@@ -247,7 +247,7 @@ function CreateMatch() {
       copiedRecords.push(temp);
     });
     setRecords(copiedRecords);
-  }
+  };
 
   const saveMatchData = () => {
     if (!checkValidation()) {
@@ -255,7 +255,6 @@ function CreateMatch() {
       return;
     }
     updateRecord();
-    
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -267,7 +266,7 @@ function CreateMatch() {
   }, [records]);
 
   return (
-    <S_Container>
+    <S_Container onClick={() => setIsOpenAddMember(false)}>
       <S_Title>경기 등록</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
