@@ -48,7 +48,6 @@ const S_MapView = styled.div`
   }
 `;
 
-
 function MatchDetail() {
   const [matchData, setMatchData] = useState<MatchData>({
     schedule: {

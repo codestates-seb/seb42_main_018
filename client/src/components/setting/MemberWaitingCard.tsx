@@ -24,7 +24,7 @@ const S_ContentWrapper = styled.div`
 const S_ButtonWrapper = styled.div`
   text-align: right;
   margin: 5px 0;
-`
+`;
 
 interface MemberWaitingCardProps {
   member: WaitingUser;
@@ -32,12 +32,12 @@ interface MemberWaitingCardProps {
 
 function MemberWaitingCard(props: MemberWaitingCardProps) {
   const acceptMember = () => {
-    alert('가입승인 patch날리기')
-  }
+    alert('가입승인 patch날리기');
+  };
 
   const rejectMember = () => {
     alert('가입 거절 patch날리기');
-  }
+  };
   return (
     <S_WaitingCardContainer>
       <S_CardWrapper>
@@ -45,13 +45,19 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
           <img alt='profile' src={dummy} />
         </S_ImageWrapper>
         <S_ContentWrapper>
-          <S_Text color='var(--black)' style={{fontWeight : "bold"}}>{props.member.nickName}</S_Text>
+          <S_Text color='var(--black)' style={{ fontWeight: 'bold' }}>
+            {props.member.nickName}
+          </S_Text>
           <S_Description color='var(--gray500)'>{props.member.contents}</S_Description>
         </S_ContentWrapper>
       </S_CardWrapper>
       <S_ButtonWrapper>
-        <S_SelectButton onClick={acceptMember} width='15%' style={{marginRight: "5px"}}>가입승인</S_SelectButton>
-        <S_SelectButton onClick={rejectMember} width='15%'>가입거절</S_SelectButton>
+        <S_SelectButton onClick={acceptMember} width='15%' style={{ marginRight: '5px' }}>
+          가입승인
+        </S_SelectButton>
+        <S_SelectButton onClick={rejectMember} width='15%'>
+          가입거절
+        </S_SelectButton>
       </S_ButtonWrapper>
     </S_WaitingCardContainer>
   );

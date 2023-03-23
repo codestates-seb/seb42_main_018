@@ -19,7 +19,6 @@ import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
 import { MatchData, Record, S_MapBackdrop, S_MapView, TeamList } from './CreateMatch';
 
-
 function EditMatch() {
   const {
     register,

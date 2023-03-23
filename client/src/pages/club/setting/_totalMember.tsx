@@ -1,4 +1,4 @@
-import MemberUserCard from "../../../components/setting/MemberUserCard";
+import MemberUserCard from '../../../components/setting/MemberUserCard';
 
 export interface MemberUser {
   id: number;
@@ -7,28 +7,30 @@ export interface MemberUser {
 }
 
 function TotalMember() {
-  const data:MemberUser[] = [
+  const data: MemberUser[] = [
     {
       id: 0,
-      nickName: "탁구왕김제빵",
+      nickName: '탁구왕김제빵',
       winRate: 100
     },
     {
       id: 1,
-      nickName: "배드민턴고수",
+      nickName: '배드민턴고수',
       winRate: 100
     },
     {
       id: 2,
-      nickName: "풋살왕슛돌이",
+      nickName: '풋살왕슛돌이',
       winRate: 100
     }
   ];
   return (
     <>
-    {data.map(el => <MemberUserCard key={el.id} member={el}/>)}
+      {data.map((el) => (
+        <MemberUserCard key={el.id} member={el} />
+      ))}
     </>
-  )
+  );
 }
 
 export default TotalMember;
