@@ -17,6 +17,7 @@ import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
+import { postFetch } from '../../../util/api';
 
 export const S_MapBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
@@ -62,15 +63,11 @@ export interface Record {
 }
 
 export interface MatchData {
-  schedule: {
-    date: string | undefined;
-    time: string | undefined;
-    placeName: string | undefined;
-    placeCoordinate: {
-      longitude: number | undefined;
-      latitude: number | undefined;
-    };
-  };
+  date: string | undefined;
+  time: string | undefined;
+  placeName: string | undefined;
+  longitude: number | undefined;
+  latitude: number | undefined;
   candidates: string[];
   teamList: TeamList[];
   records: Record[];
@@ -127,15 +124,11 @@ function CreateMatch() {
     records: Record[]
   ) => {
     const data = {
-      schedule: {
-        date,
-        time,
-        placeName: place?.place_name,
-        placeCoordinate: {
-          longitude: place?.y,
-          latitude: place?.x
-        }
-      },
+      date,
+      time,
+      placeName: place?.place_name,
+      longitude: place?.y,
+      latitude: place?.x,
       candidates: candidates?.length !== 0 ? candidates : [],
       teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
       records: records.length !== 0 ? records : []
@@ -255,6 +248,7 @@ function CreateMatch() {
       return;
     }
     updateRecord();
+    postFetch(`${process.env.REACT_APP_URL}`, matchData).then((res) => console.log(res));
   };
 
   if (!candidateList.length && isOpenAddMember) {
