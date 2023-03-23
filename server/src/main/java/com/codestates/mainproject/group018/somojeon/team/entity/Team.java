@@ -28,7 +28,7 @@ public class Team {
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
     @OneToMany(mappedBy = "team")
