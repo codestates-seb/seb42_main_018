@@ -16,11 +16,11 @@ public class TeamRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long teamRecordId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RECORD_ID")
     private Record record;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
