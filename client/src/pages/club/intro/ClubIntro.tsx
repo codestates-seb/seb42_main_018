@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
@@ -68,9 +68,6 @@ function ClubIntro() {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const goToPath = (path: string) => {
-    navigate(path);
-  };
 
   const [clubInfo, setClubInfo] = useState<ClubData>();
   useEffect(() => {
@@ -108,11 +105,15 @@ function ClubIntro() {
     setShowModal((current) => !current);
   };
 
-  // TODO : 로그인 여부에 따른 분기 처리 지정 (history 관리 필요)
+  // * 로그인 여부에 따른 분기 처리
+  const { pathname } = useLocation();
+  const RETURN_URL_PARAM = 'returnUrl';
   const handleJoinRequest = () => {
-    handleModal();
-    // if (isLogin) handleModal();
-    // else navigate('/login');
+    if (isLogin) {
+      handleModal();
+    } else {
+      navigate(`/login?${RETURN_URL_PARAM}=${encodeURIComponent(pathname)}`, { replace: true });
+    }
   };
 
   return (
@@ -154,7 +155,7 @@ function ClubIntro() {
             </div>
             {/* TODO: 권한 확인 후 클럽장에게만 렌더링 */}
             <div className='club-setting-btn-area'>
-              <S_SelectButton width='auto' onClick={() => goToPath(`/club/${id}/setting`)}>
+              <S_SelectButton width='auto' onClick={() => navigate(`/club/${id}/setting`)}>
                 소모임 설정
               </S_SelectButton>
             </div>
