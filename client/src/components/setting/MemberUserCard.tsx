@@ -43,7 +43,7 @@ function MemberUserCard(props: MemberUserCardProps) {
         </S_Text>
       </S_ContentWrapper>
       <S_ButtonWrapper>
-        <S_Select style={{margin: "0"}}>
+        <S_Select style={{ margin: '0' }}>
           <option>일반</option>
           <option>매니저</option>
         </S_Select>
