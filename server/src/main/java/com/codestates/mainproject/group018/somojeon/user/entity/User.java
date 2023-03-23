@@ -48,9 +48,6 @@ public class User extends Auditable {
     private Images images;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Joins> joinsList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
