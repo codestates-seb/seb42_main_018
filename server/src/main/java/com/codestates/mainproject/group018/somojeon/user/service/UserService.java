@@ -146,7 +146,7 @@ public class UserService {
     public void verifyExistsEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent())
-            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+            throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXIT);
     }
 
     public boolean verifyMyUserId(HttpServletRequest request, Long userId){

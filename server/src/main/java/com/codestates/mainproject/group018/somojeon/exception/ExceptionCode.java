@@ -26,10 +26,12 @@ public enum ExceptionCode {
     NOT_FOUND_EXCEPTION(404, "Not found"),
     SCHEDULE_NOT_FOUND(404, "Schedule not found"),
     TEAM_NOT_FOUND(404, "Team not found"),
-    //TODO - DW 검토부탁드려요
+
     USER_CLUB_NOT_FOUND(404, "User club not found"),
     S3_FILE_NOT_FOUND(404, "S3 file not found"),
-    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club");
+    ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
+
+    EMAIL_ALREADY_EXIT(1000, "Same email already exits");
 
 
 

@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🔧 update : 유저 정보 반환 시 프로필 이미지 반환되도록 변경">
+    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🐛 fix 카카오톡 회원가입 버그수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/utils/CustomAuthorityUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/utils/CustomAuthorityUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionAdvice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +226,6 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
       <changelist id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="" />
-      <changelist id="0b0dd914-7914-46de-bf1a-d6458e9087b3" name="Changes" comment="🐛 fix : images 누락" />
       <created>1679039072762</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -308,7 +308,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679464206727</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="✨ feat 유저 정보에 이미지 추가">
+      <created>1679475792704</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1679475792704</updated>
+    </task>
+    <task id="LOCAL-00013" summary="🐛 fix 카카오톡 회원가입 버그수정">
+      <created>1679475827310</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679475827310</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -366,7 +380,9 @@
     <MESSAGE value="✨ feat 유저 상태 변경 시, 그에 따른 권한 추가/제거 기능" />
     <MESSAGE value=" update : 특정 소모임 유저 목록 조회시 요청자가 해당 소모임의 가입되어있거나 어드민이야하는 보안로직 추가" />
     <MESSAGE value=" update : 유저 정보 반환 시 프로필 이미지 반환되도록 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value=" update : 유저 정보 반환 시 프로필 이미지 반환되도록 변경" />
+    <MESSAGE value="✨ feat 유저 정보에 이미지 추가" />
+    <MESSAGE value=" fix 카카오톡 회원가입 버그수정" />
+    <option name="LAST_COMMIT_MESSAGE" value=" fix 카카오톡 회원가입 버그수정" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -381,21 +397,6 @@
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
           <line>190</line>
           <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
