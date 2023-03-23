@@ -5,7 +5,7 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
+import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,7 +35,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<UserTeam> userTeams;
+        private List<Team> teams;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -62,7 +62,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<UserTeam> userTeams;
+        private List<Team> teams;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
