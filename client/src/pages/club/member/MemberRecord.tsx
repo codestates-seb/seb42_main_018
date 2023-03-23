@@ -1,55 +1,70 @@
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import Tabmenu from '../../../components/TabMenu';
-import S_Container from '../../../components/UI/S_Container';
-import MemberNav from '../../../components/club/member/memberNav';
 import MemberRecordList from '../../../components/club/member/recordList';
 import MemberRecordTitle from '../../../components/club/member/recordTitle';
-import { RecodeListProps } from '../../../types';
+import { ClubMemberProps } from '../../../types';
 
-const S_MemberRecordBox = styled.div`
-  overflow: auto;
+const S_Box = styled.div`
+  // 컨텐츠 전체 박스
+  margin-top: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
 `;
 
-function MemberRecord() {
-  const { id } = useParams();
-  const tabs = [
-    { id: 1, title: '소개', path: `/club/${id}` },
-    { id: 2, title: '경기정보', path: `/club/${id}/match` },
-    { id: 3, title: '멤버', path: `/club/${id}/member` }
-  ];
-
+function MemberRecord({ members }: ClubMemberProps) {
   // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
-  const data: RecodeListProps[] = [
-    {
-      memberId: 1,
-      profileImage: '이미지',
-      name: '별명',
-      winRate: 'string',
-      match: 'string',
-      win: 'string',
-      lose: 'string'
-    }
-  ];
+  // const data = {
+  //   data: [
+  //     {
+  //       nickName: 'John',
+  //       profileImage: {
+  //         imageId: 1,
+  //         fileName: 'image.jpg',
+  //         url: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4'
+  //       },
+  //       playCount: 10,
+  //       winCount: 7,
+  //       loseCount: 2,
+  //       drawCount: 1,
+  //       winRate: 0.7
+  //     },
+
+  //     {
+  //       nickName: 'Jane',
+  //       profileImage: {
+  //         imageId: 2,
+  //         fileName: 'image.jpg',
+  //         url: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4'
+  //       },
+  //       playCount: 15,
+  //       winCount: 5,
+  //       loseCount: 8,
+  //       drawCount: 2,
+  //       winRate: 0.33
+  //     }
+  //   ],
+  //   pageInfo: {
+  //     page: 1,
+  //     size: 5,
+  //     totalElements: 2,
+  //     totalPages: 1
+  //   }
+  // };
   return (
-    <S_Container>
-      <Tabmenu tabs={tabs} />
-      <MemberNav />
-      <S_MemberRecordBox>
-        <MemberRecordTitle />
-        {data.map((e) => (
-          <MemberRecordList
-            key={e.memberId}
-            profileImage={e.profileImage}
-            name={e.name}
-            winRate={e.winRate}
-            match={e.match}
-            win={e.win}
-            lose={e.lose}
-          />
-        ))}
-      </S_MemberRecordBox>
-    </S_Container>
+    <S_Box>
+      <MemberRecordTitle />
+      {members.map((el) => (
+        <MemberRecordList
+          key={el.nickName}
+          profileImage={el.profileImage}
+          nickName={el.nickName}
+          winRate={el.winRate}
+          playCount={el.playCount}
+          winCount={el.winCount}
+          drawCount={el.drawCount}
+          loseCount={el.loseCount}
+        />
+      ))}
+    </S_Box>
   );
 }
 

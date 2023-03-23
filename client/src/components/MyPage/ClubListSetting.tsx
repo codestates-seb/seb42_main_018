@@ -9,17 +9,17 @@ function ClubListSetting() {
 
   return (
     <div>
-      {data.map((e) => (
+      {data.map((el) => (
         <ClubList
-          key={e.clubId}
-          clubId={e.clubId}
-          clubName={e.clubName}
-          profileImage={e.profileImage}
-          content={e.content}
-          local={e.local}
-          categoryName={e.categoryName}
-          memberCount={e.memberCount}
-          tagResponseDtos={e.tagResponseDtos}
+          key={el.clubId}
+          clubId={el.clubId}
+          clubName={el.clubName}
+          profileImage={el.profileImage}
+          content={el.content}
+          local={el.local}
+          categoryName={el.categoryName}
+          memberCount={el.memberCount}
+          tagResponseDtos={el.tagResponseDtos}
         />
       ))}
     </div>

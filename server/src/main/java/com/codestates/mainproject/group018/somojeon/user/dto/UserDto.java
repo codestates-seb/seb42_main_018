@@ -30,8 +30,6 @@ public class UserDto {
 
         private Long profileImageId;
 
-//        @Nullable
-//        int age;
 
     }
     @Getter

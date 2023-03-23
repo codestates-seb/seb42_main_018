@@ -5,6 +5,8 @@ import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticat
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
+import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
+import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class Identifier {
     private final ClubService clubService;
 
     private final AuthService authService;
+    private final OauthUserService oauthUserService;
     private String[] DEFAULT_ALLOWED_CLUBROLES = new String[]{"MANAGER", "LEADER"};
 
 
@@ -48,6 +51,11 @@ public class Identifier {
     public Long getUserId(){
         CustomAuthenticationToken customAuthenticationToken = (CustomAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         return customAuthenticationToken.getUserId();
+    }
+
+    public Long getUserId(String registration, Long registrationId){
+        OAuthUser oAuthUser =  oauthUserService.findOAuthUser(registration, registrationId);
+        return oAuthUser.getUser().getUserId();
     }
     public String getEmail(){
         User user = userService.findUser(getUserId());
@@ -75,8 +83,9 @@ public class Identifier {
     }
 
     public String getAccessToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").replace("Bearer ", "");;
+        String token = request.getHeader("Authorization");
         if(token == null) return null;
+        token = token.replace("Bearer ", "");
         // check verified access token
         Map<String, Object> claims = authService.getClaimsValues(token);
         String registration =  (String) claims.get("registration");
