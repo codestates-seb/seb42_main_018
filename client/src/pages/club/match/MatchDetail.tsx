@@ -7,26 +7,14 @@ import { S_SelectButton, S_NegativeButton } from '../../../components/UI/S_Butto
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
 import { MatchData } from './CreateMatch';
-
-const S_MapBackdrop = styled.div`
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-`;
+import { ModalBackdrop } from '../../../components/UI/S_Modal';
 
 const S_MapView = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
   width: 300px;
-  height: 320px;
+  height: 300px;
   border-radius: 20px;
   padding: 20px;
   section {
@@ -84,11 +72,11 @@ function MatchDetail() {
           지도보기
         </S_SelectButton>
         {isOpenMapView && (
-          <S_MapBackdrop onClick={mapViewModalHandler}>
+          <ModalBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
               <KakaoMapView y={matchData.latitude} x={matchData.longitude} />
             </S_MapView>
-          </S_MapBackdrop>
+          </ModalBackdrop>
         )}
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
