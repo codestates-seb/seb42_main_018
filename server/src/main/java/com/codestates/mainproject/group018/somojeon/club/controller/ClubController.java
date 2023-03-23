@@ -10,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,6 @@ public class ClubController {
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
-//        return new ResponseEntity<>(location, HttpStatus.CREATED);
     }
 
     // 소모임 수정 (소개글, 이미지 등)
@@ -131,27 +131,10 @@ public class ClubController {
         return null;
     }
 
-    // 소모임 권한 수정
-    @PatchMapping("/manage/{user-id}")
-    public ResponseEntity patchMange() {
-        return null;
-    }
 
     // 소모임 리더 위임
     @PatchMapping("/manage/{user-id}/leader")
     public ResponseEntity patchClubLeader() {
-        return null;
-    }
-
-    // 소모임 멤버 상태 변경
-    @PatchMapping("/{user-id}/member-status")
-    public ResponseEntity patchClubMemberStatus() {
-        return null;
-    }
-
-    // 소모임 멤버 회원 탈퇴
-    @PatchMapping("/{user-id}/member-quit")
-    public ResponseEntity patchMemberQuitClub() {
         return null;
     }
 
