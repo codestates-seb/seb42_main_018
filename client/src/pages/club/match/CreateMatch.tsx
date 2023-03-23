@@ -90,20 +90,7 @@ function CreateMatch() {
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
-  const candidates: string[] = [
-    '박대운',
-    '우제훈',
-    '김은택',
-    '김아애',
-    '문채리',
-    '전규언전규언전규',
-    '박대운2',
-    '우제훈2',
-    '김은택2',
-    '김아애2',
-    '문채리2',
-    '전규언전'
-  ];
+  const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates);
@@ -251,9 +238,6 @@ function CreateMatch() {
       return;
     }
     updateRecord();
-    postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
-      console.log(res)
-    );
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -262,6 +246,9 @@ function CreateMatch() {
 
   useEffect(() => {
     setRequestData(date, time, placeValue, candidates, teamList, records);
+    postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
+      console.log(res)
+    );
   }, [records]);
 
   return (
