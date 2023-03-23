@@ -3,6 +3,9 @@ import { WaitingUser } from '../../pages/club/setting/_waitingMember';
 import dummy from '../../assets/default_profile.svg';
 import { S_Description, S_Text } from '../UI/S_Text';
 import { S_SelectButton } from '../UI/S_Button';
+import { postFetch } from '../../util/api';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const S_WaitingCardContainer = styled.div`
   display: flex;
@@ -31,8 +34,11 @@ interface MemberWaitingCardProps {
 }
 
 function MemberWaitingCard(props: MemberWaitingCardProps) {
+  const { id } = useParams();
   const acceptMember = () => {
-    alert('가입승인 patch날리기');
+    axios.patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+      joinStatus: 'CONFIRMED'
+    });
   };
 
   const rejectMember = () => {
@@ -46,9 +52,9 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
         </S_ImageWrapper>
         <S_ContentWrapper>
           <S_Text color='var(--black)' style={{ fontWeight: 'bold' }}>
-            {props.member.nickName}
+            {props.member.userInfo.nickName}
           </S_Text>
-          <S_Description color='var(--gray500)'>{props.member.contents}</S_Description>
+          <S_Description color='var(--gray500)'>{props.member.content}</S_Description>
         </S_ContentWrapper>
       </S_CardWrapper>
       <S_ButtonWrapper>
