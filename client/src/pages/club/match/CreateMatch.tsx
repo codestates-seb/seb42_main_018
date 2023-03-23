@@ -62,15 +62,11 @@ export interface Record {
 }
 
 export interface MatchData {
-  schedule: {
-    date: string | undefined;
-    time: string | undefined;
-    placeName: string | undefined;
-    placeCoordinate: {
-      longitude: number | undefined;
-      latitude: number | undefined;
-    };
-  };
+  date: string | undefined;
+  time: string | undefined;
+  placeName: string | undefined;
+  longitude: number | undefined;
+  latitude: number | undefined;
   candidates: string[];
   teamList: TeamList[];
   records: Record[];
@@ -127,15 +123,11 @@ function CreateMatch() {
     records: Record[]
   ) => {
     const data = {
-      schedule: {
-        date,
-        time,
-        placeName: place?.place_name,
-        placeCoordinate: {
-          longitude: place?.y,
-          latitude: place?.x
-        }
-      },
+      date,
+      time,
+      placeName: place?.place_name,
+      longitude: place?.y,
+      latitude: place?.x,
       candidates: candidates?.length !== 0 ? candidates : [],
       teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
       records: records.length !== 0 ? records : []
