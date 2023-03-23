@@ -10,16 +10,14 @@ export interface PlaceType {
   address_name?: string;
   phone?: string;
   place_url?: string;
-  x?:number;
-  y?:number;
+  x?: number;
+  y?: number;
 }
-
-
 
 // head에 작성한 Kakao API 불러오기
 const { kakao } = window as any;
 
-const KakaoMapSearch = (props:any) => {
+const KakaoMapSearch = (props: any) => {
   const [searchKeyword, setSearchKeyword] = useState<string | null>();
   const [value, setValue] = useState<string>('');
   const [selectedPlace, setSelectedPlace] = useState<PlaceType>();
@@ -34,7 +32,9 @@ const KakaoMapSearch = (props:any) => {
   useEffect(() => {
     const mapContainer = document.getElementById('map');
     const mapOption = {
-      center: props.placeValue ? new kakao.maps.LatLng(props.placeValue.y, props.placeValue.x) : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+      center: props.placeValue
+        ? new kakao.maps.LatLng(props.placeValue.y, props.placeValue.x)
+        : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
     // 지도를 생성
@@ -122,20 +122,20 @@ const KakaoMapSearch = (props:any) => {
 
           itemEl.onclick = function () {
             map.panTo(new kakao.maps.LatLng(places[i].y, places[i].x));
-            setSelectedPlace({...places[i]});
+            setSelectedPlace({ ...places[i] });
 
-            const items = document.querySelectorAll(".item");
-            items.forEach(item => item.setAttribute("class", "item"));
-            itemEl.setAttribute("class","item clicked");
+            const items = document.querySelectorAll('.item');
+            items.forEach((item) => item.setAttribute('class', 'item'));
+            itemEl.setAttribute('class', 'item clicked');
           };
         })(marker, places[i].place_name);
-        
+
         fragment.appendChild(itemEl);
       }
-      
+
       // 검색결과 항목들을 검색결과 목록 Element에 추가
       listEl && listEl.appendChild(fragment);
-      
+
       if (menuEl) {
         menuEl.scrollTop = 0;
       }
@@ -267,32 +267,43 @@ const KakaoMapSearch = (props:any) => {
         <div className='option'>
           <div className='form-button'>
             <form
-              style={{display: "flex", alignItems: "center"}}
+              style={{ display: 'flex', alignItems: 'center' }}
               onSubmit={(e) => {
                 setSearchKeyword(value);
                 e.preventDefault();
               }}
             >
               검색어
-              <span style={{margin: "0 5px"}}></span>
-              <S_Input type='text' value={value} onChange={onChangeValue} id='keyword' size={15} style={{height: "25px", paddingLeft: "10px", margin: "0"}}/>
-              <button type='submit' style={{backgroundColor: "white"}}>
-                <img style={{height: "20px"}} src={search} alt="검색 아이콘"/>
+              <span style={{ margin: '0 5px' }}></span>
+              <S_Input
+                type='text'
+                value={value}
+                onChange={onChangeValue}
+                id='keyword'
+                size={15}
+                style={{ height: '25px', paddingLeft: '10px', margin: '0' }}
+              />
+              <button type='submit' style={{ backgroundColor: 'white' }}>
+                <img style={{ height: '20px' }} src={search} alt='검색 아이콘' />
               </button>
             </form>
-            <S_SelectButton onClick={() => {
-              props.mapSettingModalHandler();
-              if(selectedPlace) {
-                props.setPlaceValue({...selectedPlace})
-              }
-            }}>확인</S_SelectButton>
+            <S_SelectButton
+              onClick={() => {
+                props.mapSettingModalHandler();
+                if (selectedPlace) {
+                  props.setPlaceValue({ ...selectedPlace });
+                }
+              }}
+            >
+              확인
+            </S_SelectButton>
           </div>
         </div>
-        <hr className='hr-top'/>
+        <hr className='hr-top' />
         <div id='listContainer'>
           <ul id='placesList'></ul>
         </div>
-        <hr className='hr-bottom'/>
+        <hr className='hr-bottom' />
         <div id='pagination'></div>
       </div>
     </div>
