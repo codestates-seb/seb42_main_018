@@ -10,10 +10,12 @@ import {
 import { JwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
-import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
-import { S_Input } from '../../components/UI/S_Input';
-import { S_Button, S_EditButton, S_SelectButton } from '../../components/UI/S_Button';
+import { S_Title } from '../../components/UI/S_Text';
+import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { useDispatch } from 'react-redux';
+import InputEmail from '../../components/login/_inputEmail';
+import InputPassword from '../../components/login/_inputPassword';
+import InputNickname from '../../components/login/_inputNickname';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
   & .title-wrapper {
@@ -110,7 +112,7 @@ function Register() {
     if (password !== confirmPassword) setConfirmPasswordError(true);
     else setConfirmPasswordError(false);
 
-    return isValidPassword;
+    return isValidPassword && password === confirmPassword;
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -205,95 +207,38 @@ function Register() {
         </div>
         <form onSubmit={onSubmit}>
           <div className='form-wrapper'>
-            <div className='email-box'>
-              <label htmlFor='email'>
-                <S_Label>이메일</S_Label>
-              </label>
-              <div className='email-input-area'>
-                <S_Input
-                  id='email'
-                  name='email'
-                  type='text'
-                  width='96%'
-                  value={email}
-                  onChange={onChange}
-                />
-                <S_SelectButton
-                  type='button'
-                  width='auto'
-                  style={{ whiteSpace: 'nowrap' }}
-                  onClick={checkEmailDuplication}
-                >
-                  중복 확인
-                </S_SelectButton>
-              </div>
-
-              {emailError && (
-                <S_Description color={'var(--red100)'}>
-                  유효하지 않은 형식의 이메일입니다.
-                </S_Description>
-              )}
-            </div>
+            <InputEmail
+              value={email}
+              onChange={onChange}
+              errorState={emailError}
+              hasDuplicationCheckButton={true}
+              onClick={checkEmailDuplication}
+            />
 
             {!isFromOauthLogin && (
               <>
-                <div>
-                  <label htmlFor='password'>
-                    <S_Label>비밀번호</S_Label>
-                  </label>
-                  <S_Description>
-                    비밀번호는 최소 1개의 문자와 1개의 숫자를 포함하여 8~20자여야 합니다.
-                  </S_Description>
-                  <S_Input
-                    id='password'
-                    name='password'
-                    type='password'
-                    width='96%'
-                    value={password}
-                    onChange={onChange}
-                  />
-                  {passwordError && (
-                    <S_Description color={'var(--red100)'}>
-                      비밀번호의 조건을 만족하지 않습니다.
-                    </S_Description>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor='confirmPassword'>
-                    <S_Label>비밀번호 확인</S_Label>
-                  </label>
-                  <S_Input
-                    id='confirmPassword'
-                    name='confirmPassword'
-                    type='password'
-                    width='96%'
-                    value={confirmPassword}
-                    onChange={onChange}
-                  />
-                  {confirmPasswordError && (
-                    <S_Description color={'var(--red100)'}>
-                      비밀번호가 일치하지 않습니다.
-                    </S_Description>
-                  )}
-                </div>
+                <InputPassword
+                  name='password'
+                  label='비밀번호'
+                  desc='비밀번호는 최소 1개의 문자와 1개의 숫자를 포함하여 8~20자여야 합니다.'
+                  value={password}
+                  onChange={onChange}
+                  errorState={passwordError}
+                  errorMsg='비밀번호의 조건을 만족하지 않습니다.'
+                />
+                <InputPassword
+                  name='confirmPassword'
+                  label='비밀번호 확인'
+                  value={confirmPassword}
+                  onChange={onChange}
+                  errorState={confirmPasswordError}
+                  errorMsg='비밀번호가 일치하지 않습니다.'
+                />
               </>
             )}
 
-            <div>
-              <label htmlFor='nickname'>
-                <S_Label>닉네임</S_Label>
-              </label>
-              <S_Description>닉네임은 언제든지 바꿀 수 있어요.</S_Description>
-              <S_Input
-                id='nickname'
-                name='nickName'
-                type='text'
-                width='96%'
-                value={nickName}
-                onChange={onChange}
-              />
-            </div>
+            <InputNickname value={nickName} onChange={onChange} />
+
             <div className='register-btn'>
               <S_Button>회원가입</S_Button>
             </div>

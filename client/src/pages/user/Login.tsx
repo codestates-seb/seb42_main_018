@@ -7,9 +7,10 @@ import { handleKakaoLogin } from '../../util/authorization/handleSnsLogin';
 import { useLoginRequestLogic } from '../../util/authorization/useLoginRequestLogic';
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
-import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
-import { S_Input } from '../../components/UI/S_Input';
+import { S_Title, S_Description } from '../../components/UI/S_Text';
 import RegisterModal from './_registerModal';
+import InputEmail from '../../components/login/_inputEmail';
+import InputPassword from '../../components/login/_inputPassword';
 
 export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
@@ -63,7 +64,6 @@ function Login() {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  // console.log(inputs);
 
   const [showModal, setShowModal] = useState(false);
   const handleModal = () => {
@@ -98,7 +98,6 @@ function Login() {
       else navigate('/home');
     }
   };
-  // console.log(inputs);
 
   return (
     <S_Container>
@@ -110,44 +109,15 @@ function Login() {
         </div>
         <div className='form-wrapper'>
           <form onSubmit={onSubmit}>
-            <div>
-              <label htmlFor='email'>
-                <S_Label>이메일</S_Label>
-              </label>
-              <S_Input
-                id='email'
-                name='email'
-                type='text'
-                width='96%'
-                value={email}
-                onChange={onChange}
-              />
-              {emailError && (
-                <S_Description color={'var(--red100)'}>
-                  유효하지 않은 형식의 이메일입니다.
-                </S_Description>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor='password'>
-                <S_Label>비밀번호</S_Label>
-              </label>
-              <S_Input
-                id='password'
-                name='password'
-                type='password'
-                width='96%'
-                value={password}
-                onChange={onChange}
-              />
-              {passwordError && (
-                <S_Description color={'var(--red100)'}>
-                  비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.
-                </S_Description>
-              )}
-            </div>
-
+            <InputEmail value={email} onChange={onChange} errorState={emailError} />
+            <InputPassword
+              name='password'
+              label='비밀번호'
+              value={password}
+              onChange={onChange}
+              errorState={passwordError}
+              errorMsg='비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.'
+            />
             <S_Button>로그인하기</S_Button>
           </form>
           <S_InstructionWrapper>
