@@ -127,8 +127,8 @@ public class ScheduleService {
     }
 
     public Page<Schedule> findSchedules(long clubId, int page, int size) {
-        clubService.findVerifiedClub(clubId);
-        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId")));
+        Club club = clubService.findVerifiedClub(clubId);
+        return scheduleRepository.findScheduleByClub(club, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
     public Schedule findScheduleByClub(long clubId, long scheduleId) {
