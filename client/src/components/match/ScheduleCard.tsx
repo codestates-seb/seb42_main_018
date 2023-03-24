@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_SelectButton } from '../UI/S_Button';
 import { S_Label, S_Text } from '../UI/S_Text';
@@ -23,10 +23,10 @@ interface ScheduleCardProps {
   time?: string;
   placeName?: string;
   scheduleId: number;
+  clubId: number;
 }
 function ScheduleCard(props: ScheduleCardProps) {
   const navigate = useNavigate();
-  const { id } = useParams();
   const [clickedButton, setClickedButton] = useState<string | null>('');
   const buttonHandler = (e: React.MouseEvent<HTMLElement>) => {
     setClickedButton(e.currentTarget.getAttribute('name'));
@@ -34,7 +34,7 @@ function ScheduleCard(props: ScheduleCardProps) {
   return (
     <>
       <hr style={{ margin: '20px 0' }} />
-      <S_CardContainer onClick={() => navigate(`/club/${id}/match/${props.scheduleId}`)}>
+      <S_CardContainer onClick={() => navigate(`/club/${props.clubId}/match/${props.scheduleId}`)}>
         <S_Information>
           <S_Text>{`${props.date} ${props.time}`}</S_Text>
           <S_Label>{props.placeName}</S_Label>

@@ -19,6 +19,7 @@ function PastMatch(props: PastMatchProps) {
           return (
             <ScheduleCard
               key={el.scheduleId}
+              clubId={el.clubId}
               scheduleId={el.scheduleId}
               date={el.date}
               time={el.time}
