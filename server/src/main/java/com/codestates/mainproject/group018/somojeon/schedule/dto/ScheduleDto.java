@@ -70,6 +70,8 @@ public class ScheduleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
+        private Long clubId;
+        private Long scheduleId;
         private String date;
         private String time;
         private LocalDateTime createdAt;

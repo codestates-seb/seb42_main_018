@@ -132,7 +132,7 @@ function Register() {
       delete userInfo.password;
       delete userInfo.confirmPassword;
 
-      const registerResponse = await postFetch(POST_URL, userInfo, tempTokens?.accessToken);
+      const registerResponse = await postFetch(POST_URL, userInfo, tempTokens);
       // ! post 요청 이후 서버가 일괄적으로 return url 쿼리 값으로 보내주도록 시도
 
       // * access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌

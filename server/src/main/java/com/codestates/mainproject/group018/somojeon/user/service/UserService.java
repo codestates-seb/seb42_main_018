@@ -7,8 +7,10 @@ import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
+import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +46,10 @@ public class UserService {
     private final ClubService clubService;
     private final OauthUserService oauthUserService;
     private final ImageService imageService;
+    private final ImagesRepository imagesRepository;
 
 
-    public User createUser(User user, String token, Long profileImageId) {
+    public User createUser(User user, String token, Images images) {
         verifyExistsEmail(user.getEmail());
         if(token != null){
             user.setPassword("OAUTH2.0");
@@ -61,11 +64,10 @@ public class UserService {
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
 
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            user.setImages(images);
-        }
-//        else user.getImages().setUrl(defaultProfileImage);
+        // 기본이미지 저장.
+        user.setImages(images);
+        images.setUrl(defaultProfileImage);
+        imagesRepository.save(images);
 
         User savedUser = userRepository.save(user);
 
@@ -77,22 +79,34 @@ public class UserService {
 
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user, Long profileImageId)  {
+    public User updateUser(User user)  {
         User findUser = findVerifiedUser(user.getUserId());
 
         Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-        optionalNickName.ifPresent(
-                nickName -> findUser.setNickName(nickName)
-        );
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            findUser.setImages(images);
-        }
-//        else {
-//            findUser.getImages().setUrl(defaultProfileImage);
-//        }
+        optionalNickName.ifPresent(findUser::setNickName);
+
         return userRepository.save(findUser);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    public User updateUserPassword(UserDto.PatchPassword userDto)  {
+        User findUser = findVerifiedUser(userDto.getUserId());
+        String savedPassword = findUser.getPassword();
+        String currentPassword =  userDto.getCurrentPassword();
+        if(!passwordEncoder.matches(currentPassword, savedPassword)){
+            throw new BusinessLogicException(ExceptionCode.CURRENT_PASSWORD_NOT_MATCH);
+        }
+
+        String nextPassword = userDto.getNextPassword();
+        String nextPasswordCheck = userDto.getNextPasswordCheck();
+
+        if(!nextPassword.equals(nextPasswordCheck)){
+            throw new BusinessLogicException(ExceptionCode.NEXT_PASSWORD_NOT_MATCH);
+        }
+        findUser.setPassword(passwordEncoder.encode(nextPassword));
+        return userRepository.save(findUser);
+    }
+
 
     @Transactional(readOnly = true)
     public User findUser(long userId) {

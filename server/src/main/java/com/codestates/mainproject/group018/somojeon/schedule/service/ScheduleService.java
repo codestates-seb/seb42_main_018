@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,22 +38,27 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final ClubService clubService;
+    private final EntityManager entityManager;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teams, List<Candidate> candidates) {
+                                   List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
-        schedule.setTeams(teams);
+        schedule.setTeams(teamList);
         schedule.setCandidates(candidates);
         schedule.setRecords(records);
 
         try {
+//            //세션 초기화
+//            entityManager.flush();
+//            entityManager.clear();
+
             // club 정보 저장
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
 
             // team 정보 저장 (teamRecord 로 team 과 record 연결)
-            for (Team team : teams) {
+            for (Team team : teamList) {
                 team.setSchedule(schedule);
                 teamRepository.save(team);
                 for (Record record : records) {
@@ -95,7 +101,7 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(Schedule schedule, List<Record> records,
-                                   List<Team> teams, List<Candidate> candidates) {
+                                   List<Team> teamList, List<Candidate> candidates) {
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
         Optional.ofNullable(schedule.getDate())
@@ -111,7 +117,7 @@ public class ScheduleService {
 
         findSchedule.setRecords(records);
         findSchedule.setCandidates(candidates);
-        findSchedule.setTeams(teams);
+        findSchedule.setTeams(teamList);
 
         return scheduleRepository.save(findSchedule);
     }
@@ -121,8 +127,8 @@ public class ScheduleService {
     }
 
     public Page<Schedule> findSchedules(long clubId, int page, int size) {
-        clubService.findVerifiedClub(clubId);
-        return scheduleRepository.findAll(PageRequest.of(page, size, Sort.by("scheduleId")));
+        Club club = clubService.findVerifiedClub(clubId);
+        return scheduleRepository.findScheduleByClub(club, PageRequest.of(page, size, Sort.by("scheduleId")));
     }
 
     public Schedule findScheduleByClub(long clubId, long scheduleId) {

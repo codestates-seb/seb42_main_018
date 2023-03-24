@@ -8,8 +8,9 @@ export interface RootState {
 
 export interface UserClubResponsesType {
   userClubId: number;
-  isPlayer: boolean;
-  clubRole: string;
+  clubRole: null | 'MEMBER' | 'MANAGER' | 'LEADER';
+  player: boolean;
+  level: null | string;
   playCount: number;
   winCount: number;
   winRate: number;

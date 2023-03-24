@@ -19,7 +19,8 @@ export const S_Input = styled.input<{ width?: string }>`
     outline: 1px solid var(--blue300);
   }
 
-  ::placeholder {
+  ::placeholder,
+  :disabled {
     color: var(--gray300);
   }
 `;

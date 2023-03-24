@@ -117,7 +117,7 @@ public interface UserClubMapper {
 
         UserClubDto.Response.ResponseBuilder response = UserClubDto.Response.builder();
 
-        response.userClubId( userClub.getUserClubId() );
+        response.clubId(userClub.getClub().getClubId());
         response.clubRole( userClub.getClubRole() );
         response.level( userClub.getLevel() );
         response.playCount( userClub.getPlayCount() );

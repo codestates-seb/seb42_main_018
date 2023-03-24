@@ -14,6 +14,8 @@ import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,8 @@ public interface ScheduleMapper {
 
         return ScheduleDto.Response
                 .builder()
+                .clubId(schedule.getClub().getClubId())
+                .scheduleId(schedule.getScheduleId())
                 .date(schedule.getDate())
                 .time(schedule.getTime())
                 .createdAt(schedule.getCreatedAt())
@@ -41,9 +45,13 @@ public interface ScheduleMapper {
                 .build();
     }
 
-    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teams,
+    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teamList,
                                                                    UserMapper userMapper) {
-        return teams.stream()
+        if (teamList == null) {
+            return null;
+        }
+
+        return teamList.stream()
                 .map(team -> {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(team.getTeamId());
@@ -58,24 +66,13 @@ public interface ScheduleMapper {
                     return response;
                 })
                 .collect(Collectors.toList());
-//        return userTeams.stream()
-//                .map(userTeam -> {
-//                    TeamDto.Response response = new TeamDto.Response();
-//                    response.setTeamId(userTeam.getTeam().getTeamId());
-//
-//                    List<UserTeam> teams = userTeam.getUser().getUserTeamList();
-//                    List<User> users = teams.stream()
-//                            .map(team -> team.getUser())
-//                            .collect(Collectors.toList());
-//
-//                    response.setUsers(userMapper.usersToUserResponses(users));
-//
-//                    return response;
-//                })
-//                .collect(Collectors.toList());
     }
 
     default List<RecordDto.Response> recordsToRecordResponseDtos(List<Record> records) {
+        if (records == null) {
+            return null;
+        }
+
         return records.stream()
                 .map(record -> {
                     RecordDto.Response response = new RecordDto.Response();
@@ -93,6 +90,9 @@ public interface ScheduleMapper {
     }
 
     default List<CandidateDto.Response> candidatesToCandidateResponseDtos(List<Candidate> candidates) {
+        if (candidates == null) {
+            return null;
+        }
         return candidates.stream()
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
@@ -105,6 +105,18 @@ public interface ScheduleMapper {
                 .collect(Collectors.toList());
     }
 
-    List<ScheduleDto.Response> schedulesToScheduleResponseDtos(List<Schedule> schedules);
+    default List<ScheduleDto.Response> schedulesToScheduleResponseDtos(List<Schedule> schedules,
+                                                                       UserMapper userMapper) {
+        if ( schedules == null ) {
+            return null;
+        }
+
+        List<ScheduleDto.Response> list = new ArrayList<>( schedules.size() );
+        for ( Schedule schedule : schedules ) {
+            list.add( scheduleToScheduleResponseDto( schedule , userMapper) );
+        }
+
+        return list;
+    }
 }
 

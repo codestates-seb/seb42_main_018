@@ -31,6 +31,9 @@ public class ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${defaultClub.image.address}")
+    private String defaultClubImage;
+
     private final AmazonS3 amazonS3;
     private final ImagesRepository imagesRepository;
 
@@ -40,7 +43,6 @@ public class ImageService {
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getInputStream().available());
-
         // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
         objectMetadata.setContentType(multipartFile.getContentType());
 
@@ -51,17 +53,20 @@ public class ImageService {
         images.setUrl(bucket + fileName);
         imagesRepository.save(images);
 
+        if (images == null) {
+            images.setUrl(defaultClubImage);
+        }
+
         log.info("프로필 이미지 파일 업로드됨");
         return imagesRepository.save(images);
     }
 
-    public Images uploadClubImage(MultipartFile multipartFile) throws IOException {
+    public String uploadClubImage(MultipartFile multipartFile) throws IOException {
         //중복 이미지 제목 피하기 위해 randomUUID 부여
         String fileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getInputStream().available());
-
         // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
         objectMetadata.setContentType(multipartFile.getContentType());
 
@@ -72,11 +77,16 @@ public class ImageService {
         images.setUrl(bucket + fileName); //S3 저장 폴더 위치
         imagesRepository.save(images);
 
+        if (images == null) {
+            images.setUrl(defaultClubImage);
+        }
+
         log.info("소모임 이미지 파일 업로드됨");
-        return imagesRepository.save(images);
+        imagesRepository.save(images);
+        return images.getUrl();
     }
 
-    public String deleteProfileImage(String url) throws IOException {
+    public String deleteProfileImage(String url)  {
 
         Images images = findVerifiedUpFileUrl(url);
         User user = images.getUser();
@@ -91,7 +101,7 @@ public class ImageService {
         return "프로필 이미지 파일 삭제됨";
     }
 
-    public String deleteClubImage(String url) throws IOException {
+    public String deleteClubImage(String url) {
 
         Images images = findVerifiedUpFileUrl(url);
         Club club = new Club();

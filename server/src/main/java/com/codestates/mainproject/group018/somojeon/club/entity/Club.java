@@ -43,11 +43,13 @@ public class Club {
     private String categoryName;
 
     @Column(nullable = false)
-    private boolean isPrivate;
+    private boolean isSecret;
 
     private int viewCount;
 
     private int memberCount;
+
+    private String clubImageUrl;
 
 //    @ElementCollection
 //    @CollectionTable(name="tags", joinColumns = @JoinColumn(name= "TAG_ID"))

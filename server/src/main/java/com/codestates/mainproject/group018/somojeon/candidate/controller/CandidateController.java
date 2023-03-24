@@ -23,59 +23,47 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping
+@RequestMapping("/candidates")
 @RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
     private final CandidateMapper candidateMapper;
 
-    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates")
-    public ResponseEntity postCandidate(@PathVariable("club-id") @Positive long clubId,
-                                        @PathVariable("schedule-id") @Positive long scheduleId,
-                                        @Valid @RequestBody CandidateDto.Post requestBody) {
-        requestBody.addClubId(clubId);
-        requestBody.addScheduleId(scheduleId);
+    @PostMapping
+    public ResponseEntity postCandidate(@Valid @RequestBody CandidateDto.Post requestBody) {
 
         Candidate candidate = candidateMapper.candidatePostDtoToCandidate(requestBody);
 
-        Candidate createdCandidate = candidateService.createCandidate(candidate, clubId, scheduleId);
+        Candidate createdCandidate = candidateService.createCandidate(candidate);
         URI location = UriCreator.createUri("/candidates", createdCandidate.getCandidateId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}/{candidate-id}")
-    public ResponseEntity patchCandidate(@PathVariable("club-id") @Positive long clubId,
-                                         @PathVariable("schedule-id") @Positive long scheduleId,
-                                         @PathVariable("candidate-id") @Positive long candidateId,
+    @PatchMapping("/{candidate-id}")
+    public ResponseEntity patchCandidate(@PathVariable("candidate-id") @Positive long candidateId,
                                          @Valid @RequestBody CandidateDto.Patch requestBody) {
-        requestBody.addClubId(clubId);
-        requestBody.addScheduleId(scheduleId);
         requestBody.addCandidateId(candidateId);
 
         Candidate candidate = candidateService.updateCandidate(
-                candidateMapper.candidatePatchDtoToCandidate(requestBody), clubId, scheduleId);
+                candidateMapper.candidatePatchDtoToCandidate(requestBody));
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates/{candidate-id}")
-    public ResponseEntity getCandidate(@PathVariable("club-id") @Positive long clubId,
-                                       @PathVariable("schedule-id") @Positive long scheduleId,
-                                       @PathVariable("candidate-id") @Positive long candidateId) {
-        Candidate candidate = candidateService.findCandidate(candidateId, clubId, scheduleId);
+    @GetMapping("/{candidate-id}")
+    public ResponseEntity getCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
+        Candidate candidate = candidateService.findCandidate(candidateId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates")
-    public ResponseEntity getCandidates(@PathVariable("club-id") @Positive long clubId,
-                                        @PathVariable("schedule-id") @Positive long scheduleId,
-                                        @RequestParam("page") int page,
+    @GetMapping
+    public ResponseEntity getCandidates(@RequestParam("page") int page,
                                         @RequestParam("size") int size) {
-        Page<Candidate> pageCandidates = candidateService.findCandidates(clubId,scheduleId, page - 1, size);
+        Page<Candidate> pageCandidates = candidateService.findCandidates(page - 1, size);
         List<Candidate> candidates = pageCandidates.getContent();
 
         return new ResponseEntity<>(
@@ -83,11 +71,9 @@ public class CandidateController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates/{candidate-id}")
-    public ResponseEntity deleteCandidate(@PathVariable("club-id") @Positive long clubId,
-                                          @PathVariable("schedule-id") @Positive long scheduleId,
-                                          @PathVariable("candidate-id") @Positive long candidateId) {
-        candidateService.deleteCandidate(candidateId, clubId, scheduleId);
+    @DeleteMapping("/{candidate-id}")
+    public ResponseEntity deleteCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
+        candidateService.deleteCandidate(candidateId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
