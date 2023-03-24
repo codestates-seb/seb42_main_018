@@ -48,7 +48,7 @@ function Team() {
         </S_Description>
         <div>
           <Link to='https://github.com/codestates-seb/seb42_main_018'>
-            <S_LinkButton>Git Repo</S_LinkButton>
+            <S_LinkButton>GitHub Repo</S_LinkButton>
           </Link>
           <Link to='https://www.notion.so/codestates/9c70acd6b4c74f37ab14ea78d02f97f7?pvs=4'>
             <S_LinkButton>Team Notion</S_LinkButton>
@@ -56,13 +56,13 @@ function Team() {
         </div>
       </S_IntroBox>
       <S_MemberBox>
-        {teamMembers.map((e) => (
+        {teamMembers.map((el) => (
           <TeamMember
-            key={e.name}
-            profileImg={e.profileImg}
-            position={e.position}
-            name={e.name}
-            url={e.url}
+            key={el.name}
+            profileImg={el.profileImg}
+            position={el.position}
+            name={el.name}
+            url={el.url}
           />
         ))}
       </S_MemberBox>

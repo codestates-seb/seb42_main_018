@@ -25,6 +25,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RequestMapping
+@CrossOrigin(value = {"https://dev.somojeon.site", "https://dev-somojeon.vercel.app"})
 @RequiredArgsConstructor
 public class ScheduleController {
     private final ScheduleService scheduleService;
@@ -37,33 +38,33 @@ public class ScheduleController {
                                        @Valid @RequestBody ScheduleDto.Post requestBody) {
         requestBody.addClubId(clubId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
-                requestBody.getUserTeams(), requestBody.getCandidates());
+                requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);
     }
 
-    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}")
-    public ResponseEntity patchSchedule(@PathVariable("club-id") @Positive long clubId,
+    @PutMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity putSchedule(@PathVariable("club-id") @Positive long clubId,
                                         @PathVariable("schedule-id") @Positive long scheduleId,
                                         @Valid @RequestBody ScheduleDto.Patch requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
-                requestBody.getRecords(), requestBody.getUserTeams(), requestBody.getCandidates());
+                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
@@ -81,12 +82,22 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    public ResponseEntity getScheduleByClub(@PathVariable("club-id") @Positive long clubId,
+                                            @PathVariable("schedule-id") @Positive long scheduleId) {
+        Schedule schedule = scheduleService.findScheduleByClub(clubId, scheduleId);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)),
+        HttpStatus.OK);
+    }
+
     @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);
 
-//        if (!identifier.checkClubRole(clubId)) {
+//        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 

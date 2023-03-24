@@ -65,23 +65,23 @@ function MainContents() {
         <S_TagBox>
           {/* 최대 5개의 카테고리만 보여주기 */}
           <S_Category>전체보기</S_Category>
-          {categories.map((e) => (
-            <S_Category key={e.categoryName}>{e.categoryName}</S_Category>
+          {categories.map((el) => (
+            <S_Category key={el.categoryName}>{el.categoryName}</S_Category>
           ))}
         </S_TagBox>
       </S_TitleBox>
       {/* 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
-      {clubs.map((e) => (
+      {clubs.map((el) => (
         <ClubList
-          key={e.clubId}
-          clubId={e.clubId}
-          clubName={e.clubName}
-          profileImage={e.profileImage}
-          content={e.content}
-          local={e.local}
-          categoryName={e.categoryName}
-          memberCount={e.memberCount}
-          tagResponseDtos={e.tagResponseDtos}
+          key={el.clubId}
+          clubId={el.clubId}
+          clubName={el.clubName}
+          profileImage={el.profileImage}
+          content={el.content}
+          local={el.local}
+          categoryName={el.categoryName}
+          memberCount={el.memberCount}
+          tagResponseDtos={el.tagResponseDtos}
         />
       ))}
       {/* <S_Page /> */}

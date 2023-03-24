@@ -7,13 +7,15 @@ import {
   RegisterUserInputType,
   useLoginRequestLogic
 } from '../../util/authorization/useLoginRequestLogic';
-import { jwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
+import { JwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
-import { S_Title, S_Label, S_Description } from '../../components/UI/S_Text';
-import { S_Input } from '../../components/UI/S_Input';
+import { S_Title } from '../../components/UI/S_Text';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { useDispatch } from 'react-redux';
+import InputEmail from '../../components/login/_inputEmail';
+import InputPassword from '../../components/login/_inputPassword';
+import InputNickname from '../../components/login/_inputNickname';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
   & .title-wrapper {
@@ -26,6 +28,15 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+  }
+  & .email-input-area {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    & > input {
+      margin: 0 0.8rem 0 0;
+    }
   }
   & .register-btn {
     margin-top: 1vh;
@@ -51,7 +62,7 @@ function Register() {
 
   // 소셜 로그인 최초 시도 후 회원가입 페이지로 보내진 경우
   // tempTokens: 소셜 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
-  const [tempTokens, setTempTokens] = useState<jwtTokensType>();
+  const [tempTokens, setTempTokens] = useState<JwtTokensType>();
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -74,6 +85,7 @@ function Register() {
     }
   }, []);
 
+  const [isEmailDuplicationChecked, setIsEmailDuplicationChecked] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
@@ -83,47 +95,68 @@ function Register() {
   const POST_URL = `${process.env.REACT_APP_URL}/users`;
   const dispatch = useDispatch();
 
+  const checkEmailValidation = () => {
+    const isValidEmail = checkEmail(email);
+    if (!isValidEmail) setEmailError(true);
+    else setEmailError(false);
+
+    return isValidEmail;
+  };
+
+  const checkPasswordValidation = () => {
+    const isValidPassword = checkPassword(password);
+
+    if (!isValidPassword) setPasswordError(true);
+    else setPasswordError(false);
+
+    if (password !== confirmPassword) setConfirmPasswordError(true);
+    else setConfirmPasswordError(false);
+
+    return isValidPassword && password === confirmPassword;
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isEmailDuplicationChecked) {
+      alert('먼저 이메일 중복 확인을 해주세요');
+      return;
+    }
 
     const userInfo: RegisterUserInputType = { ...inputs };
 
     if (isFromOauthLogin) {
+      console.log('카톡 회원가입 요청');
+
       if (!email || !nickName) return;
 
       delete userInfo.password;
       delete userInfo.confirmPassword;
 
       const registerResponse = await postFetch(POST_URL, userInfo, tempTokens?.accessToken);
+      // ! post 요청 이후 서버가 일괄적으로 return url 쿼리 값으로 보내주도록 시도
 
       // * access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌
       if (registerResponse) {
-        dispatch(setIsLogin(true));
-        dispatch(setUserInfo(registerResponse.data.data));
-        dispatch(
-          setTokens({
-            accessToken: registerResponse.headers.authorization,
-            refreshToken: registerResponse.headers.refresh
-          })
-        );
-        navigate('/home');
+        // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)
+        // console.log(registerResponse);
+        // dispatch(setIsLogin(true));
+        // dispatch(setUserInfo(registerResponse.data.data));
+        // dispatch(
+        //   setTokens({
+        //     accessToken: registerResponse.headers.authorization,
+        //     refreshToken: registerResponse.headers.refresh
+        //   })
+        // );
+        // navigate('/home');
       }
     } else {
+      console.log('일반 회원가입 요청');
       if (!email || !password || !confirmPassword || !nickName) return;
+
       // 이메일 & 비밀번호 유효성 검사
-      const isValidEmail = checkEmail(email);
-      const isValidPassword = checkPassword(password);
-
-      if (!isValidEmail) setEmailError(true);
-      else setEmailError(false);
-
-      if (!isValidPassword) setPasswordError(true);
-      else setPasswordError(false);
-
-      if (password !== confirmPassword) setConfirmPasswordError(true);
-      else setConfirmPasswordError(false);
-
-      if (!isValidEmail || !isValidPassword) return;
+      const result1 = checkEmailValidation();
+      const result2 = checkPasswordValidation();
+      if (!result1 || !result2) return;
 
       // 서버에 회원가입 post 요청
       delete userInfo.confirmPassword;
@@ -139,7 +172,30 @@ function Register() {
     }
   };
 
-  // TODO: 이메일, 닉네임 중복 검사 요청
+  const checkEmailDuplication = async () => {
+    if (!email) {
+      alert('이메일 주소를 먼저 입력해 주세요.');
+      return;
+    }
+
+    // 이메일 유효성 검사
+    const result = checkEmailValidation();
+    if (!result) return;
+
+    const POST_URL = `${process.env.REACT_APP_URL}/users/email`;
+    const res = await postFetch(POST_URL, { email });
+
+    if (res) {
+      // 중복 여부에 대한 확인 - true: 중복 / false: 중복 아님
+      if (res.headers.request === 'True') {
+        alert('이미 가입된 이메일 주소입니다.');
+        setIsEmailDuplicationChecked(false);
+      } else {
+        alert('사용할 수 있는 이메일 주소입니다.');
+        setIsEmailDuplicationChecked(true);
+      }
+    }
+  };
 
   return (
     <S_Container>
@@ -147,89 +203,42 @@ function Register() {
         <div className='title-wrapper'>
           <Link to='/'>
             <S_Title>소모전 로그인하기</S_Title>
-          </Link>{' '}
+          </Link>
         </div>
         <form onSubmit={onSubmit}>
           <div className='form-wrapper'>
-            <div>
-              <label htmlFor='email'>
-                <S_Label>이메일</S_Label>
-              </label>
-              <S_Input
-                id='email'
-                name='email'
-                type='text'
-                width='96%'
-                value={email}
-                onChange={onChange}
-              />
-
-              {emailError && (
-                <S_Description color={'var(--red100)'}>
-                  유효하지 않은 형식의 이메일입니다.
-                </S_Description>
-              )}
-            </div>
+            <InputEmail
+              value={email}
+              onChange={onChange}
+              errorState={emailError}
+              hasDuplicationCheckButton={true}
+              onClick={checkEmailDuplication}
+            />
 
             {!isFromOauthLogin && (
               <>
-                <div>
-                  <label htmlFor='password'>
-                    <S_Label>비밀번호</S_Label>
-                  </label>
-                  <S_Description>
-                    비밀번호는 최소 1개의 문자와 1개의 숫자를 포함하여 8~20자여야 합니다.
-                  </S_Description>
-                  <S_Input
-                    id='password'
-                    name='password'
-                    type='password'
-                    width='96%'
-                    value={password}
-                    onChange={onChange}
-                  />
-                  {passwordError && (
-                    <S_Description color={'var(--red100)'}>
-                      비밀번호의 조건을 만족하지 않습니다.
-                    </S_Description>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor='confirmPassword'>
-                    <S_Label>비밀번호 확인</S_Label>
-                  </label>
-                  <S_Input
-                    id='confirmPassword'
-                    name='confirmPassword'
-                    type='password'
-                    width='96%'
-                    value={confirmPassword}
-                    onChange={onChange}
-                  />
-                  {confirmPasswordError && (
-                    <S_Description color={'var(--red100)'}>
-                      비밀번호가 일치하지 않습니다.
-                    </S_Description>
-                  )}
-                </div>
+                <InputPassword
+                  name='password'
+                  label='비밀번호'
+                  desc='비밀번호는 최소 1개의 문자와 1개의 숫자를 포함하여 8~20자여야 합니다.'
+                  value={password}
+                  onChange={onChange}
+                  errorState={passwordError}
+                  errorMsg='비밀번호의 조건을 만족하지 않습니다.'
+                />
+                <InputPassword
+                  name='confirmPassword'
+                  label='비밀번호 확인'
+                  value={confirmPassword}
+                  onChange={onChange}
+                  errorState={confirmPasswordError}
+                  errorMsg='비밀번호가 일치하지 않습니다.'
+                />
               </>
             )}
 
-            <div>
-              <label htmlFor='nickname'>
-                <S_Label>닉네임</S_Label>
-              </label>
-              <S_Description>닉네임은 언제든지 바꿀 수 있어요.</S_Description>
-              <S_Input
-                id='nickname'
-                name='nickName'
-                type='text'
-                width='96%'
-                value={nickName}
-                onChange={onChange}
-              />
-            </div>
+            <InputNickname value={nickName} onChange={onChange} />
+
             <div className='register-btn'>
               <S_Button>회원가입</S_Button>
             </div>

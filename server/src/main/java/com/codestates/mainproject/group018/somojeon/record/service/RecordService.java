@@ -35,13 +35,12 @@ public class RecordService {
 //                userClub.setWinCount(userClub.getWinCount() + 1);
 //                break;
 //            case "lose":
-//                userClub.setWinCount(userClub.getWinCount() - 1);
+//                userClub.setLoseCount(userClub.getLoseCount() + 1);
 //                break;
 //            case "draw":
-//                userClub.setWinCount(userClub.getWinCount());
+//                userClub.setDrawCount(userClub.getDrawCount() + 1);
 //                break;
 //        }
-//        if (userClub.getWinCount() < 0) userClub.setWinCount(0);
 //        userClub.setWinRate(userClub.getWinCount() / userClub.getPlayCount() * 100);
 
         return recordRepository.save(record);

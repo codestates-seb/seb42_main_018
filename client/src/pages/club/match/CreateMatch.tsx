@@ -10,32 +10,21 @@ import {
   S_EditButton,
   S_SelectButton
 } from '../../../components/UI/S_Button';
-import { S_Description, S_Label, S_Title } from '../../../components/UI/S_Text';
+import { S_Description, S_Label, S_Title, S_Text } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
 import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
-
-export const S_MapBackdrop = styled.div`
-  background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  overflow: hidden;
-`;
+import { postFetch } from '../../../util/api';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
 
 export const S_MapView = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: var(--white);
   width: 300px;
   height: 400px;
   border-radius: 20px;
@@ -46,6 +35,23 @@ export const S_MapView = styled.div`
     border-radius: 20px;
     padding: 10px;
   }
+`;
+
+const S_ConfirmModalContainer = styled(ModalContainer)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  height: 120px;
+  background-color: var(--white);
+  padding: 30px 20px;
+`;
+
+const S_ButtonBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export interface TeamList {
@@ -62,15 +68,11 @@ export interface Record {
 }
 
 export interface MatchData {
-  schedule: {
-    date: string | undefined;
-    time: string | undefined;
-    placeName: string | undefined;
-    placeCoordinate: {
-      longitude: number | undefined;
-      latitude: number | undefined;
-    };
-  };
+  date: string | undefined;
+  time: string | undefined;
+  placeName: string | undefined;
+  longitude: number | undefined;
+  latitude: number | undefined;
   candidates: string[];
   teamList: TeamList[];
   records: Record[];
@@ -86,24 +88,14 @@ function CreateMatch() {
 
   const [matchData, setMatchData] = useState<MatchData>();
 
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
-  const candidates: string[] = [
-    '박대운',
-    '우제훈',
-    '김은택',
-    '김아애',
-    '문채리',
-    '전규언전규언전규',
-    '박대운2',
-    '우제훈2',
-    '김은택2',
-    '김아애2',
-    '문채리2',
-    '전규언전'
-  ];
+  const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates);
@@ -113,36 +105,11 @@ function CreateMatch() {
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
-
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
-
-  const setRequestData = (
-    date: string | undefined,
-    time: string | undefined,
-    place: PlaceType | undefined,
-    candidates: string[],
-    teams: TeamList[],
-    records: Record[]
-  ) => {
-    const data = {
-      schedule: {
-        date,
-        time,
-        placeName: place?.place_name,
-        placeCoordinate: {
-          longitude: place?.y,
-          latitude: place?.x
-        }
-      },
-      candidates: candidates?.length !== 0 ? candidates : [],
-      teamList: !(teams?.length === 1 && teams[0].members.length === 0) ? teams : [],
-      records: records.length !== 0 ? records : []
-    };
-    console.log(data);
-    setMatchData(data);
-  };
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
@@ -236,7 +203,7 @@ function CreateMatch() {
     unregister(`${record.id}`);
   };
 
-  const updateRecord = () => {
+  const updateRecord = async () => {
     const copiedRecords: Record[] = [];
     const copiedValues = Object.entries(getValues());
     copiedValues.forEach((el) => {
@@ -247,14 +214,29 @@ function CreateMatch() {
       copiedRecords.push(temp);
     });
     setRecords(copiedRecords);
+
+    // console.log(2);
+    // setRequestData(date, time, placeValue, candidates, teamList, records);
   };
 
-  const saveMatchData = () => {
-    if (!checkValidation()) {
-      alert('*가 표시된 항목은 필수 입력란입니다.');
-      return;
-    }
-    updateRecord();
+  const saveMatchData = async () => {
+    setMatchData({
+      date,
+      time,
+      placeName: placeValue?.place_name,
+      longitude: Number(placeValue?.y),
+      latitude: Number(placeValue?.x),
+      candidates: candidates?.length !== 0 ? candidates : [],
+      teamList: !(teamList?.length === 1 && teamList[0].members.length === 0) ? teamList : [],
+      records: records.length !== 0 ? records : []
+    });
+    // postMatchData();
+  };
+
+  const postMatchData = async () => {
+    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
+      console.log('post했습니다.')
+    );
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -262,7 +244,8 @@ function CreateMatch() {
   }
 
   useEffect(() => {
-    setRequestData(date, time, placeValue, candidates, teamList, records);
+    saveMatchData();
+    // setRequestData(date, time, placeValue, candidates, teamList, records);
   }, [records]);
 
   return (
@@ -283,7 +266,7 @@ function CreateMatch() {
           지도보기
         </S_SelectButton>
         {isOpenMapSetting && (
-          <S_MapBackdrop onClick={mapSettingModalHandler}>
+          <ModalBackdrop onClick={mapSettingModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
               <KakaoMapSearch
                 mapSettingModalHandler={mapSettingModalHandler}
@@ -291,14 +274,14 @@ function CreateMatch() {
                 placeValue={placeValue}
               />
             </S_MapView>
-          </S_MapBackdrop>
+          </ModalBackdrop>
         )}
         {isOpenMapView && (
-          <S_MapBackdrop onClick={mapViewModalHandler}>
+          <ModalBackdrop onClick={mapViewModalHandler}>
             <S_MapView style={{ height: '300px' }} onClick={(e) => e.stopPropagation()}>
               {placeValue && <KakaoMapView y={placeValue.y} x={placeValue.x} />}
             </S_MapView>
-          </S_MapBackdrop>
+          </ModalBackdrop>
         )}
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
@@ -384,11 +367,48 @@ function CreateMatch() {
       <div>
         <S_Button
           onClick={() => {
-            saveMatchData();
+            if (!checkValidation()) {
+              alert('*가 표시된 항목은 필수 입력란입니다.');
+              return;
+            }
+            updateRecord();
+
+            setIsOpenConfirm(true);
           }}
         >
           저장하기 +
         </S_Button>
+        {isOpenConfirm && (
+          <ModalBackdrop>
+            <S_ConfirmModalContainer>
+              <S_Label>일정을 등록하시겠습니까?</S_Label>
+              <S_ButtonBox>
+                <S_Button
+                  addStyle={{ width: '48%' }}
+                  onClick={() => {
+                    postMatchData();
+                    navigate(`/club/${id}/match`);
+                  }}
+                >
+                  확인
+                </S_Button>
+                <S_Button
+                  addStyle={{
+                    width: '48%',
+                    backgroundColor: 'var(--gray100)',
+                    color: 'var(--gray400)',
+                    hoverBgColor: 'var(--gray200)'
+                  }}
+                  onClick={() => {
+                    setIsOpenConfirm(false);
+                  }}
+                >
+                  취소
+                </S_Button>
+              </S_ButtonBox>
+            </S_ConfirmModalContainer>
+          </ModalBackdrop>
+        )}
       </div>
     </S_Container>
   );

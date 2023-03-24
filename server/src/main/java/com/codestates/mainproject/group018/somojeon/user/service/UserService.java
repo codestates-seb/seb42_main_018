@@ -130,12 +130,14 @@ public class UserService {
 
     }
 
-    public Page<UserClub> findUsers(int page, int size, long clubId) {
+    // UserClub으로 옮김
 
-        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
-
-        return userClubPage;
-    }
+//    public Page<UserClub> findUsers(int page, int size, long clubId) {
+//
+//        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+//
+//        return userClubPage;
+//    }
 
     public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);
@@ -173,7 +175,7 @@ public class UserService {
     public void verifyExistsEmail(String email, HttpServletResponse response) {
         Optional<User> user = userRepository.findByEmail(email);
         String answer = user.isPresent() ? "True" : "False";
-        response.addHeader("Reqeust", answer);
+        response.addHeader("Request", answer);
     }
 
     public boolean verifyMyUserId(HttpServletRequest request, Long userId){

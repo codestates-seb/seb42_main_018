@@ -1,14 +1,15 @@
 package com.codestates.mainproject.group018.somojeon.club.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 
 public enum ClubMemberStatus {
 
-    MEMBER_ACTIVE("회원 활동중"),
-    MEMBER_BLACKED("회원 블랙상태"),
-    MEMBER_BANISHED("회원 밴상태"),
-    MEMBER_QUIT("회원 탈퇴상태");
+    MEMBER_ACTIVE("MEMBER ACTIVE"),
+    MEMBER_BLACKED("MEMBER BLACKED"),
+    MEMBER_BANISHED("MEMBER BANISHED"),
+    MEMBER_QUIT("MEMBER QUIT");
 
     @Setter
     @Getter
@@ -16,5 +17,10 @@ public enum ClubMemberStatus {
 
     ClubMemberStatus(String status) {
         this.status = status;
+    }
+
+    @JsonValue
+    public String getStatus() {
+        return status;
     }
 }

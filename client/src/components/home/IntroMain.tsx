@@ -5,12 +5,39 @@ import { S_Text, S_Title } from '../UI/S_Text';
 const S_IntroBox = styled.div`
   margin-top: 50px;
   padding-top: 60px;
+  height: 490px;
   text-align: center;
   background-color: var(--blue300);
   background-size: 100%;
   line-height: 160%;
   img {
     width: 100%;
+    animation: fadeinImg 1.2s;
+    background-color: var(--blue300);
+  }
+  p {
+    animation: fadein 1.5s;
+  }
+  h1 {
+    animation: fadein 1.5s;
+  }
+  @keyframes fadeinImg {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 5%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translateZ(-5);
+    }
+  }
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 

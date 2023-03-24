@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_SelectButton } from '../UI/S_Button';
 import { S_Label, S_Text } from '../UI/S_Text';
@@ -17,8 +18,15 @@ const S_ButtonContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
-function ScheduleCard() {
+interface ScheduleCardProps {
+  date?: string;
+  time?: string;
+  placeName?: string;
+  scheduleId: number;
+  clubId: number;
+}
+function ScheduleCard(props: ScheduleCardProps) {
+  const navigate = useNavigate();
   const [clickedButton, setClickedButton] = useState<string | null>('');
   const buttonHandler = (e: React.MouseEvent<HTMLElement>) => {
     setClickedButton(e.currentTarget.getAttribute('name'));
@@ -26,10 +34,10 @@ function ScheduleCard() {
   return (
     <>
       <hr style={{ margin: '20px 0' }} />
-      <S_CardContainer>
+      <S_CardContainer onClick={() => navigate(`/club/${props.clubId}/match/${props.scheduleId}`)}>
         <S_Information>
-          <S_Text>3월 11일 목요일 17:00</S_Text>
-          <S_Label>도봉구 약수터 풋살장</S_Label>
+          <S_Text>{`${props.date} ${props.time}`}</S_Text>
+          <S_Label>{props.placeName}</S_Label>
         </S_Information>
         <S_ButtonContainer>
           <S_SelectButton

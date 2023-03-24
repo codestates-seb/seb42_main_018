@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🚑 !HOTFIX redirect 페이지 변경, 회원가입한 유저의 경우 파라미터로 userId 제공">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/entity/UserPassword.java" afterDir="false" />
+    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🚑 !HOTFIX email response">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/CustomOAuth2AuthorizationRequestFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/oauth/repository/OAuthUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/oauth/repository/OAuthUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/oauth/service/OauthUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/oauth/service/OauthUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +64,17 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
+        <entry key="$PROJECT_DIR$" value="ET/feat/refactor" />
+      </map>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
         <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="ET/feat/S3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -207,9 +217,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.insertDummyData" />
-        <item itemvalue="Gradle.server [clean]" />
-        <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
       </list>
@@ -329,7 +336,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679535386735</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="♻ refactor email response">
+      <created>1679540489495</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679540489495</updated>
+    </task>
+    <task id="LOCAL-00017" summary="🚑 !HOTFIX email response">
+      <created>1679544961302</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679544961302</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -379,7 +400,9 @@
     <MESSAGE value=" fix 카카오톡 회원가입 버그수정" />
     <MESSAGE value="✨ feat 이메일 중복에 1000번 ExceptionCode 할당" />
     <MESSAGE value=" fix 회원가입 버그 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value=" fix 회원가입 버그 수정" />
+    <MESSAGE value="♻ refactor email response" />
+    <MESSAGE value=" !HOTFIX email response" />
+    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX email response" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -392,17 +415,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
-          <line>97</line>
-          <option name="timeStamp" value="54" />
+          <line>198</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
-        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
-        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

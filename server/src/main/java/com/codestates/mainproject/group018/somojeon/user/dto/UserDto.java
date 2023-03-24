@@ -3,10 +3,7 @@ package com.codestates.mainproject.group018.somojeon.user.dto;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
@@ -120,4 +117,16 @@ public class UserDto {
 
 
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UserInfoResponse {
+
+        private Long userId;
+        private String nickName;
+        private String email;
+        private ImagesResponseDto profileImage;
+    }
+
 }

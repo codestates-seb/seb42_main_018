@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.team.entity;
 
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,10 @@ public class Team {
 
     @Column(nullable = false)
     private String winLoseDraw;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SCHEDULE_ID")
+    private Schedule schedule;
 
     @OneToMany(mappedBy = "team")
     private List<TeamRecord> teamRecords = new ArrayList<>();

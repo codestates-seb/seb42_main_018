@@ -1,16 +1,32 @@
 import styled from 'styled-components';
 import ScheduleCard from '../../../components/match/ScheduleCard';
 import { S_Text } from '../../../components/UI/S_Text';
+import { Schedule } from './ClubSchedule';
 
 const S_MatchSchedule = styled.div``;
 const S_List = styled.div``;
 
-function PastMatch() {
+interface PastMatchProps {
+  schedule: Schedule[];
+}
+
+function PastMatch(props: PastMatchProps) {
   return (
     <S_MatchSchedule>
       <S_Text>지난 경기는 클릭하여 자세히 볼 수 있어요.</S_Text>
       <S_List>
-        <ScheduleCard />
+        {props.schedule.map((el) => {
+          return (
+            <ScheduleCard
+              key={el.scheduleId}
+              scheduleId={el.scheduleId}
+              clubId={el.clubId}
+              date={el.date}
+              time={el.time}
+              placeName={el.placeName}
+            />
+          );
+        })}
       </S_List>
     </S_MatchSchedule>
   );

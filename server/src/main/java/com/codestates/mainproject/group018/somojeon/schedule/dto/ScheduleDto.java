@@ -5,13 +5,10 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
+import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 public class ScheduleDto {
@@ -21,11 +18,8 @@ public class ScheduleDto {
     @AllArgsConstructor
     public static class Post {
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
 
         private Long clubId;
 
@@ -35,7 +29,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<UserTeam> userTeams;
+        private List<Team> teamList;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -50,11 +44,8 @@ public class ScheduleDto {
 
         private Long clubId;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
 
         private String placeName;
         private Double longitude;
@@ -62,7 +53,7 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<UserTeam> userTeams;
+        private List<Team> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
@@ -79,16 +70,13 @@ public class ScheduleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
-        private Long scheduleId;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDate date;
-        @DateTimeFormat(pattern = "HH:mm")
-        private LocalTime time;
+        private String date;
+        private String time;
         private LocalDateTime createdAt;
         private String placeName;
         private Double longitude;
         private Double latitude;
-        private List<TeamDto.Response> teams;
+        private List<TeamDto.Response> teamList;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }

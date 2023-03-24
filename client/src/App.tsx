@@ -12,16 +12,17 @@ import MatchDetail from './pages/club/match/MatchDetail';
 import ClubMember from './pages/club/member/ClubMember';
 import Home from './pages/home/Home';
 import Intro from './pages/home/Intro';
-import EditProfile from './pages/user/EditProfile';
+import EditProfile from './pages/mypage/EditProfile';
 import Login from './pages/user/Login';
-import MyPage from './pages/user/MyPage';
+import MyPage from './pages/mypage/MyPage';
 import Register from './pages/user/Register';
 import Header from './components/Header';
 import API_TEST from './API_TEST';
 
 import GlobalStyles from './GlobalStyles';
-import MemberRecord from './pages/club/member/MemberRecord';
 import Admin from './pages/admin/Admin';
+import EditPassword from './pages/mypage/EditPassword';
+import DeleteAccount from './pages/mypage/DeleteAccount';
 
 function App() {
   return (
@@ -35,7 +36,11 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/mypage'>
           <Route index element={<MyPage />} />
-          <Route path='edit' element={<EditProfile />} />
+          <Route path='edit'>
+            <Route index element={<EditProfile />} />
+            <Route path='password' element={<EditPassword />} />
+            <Route path='account' element={<DeleteAccount />} />
+          </Route>
         </Route>
         <Route path='/club/:id'>
           <Route index element={<ClubIntro />} />
@@ -55,7 +60,7 @@ function App() {
         </Route>
         {/* // TODO : API 테스트 후 삭제 (import 라인 같이 삭제) */}
         <Route path='/api' element={<API_TEST />} />
-        <Route path='/admin' element={<Admin/>} /> 
+        <Route path='/admin' element={<Admin />} />
       </Routes>
     </div>
   );

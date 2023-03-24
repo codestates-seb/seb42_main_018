@@ -23,55 +23,70 @@ import java.util.List;
 @RestController
 @Slf4j
 @Validated
-@RequestMapping("/teams")
+@RequestMapping
 @RequiredArgsConstructor
 public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
 
-    @PostMapping
-    public ResponseEntity postTeam(@Valid @RequestBody TeamDto.Post requestBody) {
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/teams")
+    public ResponseEntity postTeam(@PathVariable("club-id") @Positive long clubId,
+                                   @PathVariable("schedule-id") @Positive long scheduleId,
+                                   @Valid @RequestBody TeamDto.Post requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+
         Team team = teamMapper.teamPostDtoToTeam(requestBody);
 
-        Team createdTeam = teamService.createTeam(team);
+        Team createdTeam = teamService.createTeam(team, clubId, scheduleId);
         URI location = UriCreator.createUri("/teams", createdTeam.getTeamId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{team-id}")
-    public ResponseEntity patchTeam(@PathVariable("team-id") @Positive long teamId,
+    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}/teams/{team-id}")
+    public ResponseEntity patchTeam(@PathVariable("club-id") @Positive long clubId,
+                                    @PathVariable("schedule-id") @Positive long scheduleId,
+                                    @PathVariable("team-id") @Positive long teamId,
                                     @Valid @RequestBody TeamDto.Patch requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
         requestBody.addTeamId(teamId);
 
-        Team team = teamService.updateTeam(teamMapper.teamPatchDtoToTeam(requestBody));
+        Team team = teamService.updateTeam(teamMapper.teamPatchDtoToTeam(requestBody), clubId, scheduleId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(teamMapper.teamToTeamResponseDto(team)), HttpStatus.OK);
     }
 
-    @GetMapping("/{team-id}")
-    public ResponseEntity getTeam(@PathVariable("team-id") @Positive long teamId) {
-        Team team = teamService.findTeam(teamId);
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/teams/{team-id}")
+    public ResponseEntity getTeam(@PathVariable("club-id") @Positive long clubId,
+                                  @PathVariable("schedule-id") @Positive long scheduleId,
+                                  @PathVariable("team-id") @Positive long teamId) {
+        Team team = teamService.findTeam(teamId, clubId, scheduleId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(teamMapper.teamToTeamResponseDto(team)), HttpStatus.OK);
     }
 
 
-    @GetMapping
-    public ResponseEntity getTeams(@RequestParam("page") int page,
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/teams")
+    public ResponseEntity getTeams(@PathVariable("club-id") @Positive long clubId,
+                                   @PathVariable("schedule-id") @Positive long scheduleId,
+                                   @RequestParam("page") int page,
                                    @RequestParam("size") int size) {
-        Page<Team> pageTeams = teamService.findTeams(page - 1, size);
+        Page<Team> pageTeams = teamService.findTeams(clubId, scheduleId, page - 1, size);
         List<Team> teams = pageTeams.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(teamMapper.teamsToTeamResponseDtos(teams), pageTeams), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{team-id}")
-    public ResponseEntity deleteTeam(@PathVariable("team-id") @Positive long teamId) {
-        teamService.deleteteam(teamId);
+    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}/teams/{team-id}")
+    public ResponseEntity deleteTeam(@PathVariable("club-id") @Positive long clubId,
+                                     @PathVariable("schedule-id") @Positive long scheduleId,
+                                     @PathVariable("team-id") @Positive long teamId) {
+        teamService.deleteTeam(teamId, clubId, scheduleId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

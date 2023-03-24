@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.candidate.mapper.CandidateMa
 import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,50 +23,59 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/candidates")
+@RequestMapping
 @RequiredArgsConstructor
 public class CandidateController {
     private final CandidateService candidateService;
     private final CandidateMapper candidateMapper;
-    private final UserService userService;
-    private final Identifier identifier;
 
-    @PostMapping
-    public ResponseEntity postCandidate(@Valid @RequestBody CandidateDto.Post requestBody) {
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates")
+    public ResponseEntity postCandidate(@PathVariable("club-id") @Positive long clubId,
+                                        @PathVariable("schedule-id") @Positive long scheduleId,
+                                        @Valid @RequestBody CandidateDto.Post requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+
         Candidate candidate = candidateMapper.candidatePostDtoToCandidate(requestBody);
 
-        Candidate createdCandidate = candidateService.createCandidate(candidate);
+        Candidate createdCandidate = candidateService.createCandidate(candidate, clubId, scheduleId);
         URI location = UriCreator.createUri("/candidates", createdCandidate.getCandidateId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{candidate-id}")
-    public ResponseEntity patchCandidate(@PathVariable("candidate-id") @Positive long candidateId,
+    @PatchMapping("/clubs/{club-id}/schedules/{schedule-id}/{candidate-id}")
+    public ResponseEntity patchCandidate(@PathVariable("club-id") @Positive long clubId,
+                                         @PathVariable("schedule-id") @Positive long scheduleId,
+                                         @PathVariable("candidate-id") @Positive long candidateId,
                                          @Valid @RequestBody CandidateDto.Patch requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
         requestBody.addCandidateId(candidateId);
 
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
-        Candidate candidate = candidateService.updateCandidate(candidateMapper.candidatePatchDtoToCandidate(requestBody));
+        Candidate candidate = candidateService.updateCandidate(
+                candidateMapper.candidatePatchDtoToCandidate(requestBody), clubId, scheduleId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping("/{candidate-id}")
-    public ResponseEntity getCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
-        Candidate candidate = candidateService.findCandidate(candidateId);
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates/{candidate-id}")
+    public ResponseEntity getCandidate(@PathVariable("club-id") @Positive long clubId,
+                                       @PathVariable("schedule-id") @Positive long scheduleId,
+                                       @PathVariable("candidate-id") @Positive long candidateId) {
+        Candidate candidate = candidateService.findCandidate(candidateId, clubId, scheduleId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getCandidates(@RequestParam("page") int page,
+    @GetMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates")
+    public ResponseEntity getCandidates(@PathVariable("club-id") @Positive long clubId,
+                                        @PathVariable("schedule-id") @Positive long scheduleId,
+                                        @RequestParam("page") int page,
                                         @RequestParam("size") int size) {
-        Page<Candidate> pageCandidates = candidateService.findCandidates(page - 1, size);
+        Page<Candidate> pageCandidates = candidateService.findCandidates(clubId,scheduleId, page - 1, size);
         List<Candidate> candidates = pageCandidates.getContent();
 
         return new ResponseEntity<>(
@@ -76,13 +83,11 @@ public class CandidateController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/{candidate-id}")
-    public ResponseEntity deleteCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
-        candidateService.deleteCandidate(candidateId);
-
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
+    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}/candidates/{candidate-id}")
+    public ResponseEntity deleteCandidate(@PathVariable("club-id") @Positive long clubId,
+                                          @PathVariable("schedule-id") @Positive long scheduleId,
+                                          @PathVariable("candidate-id") @Positive long candidateId) {
+        candidateService.deleteCandidate(candidateId, clubId, scheduleId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

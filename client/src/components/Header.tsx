@@ -41,15 +41,11 @@ const IconContainer = styled.div`
 function Header() {
   const { isLogin } = getGlobalState();
   const navigate = useNavigate();
-
-  const handleMyPageIcon = () => {
-    if (isLogin) navigate('/mypage');
-    else navigate('/login');
-  };
+  const linkTo = isLogin ? '/home' : '/';
 
   return (
     <HeaderContainer>
-      <Link to='/'>
+      <Link to={linkTo}>
         <img src={logo} alt='소모전 로고' />
       </Link>
       <IconContainer>
@@ -57,7 +53,7 @@ function Header() {
         <button>
           <img src={search} alt='검색 아이콘' />
         </button>
-        <button onClick={handleMyPageIcon}>
+        <button onClick={() => navigate('/mypage')}>
           <img src={mypage} alt='마이페이지 아이콘' />
         </button>
       </IconContainer>

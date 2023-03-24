@@ -1,47 +1,48 @@
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
-import ClubMemberItem from '../../../components/club/member/memberItem';
-import MemberNav from '../../../components/club/member/memberNav';
-import { ClubMemberProps } from '../../../types';
-
-const S_MemberBox = styled.div`
-  min-height: calc(100vh - 100px);
-`;
+import MemberRecord from './MemberRecord';
+import SubTabMenu from '../../../components/SubTabMenu';
+import MemberList from './MemberList';
+import { MemberProps, MemberData } from '../../../types';
+import { useEffect, useState } from 'react';
+import { getFetch } from '../../../util/api';
 
 function ClubMember() {
   const { id } = useParams();
+
+  // `${process.env.REACT_APP_URL}/user/clubs/${id}`
+  // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
+  const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
+      const members: MemberData[] = data.data;
+      setMembers(members);
+    });
+  }, []);
+  console.log(members);
+
+  // 상단탭
   const tabs = [
     { id: 1, title: '소개', path: `/club/${id}` },
     { id: 2, title: '경기정보', path: `/club/${id}/match` },
     { id: 3, title: '멤버', path: `/club/${id}/member` }
   ];
 
-  // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
-  const data: ClubMemberProps[] = [
+  // 서브 버튼탭
+  const subtabs = [
     {
-      memberId: 1,
-      profileImage: '이미지',
-      name: '별명',
-      winRate: 'string'
-    }
+      id: 1,
+      title: '전체 멤버',
+      contents: <MemberList members={members} />
+    },
+    { id: 2, title: '멤버 기록', contents: <MemberRecord members={members} /> }
   ];
 
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />
-      <S_MemberBox>
-        {data.map((e) => (
-          <ClubMemberItem
-            key={e.memberId}
-            profileImage={e.profileImage}
-            name={e.name}
-            winRate={e.winRate}
-          />
-        ))}
-        <MemberNav />
-      </S_MemberBox>
+      <SubTabMenu subtabs={subtabs} />
     </S_Container>
   );
 }

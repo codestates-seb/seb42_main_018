@@ -1,17 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 
 function ClubSetting() {
   const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <S_Container>
       <S_Title style={{ marginBottom: '20px' }}>소모임 설정</S_Title>
-      <S_Label fontSize='1.1rem' onClick={() => navigate('/club/:id/edit')}>
+      <S_Label fontSize='1.1rem' onClick={() => navigate(`/club/${id}/edit`)}>
         소모임 정보 수정
       </S_Label>
-      <S_Label fontSize='1.1rem'>회원 관리</S_Label>
-      <S_Label fontSize='1.1rem'>가입 대기중인 회원</S_Label>
+      <S_Label fontSize='1.1rem' onClick={() => navigate(`/club/${id}/setting/member`)}>
+        회원 관리
+      </S_Label>
       <hr
         style={{
           display: 'block',
