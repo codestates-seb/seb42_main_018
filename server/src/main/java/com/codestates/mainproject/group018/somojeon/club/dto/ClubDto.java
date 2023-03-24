@@ -32,7 +32,7 @@ public class ClubDto {
 
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
-        private boolean isSecret;
+        private boolean isPrivate;
 
         private Long profileImageId;
 
@@ -63,11 +63,14 @@ public class ClubDto {
 
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
-        private boolean isSecret;
+        private boolean isPrivate;
 
         private Long profileImageId;
     }
 
+    //TODO-DW:회원등급 Patch,
+
+    //TODO-DW:소모임장 위임 Patch
 
     @Getter
     @Builder
@@ -84,7 +87,7 @@ public class ClubDto {
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
         private ImagesResponseDto profileImage;
-        private boolean isSecret;
+        private boolean isPrivate;
         private LocalDateTime modifiedAt;
 
     }

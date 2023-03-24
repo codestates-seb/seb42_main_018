@@ -43,7 +43,7 @@ public class Club {
     private String categoryName;
 
     @Column(nullable = false)
-    private boolean isSecret;
+    private boolean isPrivate;
 
     private int viewCount;
 
