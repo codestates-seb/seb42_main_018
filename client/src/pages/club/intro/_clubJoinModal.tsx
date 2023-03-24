@@ -49,7 +49,7 @@ function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
 
     const POST_URL = `${process.env.REACT_APP_URL}/clubs/${clubId}/joins/${userInfo.userId}`;
 
-    const res = await postFetch(POST_URL, { content }, tokens.accessToken);
+    const res = await postFetch(POST_URL, { content }, tokens);
     // console.log(res);
 
     // TODO : 모달이 떠있는 채로 alert를 띄우면 모바일에서 겹쳐 보이는지 확인
