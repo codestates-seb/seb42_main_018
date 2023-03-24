@@ -27,7 +27,7 @@ function WaitingMember() {
       console.log(data);
       setData(data.data);
     });
-  }, []);
+  });
   return (
     <>
       {data
