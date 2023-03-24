@@ -30,7 +30,7 @@ const S_MapView = styled.div`
 
 function MatchDetail() {
   const [matchData, setMatchData] = useState<Schedule>();
-  const { id } = useParams();
+  const { id, scid } = useParams();
 
   const candidates: string[] = [];
   const [isOpenMapView, setIsOpenMapView] = useState(false);
@@ -40,7 +40,7 @@ function MatchDetail() {
   };
 
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) =>
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) =>
       setMatchData({ ...data.data })
     );
   }, []);
