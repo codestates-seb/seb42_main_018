@@ -13,7 +13,7 @@ export interface ClubData {
     tagName: string;
   }[];
   modifiedAt?: string;
-  private?: boolean;
+  secret?: boolean;
 }
 export interface ClubPage {
   // 페이지네이션 정보 타입 설정
