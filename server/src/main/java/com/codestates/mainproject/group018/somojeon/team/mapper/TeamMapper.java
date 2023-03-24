@@ -43,5 +43,5 @@ public interface TeamMapper {
                 .collect(Collectors.toList());
     }
 
-    List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teams);
+    List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teamList);
 }

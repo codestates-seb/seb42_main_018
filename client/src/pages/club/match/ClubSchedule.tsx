@@ -68,7 +68,7 @@ function ClubSchedule() {
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
       console.log(data);
-      setClubSchedules([...data]);
+      setClubSchedules([...data.data]);
     });
   }, []);
   return (

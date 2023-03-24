@@ -25,8 +25,6 @@ public class UserDto {
         @Nullable
         String password;
 
-        private Long profileImageId;
-
 
     }
     @Getter
@@ -37,7 +35,6 @@ public class UserDto {
         Long userId;
         @Nullable
         String nickName;
-        private Long profileImageId;
 
     }
     @Getter

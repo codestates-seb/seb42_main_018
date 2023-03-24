@@ -10,26 +10,14 @@ public class CandidateDto {
 
     @Getter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Post {
-        private Long clubId;
-        private Long scheduleId;
 
-        public void addClubId(Long clubId) {
-            this.clubId = clubId;
-        }
-
-        public void addScheduleId(Long scheduleId) {
-            this.scheduleId = scheduleId;
-        }
     }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
-        private Long clubId;
-        private Long scheduleId;
         private Long candidateId;
 
         Candidate.Attendance attendance;
@@ -38,13 +26,6 @@ public class CandidateDto {
             this.candidateId = candidateId;
         }
 
-        public void addClubId(Long clubId) {
-            this.clubId = clubId;
-        }
-
-        public void addScheduleId(Long scheduleId) {
-            this.scheduleId = scheduleId;
-        }
     }
 
     @Getter
@@ -52,7 +33,9 @@ public class CandidateDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
+        private Long scheduleId;
         private Long candidateId;
+        private Long userId;
         private String nickName;
         Candidate.Attendance attendance;
 
