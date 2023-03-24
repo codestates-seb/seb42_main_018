@@ -10,6 +10,7 @@ import { MatchData, Record, TeamList } from './CreateMatch';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
 import { useParams } from 'react-router-dom';
+import { Schedule } from './ClubSchedule';
 
 const S_MapView = styled.div`
   display: flex;
@@ -27,22 +28,8 @@ const S_MapView = styled.div`
   }
 `;
 
-interface ResponseType {
-  scheduleId: number;
-  clubId: number;
-  date: string;
-  time: string;
-  placeName: string;
-  longitude: number;
-  latitude: number;
-  createdAt: string;
-  teamList: TeamList[];
-  records: Record[];
-  candidates: string[];
-}
-
 function MatchDetail() {
-  const [matchData, setMatchData] = useState<ResponseType>();
+  const [matchData, setMatchData] = useState<Schedule>();
   const { id } = useParams();
 
   const candidates: string[] = [];
