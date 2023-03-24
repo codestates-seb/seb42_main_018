@@ -8,19 +8,23 @@ import CreateTag from './_createTag';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
-import { S_Title, S_Label } from '../../../components/UI/S_Text';
+import { S_Title } from '../../../components/UI/S_Text';
+import { S_Label_mg_top } from './EditClub';
 import { S_Button } from '../../../components/UI/S_Button';
 import { EditClubDataType } from './EditClub';
 
 export const S_FormWrapper = styled.div`
-  margin-top: 12px;
+  margin-top: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
 
   & .isPrivate {
     display: flex;
     justify-content: space-between;
+  }
+
+  & .submit-btn-box {
+    margin-top: 1.2rem;
   }
 `;
 
@@ -125,7 +129,7 @@ function CreateClub() {
         <form onSubmit={onSubmit}>
           <div>
             <label htmlFor='clubName'>
-              <S_Label>소모임 이름 *</S_Label>
+              <S_Label_mg_top>소모임 이름 *</S_Label_mg_top>
             </label>
             <S_Input
               id='clubName'
@@ -139,7 +143,7 @@ function CreateClub() {
           </div>
           <div>
             <label htmlFor='content'>
-              <S_Label>소모임 소개글 *</S_Label>
+              <S_Label_mg_top>소모임 소개글 *</S_Label_mg_top>
             </label>
             <S_TextArea
               id='content'
@@ -156,7 +160,7 @@ function CreateClub() {
           <CreateTag tags={tags} setTags={setTags} />
           <fieldset className='isPrivate'>
             <div>
-              <S_Label>공개여부 *</S_Label>
+              <S_Label_mg_top>공개여부 *</S_Label_mg_top>
             </div>
             <S_RadioWrapper>
               <div className='partition'>
@@ -182,7 +186,9 @@ function CreateClub() {
               </div>
             </S_RadioWrapper>
           </fieldset>
-          <S_Button>소모임 만들기</S_Button>
+          <div className='submit-btn-box'>
+            <S_Button>소모임 만들기</S_Button>
+          </div>
         </form>
       </S_FormWrapper>
     </S_Container>

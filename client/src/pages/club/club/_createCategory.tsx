@@ -64,7 +64,7 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: '0.8rem' }}>
       <>
         <label htmlFor='categoryName'>
           <S_Label>어떤 소모임을 만드실 건가요? *</S_Label>

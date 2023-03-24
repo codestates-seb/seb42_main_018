@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
 import { CreateCategoryProps } from './_createCategory';
-import { S_Label } from '../../../components/UI/S_Text';
+// import { S_Label } from '../../../components/UI/S_Text';
+import { S_Label_mg_top } from './EditClub';
 import { S_Select } from '../../../components/UI/S_Select';
 
 interface DistrictType {
@@ -83,7 +84,7 @@ function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) 
   return (
     <div>
       <label htmlFor='local'>
-        <S_Label>지역 *</S_Label>
+        <S_Label_mg_top>지역 *</S_Label_mg_top>
       </label>
       <S_Select id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
