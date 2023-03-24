@@ -23,6 +23,7 @@ interface ScheduleCardProps {
   time?: string;
   placeName?: string;
   scheduleId: number;
+  clubId: number;
 }
 function ScheduleCard(props: ScheduleCardProps) {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function ScheduleCard(props: ScheduleCardProps) {
             onClick={buttonHandler}
             style={{ margin: '2px' }}
           >
-            참가
+            참석
           </S_SelectButton>
           <S_SelectButton
             name='absence'
