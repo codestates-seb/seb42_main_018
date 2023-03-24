@@ -20,7 +20,6 @@ function ScheduledMatch(props: ScheduledMatchProps) {
             <ScheduleCard
               key={el.scheduleId}
               scheduleId={el.scheduleId}
-              clubId={el.clubId}
               date={el.date}
               time={el.time}
               placeName={el.placeName}
