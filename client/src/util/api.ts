@@ -12,7 +12,7 @@ export const getFetch = async (url: string) => {
 // ? data의 타입 여러 가지인데 이 경우 타입 지정 어떻게 해결?
 export const postFetch = async <T>(url: string, newData: T, accessToken?: string) => {
   try {
-    const res = await axios.post(url, JSON.stringify(newData), {
+    const res = await axios.post(url, newData, {
       headers: {
         'Content-Type': 'application/json',
         withCredentials: true,
@@ -20,6 +20,17 @@ export const postFetch = async <T>(url: string, newData: T, accessToken?: string
       }
     });
 
+    if (res.status === 200 || res.status === 201) {
+      return res;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const patchFetch = async <T>(url: string, updateData: T) => {
+  try {
+    const res = await axios.patch(url, updateData);
     if (res.status === 200 || res.status === 201) {
       return res;
     }
