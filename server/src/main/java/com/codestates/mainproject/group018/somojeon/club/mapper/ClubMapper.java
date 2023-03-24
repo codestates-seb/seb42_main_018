@@ -48,7 +48,7 @@ public interface ClubMapper {
                 .categoryName(club.getCategoryName())
                 .memberCount(club.getMemberCount())
                 .viewCount(club.getViewCount())
-                .isPrivate(club.isPrivate())
+                .isSecret(club.isSecret())
                 .modifiedAt(club.getModifiedAt())
                 .tagResponseDtos(clubTagsToTagResponse(club.getClubTagList()))
                 .build();
