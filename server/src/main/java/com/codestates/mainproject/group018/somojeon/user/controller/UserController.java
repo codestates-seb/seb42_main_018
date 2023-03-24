@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
@@ -47,11 +48,11 @@ public class UserController {
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
-                                   HttpServletRequest request){
-        Long profileImageId = userDtoPost.getProfileImageId();
+                                   HttpServletRequest request,
+                                   Images images){
         User user =  userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser =  userService.createUser(user, token, profileImageId);
+        User createdUser =  userService.createUser(user, token, images);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
     }
@@ -70,12 +71,11 @@ public class UserController {
             @PathVariable("user-id") @Positive long userId,
             @Valid @RequestBody UserDto.Patch requestBody) {
 
-        Long profileImageId = requestBody.getProfileImageId();
         requestBody.setUserId(userId);
         if(!identifier.isVerified(userId)){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUser(userMapper.userPatchToUser(requestBody), profileImageId);
+        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(user)),

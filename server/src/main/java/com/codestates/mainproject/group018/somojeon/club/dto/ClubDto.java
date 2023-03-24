@@ -34,9 +34,6 @@ public class ClubDto {
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
         private boolean isSecret;
-//        private MultipartFile multipartFile;
-
-//        private Long profileImageId;
 
     }
     @Getter
@@ -67,8 +64,7 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isSecret;
 
-//        private String clubImageUrl;
-//        private Long profileImageId;
+        private String clubImageUrl;
     }
 
 
@@ -86,7 +82,7 @@ public class ClubDto {
         private int viewCount;
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
-        private ImagesResponseDto profileImage;
+        private String clubImageUrl;
         private boolean isSecret;
         private LocalDateTime modifiedAt;
 
