@@ -245,7 +245,6 @@ function CreateMatch() {
 
   useEffect(() => {
     saveMatchData();
-    // setRequestData(date, time, placeValue, candidates, teamList, records);
   }, [records]);
 
   return (
