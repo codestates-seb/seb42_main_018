@@ -43,7 +43,7 @@ function MatchDetail() {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) =>
       setMatchData({ ...data.data })
     );
-  });
+  }, []);
 
   return (
     <S_Container>
