@@ -79,8 +79,8 @@ public class ClubService {
                 .ifPresent(findClub::setContent);
         Optional.ofNullable(club.getLocal())
                 .ifPresent(findClub::setLocal);
-        Optional.of(club.isPrivate())
-                .ifPresent(findClub::setPrivate);
+        Optional.of(club.isSecret())
+                .ifPresent(findClub::setSecret);
         // profileImageId 들어오면 Image도 저장
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);

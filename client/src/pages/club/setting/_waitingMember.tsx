@@ -19,6 +19,7 @@ export interface WaitingUser {
 
 function WaitingMember() {
   const [data, setData] = useState<WaitingUser[]>([]);
+  const [isUpdated, setIsUpdated] = useState(false);
   // const data: WaitingUser[] = [];
   const { id } = useParams();
   useEffect(() => {
@@ -26,17 +27,19 @@ function WaitingMember() {
       console.log(data);
       setData(data.data);
     });
-  }, []);
+  }, [isUpdated]);
   return (
     <>
-      {data?.map((el) => (
-        <MemberWaitingCard
-          key={el.userInfo.userId}
-          member={el}
-          totalMembers={data}
-          setTotalMembers={setData}
-        />
-      ))}
+      {data
+        ?.filter((ele) => ele.joinStatus === 'PENDING')
+        .map((el) => (
+          <MemberWaitingCard
+            key={el.userInfo.userId}
+            member={el}
+            setIsUpdated={setIsUpdated}
+            isUpdated={isUpdated}
+          />
+        ))}
     </>
   );
 }

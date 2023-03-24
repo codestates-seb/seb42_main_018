@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,18 +48,40 @@ public interface ClubMapper {
                 .categoryName(club.getCategoryName())
                 .memberCount(club.getMemberCount())
                 .viewCount(club.getViewCount())
-                .isPrivate(club.isPrivate())
+                .isSecret(club.isSecret())
                 .modifiedAt(club.getModifiedAt())
                 .tagResponseDtos(clubTagsToTagResponse(club.getClubTagList()))
                 .build();
     }
 
-    UserClubDto.Response userClubToUserCLubResponse(UserClub userClub);
+    default UserClubDto.Response userClubToUserCLubResponse(UserClub userClub) {
+        if ( userClub == null ) {
+            return null;
+        }
+
+        UserClubDto.Response.ResponseBuilder response = UserClubDto.Response.builder();
+
+        response.clubId(userClub.getClub().getClubId());
+        response.clubRole( userClub.getClubRole() );
+        response.level( userClub.getLevel() );
+        response.playCount( userClub.getPlayCount() );
+        response.winCount( userClub.getWinCount() );
+        response.winRate( (int) userClub.getWinRate() );
+
+        return response.build();
+    }
 
     default List<UserClubDto.Response> userClubsToUserCLubResponses(List<UserClub> userClubs){
-        return userClubs.stream()
-                .map(this::userClubToUserCLubResponse)
-                .collect(Collectors.toList());
-    };
+        if ( userClubs == null ) {
+            return null;
+        }
+
+        List<UserClubDto.Response> list = new ArrayList<>( userClubs.size() );
+        for ( UserClub userClub : userClubs ) {
+            list.add( userClubToUserCLubResponse(userClub));
+        }
+
+        return list;
+    }
 
 }
