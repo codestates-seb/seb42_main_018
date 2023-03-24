@@ -44,7 +44,7 @@ function MemberRecordList({
     <S_ListBox>
       <S_ListItem>1위</S_ListItem>
       <S_ProfileItem>
-        <img src={profileImage.url} alt='프로필사진'></img>
+        <img src={profileImage} alt='프로필사진'></img>
         {nickName}
       </S_ProfileItem>
       <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>
