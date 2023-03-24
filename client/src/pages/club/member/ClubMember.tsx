@@ -11,51 +11,15 @@ import { getFetch } from '../../../util/api';
 function ClubMember() {
   const { id } = useParams();
 
+  // `${process.env.REACT_APP_URL}/user/clubs/${id}`
   // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
   const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/user/clubs/${id}`).then((data) => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
       const members: MemberData[] = data.data;
       setMembers(members);
     });
   }, []);
-  // const data: MemberProps = {
-  //   data: [
-  //     {
-  //       nickName: 'John',
-  //       profileImage: {
-  //         imageId: 1,
-  //         fileName: 'image.jpg',
-  //         url: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4'
-  //       },
-  //       playCount: 10,
-  //       winCount: 7,
-  //       loseCount: 2,
-  //       drawCount: 1,
-  //       winRate: 0.7
-  //     },
-
-  //     {
-  //       nickName: 'Jane',
-  //       profileImage: {
-  //         imageId: 2,
-  //         fileName: 'image.jpg',
-  //         url: 'https://avatars.githubusercontent.com/u/115607789?s=64&v=4'
-  //       },
-  //       playCount: 15,
-  //       winCount: 5,
-  //       loseCount: 8,
-  //       drawCount: 2,
-  //       winRate: 0.33
-  //     }
-  //   ],
-  //   pageInfo: {
-  //     page: 1,
-  //     size: 5,
-  //     totalElements: 2,
-  //     totalPages: 1
-  //   }
-  // };
   console.log(members);
 
   // 상단탭

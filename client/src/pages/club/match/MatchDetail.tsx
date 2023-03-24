@@ -6,8 +6,10 @@ import { S_Input } from '../../../components/UI/S_Input';
 import { S_SelectButton, S_NegativeButton } from '../../../components/UI/S_Button';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
-import { MatchData } from './CreateMatch';
+import { MatchData, Record, TeamList } from './CreateMatch';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
+import { getFetch } from '../../../util/api';
+import { useParams } from 'react-router-dom';
 
 const S_MapView = styled.div`
   display: flex;
@@ -25,37 +27,36 @@ const S_MapView = styled.div`
   }
 `;
 
-function MatchDetail() {
-  const [matchData, setMatchData] = useState<MatchData>({
-    date: '2023-03-18',
-    time: '21:05',
-    placeName: '서울 숲',
-    latitude: 37.566826,
-    longitude: 126.9786567,
-    candidates: ['test'],
-    teamList: [],
-    records: []
-  });
+interface ResponseType {
+  scheduleId: number;
+  clubId: number;
+  date: string;
+  time: string;
+  placeName: string;
+  longitude: number;
+  latitude: number;
+  createdAt: string;
+  teamList: TeamList[];
+  records: Record[];
+  candidates: string[];
+}
 
-  const candidates: string[] = [
-    '박대운',
-    '우제훈',
-    '김은택',
-    '김아애',
-    '문채리',
-    '전규언전규언전규',
-    '박대운2',
-    '우제훈2',
-    '김은택2',
-    '김아애2',
-    '문채리2',
-    '전규언전'
-  ];
+function MatchDetail() {
+  const [matchData, setMatchData] = useState<ResponseType>();
+  const { id } = useParams();
+
+  const candidates: string[] = [];
   const [isOpenMapView, setIsOpenMapView] = useState(false);
 
   const mapViewModalHandler = () => {
     setIsOpenMapView(!isOpenMapView);
   };
+
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) =>
+      setMatchData({ ...data.data })
+    );
+  });
 
   return (
     <S_Container>
@@ -74,7 +75,7 @@ function MatchDetail() {
         {isOpenMapView && (
           <ModalBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
-              <KakaoMapView y={matchData.latitude} x={matchData.longitude} />
+              <KakaoMapView y={matchData?.latitude} x={matchData?.longitude} />
             </S_MapView>
           </ModalBackdrop>
         )}
@@ -94,8 +95,8 @@ function MatchDetail() {
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
-        {matchData.teamList &&
-          matchData.teamList.map((team, idx) => {
+        {matchData?.teamList &&
+          matchData?.teamList.map((team, idx) => {
             return (
               <div key={team.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <S_Text style={{ margin: '0' }}>{idx + 1}팀</S_Text>
@@ -121,8 +122,8 @@ function MatchDetail() {
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>전적</S_Label>
         <S_Description>경기가 종료된 뒤 결과를 입력해보세요.</S_Description>
-        {matchData.records &&
-          matchData.records.map((record, idx) => {
+        {matchData?.records &&
+          matchData?.records.map((record, idx) => {
             return (
               <div
                 key={record.id}

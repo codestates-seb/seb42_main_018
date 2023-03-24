@@ -56,7 +56,6 @@ function Team() {
         </div>
       </S_IntroBox>
       <S_MemberBox>
-        l
         {teamMembers.map((el) => (
           <TeamMember
             key={el.name}
