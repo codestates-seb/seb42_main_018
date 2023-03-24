@@ -6,7 +6,6 @@ import { S_Input } from '../../../components/UI/S_Input';
 import { S_SelectButton, S_NegativeButton } from '../../../components/UI/S_Button';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
-import { MatchData, Record, TeamList } from './CreateMatch';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
 import { useParams } from 'react-router-dom';
@@ -30,7 +29,7 @@ const S_MapView = styled.div`
 
 function MatchDetail() {
   const [matchData, setMatchData] = useState<Schedule>();
-  const { id } = useParams();
+  const { id, scid } = useParams();
 
   const candidates: string[] = [];
   const [isOpenMapView, setIsOpenMapView] = useState(false);
@@ -40,10 +39,10 @@ function MatchDetail() {
   };
 
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) =>
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) =>
       setMatchData({ ...data.data })
     );
-  });
+  }, []);
 
   return (
     <S_Container>
@@ -62,7 +61,7 @@ function MatchDetail() {
         {isOpenMapView && (
           <ModalBackdrop onClick={mapViewModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
-              <KakaoMapView y={matchData?.latitude} x={matchData?.longitude} />
+              <KakaoMapView x={matchData?.latitude} y={matchData?.longitude} />
             </S_MapView>
           </ModalBackdrop>
         )}

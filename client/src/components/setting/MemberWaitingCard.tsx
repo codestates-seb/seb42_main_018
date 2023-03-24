@@ -32,6 +32,7 @@ const S_ButtonWrapper = styled.div`
 interface MemberWaitingCardProps {
   member: WaitingUser;
   setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+  isUpdated: boolean;
 }
 
 function MemberWaitingCard(props: MemberWaitingCardProps) {
@@ -42,7 +43,7 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
         joinStatus: 'CONFIRMED'
       })
       .then(() => {
-        props.setIsUpdated(true);
+        props.setIsUpdated(!props.isUpdated);
       });
   };
 

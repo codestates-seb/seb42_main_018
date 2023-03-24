@@ -78,7 +78,7 @@ public class ScheduleController {
         List<Schedule> schedules = schedulePage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules), schedulePage),
+                new MultiResponseDto<>(scheduleMapper.schedulesToScheduleResponseDtos(schedules, userMapper), schedulePage),
         HttpStatus.OK);
     }
 
