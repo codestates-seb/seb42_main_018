@@ -83,6 +83,24 @@ public class UserController {
 
     }
 
+    @PatchMapping("/{user-id}/password")
+    public ResponseEntity patchUserPassword(
+            @PathVariable("user-id") @Positive long userId,
+            @Valid @RequestBody UserDto.PatchPassword requestBody) {
+
+        requestBody.setUserId(userId);
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+        }
+        User user = userService.updateUserPassword(requestBody);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+                HttpStatus.OK);
+
+    }
+
+
     // get
     @GetMapping("/{user-id}")
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,

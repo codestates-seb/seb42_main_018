@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🐛 fix 회원가입 버그 수정">
+    <list default="true" id="f2981e30-45d8-409d-83e2-e189c6fbbde7" name="변경" comment="🚑 !HOTFIX redirect 페이지 변경, 회원가입한 유저의 경우 파라미터로 userId 제공">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/entity/UserPassword.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/exception/ExceptionCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/dto/UserDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,25 +56,15 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ET/feat/refactor" />
-      </map>
-    </option>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
         <entry key="$PROJECT_DIR$" value="dev" />
-      </map>
-    </option>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="ET/feat/S3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -215,6 +207,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="애플리케이션.insertDummyData" />
+        <item itemvalue="Gradle.server [clean]" />
+        <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [clean]" />
       </list>
@@ -397,15 +392,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
-          <line>198</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="44" />
+          <line>97</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
+        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
+        <watch expression="passwordEncoder.encode(password)" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
