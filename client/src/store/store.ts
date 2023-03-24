@@ -7,13 +7,31 @@ export interface RootState {
 }
 
 export interface UserClubResponsesType {
-  userClubId: number;
-  isPlayer: boolean;
+  // 수정전
+  // userClubId: number;
+  // isPlayer: boolean;
+  // clubRole: string;
+  // playCount: number;
+  // winCount: number;
+  // winRate: number;
+
+  // 수정후
+  clubId: string;
   clubRole: string;
+  isPlayer: boolean;
+  level: null;
   playCount: number;
   winCount: number;
   winRate: number;
+  userInfo: {
+    userId: number | undefined;
+    email: string;
+    nickName: string;
+    userStatus: string;
+    profileImage: string;
+  };
 }
+
 export interface UserInfoType {
   userId: number | undefined;
   email: string;

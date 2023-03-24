@@ -8,7 +8,7 @@ function ClubListSetting() {
   console.log(data); // API로 가져올 데이터 임시
 
   return (
-    <div>
+    <>
       {data.map((el) => (
         <ClubList
           key={el.clubId}
@@ -22,7 +22,8 @@ function ClubListSetting() {
           tagResponseDtos={el.tagResponseDtos}
         />
       ))}
-    </div>
+      {data.map((el) => ({ el }))}
+    </>
   );
 }
 

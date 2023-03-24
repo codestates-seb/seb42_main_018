@@ -8,9 +8,9 @@ const S_profileBox = styled.div`
   // 전체 컨테이너
   display: flex;
   align-items: center;
-  padding-bottom: 30px;
-  margin-bottom: 50px;
-  border-bottom: 1px solid var(--gray600);
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--gray100);
 `;
 
 const S_ImgBox = styled.div<{ img?: string }>`
@@ -25,14 +25,14 @@ const S_ImgBox = styled.div<{ img?: string }>`
   background-image: url(${(props) => props.img});
 `;
 
-function UserProfile({ userId, email, nickName, userStatus, profileImage }: UserInfoType) {
+function UserProfile({ userId, profileImage }: UserInfoType) {
   const navigate = useNavigate();
 
   return (
     <S_profileBox>
       <S_ImgBox img={profileImage} />
       <div>
-        <S_Label>벌꿀오소리{userId}</S_Label>
+        <S_Label>{userId}</S_Label>
         <S_EditButton onClick={() => navigate('edit')}>프로필 수정</S_EditButton>
       </div>
     </S_profileBox>
