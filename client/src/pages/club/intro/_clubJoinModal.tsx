@@ -47,19 +47,16 @@ function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
   const onsubmit = async () => {
     if (!content) return;
 
-    const POST_URL = `${process.env.REACT_APP_URL}/joins`;
-    const membershipRequestData = {
-      clubId,
-      userId: userInfo.userId,
-      content
-    };
+    const POST_URL = `${process.env.REACT_APP_URL}/clubs/${clubId}/joins/${userInfo.userId}`;
 
-    const res = await postFetch(POST_URL, membershipRequestData, tokens.accessToken);
+    const res = await postFetch(POST_URL, { content }, tokens);
     // console.log(res);
+
+    // TODO : 모달이 떠있는 채로 alert를 띄우면 모바일에서 겹쳐 보이는지 확인
     if (res) {
       setContent('');
-      alert('가입신청을 완료했어요. 마이페이지에서 가입신청 승인 현황을 확인할 수 있습니다.');
       handleModal();
+      alert('가입신청을 완료했어요. 마이페이지에서 가입신청 승인 현황을 확인할 수 있습니다.');
     }
   };
 
