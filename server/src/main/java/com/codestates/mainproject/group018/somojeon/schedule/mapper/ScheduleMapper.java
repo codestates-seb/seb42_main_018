@@ -42,9 +42,9 @@ public interface ScheduleMapper {
                 .build();
     }
 
-    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teams,
+    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teamList,
                                                                    UserMapper userMapper) {
-        return teams.stream()
+        return teamList.stream()
                 .map(team -> {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(team.getTeamId());
