@@ -47,7 +47,7 @@ function ScheduleCard(props: ScheduleCardProps) {
             onClick={buttonHandler}
             style={{ margin: '2px' }}
           >
-            참석
+            참가
           </S_SelectButton>
           <S_SelectButton
             name='absence'
