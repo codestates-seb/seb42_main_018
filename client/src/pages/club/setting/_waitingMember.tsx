@@ -33,7 +33,12 @@ function WaitingMember() {
       {data
         ?.filter((ele) => ele.joinStatus === 'PENDING')
         .map((el) => (
-          <MemberWaitingCard key={el.userInfo.userId} member={el} setIsUpdated={setIsUpdated} />
+          <MemberWaitingCard
+            key={el.userInfo.userId}
+            member={el}
+            setIsUpdated={setIsUpdated}
+            isUpdated={isUpdated}
+          />
         ))}
     </>
   );
