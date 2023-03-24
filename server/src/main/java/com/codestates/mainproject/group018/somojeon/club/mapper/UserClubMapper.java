@@ -63,6 +63,7 @@ public interface UserClubMapper {
         joinResponse.setUserClubId(userClub.getUserClubId());
         joinResponse.setContent(userClub.getContent());
         joinResponse.setJoinStatus(userClub.getJoinStatus());
+        joinResponse.setClubRole(userClub.getClubRole());
         joinResponse.setUserInfo(userToUserInfoResponse(userClub.getUser()));
 
         return joinResponse;
@@ -108,8 +109,24 @@ public interface UserClubMapper {
 
 
 
-    // TODO-JH : 제훈님 여기꺼 갖다 쓰셔도 될꺼같습니다. ClubMapper 말구요~
-    UserClubDto.Response userClubToUserClubResponse(UserClub userClub);
+
+    default UserClubDto.Response userClubToUserClubResponse(UserClub userClub) {
+        if ( userClub == null ) {
+            return null;
+        }
+
+        UserClubDto.Response.ResponseBuilder response = UserClubDto.Response.builder();
+
+        response.userClubId( userClub.getUserClubId() );
+        response.clubRole( userClub.getClubRole() );
+        response.level( userClub.getLevel() );
+        response.playCount( userClub.getPlayCount() );
+        response.winCount( userClub.getWinCount() );
+        response.winRate( (int) userClub.getWinRate() );
+        response.userInfo(userToUserInfoResponse(userClub.getUser()));
+
+        return response.build();
+    }
 
     default List<UserClubDto.Response> userClubsToUserCLubResponses(List<UserClub> userClubs){
         return userClubs.stream()
@@ -127,7 +144,7 @@ public interface UserClubMapper {
 
         userClubMemberResponse.setUserClubId(userClub.getUserClubId());
         userClubMemberResponse.setClubMemberStatus(userClub.getClubMemberStatus());
-        userClubMemberResponse.setClubRole(userClub.getClubRole());
+        userClubMemberResponse.setUserInfo(userToUserInfoResponse(userClub.getUser()));
 
         return userClubMemberResponse;
     }
