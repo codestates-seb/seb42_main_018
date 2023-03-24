@@ -32,7 +32,7 @@ function EditClub() {
     isPrivate: false
   });
 
-  const { categoryName } = clubInfo || {};
+  const { categoryName, local: prevLocal } = clubInfo || {};
 
   const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
   useEffect(() => {
@@ -56,8 +56,8 @@ function EditClub() {
       });
     }
   }, [clubInfo]);
-  console.log('서버에서 보내준 소모임 정보:', clubInfo);
-  console.log('input value:', inputs);
+  // console.log('서버에서 보내준 소모임 정보:', clubInfo);
+  // console.log('input value:', inputs);
 
   // !TODO: profileImage 사진 어떻게 보낼지
 
@@ -118,7 +118,7 @@ function EditClub() {
             <label htmlFor='categoryName'>
               <S_Label>카테고리</S_Label>
             </label>
-            <S_Description>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</S_Description>
+            <S_Description>소모임 종류는 처음 모임을 만든 다음에는 변경할 수 없어요.</S_Description>
             <S_Input
               id='categoryName'
               name='categoryName'
@@ -129,7 +129,7 @@ function EditClub() {
             />
           </div>
           {/* //TODO: <option selected> */}
-          <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
+          <CreateLocal prevData={prevLocal} inputValue={localValue} setInputValue={setLocalValue} />
           {/* //TODO: prevTags props로 보내기 */}
           <CreateTag tags={tags} setTags={setTags} />
           {/* 사진 등록 영역 */}
