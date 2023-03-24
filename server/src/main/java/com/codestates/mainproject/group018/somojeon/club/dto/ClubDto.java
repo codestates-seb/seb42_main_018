@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.club.dto;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -33,8 +34,9 @@ public class ClubDto {
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagName;
         private boolean isSecret;
+//        private MultipartFile multipartFile;
 
-        private Long profileImageId;
+//        private Long profileImageId;
 
     }
     @Getter
@@ -65,12 +67,10 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isSecret;
 
-        private Long profileImageId;
+//        private String clubImageUrl;
+//        private Long profileImageId;
     }
 
-    //TODO-DW:회원등급 Patch,
-
-    //TODO-DW:소모임장 위임 Patch
 
     @Getter
     @Builder
