@@ -23,7 +23,6 @@ interface ScheduleCardProps {
   time?: string;
   placeName?: string;
   scheduleId: number;
-  clubId: number;
 }
 function ScheduleCard(props: ScheduleCardProps) {
   const navigate = useNavigate();
