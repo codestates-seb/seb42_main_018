@@ -16,7 +16,7 @@ import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
-import { getFetch, patchFetch, postFetch } from '../../../util/api';
+import { getFetch, patchFetch, postFetch, putFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import {
@@ -180,9 +180,9 @@ function EditMatch() {
     });
   };
 
-  const patchMatchData = async () => {
-    await patchFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
-      console.log('post했습니다.')
+  const putMatchData = async () => {
+    await putFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`, matchData).then(
+      (res) => console.log('put했습니다.')
     );
   };
 
@@ -352,7 +352,7 @@ function EditMatch() {
                 <S_Button
                   addStyle={{ width: '48%' }}
                   onClick={() => {
-                    patchMatchData();
+                    putMatchData();
                     navigate(`/club/${id}/match`);
                   }}
                 >
