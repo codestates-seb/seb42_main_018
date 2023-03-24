@@ -37,7 +37,7 @@ export const S_MapView = styled.div`
   }
 `;
 
-const S_ConfirmModalContainer = styled(ModalContainer)`
+export const S_ConfirmModalContainer = styled(ModalContainer)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,7 +48,7 @@ const S_ConfirmModalContainer = styled(ModalContainer)`
   padding: 30px 20px;
 `;
 
-const S_ButtonBox = styled.div`
+export const S_ButtonBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -68,7 +68,7 @@ export interface Record {
 }
 
 export interface MatchData {
-  date: string | undefined;
+  date: string;
   time: string | undefined;
   placeName: string | undefined;
   longitude: number | undefined;
