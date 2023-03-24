@@ -46,8 +46,8 @@ function App() {
           <Route index element={<ClubIntro />} />
           <Route path='match'>
             <Route index element={<ClubSchedule />} />
-            <Route path=':id' element={<MatchDetail />} />
-            <Route path=':id/edit' element={<EditMatch />} />
+            <Route path=':scid' element={<MatchDetail />} />
+            <Route path=':scid/edit' element={<EditMatch />} />
             <Route path='create' element={<CreateMatch />} />
           </Route>
           <Route path='member' element={<ClubMember />} />
