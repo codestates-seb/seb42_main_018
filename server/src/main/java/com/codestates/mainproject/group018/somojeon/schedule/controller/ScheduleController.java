@@ -45,7 +45,7 @@ public class ScheduleController {
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
-                requestBody.getTeams(), requestBody.getCandidates());
+                requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
@@ -64,7 +64,7 @@ public class ScheduleController {
 //        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
-                requestBody.getRecords(), requestBody.getTeams(), requestBody.getCandidates());
+                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
@@ -72,8 +72,8 @@ public class ScheduleController {
 
     @GetMapping("/clubs/{club-id}/schedules")
     public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
-                                             @RequestParam("page") int page,
-                                             @RequestParam("size") int size) {
+                                             @RequestParam(value = "page", defaultValue = "1") int page,
+                                             @RequestParam(value = "size", defaultValue = "10") int size) {
         Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
         List<Schedule> schedules = schedulePage.getContent();
 

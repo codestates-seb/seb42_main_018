@@ -29,14 +29,13 @@ public interface ScheduleMapper {
 
         return ScheduleDto.Response
                 .builder()
-                .scheduleId(schedule.getScheduleId())
-                .date(schedule.getDate().toString())
-                .time(schedule.getTime().toString())
+                .date(schedule.getDate())
+                .time(schedule.getTime())
                 .createdAt(schedule.getCreatedAt())
                 .placeName(schedule.getPlaceName())
-                .longitude(schedule.getLongitude().toString())
-                .latitude(schedule.getLatitude().toString())
-                .teams(teamsToTeamResponseDtos(schedule.getTeams(), userMapper))
+                .longitude(schedule.getLongitude())
+                .latitude(schedule.getLatitude())
+                .teamList(teamsToTeamResponseDtos(schedule.getTeams(), userMapper))
                 .records(recordsToRecordResponseDtos(schedule.getRecords()))
                 .candidates(candidatesToCandidateResponseDtos(schedule.getCandidates()))
                 .build();

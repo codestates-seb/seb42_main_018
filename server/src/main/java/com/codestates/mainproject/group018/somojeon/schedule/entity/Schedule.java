@@ -12,9 +12,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +27,15 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-    @Column(name = "DATE", nullable = false)
-    private LocalDate date;
+    @Column(nullable = false)
+    private String date;
 
-    @Column(name = "TIME", nullable = false)
-    private LocalTime time;
+    @Column(nullable = false)
+    private String time;
 
     @CreatedDate
     @Column(name = "CREATE_AT", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @LastModifiedDate
     @Column(name = "MODIFIED_AT")

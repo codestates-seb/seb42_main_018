@@ -24,12 +24,12 @@ public class ScheduleDto {
         private Long clubId;
 
         private String placeName;
-        private String longitude;
-        private String latitude;
+        private Double longitude;
+        private Double latitude;
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teams;
+        private List<Team> teamList;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -48,12 +48,12 @@ public class ScheduleDto {
         private String time;
 
         private String placeName;
-        private String longitude;
-        private String latitude;
+        private Double longitude;
+        private Double latitude;
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teams;
+        private List<Team> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
@@ -70,14 +70,13 @@ public class ScheduleDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
-        private Long scheduleId;
         private String date;
         private String time;
         private LocalDateTime createdAt;
         private String placeName;
-        private String longitude;
-        private String latitude;
-        private List<TeamDto.Response> teams;
+        private Double longitude;
+        private Double latitude;
+        private List<TeamDto.Response> teamList;
         private List<RecordDto.Response> records;
         private List<CandidateDto.Response> candidates;
     }

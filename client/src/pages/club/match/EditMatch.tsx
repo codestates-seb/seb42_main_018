@@ -17,7 +17,8 @@ import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
-import { MatchData, Record, S_MapBackdrop, S_MapView, TeamList } from './CreateMatch';
+import { MatchData, Record, S_MapView, TeamList } from './CreateMatch';
+import { ModalBackdrop } from '../../../components/UI/S_Modal';
 
 function EditMatch() {
   const {
@@ -219,7 +220,7 @@ function EditMatch() {
           지도보기
         </S_SelectButton>
         {isOpenMapSetting && (
-          <S_MapBackdrop onClick={mapSettingModalHandler}>
+          <ModalBackdrop onClick={mapSettingModalHandler}>
             <S_MapView onClick={(e) => e.stopPropagation()}>
               <KakaoMapSearch
                 mapSettingModalHandler={mapSettingModalHandler}
@@ -227,14 +228,14 @@ function EditMatch() {
                 placeValue={placeValue}
               />
             </S_MapView>
-          </S_MapBackdrop>
+          </ModalBackdrop>
         )}
         {isOpenMapView && (
-          <S_MapBackdrop onClick={mapViewModalHandler}>
+          <ModalBackdrop onClick={mapViewModalHandler}>
             <S_MapView style={{ height: '300px' }} onClick={(e) => e.stopPropagation()}>
               {placeValue && <KakaoMapView y={placeValue.y} x={placeValue.x} />}
             </S_MapView>
-          </S_MapBackdrop>
+          </ModalBackdrop>
         )}
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>

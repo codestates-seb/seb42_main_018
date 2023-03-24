@@ -83,6 +83,24 @@ public class UserController {
 
     }
 
+    @PatchMapping("/{user-id}/password")
+    public ResponseEntity patchUserPassword(
+            @PathVariable("user-id") @Positive long userId,
+            @Valid @RequestBody UserDto.PatchPassword requestBody) {
+
+        requestBody.setUserId(userId);
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+        }
+        User user = userService.updateUserPassword(requestBody);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+                HttpStatus.OK);
+
+    }
+
+
     // get
     @GetMapping("/{user-id}")
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
@@ -97,27 +115,28 @@ public class UserController {
 
     }
 
+    // UserClub으로 옮김
 
-    @GetMapping("/clubs/{club-id}")
-    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
-                                     @RequestParam @Positive int size,
-                                       @PathVariable("club-id") @Positive Long clubId){
-        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        }
-
-        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
-        List<UserClub> userClubs = pageUserClubs.getContent();
-
-
-        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
-
-
-        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
-                HttpStatus.OK);
-    }
+//    @GetMapping("/clubs/{club-id}")
+//    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
+//                                     @RequestParam @Positive int size,
+//                                       @PathVariable("club-id") @Positive Long clubId){
+//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        }
+//
+//        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
+//        List<UserClub> userClubs = pageUserClubs.getContent();
+//
+//
+//        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
+//                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
+//        ).collect(Collectors.toList());
+//
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
+//                HttpStatus.OK);
+//    }
 
     // delete
     @DeleteMapping("/{user-id}")

@@ -58,7 +58,7 @@ public class UserClubService {
 
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
     public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId) {
-        Club club = clubService.findVerifiedClub(clubId);
+        clubService.findVerifiedClub(clubId);
         return userClubRepository.findAll(
                 PageRequest.of(page, size, Sort.by("userClubId").descending()));
     }
@@ -125,6 +125,20 @@ public class UserClubService {
     }
 
     // TODO-DW: 소모임장 위임
+
+    // 소모임 안에 활동중인 멤버 목록 조회
+//    public Page<UserClub> findAllMembersByClubMemberStatus(int page, int size, Long clubId) {
+//        clubService.findVerifiedClub(clubId);
+//        return userClubRepository.findByClubMemberStatus(
+//                PageRequest.of(page, size, Sort.by("userClubId")), ClubMemberStatus.MEMBER_ACTIVE);
+//    }
+
+    // 소모임 안에 멤버들 기록 조회
+    public Page<UserClub> findUsers(int page, int size, long clubId) {
+        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+
+        return userClubPage;
+    }
 
     public void existsUserClubByUserIdAndClubId(Long userId, Long clubId) {
         Optional<UserClub> optionalUserClub = userClubRepository.findByUserIdAndClubId(userId, clubId);

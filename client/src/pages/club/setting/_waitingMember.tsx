@@ -1,38 +1,40 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import MemberWaitingCard from '../../../components/setting/MemberWaitingCard';
+import { getFetch } from '../../../util/api';
 
 export interface WaitingUser {
-  id: number;
-  nickName: string;
-  contents: string;
-  email?: string;
-  userStatus?: string;
-  profileImage?: string;
+  userClubId: number;
+  content: string;
+  clubRole: string;
+  joinStatus: string;
+  userInfo: {
+    userId: number;
+    nickName: string;
+    email: string;
+    profileImage: string;
+  };
 }
 
 function WaitingMember() {
-  const data: WaitingUser[] = [
-    {
-      id: 0,
-      nickName: '탁구왕김제빵',
-      contents:
-        '탁구 초보입니다. 잘부탁드립니다.탁구 초보입니다. 잘부탁드립니다.탁구 초보입니다. 잘부탁드립니다.탁구 초보입니다. 잘부탁드립니다.'
-    },
-    {
-      id: 1,
-      nickName: '배드민턴고수',
-      contents: '고수가 되고싶은사람입니다. 승인해주시죠'
-    },
-    {
-      id: 2,
-      nickName: '풋살왕슛돌이',
-      contents: '득점왕이 되고싶어요'
-    }
-  ];
+  const [data, setData] = useState<WaitingUser[]>([]);
+  const [isUpdated, setIsUpdated] = useState(false);
+  // const data: WaitingUser[] = [];
+  const { id } = useParams();
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((data) => {
+      console.log(data);
+      setData(data.data);
+    });
+  }, [isUpdated]);
   return (
     <>
-      {data.map((el) => (
-        <MemberWaitingCard key={el.id} member={el} />
-      ))}
+      {data
+        ?.filter((ele) => ele.joinStatus === 'PENDING')
+        .map((el) => (
+          <MemberWaitingCard key={el.userInfo.userId} member={el} setIsUpdated={setIsUpdated} />
+        ))}
     </>
   );
 }

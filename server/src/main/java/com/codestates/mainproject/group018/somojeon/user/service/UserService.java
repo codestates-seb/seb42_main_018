@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
+import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -81,9 +82,7 @@ public class UserService {
         User findUser = findVerifiedUser(user.getUserId());
 
         Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-        optionalNickName.ifPresent(
-                nickName -> findUser.setNickName(nickName)
-        );
+        optionalNickName.ifPresent(findUser::setNickName);
         if (profileImageId != null) {
             Images images = imageService.validateVerifyFile(profileImageId);
             findUser.setImages(images);
@@ -93,6 +92,26 @@ public class UserService {
 //        }
         return userRepository.save(findUser);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    public User updateUserPassword(UserDto.PatchPassword userDto)  {
+        User findUser = findVerifiedUser(userDto.getUserId());
+        String savedPassword = findUser.getPassword();
+        String currentPassword =  userDto.getCurrentPassword();
+        if(!passwordEncoder.matches(currentPassword, savedPassword)){
+            throw new BusinessLogicException(ExceptionCode.CURRENT_PASSWORD_NOT_MATCH);
+        }
+
+        String nextPassword = userDto.getNextPassword();
+        String nextPasswordCheck = userDto.getNextPasswordCheck();
+
+        if(!nextPassword.equals(nextPasswordCheck)){
+            throw new BusinessLogicException(ExceptionCode.NEXT_PASSWORD_NOT_MATCH);
+        }
+        findUser.setPassword(passwordEncoder.encode(nextPassword));
+        return userRepository.save(findUser);
+    }
+
 
     @Transactional(readOnly = true)
     public User findUser(long userId) {
@@ -111,12 +130,14 @@ public class UserService {
 
     }
 
-    public Page<UserClub> findUsers(int page, int size, long clubId) {
+    // UserClub으로 옮김
 
-        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
-
-        return userClubPage;
-    }
+//    public Page<UserClub> findUsers(int page, int size, long clubId) {
+//
+//        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+//
+//        return userClubPage;
+//    }
 
     public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);

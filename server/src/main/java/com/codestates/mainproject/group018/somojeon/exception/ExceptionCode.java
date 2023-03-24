@@ -8,6 +8,8 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "Member not found"),
     CLIENT_NOT_FOUND(404, "Client not found"),
     USER_EXISTS(409, "User exists"),
+    CURRENT_PASSWORD_NOT_MATCH(409, "Current password is not match"),
+    NEXT_PASSWORD_NOT_MATCH(409, "Next password is not match"),
     CATEGORY_EXISTS(409, "Category exists"),
     CLUB_EXISTS(409, "Club exists"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),

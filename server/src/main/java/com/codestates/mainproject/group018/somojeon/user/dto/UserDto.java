@@ -35,15 +35,23 @@ public class UserDto {
     @NoArgsConstructor
     public static class Patch{
         Long userId;
-
         @Nullable
         String nickName;
-
         private Long profileImageId;
 
-//        @Nullable
-//        String password;
-
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PatchPassword{
+        Long userId;
+        @NotNull
+        String currentPassword;
+        @NotNull
+        String nextPassword;
+        @NotNull
+        String nextPasswordCheck;
     }
     @Getter
     @Setter
@@ -112,10 +120,8 @@ public class UserDto {
 
     @Getter
     @Setter
-    @Builder
     @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserClubResponse {
+    public static class UserInfoResponse {
 
         private Long userId;
         private String nickName;
