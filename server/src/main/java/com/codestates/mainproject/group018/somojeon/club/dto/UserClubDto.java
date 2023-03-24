@@ -75,9 +75,9 @@ public class UserClubDto {
     @AllArgsConstructor
     public static class Response {
 
-        private Long userClubId;
-        private boolean isPlayer;
+        private Long clubId;
         private ClubRole clubRole;
+        private boolean isPlayer;
         private Level level;
         private int playCount;
         private int winCount;
