@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,7 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final ClubService clubService;
+    private final EntityManager entityManager;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teams, List<Candidate> candidates) {
@@ -47,6 +49,10 @@ public class ScheduleService {
         schedule.setRecords(records);
 
         try {
+            //세션 초기화
+            entityManager.flush();
+            entityManager.clear();
+
             // club 정보 저장
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
