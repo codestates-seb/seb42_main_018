@@ -49,9 +49,9 @@ public class ScheduleService {
         schedule.setRecords(records);
 
         try {
-            //세션 초기화
-            entityManager.flush();
-            entityManager.clear();
+//            //세션 초기화
+//            entityManager.flush();
+//            entityManager.clear();
 
             // club 정보 저장
             club.getScheduleList().add(schedule);
