@@ -15,7 +15,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +98,7 @@ public interface ScheduleMapper {
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
                     response.setCandidateId(candidate.getCandidateId());
+                    response.setUserId(candidate.getUser().getUserId());
                     response.setNickName(candidate.getUser().getNickName());
                     response.setAttendance(candidate.getAttendance());
 

@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class ScheduleDto {
         private List<Record> records;
         private List<Candidate> candidates;
         private List<Team> teamList;
+        private List<User> users;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
