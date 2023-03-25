@@ -39,6 +39,48 @@ public class ScheduleDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class attendPost {
+        private Long clubId;
+        private Long scheduleId;
+        private Long userId;
+
+        public void addUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class absentPost {
+        private Long clubId;
+        private Long scheduleId;
+        private Long userId;
+
+        public void addUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Patch {
         private Long scheduleId;
 

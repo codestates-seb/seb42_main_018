@@ -61,8 +61,8 @@ public class CandidateController {
     }
 
     @GetMapping
-    public ResponseEntity getCandidates(@RequestParam("page") int page,
-                                        @RequestParam("size") int size) {
+    public ResponseEntity getCandidates(@RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "size", defaultValue = "10") int size) {
         Page<Candidate> pageCandidates = candidateService.findCandidates(page - 1, size);
         List<Candidate> candidates = pageCandidates.getContent();
 
