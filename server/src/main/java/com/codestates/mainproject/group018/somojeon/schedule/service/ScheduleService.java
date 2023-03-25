@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -170,6 +171,12 @@ public class ScheduleService {
         candidate.setSchedule(verifiedSchedule);
         candidate.setAttendance(Candidate.Attendance.ABSENT);
         candidateRepository.save(candidate);
+
+        List<Candidate> candidates = verifiedSchedule.getCandidates()
+                .stream()
+                .filter(c -> !c.getAttendance().equals(Candidate.Attendance.ABSENT))
+                .collect(Collectors.toList());
+        verifiedSchedule.setCandidates(candidates);
 
         return scheduleRepository.save(verifiedSchedule);
     }
