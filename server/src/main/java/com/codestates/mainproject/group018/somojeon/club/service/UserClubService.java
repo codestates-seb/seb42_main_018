@@ -39,9 +39,9 @@ public class UserClubService {
 
 //        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
 
-        if (userClub.getUser().getUserId() == userId) {
-            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
-        }
+//        if (userClub.getUser().getUserId() == userId) {
+//            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
+//        }
 
         if (userClub.getJoinCount() > 6) {
             userClub.setJoinStatus(JoinStatus.BANISHED);
