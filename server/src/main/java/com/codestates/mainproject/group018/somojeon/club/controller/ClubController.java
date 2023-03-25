@@ -80,7 +80,7 @@ public class ClubController {
     // 퍼블릭 소모임 전체 조회
     @GetMapping
     public ResponseEntity<?> getClubs(@RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(defaultValue = "10") int size) {
+                                   @RequestParam(defaultValue = "200") int size) {
 
         Page<Club> clubPage = clubService.findClubs(page - 1, size);
         List<Club> content = clubPage.getContent();

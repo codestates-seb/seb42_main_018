@@ -43,6 +43,7 @@ public interface UserMapper {
     default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub, ImageMapper imageMapper){
         User user = userClub.getUser();
         UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
+        responseWithClub.setUserId(user.getUserId());
         responseWithClub.setNickName(user.getNickName());
         responseWithClub.setProfileImage(imageMapper.imagesToImageResponseDto(user.getImages()));
         responseWithClub.setPlayCount(userClub.getPlayCount());

@@ -104,6 +104,7 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ResponseWithClub {
+        private Long userId;
         String nickName;
         private ImagesResponseDto profileImage;
         private Integer playCount;

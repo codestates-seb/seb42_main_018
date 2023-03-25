@@ -26,7 +26,6 @@ public class UserClubService {
 
     private final UserClubRepository userClubRepository;
     private final ClubService clubService;
-    private final Identifier identifier;
     private final UserService userService;
 
     /*
@@ -40,9 +39,9 @@ public class UserClubService {
 
 //        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
 
-        if (userClub.getUser().getUserId() == userId) {
-            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
-        }
+//        if (userClub.getUser().getUserId() == userId) {
+//            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
+//        }
 
         if (userClub.getJoinCount() > 6) {
             userClub.setJoinStatus(JoinStatus.BANISHED);
