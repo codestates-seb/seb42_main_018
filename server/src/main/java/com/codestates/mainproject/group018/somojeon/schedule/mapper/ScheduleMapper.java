@@ -99,7 +99,7 @@ public interface ScheduleMapper {
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
                     response.setCandidateId(candidate.getCandidateId());
-//                    response.setNickName(candidate.getUser().getNickName());
+                    response.setNickName(candidate.getUser().getNickName());
                     response.setAttendance(candidate.getAttendance());
 
                     return response;
