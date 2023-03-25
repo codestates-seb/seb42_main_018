@@ -58,6 +58,8 @@ public class ClubService {
         }
         club.setCreatedAt(LocalDateTime.now());
         club.setMemberCount(club.getMemberCount() + 1);
+
+
         // 리더 권한 추가.
         club.setClubRole(ClubRole.LEADER);
         club.setClubImageUrl(defaultClubImage);

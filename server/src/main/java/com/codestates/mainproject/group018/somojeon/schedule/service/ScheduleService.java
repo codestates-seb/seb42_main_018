@@ -5,6 +5,9 @@ import com.codestates.mainproject.group018.somojeon.candidate.repository.Candida
 import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
+import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
@@ -127,24 +130,28 @@ public class ScheduleService {
         return scheduleRepository.save(findSchedule);
     }
 
-    public Schedule attendCandidate(Schedule schedule, long userId, long clubId) {
-        Club club = clubService.findVerifiedClub(clubId);
+    public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
         User user = userService.findVerifiedUser(userId);
 
         verifiedSchedule.setClub(club);
 
-        if (!userClubRepository.existsByUserAndClub(user, club)) {
-            UserClub userClub = new UserClub();
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        if (userClub == null) {
+            userClub = new UserClub();
             userClub.setUser(user);
             userClub.setClub(club);
-            userClub.setPlayer(true);
-            userClubRepository.save(userClub);
         }
+        userClub.setPlayer(true);
+        userClubRepository.save(userClub);
 
-        Candidate candidate = new Candidate();
-        candidate.setUser(user);
-        candidate.setSchedule(verifiedSchedule);
+        Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
+        if (candidate == null) {
+            candidate = new Candidate();
+            candidate.setUser(user);
+            candidate.setSchedule(verifiedSchedule);
+        }
         candidate.setAttendance(Candidate.Attendance.ATTEND);
         candidateRepository.save(candidate);
 
@@ -152,31 +159,22 @@ public class ScheduleService {
         return scheduleRepository.save(verifiedSchedule);
     }
 
-    public Schedule absentCandidate(Schedule schedule, long userId, long clubId) {
-        Club club = clubService.findVerifiedClub(clubId);
+    public Schedule absentCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
         User user = userService.findVerifiedUser(userId);
 
         verifiedSchedule.setClub(club);
 
-        if (!userClubRepository.existsByUserAndClub(user, club)) {
-            UserClub userClub = new UserClub();
-            userClub.setUser(user);
-            userClub.setClub(club);
-            userClubRepository.save(userClub);
-        }
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        userClub.setPlayer(false);
+        userClubRepository.save(userClub);
 
-        Candidate candidate = new Candidate();
-        candidate.setUser(user);
-        candidate.setSchedule(verifiedSchedule);
+
+        Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
         candidate.setAttendance(Candidate.Attendance.ABSENT);
         candidateRepository.save(candidate);
 
-        List<Candidate> candidates = verifiedSchedule.getCandidates()
-                .stream()
-                .filter(c -> !c.getAttendance().equals(Candidate.Attendance.ABSENT))
-                .collect(Collectors.toList());
-        verifiedSchedule.setCandidates(candidates);
 
         return scheduleRepository.save(verifiedSchedule);
     }
@@ -193,6 +191,12 @@ public class ScheduleService {
     public Schedule findScheduleByClub(long clubId, long scheduleId) {
         clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(scheduleId);
+
+        List<Candidate> candidates = findSchedule.getCandidates()
+                .stream()
+                .filter(c -> !c.getAttendance().equals(Candidate.Attendance.ABSENT))
+                .collect(Collectors.toList());
+        findSchedule.setCandidates(candidates);
 
         return findSchedule;
     }
