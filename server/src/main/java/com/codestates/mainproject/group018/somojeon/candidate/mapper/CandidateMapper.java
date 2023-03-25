@@ -19,6 +19,7 @@ public interface CandidateMapper {
         return CandidateDto.Response
                 .builder()
                 .candidateId(candidate.getCandidateId())
+                .userId(candidate.getUser().getUserId())
                 .nickName(candidate.getUser().getNickName())
                 .attendance(candidate.getAttendance())
                 .build();
