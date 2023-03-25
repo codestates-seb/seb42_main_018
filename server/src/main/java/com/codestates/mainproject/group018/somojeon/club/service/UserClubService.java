@@ -26,7 +26,6 @@ public class UserClubService {
 
     private final UserClubRepository userClubRepository;
     private final ClubService clubService;
-    private final Identifier identifier;
     private final UserService userService;
 
     /*
