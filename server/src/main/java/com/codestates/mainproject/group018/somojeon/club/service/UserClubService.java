@@ -34,10 +34,10 @@ public class UserClubService {
 
     // 소모임 가입 요청
     public UserClub joinClub(UserClub userClub, Long userId) {
-        clubService.findVerifiedClub(userClub.getClub().getClubId());
-        userService.findVerifiedUser(userClub.getUser().getUserId());
+//        clubService.findVerifiedClub(userClub.getClub().getClubId());
+//        userService.findVerifiedUser(userClub.getUser().getUserId());
 
-//        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
+        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
 
 //        if (userClub.getUser().getUserId() == userId) {
 //            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
