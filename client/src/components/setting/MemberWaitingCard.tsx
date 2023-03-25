@@ -47,8 +47,14 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
       });
   };
 
-  const rejectMember = () => {
-    alert('가입 거절 patch날리기');
+  const rejectMember = async () => {
+    await axios
+      .patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+        joinStatus: 'REFUSED'
+      })
+      .then(() => {
+        props.setIsUpdated(!props.isUpdated);
+      });
   };
   return (
     <S_WaitingCardContainer>
