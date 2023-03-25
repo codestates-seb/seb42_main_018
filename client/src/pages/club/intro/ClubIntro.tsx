@@ -33,6 +33,10 @@ const ClubIntroWrapper = styled.div`
     padding-bottom: 0.4rem;
     display: flex;
     border-bottom: 1px solid var(--gray200);
+
+    .profile-img {
+      /* background-size: contain; */
+    }
   }
   & .club-info-area {
     flex: 3;
@@ -95,12 +99,11 @@ function ClubIntro() {
   console.log(userInfo);
   console.log(clubInfo);
 
-  // TODO : clubImageUrl 이미지 잘 뜨는지 확인
   const {
     clubName,
     content,
     categoryName,
-    clubImageUrl,
+    clubImage,
     local,
     memberCount,
     tagResponseDtos: tags
@@ -143,12 +146,7 @@ function ClubIntro() {
         <Tabmenu tabs={tabs}></Tabmenu>
         <ClubIntroWrapper>
           <div className='profile-img-box'>
-            <img
-              src={clubImageUrl}
-              alt='소모임 소개 이미지'
-              className='profile-img'
-              style={{ width: '100%' }}
-            />
+            <img src={clubImage} alt='소모임 소개 이미지' className='profile-img' />
           </div>
           <div className='club-info-box'>
             <div className='club-info-area'>
@@ -207,7 +205,6 @@ function ClubIntro() {
         <ClubJoinModal
           handleModal={handleModal}
           showModal={showModal}
-          // isApplied={isApplied}
           setIsApplied={setIsApplied}
         />
       </S_Container>

@@ -18,7 +18,7 @@ export const S_FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  & .isPrivate {
+  & .isSecret {
     display: flex;
     justify-content: space-between;
   }
@@ -78,16 +78,16 @@ function CreateClub() {
     content: '',
     local: '',
     categoryName: '',
-    isPrivate: false
+    isSecret: false
   });
-  const { clubName, content, isPrivate } = inputs;
+  const { clubName, content, isSecret } = inputs;
   console.log(inputs);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
+    setInputs({ ...inputs, [name]: name === 'isSecret' ? value === 'true' : value });
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -111,7 +111,7 @@ function CreateClub() {
       categoryName: categoryValue,
       local: localValue,
       tagName: tags,
-      isPrivate
+      isSecret
     };
 
     // console.log(newClubData);
@@ -158,7 +158,7 @@ function CreateClub() {
           <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
           <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
           <CreateTag tags={tags} setTags={setTags} />
-          <fieldset className='isPrivate'>
+          <fieldset className='isSecret'>
             <div>
               <S_Label_mg_top>공개여부 *</S_Label_mg_top>
             </div>
@@ -167,7 +167,7 @@ function CreateClub() {
                 <S_Input
                   type='radio'
                   id='public'
-                  name='isPrivate'
+                  name='isSecret'
                   value='false'
                   onChange={onChange}
                   defaultChecked
@@ -178,7 +178,7 @@ function CreateClub() {
                 <S_Input
                   type='radio'
                   id='private'
-                  name='isPrivate'
+                  name='isSecret'
                   value='true'
                   onChange={onChange}
                 />
