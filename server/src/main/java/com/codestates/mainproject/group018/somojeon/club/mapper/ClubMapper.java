@@ -62,6 +62,7 @@ public interface ClubMapper {
 
         response.clubId(userClub.getClub().getClubId());
         response.clubRole( userClub.getClubRole() );
+        response.clubMemberStatus(userClub.getClubMemberStatus());
         response.level( userClub.getLevel() );
         response.playCount( userClub.getPlayCount() );
         response.winCount( userClub.getWinCount() );
