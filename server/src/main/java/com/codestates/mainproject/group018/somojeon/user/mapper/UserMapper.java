@@ -45,6 +45,8 @@ public interface UserMapper {
         UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
         responseWithClub.setUserId(user.getUserId());
         responseWithClub.setNickName(user.getNickName());
+        responseWithClub.setClubMemberStatus(userClub.getClubMemberStatus());
+        responseWithClub.setClubRole(userClub.getClubRole());
         responseWithClub.setProfileImage(imageMapper.imagesToImageResponseDto(user.getImages()));
         responseWithClub.setPlayCount(userClub.getPlayCount());
         responseWithClub.setWinCount(userClub.getWinCount());
