@@ -17,4 +17,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     Candidate findByUserAndSchedule(@Param("user") User user, @Param("schedule") Schedule schedule);
 
     boolean existsByUserAndSchedule(User user, Schedule schedule);
+
+    @Query("SELECT cd FROM Candidate cd WHERE cd.schedule.scheduleId = :scheduleId AND cd.attendance = :attendance")
+    Page<Candidate> findBySchedule(@Param("scheduleId") long scheduleId, Pageable pageable, @Param("attendance") Candidate.Attendance attendance);
 }
