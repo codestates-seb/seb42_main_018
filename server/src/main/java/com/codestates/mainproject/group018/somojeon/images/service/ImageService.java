@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
@@ -36,6 +37,15 @@ public class ImageService {
 
     private final AmazonS3 amazonS3;
     private final ImagesRepository imagesRepository;
+    private final ClubRepository clubRepository;
+
+    public String uploadDefaultImage() {
+        Images images = new Images();
+        images.setUrl(defaultClubImage);
+        imagesRepository.save(images);
+        return images.getUrl();
+
+    }
 
     public Images uploadProfileImage(MultipartFile multipartFile) throws IOException {
         //중복 이미지 제목 피하기 위해 randomUUID 부여
@@ -61,7 +71,7 @@ public class ImageService {
         return imagesRepository.save(images);
     }
 
-    public String uploadClubImage(MultipartFile multipartFile) throws IOException {
+    public Images uploadClubImage(MultipartFile multipartFile) throws IOException {
         //중복 이미지 제목 피하기 위해 randomUUID 부여
         String fileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
 
@@ -70,20 +80,17 @@ public class ImageService {
         // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
         objectMetadata.setContentType(multipartFile.getContentType());
 
-        amazonS3.putObject(bucket + "/club/", fileName, multipartFile.getInputStream(), objectMetadata);
+        amazonS3.putObject(bucket + "/club", fileName, multipartFile.getInputStream(), objectMetadata);
 
         Images images = new Images();
         images.setFileName(fileName);
         images.setUrl(bucket + fileName); //S3 저장 폴더 위치
-        imagesRepository.save(images);
 
-        if (images == null) {
-            images.setUrl(defaultClubImage);
-        }
+        imagesRepository.save(images);
 
         log.info("소모임 이미지 파일 업로드됨");
-        imagesRepository.save(images);
-        return images.getUrl();
+        return imagesRepository.save(images);
+//        return images.getUrl();
     }
 
     public String deleteProfileImage(String url)  {
@@ -101,20 +108,40 @@ public class ImageService {
         return "프로필 이미지 파일 삭제됨";
     }
 
-    public String deleteClubImage(String url) {
-
-        Images images = findVerifiedUpFileUrl(url);
-        Club club = new Club();
+    public void deleteClubImage(Images images) {
         String fileName = images.getFileName();
-        try {
-            club.setImages(images);
-            imagesRepository.delete(images);
-            amazonS3.deleteObject(new DeleteObjectRequest(bucket + "club", fileName));
-        } catch (AmazonServiceException e) {
-            System.err.println(e.getErrorMessage());
-        }
-        return "클럽 이미지 파일 삭제됨";
+        amazonS3.deleteObject(bucket, fileName);
     }
+
+//    public String deleteClubImage(String url) {
+//
+//        Images images = findVerifiedUpFileUrl(url);
+//        Club club = new Club();
+//        String fileName = images.getFileName();
+//        try {
+//            club.setImages(images);
+//            imagesRepository.delete(images);
+//            amazonS3.deleteObject(new DeleteObjectRequest(bucket + "club", fileName));
+//        } catch (AmazonServiceException e) {
+//            System.err.println(e.getErrorMessage());
+//        }
+//        return "클럽 이미지 파일 삭제됨";
+//    }
+
+//    public String deleteClubImage(Images images) {
+//
+//        Images fileUrl = findVerifiedUpFileUrl(images.getUrl());
+//
+//        String fileName = images.getFileName();
+//        try {
+//            club.setImages(images);
+//            imagesRepository.delete(images);
+//            amazonS3.deleteObject(new DeleteObjectRequest(bucket + "club", fileName));
+//        } catch (AmazonServiceException e) {
+//            System.err.println(e.getErrorMessage());
+//        }
+//        return "클럽 이미지 파일 삭제됨";
+//    }
 
     //존재하는 url인지 검증
     public Images findVerifiedUpFileUrl (String url){

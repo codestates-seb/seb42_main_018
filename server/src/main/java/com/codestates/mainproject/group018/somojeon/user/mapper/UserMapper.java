@@ -34,7 +34,7 @@ public interface UserMapper {
                 user.getNickName(),
                 user.getEmail(),
                 user.getUserStatus(),
-                imageMapper.imagesToImageResponseDto(user.getImages()),
+//                user.getProfileImage(),
                 clubMapper.userClubsToUserCLubResponses(userClubs)
         );
         return responseWithClubs;
@@ -47,7 +47,7 @@ public interface UserMapper {
         responseWithClub.setNickName(user.getNickName());
         responseWithClub.setClubMemberStatus(userClub.getClubMemberStatus());
         responseWithClub.setClubRole(userClub.getClubRole());
-        responseWithClub.setProfileImage(imageMapper.imagesToImageResponseDto(user.getImages()));
+//        responseWithClub.setProfileImage(user.getProfileImage());
         responseWithClub.setPlayCount(userClub.getPlayCount());
         responseWithClub.setWinCount(userClub.getWinCount());
         responseWithClub.setLoseCount(userClub.getLoseCount());

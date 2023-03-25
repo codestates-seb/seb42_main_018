@@ -53,11 +53,11 @@ public class ImageController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // 클럽 소개 이미지 파일 삭제
-    @DeleteMapping("/clubs")
-    public ResponseEntity deleteClubImage(@RequestPart("url") String url) {
-
-        imageService.deleteClubImage(url);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//    // 클럽 소개 이미지 파일 삭제
+//    @DeleteMapping("/clubs")
+//    public ResponseEntity deleteClubImage(@RequestPart("url") String url) {
+//
+//        imageService.deleteClubImage(url);
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 }

@@ -36,8 +36,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Value("${defaultProfile.image.address")
-    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
@@ -63,11 +61,6 @@ public class UserService {
         // DB에 User Role 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
-
-        // 기본이미지 저장.
-//        user.setImages(images);
-//        images.setUrl(defaultProfileImage);
-//        imagesRepository.save(images);
 
         User savedUser = userRepository.save(user);
 
@@ -125,14 +118,6 @@ public class UserService {
 
     }
 
-    // UserClub으로 옮김
-
-//    public Page<UserClub> findUsers(int page, int size, long clubId) {
-//
-//        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
-//
-//        return userClubPage;
-//    }
 
     public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);
