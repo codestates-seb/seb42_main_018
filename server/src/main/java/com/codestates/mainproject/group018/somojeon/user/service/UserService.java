@@ -65,9 +65,9 @@ public class UserService {
         user.setRoles(roles);
 
         // 기본이미지 저장.
-        user.setImages(images);
-        images.setUrl(defaultProfileImage);
-        imagesRepository.save(images);
+//        user.setImages(images);
+//        images.setUrl(defaultProfileImage);
+//        imagesRepository.save(images);
 
         User savedUser = userRepository.save(user);
 
