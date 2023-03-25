@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.club.repository;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,9 @@ public interface UserClubRepository extends JpaRepository<UserClub, Long> {
 
 //    @Query("SELECT uc FROM UserClub uc WHERE uc.clubMemberStatus = :clubMemberStatus")
 //    Page<UserClub> findByClubMemberStatus(Pageable pageable, ClubMemberStatus clubMemberStatus);
+
+    @Query("SELECT uc FROM UserClub uc WHERE uc.user = :user AND uc.club = :club")
+    UserClub findByUserAndClub(@Param("user") User user, @Param("club") Club club);
+
+    boolean existsByUserAndClub(User user, Club club);
 }

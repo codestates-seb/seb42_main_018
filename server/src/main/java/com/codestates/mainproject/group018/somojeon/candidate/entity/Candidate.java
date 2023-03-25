@@ -32,7 +32,7 @@ public class Candidate {
 
     public enum Attendance {
         ATTEND("참석"),
-        ABSENCE("불참"),
+        ABSENT("불참"),
         HOLD("보류");
 
         @Getter

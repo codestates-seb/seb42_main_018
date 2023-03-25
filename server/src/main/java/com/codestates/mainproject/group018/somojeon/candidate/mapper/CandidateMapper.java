@@ -11,6 +11,17 @@ import java.util.List;
 public interface CandidateMapper {
     Candidate candidatePostDtoToCandidate(CandidateDto.Post requestBody);
     Candidate candidatePatchDtoToCandidate(CandidateDto.Patch requestBody);
-    CandidateDto.Response candidateToCandidateResponseDto(Candidate candidate);
+    default CandidateDto.Response candidateToCandidateResponseDto(Candidate candidate) {
+        if (candidate == null) {
+            return null;
+        }
+
+        return CandidateDto.Response
+                .builder()
+                .candidateId(candidate.getCandidateId())
+                .nickName(candidate.getUser().getNickName())
+                .attendance(candidate.getAttendance())
+                .build();
+    }
     List<CandidateDto.Response> candidatesToCandidateResponseDtos(List<Candidate> candidates);
 }
