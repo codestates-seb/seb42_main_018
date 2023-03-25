@@ -45,23 +45,27 @@ public class ClubController {
 
     // 소모임 생성
     @PostMapping
-    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody,
-                                      Images images)  {
+    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(), images);
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName());
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
 
     // 소모임 수정 (소개글, 이미지 등)
-    @PatchMapping(path = "/{club-id}")
-    public ResponseEntity<?> patchClub(@PathVariable("club-id") @Positive Long clubId,
-                                       @RequestBody @Valid ClubDto.Patch requestBody) {
+    @PatchMapping(path = "/{clubId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
+                                       @ModelAttribute Club club,
+                                       @RequestParam(required = false) String clubName,
+                                       @RequestParam(required = false) String content,
+                                       @RequestParam(required = false) String local,
+                                       @RequestParam(required = false) List<String> tagName,
+                                       @RequestParam(required = false) boolean isSecret,
+                                       @RequestParam(value = "clubImage",required = false) MultipartFile clubImage) throws IOException {
 
-        requestBody.setClubId(clubId);
-        Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+//        club.setClubId(clubId);
+        Club response = clubService.updateClub(clubId, club, clubName, content, local, tagName, isSecret, clubImage);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);

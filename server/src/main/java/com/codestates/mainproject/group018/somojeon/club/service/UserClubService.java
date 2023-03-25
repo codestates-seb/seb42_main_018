@@ -56,8 +56,8 @@ public class UserClubService {
 
 
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
-    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId) {
-        clubService.findVerifiedClub(clubId);
+    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId, Long userId) {
+        existsUserClubByUserIdAndClubId(userId, clubId);
         return userClubRepository.findAll(
                 PageRequest.of(page, size, Sort.by("userClubId").descending()));
     }

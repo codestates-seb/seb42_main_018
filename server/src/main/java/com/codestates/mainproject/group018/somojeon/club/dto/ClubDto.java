@@ -64,7 +64,7 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isSecret;
 
-        private String clubImageUrl;
+//        private MultipartFile clubImage;
     }
 
 
@@ -82,7 +82,7 @@ public class ClubDto {
         private int viewCount;
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
-        private String clubImageUrl;
+        private String clubImage;
         private boolean isSecret;
         private LocalDateTime modifiedAt;
 

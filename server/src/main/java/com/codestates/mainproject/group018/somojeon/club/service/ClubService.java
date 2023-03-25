@@ -16,6 +16,7 @@ import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClubService {
@@ -45,7 +47,7 @@ public class ClubService {
     private final ImagesRepository imagesRepository;
 
 
-    public Club createClub(Club club, List<String> tagName, Images images) {
+    public Club createClub(Club club, List<String> tagName)  {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
 
         categoryService.verifyExistsCategoryName(club.getCategoryName());
@@ -60,6 +62,7 @@ public class ClubService {
 
         // 리더 권한 추가.
         club.setClubRole(ClubRole.LEADER);
+        club.setClubImageUrl(defaultClubImage);
 
         return clubRepository.save(club);
     }
@@ -67,27 +70,74 @@ public class ClubService {
 
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Club club, List<String> tagName) {
-        //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
-        Club findClub = findVerifiedClub(club.getClubId());
+    public Club updateClub(Long clubId, Club club, String clubName, String content, String local, List<String> tagName,boolean isSecret, MultipartFile multipartFile) throws IOException {
 
-        Optional.ofNullable(club.getClubName())
-                .ifPresent(findClub::setClubName);
-        Optional.ofNullable(club.getContent())
-                .ifPresent(findClub::setContent);
-        Optional.ofNullable(club.getLocal())
-                .ifPresent(findClub::setLocal);
-        Optional.of(club.isSecret())
-                .ifPresent(findClub::setSecret);
+        Club findClub = findVerifiedClub(clubId);
 
+        if (club.getClubName() != null && club.getContent() != null || club.getLocal() != null) {
+            findClub.setClubName(clubName);
+            findClub.setContent(content);
+            findClub.setLocal(local);
+            findClub.setSecret(isSecret);
+        }
+
+//        if (club.getClubImageUrl() != null) {
+//            imageService.uploadClubImage(club, multipartFile);
+//        } else {
+//            club.setClubImageUrl(defaultClubImage);
+//        }
 
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
         tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         } else {
-            return clubRepository.save(findClub);
+            clubRepository.save(findClub);
         }
+
+
+        if (club.getClubImageUrl() != null) {
+            Images oldImage = findClub.getImages();
+            if (oldImage != null) {
+                imageService.deleteClubImage(oldImage);
+                imagesRepository.delete(oldImage);
+            }
+            Images newImage = imageService.uploadClubImage(multipartFile);
+            findClub.setImages(newImage);
+            findClub.setClubImageUrl(newImage.getUrl());
+
+        }
+
+        return clubRepository.save(findClub);
+
+
+//        Optional.ofNullable(club.getClubName())
+//                .ifPresent(findClub::setClubName);
+//        Optional.ofNullable(club.getContent())
+//                .ifPresent(findClub::setContent);
+//        Optional.ofNullable(club.getLocal())
+//                .ifPresent(findClub::setLocal);
+//        Optional.of(club.isSecret())
+//                .ifPresent(findClub::setSecret);
+
+//        log.info("이미지 저장 시작");
+//        String uploadClubImage = imageService.uploadClubImage(multipartFile);
+
+//        findClub.setClubImageUrl(uploadClubImage);
+
+
+//        log.info("이제 태그 저장합니다.");
+//        List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
+//        log.info("태그 저장 중");
+//        tagList.forEach(tag -> new ClubTag(club, tag));
+//        if (tagList.size() > 3) {
+//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+//        } else {
+//            log.info("소모임 수정 저장 하기 전");
+//            clubRepository.save(findClub);
+//        }
+//        log.info("소모임 수정완료");
+//        return clubRepository.save(findClub);
     }
 
     // 소모임 단건 조회 (전체 ROLE 가능)
