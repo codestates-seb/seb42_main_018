@@ -5,7 +5,7 @@ import { S_Button, S_TabButton } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Title } from '../../../components/UI/S_Text';
 import { getFetch } from '../../../util/api';
-import { Record, TeamList } from './CreateMatch';
+import { Candidate, Record, TeamList } from './CreateMatch';
 import PastMatch from './_pastMatch';
 import ScheduledMatch from './_scheduledMatch';
 
@@ -31,10 +31,11 @@ interface SubTab {
 
 function ClubSchedule() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, scid } = useParams();
 
   const [tabIndex, setTabIndex] = useState(0);
 
+  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
   const [clubSchedules, setClubSchedules] = useState<Schedule[]>([]);
 
   const tabs = [

@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { idText, ScriptKind } from 'typescript';
+import { Candidate } from '../../pages/club/match/CreateMatch';
+import { getFetch, postFetch } from '../../util/api';
+import getGlobalState from '../../util/authorization/getGlobalState';
 import { S_SelectButton } from '../UI/S_Button';
 import { S_Label, S_SmallDescription, S_Text } from '../UI/S_Text';
 
@@ -32,11 +37,43 @@ interface ScheduleCardProps {
   clubId: number;
 }
 function ScheduleCard(props: ScheduleCardProps) {
+  // const { id } = useParams();
+  const { isLogin, userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
   const [clickedButton, setClickedButton] = useState<string | null>('');
+  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
   const buttonHandler = (e: React.MouseEvent<HTMLElement>) => {
     setClickedButton(e.currentTarget.getAttribute('name'));
   };
+
+  const attendSchedule = () => {
+    postFetch(
+      `${process.env.REACT_APP_URL}/clubs/${props.clubId}/schedules/${props.scheduleId}/users/${userInfo.userId}/attend`,
+      {
+        userId: userInfo.userId,
+        scheduleId: props.scheduleId,
+        clubId: props.clubId
+      },
+      tokens
+    ).then(() => {
+      getFetch(`${process.env.REACT_APP_URL}/candidates/${props.scheduleId}`).then((data) => {
+        setCandidateList([...data.data]);
+      });
+    });
+  };
+
+  const absentSchedule = () => {
+    postFetch(
+      `${process.env.REACT_APP_URL}/clubs/${props.clubId}/schedules/${props.scheduleId}/users/${userInfo.userId}/absent`,
+      {
+        userId: userInfo.userId,
+        scheduleId: props.scheduleId,
+        clubId: props.clubId
+      },
+      tokens
+    );
+  };
+
   return (
     <>
       <S_CardContainer onClick={() => navigate(`/club/${props.clubId}/match/${props.scheduleId}`)}>
@@ -60,7 +97,11 @@ function ScheduleCard(props: ScheduleCardProps) {
               name='attendance'
               clicked={`${clickedButton}`}
               className={clickedButton === 'attendance' ? 'clicked' : ''}
-              onClick={buttonHandler}
+              onClick={(e) => {
+                e.stopPropagation();
+                buttonHandler(e);
+                attendSchedule();
+              }}
               style={{ margin: '2px' }}
             >
               참석
@@ -69,7 +110,11 @@ function ScheduleCard(props: ScheduleCardProps) {
               name='absence'
               clicked={`${clickedButton}`}
               className={clickedButton === 'absence' ? 'clicked' : ''}
-              onClick={buttonHandler}
+              onClick={(e) => {
+                e.stopPropagation();
+                buttonHandler(e);
+                absentSchedule();
+              }}
               style={{ margin: '2px' }}
             >
               불참
