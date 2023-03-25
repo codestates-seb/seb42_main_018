@@ -145,16 +145,6 @@ public class ClubService {
         return userClubs;
     }
 
-    public Page<UserClub> getClubMembers(PageRequest pageRequest,  Long clubId) {
-        //TODO-DW: 검토 부탁드려요 by 제훈
-        findVerifiedClub(clubId);
-        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, clubId);
-
-
-
-        return userClubs;
-    }
-
 
 
      //소모임 회원 등급 설정
