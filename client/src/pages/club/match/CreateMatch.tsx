@@ -78,6 +78,12 @@ export interface MatchData {
   records: Record[];
 }
 
+export interface Candidate {
+  userId: number;
+  nickname: string;
+  attendance: string;
+}
+
 function CreateMatch() {
   const {
     register,
