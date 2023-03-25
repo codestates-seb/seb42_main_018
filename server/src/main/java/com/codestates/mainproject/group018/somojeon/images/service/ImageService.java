@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,7 +38,6 @@ public class ImageService {
 
     private final AmazonS3 amazonS3;
     private final ImagesRepository imagesRepository;
-    private final ClubRepository clubRepository;
 
     public String uploadDefaultImage() {
         Images images = new Images();
@@ -63,34 +63,55 @@ public class ImageService {
         images.setUrl(bucket + fileName);
         imagesRepository.save(images);
 
-        if (images == null) {
-            images.setUrl(defaultClubImage);
-        }
-
         log.info("프로필 이미지 파일 업로드됨");
         return imagesRepository.save(images);
     }
 
-    public Images uploadClubImage(MultipartFile multipartFile) throws IOException {
-        //중복 이미지 제목 피하기 위해 randomUUID 부여
+    public String uploadClubImage(MultipartFile multipartFile) throws IOException {
+
+//        String fileName = UUID.randomUUID().toString().concat(getFileExtension(multipartFile.getOriginalFilename()));
+
         String fileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+        try {
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(multipartFile.getInputStream().available());
-        // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
-        objectMetadata.setContentType(multipartFile.getContentType());
+            InputStream fileInputStream = multipartFile.getInputStream();
+            ObjectMetadata objMeta = new ObjectMetadata();
+            objMeta.setContentLength(fileInputStream.available());
 
-        amazonS3.putObject(bucket + "/club", fileName, multipartFile.getInputStream(), objectMetadata);
+            log.info("Store an image into the storage");
+            amazonS3.putObject(bucket + "/club", fileName, fileInputStream, objMeta);
+            fileInputStream.close();
 
-        Images images = new Images();
-        images.setFileName(fileName);
-        images.setUrl(bucket + fileName); //S3 저장 폴더 위치
+        } catch (IOException e) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
-        imagesRepository.save(images);
+        return amazonS3.getUrl(bucket, fileName).toString();
 
-        log.info("소모임 이미지 파일 업로드됨");
-        return imagesRepository.save(images);
+//        //중복 이미지 제목 피하기 위해 randomUUID 부여
+//        String fileName = UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+//
+//        ObjectMetadata objectMetadata = new ObjectMetadata();
+//        objectMetadata.setContentLength(multipartFile.getInputStream().available());
+//        // 직접 다운로드가 아니고 브라우저에서 열수 있게 하는 코드
+//        objectMetadata.setContentType(multipartFile.getContentType());
+//
+//        amazonS3.putObject(bucket + "/club", fileName, multipartFile.getInputStream(), objectMetadata);
+//
+//        Images images = new Images();
+//        images.setFileName(fileName);
+//        images.setUrl(bucket + fileName); //S3 저장 폴더 위치
+//
+//        imagesRepository.save(images);
+//
+//        log.info("소모임 이미지 파일 업로드됨");
+//
 //        return images.getUrl();
+    }
+
+    public void deleteClubImage(Images images) {
+        String fileName = images.getFileName();
+        amazonS3.deleteObject(bucket, fileName);
     }
 
     public String deleteProfileImage(String url)  {
@@ -106,11 +127,6 @@ public class ImageService {
             System.err.println(e.getErrorMessage());
         }
         return "프로필 이미지 파일 삭제됨";
-    }
-
-    public void deleteClubImage(Images images) {
-        String fileName = images.getFileName();
-        amazonS3.deleteObject(bucket, fileName);
     }
 
 //    public String deleteClubImage(String url) {
