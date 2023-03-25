@@ -58,12 +58,13 @@ public class UserClubController {
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
     @GetMapping("/{club-id}/joins")
     public ResponseEntity<?> getRequestJoinUsers(@PathVariable("club-id") @Positive Long clubId,
+                                                 @Positive Long userId,
                                                  @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "100") int size) {
 //        if (!identifier.checkClubRole(clubId, "LEADER")) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        }
-        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, clubId);
+        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, userId, clubId);
         List<UserClub> content = userClubPage.getContent();
 
         return new ResponseEntity<>(

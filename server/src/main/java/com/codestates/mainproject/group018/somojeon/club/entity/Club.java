@@ -27,7 +27,7 @@ import java.util.List;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long clubId;
 
     @Column(nullable = false)
@@ -45,11 +45,11 @@ public class Club {
     @Column(nullable = false)
     private boolean isSecret;
 
+    private String clubImageUrl;
+
     private int viewCount;
 
     private int memberCount;
-
-    private String clubImageUrl;
 
 //    @ElementCollection
 //    @CollectionTable(name="tags", joinColumns = @JoinColumn(name= "TAG_ID"))
