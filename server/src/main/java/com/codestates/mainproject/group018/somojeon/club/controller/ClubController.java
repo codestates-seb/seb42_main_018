@@ -53,19 +53,6 @@ public class ClubController {
         return ResponseEntity.created(location).build();
     }
 
-    // 소모임 수정 (소개글, 이미지 등)
-    @PostMapping(path = "/{clubId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
-                                       @RequestPart ClubDto.Patch requestPart,
-                                       @RequestPart(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
-
-        requestPart.setClubId(clubId);
-        Club response = clubService.updateClub(mapper.clubPatchDtoToClub(requestPart), requestPart.getTagName(), multipartFile);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
-    }
-
 //    // 소모임 수정 (소개글, 이미지 등)
 //    @PostMapping(path = "/{clubId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 //    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
@@ -78,6 +65,23 @@ public class ClubController {
 //        return new ResponseEntity<>(
 //                new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
 //    }
+
+    // 소모임 수정 (소개글, 이미지 등)
+    @PatchMapping(path = "/{clubId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
+                                       @ModelAttribute Club club,
+                                       @RequestParam String clubName,
+                                       @RequestParam String content,
+                                       @RequestParam String local,
+                                       @RequestParam List<String> tagName,
+                                       @RequestParam boolean isSecret,
+                                       @RequestParam(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
+
+        Club response = clubService.updateClub(clubId, club, clubName, content, local, tagName, isSecret, multipartFile);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
+    }
 
     // 퍼블릭 소모임 단건 조회
     @GetMapping("/{club-id}")

@@ -35,7 +35,7 @@ public class User extends Auditable {
     // 한 소모임에 같은 유저가 5번이상 가입요청하면 차단.
     private int joinCount;
 
-    private String profileImage;
+    private String profileImageUrl;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -44,9 +44,8 @@ public class User extends Auditable {
     String password;
 
     // 이미지 연관관계 매핑 바꿔봄.
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_ID")
-    private Images images;
+//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Images images;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
@@ -66,10 +65,6 @@ public class User extends Auditable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     OAuthUser oAuthUser;
-
-    public void setImages(Images images) {
-        this.images = images;
-    }
 
     public enum UserStatus{
 

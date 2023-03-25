@@ -24,11 +24,11 @@ public class Images {
     @Column
     private String url;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 }

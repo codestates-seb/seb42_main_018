@@ -25,9 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,10 +43,11 @@ public class UserService {
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
 
+    @Value("${defaultClub.image.address}")
+    private String defaultClubImage;
     private final ClubService clubService;
-    private final OauthUserService oauthUserService;
     private final ImageService imageService;
-    private final ImagesRepository imagesRepository;
+    private final OauthUserService oauthUserService;
 
 
     public User createUser(User user, String token, Images images) {
@@ -61,22 +64,32 @@ public class UserService {
         // DB에 User Role 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
+        user.setProfileImageUrl(defaultClubImage);
 
         User savedUser = userRepository.save(user);
 
         return savedUser;
     }
 
-
-
-
+    // 이전 코드는 주석처리 해놓음.
+//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+//    public User updateUser(User user)  {
+//        User findUser = findVerifiedUser(user.getUserId());
+//
+//        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
+//        optionalNickName.ifPresent(findUser::setNickName);
+//
+//        return userRepository.save(findUser);
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user)  {
-        User findUser = findVerifiedUser(user.getUserId());
+    public User updateUser(Long userId, User user, String nickName, MultipartFile multipartFile) throws IOException {
+        User findUser = findVerifiedUser(userId);
 
-        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-        optionalNickName.ifPresent(findUser::setNickName);
+        if (user.getNickName() != null ||multipartFile != null) {
+            findUser.setNickName(nickName);
+            findUser.setProfileImageUrl(imageService.uploadProfileImage(multipartFile));
+        }
 
         return userRepository.save(findUser);
     }

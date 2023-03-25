@@ -86,9 +86,8 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<UserClub> userClubList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_ID")
-    private Images images;
+//    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Images images;
 
 
     public void setClubTag(ClubTag clubTag) {
