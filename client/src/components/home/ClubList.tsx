@@ -47,7 +47,7 @@ const S_Hidden = styled.div`
 function ClubList({
   clubId,
   clubName,
-  profileImage,
+  clubImageUrl,
   content,
   local,
   categoryName,
@@ -56,7 +56,7 @@ function ClubList({
 }: ClubData) {
   return (
     <S_ClubBox>
-      <S_ImgBox img={profileImage} />
+      <S_ImgBox img={clubImageUrl} />
       <Link to={`/club/${clubId}`}>
         <S_ContentsBox>
           <S_TitleBox>

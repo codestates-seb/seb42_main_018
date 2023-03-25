@@ -8,7 +8,7 @@ export interface HandleDropDownClick {
   (option: string): void;
 }
 
-export interface CreateCategoryAndLocalProps {
+export interface CreateCategoryProps {
   inputValue: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -16,7 +16,7 @@ export interface CreateCategoryAndLocalProps {
 interface CategoryListDataType {
   categoryName: string;
 }
-function CreateCategory({ inputValue, setInputValue }: CreateCategoryAndLocalProps) {
+function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
   const [categories, setCategories] = useState<string[]>();
   useEffect(() => {
     const GET_URL = `${process.env.REACT_APP_URL}/categories`;

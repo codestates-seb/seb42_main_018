@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getFetch } from '../../../util/api';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getFetch, patchFetch } from '../../../util/api';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
 import S_Container from '../../../components/UI/S_Container';
@@ -21,9 +21,11 @@ export interface EditClubDataType {
 }
 
 function EditClub() {
+  const navigate = useNavigate();
   const { id: clubId } = useParams();
-  const [clubInfo, setClubInfo] = useState<ClubData>();
+  const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
 
+  const [clubInfo, setClubInfo] = useState<ClubData>();
   const [inputs, setInputs] = useState<EditClubDataType>({
     clubName: '',
     content: '',
@@ -31,40 +33,41 @@ function EditClub() {
     tagName: [],
     isPrivate: false
   });
+  const { categoryName, local: prevLocal, secret } = clubInfo || {};
+  const { clubName, content } = inputs || {};
 
-  const { categoryName } = clubInfo || {};
-
-  const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
   useEffect(() => {
     const getClubInfo = async () => {
       const res = await getFetch(URL);
-      setClubInfo(res.data);
+      const clubInfo: ClubData = res.data;
+      setClubInfo(clubInfo);
+
+      // * 기존 소모임 정보를 input 초기값으로 세팅
+      const { local: prevLocal, tagResponseDtos } = clubInfo || {};
+      const prevTags = tagResponseDtos?.map((tag) => tag.tagName) || [];
+      setTags(prevTags);
+      setLocalValue(prevLocal);
+
+      if (clubInfo) {
+        setInputs({
+          ...inputs,
+          clubName: clubInfo.clubName,
+          content: clubInfo.content,
+          local: clubInfo.local,
+          tagName: clubInfo.tagResponseDtos.map((tag) => tag.tagName),
+
+          // TODO: types > index.ts에서 secret 필드 ? 빠진거 확인하고 || false 삭제
+          // !BUG : 비공개 소모임(secret: true) 생성해도 서버에서 전부 secret: false 로 처리되고 있음
+          isPrivate: clubInfo.secret || false
+        });
+      }
     };
     getClubInfo();
   }, []);
 
-  useEffect(() => {
-    if (clubInfo) {
-      setInputs({
-        ...inputs,
-        clubName: clubInfo.clubName,
-        content: clubInfo.content,
-        local: clubInfo.local,
-        tagName: clubInfo.tagResponseDtos.map((tag) => tag.tagName),
-        // TODO: secret 필드 바뀐거 확인하고  || false 삭제
-        isPrivate: clubInfo.secret || false
-      });
-    }
-  }, [clubInfo]);
-  console.log('서버에서 보내준 소모임 정보:', clubInfo);
-  console.log('input value:', inputs);
-
-  // !TODO: profileImage 사진 어떻게 보낼지
-
-  const { clubName, content, local, tagName, isPrivate } = inputs || {};
+  // !TODO: profileImage patch 요청 어떻게 보낼지 BE와 방식 논의 필요
 
   const [tags, setTags] = useState<string[]>([]);
-  const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
 
   const onChange = (
@@ -74,9 +77,18 @@ function EditClub() {
     setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
   };
 
-  const onSubmit = () => {
-    console.log('제출');
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
+    const updateData = {
+      ...inputs,
+      tagName: tags,
+      local: localValue
+    };
+
+    // console.log(updateData);
+    const res = await patchFetch(URL, updateData);
+    if (res) navigate(`/club/${clubId}`);
   };
 
   return (
@@ -93,7 +105,6 @@ function EditClub() {
               name='clubName'
               type='text'
               maxLength={16}
-              defaultValue={clubInfo?.clubName}
               value={clubName}
               onChange={onChange}
               width='96%'
@@ -118,46 +129,67 @@ function EditClub() {
             <label htmlFor='categoryName'>
               <S_Label>카테고리</S_Label>
             </label>
-            <S_Description>소모임 종류는 한번 입력하시면 변경할 수 없습니다.</S_Description>
+            <S_Description>소모임 종류는 처음 모임을 만든 다음에는 변경할 수 없어요.</S_Description>
             <S_Input
               id='categoryName'
               name='categoryName'
               type='text'
-              defaultValue={clubInfo?.categoryName}
+              defaultValue={categoryName}
               disabled
               width='96%'
             />
           </div>
-          {/* //TODO: <option selected> */}
-          <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
-          {/* //TODO: prevTags props로 보내기 */}
+          <CreateLocal prevData={prevLocal} inputValue={localValue} setInputValue={setLocalValue} />
           <CreateTag tags={tags} setTags={setTags} />
-          {/* 사진 등록 영역 */}
+
+          {/* //TODO: 사진 등록 영역 */}
           <S_Label>사진 등록</S_Label>
+
           <fieldset className='isPrivate'>
             <div>
               <S_Label>공개여부 *</S_Label>
             </div>
             <S_RadioWrapper>
               <div className='partition'>
-                <S_Input
-                  type='radio'
-                  id='public'
-                  name='isPrivate'
-                  value='false'
-                  onChange={onChange}
-                  defaultChecked
-                />
+                {secret ? (
+                  <S_Input
+                    type='radio'
+                    id='private'
+                    name='isPrivate'
+                    value='true'
+                    onChange={onChange}
+                  />
+                ) : (
+                  <S_Input
+                    type='radio'
+                    id='private'
+                    name='isPrivate'
+                    value='true'
+                    onChange={onChange}
+                    defaultChecked
+                  />
+                )}
                 <label htmlFor='public'>공개</label>
               </div>
               <div className='partition'>
-                <S_Input
-                  type='radio'
-                  id='private'
-                  name='isPrivate'
-                  value='true'
-                  onChange={onChange}
-                />
+                {secret ? (
+                  <S_Input
+                    type='radio'
+                    id='private'
+                    name='isPrivate'
+                    value='true'
+                    onChange={onChange}
+                    defaultChecked
+                  />
+                ) : (
+                  <S_Input
+                    type='radio'
+                    id='private'
+                    name='isPrivate'
+                    value='true'
+                    onChange={onChange}
+                  />
+                )}
                 <label htmlFor='private'>비공개</label>
               </div>
             </S_RadioWrapper>
