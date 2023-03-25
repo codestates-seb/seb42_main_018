@@ -234,9 +234,11 @@ function CreateMatch() {
   };
 
   const postMatchData = async () => {
-    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
-      console.log('post했습니다.')
-    );
+    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData)
+      .then((res) => console.log('post했습니다.'))
+      .then(() => {
+        navigate(`/club/${id}/match`);
+      });
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -386,7 +388,6 @@ function CreateMatch() {
                   addStyle={{ width: '48%' }}
                   onClick={() => {
                     postMatchData();
-                    navigate(`/club/${id}/match`);
                   }}
                 >
                   확인
