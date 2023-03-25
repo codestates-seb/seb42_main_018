@@ -15,8 +15,9 @@ import ClubJoinModal from './_clubJoinModal';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 
 const ClubIntroWrapper = styled.div`
-  /* position: relative; */
+  position: relative;
   margin-top: 30px;
+  min-height: 88vh;
 
   & > .profile-img-box {
     margin: 0 -20px;
@@ -26,13 +27,10 @@ const ClubIntroWrapper = styled.div`
     align-items: center;
     background-color: var(--gray100);
   }
-  & .profile-img {
-    max-width: 100%;
-    max-height: 100%;
-  }
 
   & > .club-info-box {
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
+    padding-bottom: 0.4rem;
     display: flex;
     border-bottom: 1px solid var(--gray200);
   }
@@ -40,13 +38,9 @@ const ClubIntroWrapper = styled.div`
     flex: 3;
   }
   & .club-title-box {
-    margin-bottom: 5px;
     display: flex;
     align-items: center;
-    & .club-title {
-      margin: 0;
-    }
-    & > img {
+    & > .leader-badge-icon {
       margin-left: 6px;
       transform: scale(1.2);
     }
@@ -57,20 +51,21 @@ const ClubIntroWrapper = styled.div`
   }
 
   & > .club-content-box {
-    margin-top: 12px;
+    margin-top: 1rem;
+    margin-bottom: calc(50px + 1rem);
   }
 
   & > .join-btn-box {
-    /* position: absolute;
+    position: absolute;
     bottom: 0;
     right: 0;
-    left: 0; */
-    margin-top: 1.5rem;
+    left: 0;
 
     display: flex;
     justify-content: space-between;
   }
 `;
+
 function ClubIntro() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -159,7 +154,9 @@ function ClubIntro() {
             <div className='club-info-area'>
               <div className='club-title-box'>
                 <S_Title className='club-title'>{clubName}</S_Title>
-                {isLeader && <img src={leaderBadgeIcon} alt='소모임장 아이콘' />}
+                {isLeader && (
+                  <img src={leaderBadgeIcon} alt='소모임장 아이콘' className='leader-badge-icon' />
+                )}
               </div>
               <div className='club-detail-box'>
                 <S_Description>
