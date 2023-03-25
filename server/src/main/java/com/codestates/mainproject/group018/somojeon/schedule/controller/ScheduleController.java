@@ -71,9 +71,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")
-    public ResponseEntity postAttend(@PathVariable("club-id") @Positive long clubId,
-                                     @PathVariable("schedule-id") @Positive long scheduleId,
-                                     @PathVariable("user-id") @Positive long userId,
+    public ResponseEntity postAttend(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
                                      @Valid @RequestBody ScheduleDto.attendPost requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
@@ -88,9 +88,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/absent")
-    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive long clubId,
-                                     @PathVariable("schedule-id") @Positive long scheduleId,
-                                     @PathVariable("user-id") @Positive long userId,
+    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
                                      @Valid @RequestBody ScheduleDto.absentPost requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);

@@ -5,6 +5,9 @@ import com.codestates.mainproject.group018.somojeon.candidate.repository.Candida
 import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
+import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
@@ -127,9 +130,9 @@ public class ScheduleService {
         return scheduleRepository.save(findSchedule);
     }
 
-    public Schedule attendCandidate(Schedule schedule, long userId, long clubId) {
-        Club club = clubService.findVerifiedClub(clubId);
+    public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
         User user = userService.findVerifiedUser(userId);
 
         verifiedSchedule.setClub(club);
@@ -139,9 +142,9 @@ public class ScheduleService {
             userClub = new UserClub();
             userClub.setUser(user);
             userClub.setClub(club);
-            userClub.setPlayer(true);
-            userClubRepository.save(userClub);
         }
+        userClub.setPlayer(true);
+        userClubRepository.save(userClub);
 
         Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
         if (candidate == null) {
@@ -156,29 +159,19 @@ public class ScheduleService {
         return scheduleRepository.save(verifiedSchedule);
     }
 
-    public Schedule absentCandidate(Schedule schedule, long userId, long clubId) {
-        Club club = clubService.findVerifiedClub(clubId);
+    public Schedule absentCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
         User user = userService.findVerifiedUser(userId);
 
         verifiedSchedule.setClub(club);
 
         UserClub userClub = userClubRepository.findByUserAndClub(user, club);
-        if (userClub == null) {
-            userClub = new UserClub();
-            userClub.setUser(user);
-            userClub.setClub(club);
-        }
         userClub.setPlayer(false);
         userClubRepository.save(userClub);
 
 
         Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
-        if (candidate == null) {
-            candidate = new Candidate();
-            candidate.setUser(user);
-            candidate.setSchedule(verifiedSchedule);
-        }
         candidate.setAttendance(Candidate.Attendance.ABSENT);
         candidateRepository.save(candidate);
 
