@@ -2,8 +2,11 @@ package com.codestates.mainproject.group018.somojeon.schedule.service;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
+import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
+import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -15,6 +18,9 @@ import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -37,7 +43,9 @@ public class ScheduleService {
     private final TeamRepository teamRepository;
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
+    private final UserClubRepository userClubRepository;
     private final ClubService clubService;
+    private final UserService userService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
@@ -116,6 +124,54 @@ public class ScheduleService {
         findSchedule.setTeams(teamList);
 
         return scheduleRepository.save(findSchedule);
+    }
+
+    public Schedule attendCandidate(Schedule schedule, long userId, long clubId) {
+        Club club = clubService.findVerifiedClub(clubId);
+        Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        User user = userService.findVerifiedUser(userId);
+
+        verifiedSchedule.setClub(club);
+
+        if (!userClubRepository.existsByUserAndClub(user, club)) {
+            UserClub userClub = new UserClub();
+            userClub.setUser(user);
+            userClub.setClub(club);
+            userClub.setPlayer(true);
+            userClubRepository.save(userClub);
+        }
+
+        Candidate candidate = new Candidate();
+        candidate.setUser(user);
+        candidate.setSchedule(verifiedSchedule);
+        candidate.setAttendance(Candidate.Attendance.ATTEND);
+        candidateRepository.save(candidate);
+
+
+        return scheduleRepository.save(verifiedSchedule);
+    }
+
+    public Schedule absentCandidate(Schedule schedule, long userId, long clubId) {
+        Club club = clubService.findVerifiedClub(clubId);
+        Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        User user = userService.findVerifiedUser(userId);
+
+        verifiedSchedule.setClub(club);
+
+        if (!userClubRepository.existsByUserAndClub(user, club)) {
+            UserClub userClub = new UserClub();
+            userClub.setUser(user);
+            userClub.setClub(club);
+            userClubRepository.save(userClub);
+        }
+
+        Candidate candidate = new Candidate();
+        candidate.setUser(user);
+        candidate.setSchedule(verifiedSchedule);
+        candidate.setAttendance(Candidate.Attendance.ABSENT);
+        candidateRepository.save(candidate);
+
+        return scheduleRepository.save(verifiedSchedule);
     }
 
     public Schedule findSchedule(long scheduleId) {

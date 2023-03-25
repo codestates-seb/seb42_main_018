@@ -1,10 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.candidate.dto;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 public class CandidateDto {
 
@@ -30,12 +27,11 @@ public class CandidateDto {
 
     @Getter
     @Setter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
-        private Long scheduleId;
         private Long candidateId;
-        private Long userId;
         private String nickName;
         Candidate.Attendance attendance;
 
