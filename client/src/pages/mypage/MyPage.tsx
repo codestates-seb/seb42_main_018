@@ -19,7 +19,29 @@ function MyPage() {
     navigate('/');
   };
 
-  console.log(userInfo);
+  // ClubYes에는 userInfo에서 userClubResponses가 필요
+  // 예시
+  // "userClubResponses" : [
+  //   {
+  //     "userClubId" : 1,
+  //     "isPlayer" : true ,
+  //     "clubRole" :"LEADER",
+  //     "playCount" :10,
+  //     "winCount" :5,
+  //     "winRate" : 0.5
+  //   },
+  // {
+  //     "userClubId" : 2,
+  //     "isPlayer" : true ,
+  //     "clubRole" : "MEMBER",
+  //     "playCount" :10,
+  //     "winCount" :5,
+  //     "winRate" : 0.5
+  //   }
+  // ]
+
+  console.log(userInfo.userClubResponses);
+
   return (
     <S_Container>
       <UserProfile
@@ -33,8 +55,7 @@ function MyPage() {
       {userInfo.userClubResponses?.length !== 0 ? ( // 느낌표 나중에 수정
         <ClubNo />
       ) : (
-        'ClubYesPage'
-        // <ClubYes userClubResponses={userInfo.userClubResponses} />
+        <ClubYes />
       )}
       {/* 버튼 클릭시 로그아웃&메인페이지로 */}
       <S_ButtonBlack onClick={clickLogout}>로그아웃</S_ButtonBlack>
