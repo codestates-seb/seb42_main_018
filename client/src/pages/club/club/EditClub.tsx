@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import FormData from 'form-data';
 import { getFetch, patchFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
 import S_Container from '../../../components/UI/S_Container';
@@ -19,10 +21,10 @@ export interface EditClubDataType {
   content: string;
   local: string;
   tagName?: string[];
-  isPrivate: boolean;
+  isSecret: boolean;
 }
 
-interface ImgFileType {
+interface ClubImageType {
   lastModified: number;
   lastModifiedDate?: object;
   name: string;
@@ -48,6 +50,7 @@ const S_ImageBox = styled(S_ImgBox)`
 
 function EditClub() {
   const navigate = useNavigate();
+  const { tokens } = getGlobalState();
   const { id: clubId } = useParams();
   const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
 
@@ -57,10 +60,10 @@ function EditClub() {
     content: '',
     local: '',
     tagName: [],
-    isPrivate: false
+    isSecret: false
   });
-  const { categoryName, clubImageUrl, local: prevLocal, secret } = clubInfo || {};
-  const { clubName, content } = inputs || {};
+  const { categoryName, clubImage, local: prevLocal, secret } = clubInfo || {};
+  const { clubName, content, isSecret } = inputs || {};
 
   useEffect(() => {
     const getClubInfo = async () => {
@@ -84,7 +87,7 @@ function EditClub() {
 
           // TODO: types > index.ts에서 secret 필드 ? 빠진거 확인하고 || false 삭제
           // !BUG : 비공개 소모임(secret: true) 생성해도 서버에서 전부 secret: false 로 처리되고 있음
-          isPrivate: clubInfo.secret || false
+          isSecret: clubInfo.secret || false
         });
       }
     };
@@ -101,46 +104,55 @@ function EditClub() {
     setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
   };
 
-  // !TODO: profileImage patch 요청 어떻게 보낼지 BE와 방식 논의 필요
-  // 버튼 클릭시 파일첨부(input#file) 실행시켜주는 함수. 못생긴 파일첨부 input은 안녕!
+  // 버튼 클릭시 파일첨부(input#file) 실행시켜주는 함수
   const uploadImg = () => {
     const inputname = document.getElementById('uploadImg');
     inputname?.click();
   };
 
-  // 파일로 가져온 이미지 미리보기
-  const [imgFile, setImgFile] = useState(clubImageUrl);
-  // const [imgFile, setImgFile] = useState<ImgFileType>();
+  // 파일로 가져온 이미지 브라우저에서 미리보기
+  const [imgFile, setImgFile] = useState(clubImage); // 사용자가 선택한 사진을 화면에서 바로 보여주기 위한 string
+  const [clubImageFile, setClubImageFile] = useState<ClubImageType>(); // 서버에 form-data로 전송할 파일 객체
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
 
     if (file) {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         setImgFile(reader.result as string);
       });
-      // setImgFile(file);
       reader.readAsDataURL(file);
+
+      setClubImageFile(file);
     }
   };
 
-  console.log(typeof imgFile); // string
+  console.log(clubInfo);
+  // console.log(typeof imgFile); // string
+  // console.log(clubImage); // File 객체
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
-    const updateData = {
-      ...inputs,
-      tagName: tags,
-      local: localValue,
-      // * 이미지 파일 string으로 추가
-      clubImageUrl: imgFile
-    };
 
-    console.log(updateData);
-    // const res = await patchFetch(URL, updateData);
-    // if (res) navigate(`/club/${clubId}`);
+    if (clubImage) {
+      const formData: FormData = new FormData();
+      formData.append('clubName', clubName);
+      formData.append('content', content);
+      formData.append('local', localValue);
+      formData.append('tagName', tags);
+      formData.append('isSecret', isSecret);
+      formData.append('clubImage', clubImageFile);
+
+      // console.log(formData); // 빈 객체로 보임
+      // const formDataEntries = formData as unknown as Array<[string, unknown]>;
+      // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
+
+      // ! any 외에 다른 방법은 정녕 없는가
+      // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
+      const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
+      const res = await patchFetch(URL, formData, tokens, contentType);
+      if (res) navigate(`/club/${clubId}`);
+    }
   };
 
   return (
@@ -194,11 +206,10 @@ function EditClub() {
           <CreateLocal prevData={prevLocal} inputValue={localValue} setInputValue={setLocalValue} />
           <CreateTag tags={tags} setTags={setTags} />
 
-          {/* //TODO: 사진 등록 영역 */}
           <div>
             <S_Label_mg_top>사진 등록</S_Label_mg_top>
             <S_ImageBox>
-              <img id='previewimg' src={imgFile ? imgFile : clubImageUrl} alt='소모임 소개 사진' />
+              <img id='previewimg' src={imgFile ? imgFile : clubImage} alt='소모임 소개 사진' />
               <label htmlFor='file'>
                 <S_EditButton type='button' onClick={uploadImg}>
                   변경
