@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
 import { CreateCategoryProps } from './_createCategory';
-// import { S_Label } from '../../../components/UI/S_Text';
 import { S_Label_mg_top } from './EditClub';
 import { S_Select } from '../../../components/UI/S_Select';
 
