@@ -38,7 +38,6 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final ClubService clubService;
-    private final EntityManager entityManager;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
@@ -49,9 +48,6 @@ public class ScheduleService {
         schedule.setRecords(records);
 
         try {
-//            //세션 초기화
-//            entityManager.flush();
-//            entityManager.clear();
 
             // club 정보 저장
             club.getScheduleList().add(schedule);
