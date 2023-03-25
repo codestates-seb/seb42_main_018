@@ -202,7 +202,7 @@ function Register() {
       <S_RegisterWrapper>
         <div className='title-wrapper'>
           <Link to='/'>
-            <S_Title>소모전 로그인하기</S_Title>
+            <S_Title>소모전 회원가입</S_Title>
           </Link>
         </div>
         <form onSubmit={onSubmit}>
