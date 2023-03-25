@@ -81,7 +81,6 @@ function CreateClub() {
     isSecret: false
   });
   const { clubName, content, isSecret } = inputs;
-  console.log(inputs);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -105,6 +104,8 @@ function CreateClub() {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
+
+    // TODO : localValue에 공백이나 특수문자 있는지 확인하고 alert
 
     const newClubData: CreateClubDataType = {
       ...inputs,
