@@ -64,7 +64,6 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isSecret;
 
-//        private MultipartFile clubImage;
     }
 
 

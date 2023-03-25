@@ -18,7 +18,21 @@ public interface UserMapper {
     User userPostToUser(UserDto.Post userDtoPost);
     User userPatchToUser(UserDto.Patch userDtoPatch);
 
-    UserDto.Response userToUserResponse(User user);
+    default UserDto.Response userToUserResponse(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        UserDto.Response response = new UserDto.Response();
+
+        response.setUserId( user.getUserId() );
+        response.setNickName( user.getNickName() );
+        response.setEmail( user.getEmail() );
+        response.setUserStatus( user.getUserStatus() );
+        response.setProfileImage(user.getProfileImageUrl());
+
+        return response;
+    }
 
     default  List<UserDto.Response> usersToUserResponses(List<User> users){
         return users.stream().map(
@@ -34,20 +48,20 @@ public interface UserMapper {
                 user.getNickName(),
                 user.getEmail(),
                 user.getUserStatus(),
-//                user.getProfileImage(),
+                user.getProfileImageUrl(),
                 clubMapper.userClubsToUserCLubResponses(userClubs)
         );
         return responseWithClubs;
     }
 
-    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub, ImageMapper imageMapper){
+    default UserDto.ResponseWithClub userToUserResponseWithClub(UserClub userClub){
         User user = userClub.getUser();
         UserDto.ResponseWithClub responseWithClub = new UserDto.ResponseWithClub();
         responseWithClub.setUserId(user.getUserId());
         responseWithClub.setNickName(user.getNickName());
         responseWithClub.setClubMemberStatus(userClub.getClubMemberStatus());
         responseWithClub.setClubRole(userClub.getClubRole());
-//        responseWithClub.setProfileImage(user.getProfileImage());
+        responseWithClub.setProfileImage(user.getProfileImageUrl());
         responseWithClub.setPlayCount(userClub.getPlayCount());
         responseWithClub.setWinCount(userClub.getWinCount());
         responseWithClub.setLoseCount(userClub.getLoseCount());
@@ -55,20 +69,4 @@ public interface UserMapper {
         responseWithClub.setWinRate(userClub.getWinRate());
         return responseWithClub;
     }
-
-
-    default ImagesResponseDto imagesToImagesResponseDto(Images images) {
-        if ( images == null ) {
-            return null;
-        }
-
-        ImagesResponseDto response = new ImagesResponseDto();
-
-        response.setImageId(images.getImageId());
-        response.setFileName(images.getFileName());
-        response.setUrl(images.getUrl());
-
-        return response;
-    }
-
 }

@@ -167,8 +167,7 @@ public class UserClubController {
 
 
         List<UserDto.ResponseWithClub> response = userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
+                userMapper::userToUserResponseWithClub).collect(Collectors.toList());
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
                 HttpStatus.OK);
     }

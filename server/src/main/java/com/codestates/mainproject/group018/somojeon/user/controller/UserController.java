@@ -21,11 +21,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,21 +68,36 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(
-            @PathVariable("user-id") @Positive long userId,
-            @Valid @RequestBody UserDto.Patch requestBody) {
+    // 이전 코드는 주석처리 해놓
+//    @PatchMapping("/{user-id}")
+//    public ResponseEntity patchUser(
+//            @PathVariable("user-id") @Positive long userId,
+//            @Valid @RequestBody UserDto.Patch requestBody) {
+//
+//        requestBody.setUserId(userId);
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+//        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+//                HttpStatus.OK);
+//    }
 
-        requestBody.setUserId(userId);
-        if(!identifier.isVerified(userId)){
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
-        }
-        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+    @PatchMapping("/{user-id}")
+    public ResponseEntity patchUser(@PathVariable("user-id") @Positive long userId,
+                                    @ModelAttribute User user,
+                                    @RequestParam String nickName,
+                                    @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
+
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+        User response = userService.updateUser(userId, user, nickName, multipartFile);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
-                HttpStatus.OK);
-
+                new SingleResponseDto<>(userMapper.userToUserResponse(response)), HttpStatus.OK);
     }
 
     @PatchMapping("/{user-id}/password")
