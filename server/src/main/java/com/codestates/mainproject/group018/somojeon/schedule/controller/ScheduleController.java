@@ -45,8 +45,7 @@ public class ScheduleController {
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
-                requestBody.getTeamList(), requestBody.getCandidates());
-
+                requestBody.getTeamList(), requestBody.getCandidates(), requestBody.getUsers());
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);
@@ -108,7 +107,7 @@ public class ScheduleController {
     @GetMapping("/clubs/{club-id}/schedules")
     public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
                                              @RequestParam(value = "page", defaultValue = "1") int page,
-                                             @RequestParam(value = "size", defaultValue = "10") int size) {
+                                             @RequestParam(value = "size", defaultValue = "50") int size) {
         Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
         List<Schedule> schedules = schedulePage.getContent();
 
