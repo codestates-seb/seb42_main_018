@@ -80,9 +80,9 @@ function ClubIntro() {
   console.log(userInfo);
 
   // TODO : 리더에게만 뱃지와 프로필 설정 버튼이 보이는지 확인
-  const myClub = userInfo.userClubResponses?.find((club) => club.userClubId === Number(id));
+  const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
   const isLeader = myClub?.clubRole === 'LEADER';
-  const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
+  const isMember = myClub?.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
   // console.log(myClub);
   // console.log(isMember);
 
