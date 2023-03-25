@@ -68,21 +68,109 @@ public class ClubService {
     }
 
 
-    // 소모임 수정 (리더, 매니저만 가능)
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Long clubId, Club club, String clubName, String content, String local, List<String> tagName,boolean isSecret, MultipartFile multipartFile) throws IOException {
-
-        Club findClub = findVerifiedClub(clubId);
-
-        if (club.getClubName() != null && club.getContent() != null || club.getLocal() != null) {
-            findClub.setClubName(clubName);
-            findClub.setContent(content);
-            findClub.setLocal(local);
-            findClub.setSecret(isSecret);
-        }
-
+//    // 소모임 수정 (리더, 매니저만 가능)
+//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+//    public Club updateClub(Long clubId, Club club, String clubName, String content, String local, List<String> tagName,boolean isSecret, MultipartFile multipartFile) throws IOException {
+//
+//        Club findClub = findVerifiedClub(clubId);
+//
+//        if (club.getClubName() != null && club.getContent() != null || club.getLocal() != null) {
+//            findClub.setClubName(clubName);
+//            findClub.setContent(content);
+//            findClub.setLocal(local);
+//            findClub.setSecret(isSecret);
+//        }
+//
+////        if (club.getClubImageUrl() != null) {
+////            imageService.uploadClubImage(club, multipartFile);
+////        } else {
+////            club.setClubImageUrl(defaultClubImage);
+////        }
+//
+//        List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
+//        tagList.forEach(tag -> new ClubTag(club, tag));
+//        if (tagList.size() > 3) {
+//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+//        } else {
+//            clubRepository.save(findClub);
+//        }
+//
+//
 //        if (club.getClubImageUrl() != null) {
-//            imageService.uploadClubImage(club, multipartFile);
+//            Images oldImage = club.getImages();
+//            if (oldImage != null) {
+//                imageService.deleteClubImage(oldImage);
+//                imagesRepository.delete(oldImage);
+//            }
+//            Images newImage = imageService.uploadClubImage(multipartFile);
+//            findClub.setImages(newImage);
+//            findClub.setClubImageUrl(newImage.getUrl());
+//
+//        }
+//
+//        return clubRepository.save(findClub);
+//
+//
+////        Optional.ofNullable(club.getClubName())
+////                .ifPresent(findClub::setClubName);
+////        Optional.ofNullable(club.getContent())
+////                .ifPresent(findClub::setContent);
+////        Optional.ofNullable(club.getLocal())
+////                .ifPresent(findClub::setLocal);
+////        Optional.of(club.isSecret())
+////                .ifPresent(findClub::setSecret);
+//
+////        log.info("이미지 저장 시작");
+////        String uploadClubImage = imageService.uploadClubImage(multipartFile);
+//
+////        findClub.setClubImageUrl(uploadClubImage);
+//
+//
+////        log.info("이제 태그 저장합니다.");
+////        List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
+////        log.info("태그 저장 중");
+////        tagList.forEach(tag -> new ClubTag(club, tag));
+////        if (tagList.size() > 3) {
+////            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+////        } else {
+////            log.info("소모임 수정 저장 하기 전");
+////            clubRepository.save(findClub);
+////        }
+////        log.info("소모임 수정완료");
+////        return clubRepository.save(findClub);
+//    }
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+    public Club updateClub(Club club, List<String> tagName, MultipartFile clubImage) throws IOException {
+
+        Club findClub = findVerifiedClub(club.getClubId());
+
+        Optional.ofNullable(club.getClubName())
+                .ifPresent(findClub::setClubName);
+        Optional.ofNullable(club.getContent())
+                .ifPresent(findClub::setContent);
+        Optional.ofNullable(club.getLocal())
+                .ifPresent(findClub::setLocal);
+        Optional.of(club.isSecret())
+                .ifPresent(findClub::setSecret);
+
+        if (clubImage != null) {
+            findClub.setClubImageUrl(imageService.uploadClubImage(clubImage));
+        }
+//        Optional.ofNullable(clubImage)
+//                .ifPresent(image -> {
+//                    try {
+//                        findClub.setClubImageUrl(
+//                                imageService.uploadClubImage(image)
+//                        );
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                });
+
+
+//        if (findClub.getClubImageUrl() != null) {
+//            imageService.uploadClubImage(multipartFile);
 //        } else {
 //            club.setClubImageUrl(defaultClubImage);
 //        }
@@ -96,29 +184,20 @@ public class ClubService {
         }
 
 
-        if (club.getClubImageUrl() != null) {
-            Images oldImage = findClub.getImages();
-            if (oldImage != null) {
-                imageService.deleteClubImage(oldImage);
-                imagesRepository.delete(oldImage);
-            }
-            Images newImage = imageService.uploadClubImage(multipartFile);
-            findClub.setImages(newImage);
-            findClub.setClubImageUrl(newImage.getUrl());
-
-        }
+//        if (club.getClubImageUrl() != null) {
+//            Images oldImage = club.getImages();
+//            if (oldImage != null) {
+//                imageService.deleteClubImage(oldImage);
+//                imagesRepository.delete(oldImage);
+//            }
+//            Images newImage = imageService.uploadClubImage(multipartFile);
+//            findClub.setImages(newImage);
+//            findClub.setClubImageUrl(newImage.getUrl());
+//
+//        }
 
         return clubRepository.save(findClub);
 
-
-//        Optional.ofNullable(club.getClubName())
-//                .ifPresent(findClub::setClubName);
-//        Optional.ofNullable(club.getContent())
-//                .ifPresent(findClub::setContent);
-//        Optional.ofNullable(club.getLocal())
-//                .ifPresent(findClub::setLocal);
-//        Optional.of(club.isSecret())
-//                .ifPresent(findClub::setSecret);
 
 //        log.info("이미지 저장 시작");
 //        String uploadClubImage = imageService.uploadClubImage(multipartFile);
