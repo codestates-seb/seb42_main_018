@@ -77,6 +77,7 @@ public class UserClubDto {
 
         private Long clubId;
         private ClubRole clubRole;
+        private ClubMemberStatus clubMemberStatus;
         private boolean isPlayer;
         private Level level;
         private int playCount;
