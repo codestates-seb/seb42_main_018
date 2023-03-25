@@ -33,7 +33,6 @@ const S_ButtonBox = styled.div`
 interface RegisterModalProps {
   showModal: boolean;
   handleModal: () => void;
-  // isApplied: boolean;
   setIsApplied: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
