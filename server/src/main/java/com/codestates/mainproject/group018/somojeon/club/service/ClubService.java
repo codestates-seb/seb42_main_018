@@ -57,10 +57,6 @@ public class ClubService {
         club.setCreatedAt(LocalDateTime.now());
         club.setMemberCount(club.getMemberCount() + 1);
 
-        // 기본이미지 저장.
-        club.setImages(images);
-        images.setUrl(defaultClubImage);
-        imagesRepository.save(images);
 
         // 리더 권한 추가.
         club.setClubRole(ClubRole.LEADER);
