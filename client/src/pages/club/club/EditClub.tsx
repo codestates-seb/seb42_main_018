@@ -225,7 +225,7 @@ function EditClub() {
             </S_ImageBox>
           </div>
 
-          <fieldset className='isPrivate'>
+          <fieldset className='isSecret'>
             <div>
               <S_Label_mg_top>공개여부 *</S_Label_mg_top>
             </div>
@@ -235,7 +235,7 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isPrivate'
+                    name='isSecret'
                     value='true'
                     onChange={onChange}
                   />
@@ -243,7 +243,7 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isPrivate'
+                    name='isSecret'
                     value='true'
                     onChange={onChange}
                     defaultChecked
@@ -256,7 +256,7 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isPrivate'
+                    name='isSecret'
                     value='true'
                     onChange={onChange}
                     defaultChecked
@@ -265,7 +265,7 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isPrivate'
+                    name='isSecret'
                     value='true'
                     onChange={onChange}
                   />
