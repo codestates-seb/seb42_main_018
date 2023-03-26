@@ -1,7 +1,9 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -42,6 +44,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final Identifier identifier;
+    private final ClubService clubService;
 
     private final ClubMapper clubMapper;
     private final ImageMapper imageMapper;
@@ -182,4 +185,19 @@ public class UserController {
                 HttpStatus.OK);
 
     }
+
+    // 내가 가입한 소모임 조회
+    @GetMapping("/{user-id}/clubs")
+    public ResponseEntity getMyClubs(@PathVariable("user-id") @Positive Long userId,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "100") int size) {
+
+        Page<Club> myClubs = clubService.findMyClubs(page - 1, size, userId);
+        List<Club> content = myClubs.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(
+                        clubMapper.clubToClubResponseDtos(content), myClubs), HttpStatus.OK);
+    }
+
 }
