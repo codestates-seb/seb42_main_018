@@ -21,7 +21,6 @@ function TotalMember() {
 
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
-      // console.log(data);
       setTotalMembers(data.data);
     });
   }, []);

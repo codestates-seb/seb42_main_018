@@ -176,7 +176,7 @@ function EditMatch() {
       placeName: placeValue?.place_name,
       longitude: Number(placeValue?.y),
       latitude: Number(placeValue?.x),
-      candidates: candidates?.length !== 0 ? candidates : [],
+      candidates: matchData?.candidates.length !== 0 ? (matchData?.candidates as Candidate[]) : [],
       teamList: !(teamList?.length === 1 && teamList[0].members.length === 0) ? teamList : [],
       records: records.length !== 0 ? records : []
     });
@@ -184,7 +184,10 @@ function EditMatch() {
 
   const putMatchData = async () => {
     await putFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`, matchData).then(
-      (res) => console.log('put했습니다.')
+      (res) => {
+        console.log('put했습니다.');
+        console.log(matchData);
+      }
     );
   };
 
