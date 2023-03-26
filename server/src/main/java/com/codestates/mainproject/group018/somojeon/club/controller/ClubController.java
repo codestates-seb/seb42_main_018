@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
@@ -17,11 +18,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -41,24 +45,23 @@ public class ClubController {
 
     // 소모임 생성
     @PostMapping
-    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody) {
+    public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody,
+                                      Images images)  {
 
-        Long profileImageId = requestBody.getProfileImageId();
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(),profileImageId);
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(), images);
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
 
     // 소모임 수정 (소개글, 이미지 등)
-    @PatchMapping("/{club-id}")
+    @PatchMapping(path = "/{club-id}")
     public ResponseEntity<?> patchClub(@PathVariable("club-id") @Positive Long clubId,
-                                    @RequestBody @Valid ClubDto.Patch requestBody) {
+                                       @RequestBody @Valid ClubDto.Patch requestBody) {
 
         requestBody.setClubId(clubId);
-        Long profileImageId = requestBody.getProfileImageId();
         Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName(), profileImageId);
+                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
@@ -77,7 +80,7 @@ public class ClubController {
     // 퍼블릭 소모임 전체 조회
     @GetMapping
     public ResponseEntity<?> getClubs(@RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(defaultValue = "10") int size) {
+                                   @RequestParam(defaultValue = "200") int size) {
 
         Page<Club> clubPage = clubService.findClubs(page - 1, size);
         List<Club> content = clubPage.getContent();

@@ -10,6 +10,7 @@ import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepo
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +42,10 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
+    private final ImagesRepository imagesRepository;
 
-    // 소모임 생성 (일반유저 모두 가능)
-    public Club createClub(Club club, List<String> tagName, Long profileImageId) {
+
+    public Club createClub(Club club, List<String> tagName, Images images) {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
 
         categoryService.verifyExistsCategoryName(club.getCategoryName());
@@ -52,24 +56,22 @@ public class ClubService {
         }
         club.setCreatedAt(LocalDateTime.now());
         club.setMemberCount(club.getMemberCount() + 1);
-        // profileImageId 들어오면 Image도 저장
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            club.setImages(images);
-        }
-//        else {
-//            club.getImages().setUrl(defaultClubImage);
-//        }
+
+        // 기본이미지 저장.
+        club.setImages(images);
+        images.setUrl(defaultClubImage);
+        imagesRepository.save(images);
+
         // 리더 권한 추가.
-//        club.getUserClubList().stream().forEach(userClub -> userClub.setClubRole(ClubRole.LEADER));
         club.setClubRole(ClubRole.LEADER);
 
         return clubRepository.save(club);
     }
 
+
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Club club, List<String> tagName, Long profileImageId) {
+    public Club updateClub(Club club, List<String> tagName) {
         //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
         Club findClub = findVerifiedClub(club.getClubId());
 
@@ -81,13 +83,7 @@ public class ClubService {
                 .ifPresent(findClub::setLocal);
         Optional.of(club.isSecret())
                 .ifPresent(findClub::setSecret);
-        // profileImageId 들어오면 Image도 저장
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            club.setImages(images);
-        } else {
-            club.getImages().setUrl(defaultClubImage);
-        }
+
 
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
         tagList.forEach(tag -> new ClubTag(club, tag));
@@ -145,16 +141,6 @@ public class ClubService {
     public List<UserClub> getUserClubs(Long userId) {
         //TODO-DW: 검토 부탁드려요 by 제훈
         List<UserClub> userClubs =  userClubRepository.findAllByUserId(userId);
-
-        return userClubs;
-    }
-
-    public Page<UserClub> getClubMembers(PageRequest pageRequest,  Long clubId) {
-        //TODO-DW: 검토 부탁드려요 by 제훈
-        findVerifiedClub(clubId);
-        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, clubId);
-
-
 
         return userClubs;
     }

@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.candidate.service;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CandidateService {
     private final CandidateRepository candidateRepository;
+    private final UserClubRepository userClubRepository;
 
     public Candidate createCandidate(Candidate candidate) {
+
         UserClub userClub = new UserClub();
         if (userClub.isPlayer() == false) userClub.setPlayer(true);
+        userClubRepository.save(userClub);
+
         candidate.setAttendance(Candidate.Attendance.ATTEND);
 
         return candidateRepository.save(candidate);

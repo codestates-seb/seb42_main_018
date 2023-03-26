@@ -16,11 +16,10 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClubMapper {
 
-//    @Mapping(source = "categoryId", target = "category.categoryId")
+    //    @Mapping(source = "categoryId", target = "category.categoryId")
     Club clubPostDtoToClub(ClubDto.Post requestBody);
+
     Club clubPatchDtoToClub(ClubDto.Patch requestBody);
-//    ClubDto.Response clubToClubResponseDto(Club club);
-//    ClubDto.GetResponse clubToClubGetResponseDto(Club club);
     List<ClubDto.Response> clubToClubResponseDtos(List<Club> clubs);
 
     default List<TagDto.Response> clubTagsToTagResponse(List<ClubTag> clubTagList) {
@@ -63,6 +62,7 @@ public interface ClubMapper {
 
         response.clubId(userClub.getClub().getClubId());
         response.clubRole( userClub.getClubRole() );
+        response.clubMemberStatus(userClub.getClubMemberStatus());
         response.level( userClub.getLevel() );
         response.playCount( userClub.getPlayCount() );
         response.winCount( userClub.getWinCount() );

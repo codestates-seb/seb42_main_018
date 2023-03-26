@@ -49,6 +49,8 @@ public class Club {
 
     private int memberCount;
 
+    private String clubImageUrl;
+
 //    @ElementCollection
 //    @CollectionTable(name="tags", joinColumns = @JoinColumn(name= "TAG_ID"))
 //    private List<String> tags;

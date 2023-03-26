@@ -26,7 +26,6 @@ public class UserClubService {
 
     private final UserClubRepository userClubRepository;
     private final ClubService clubService;
-    private final Identifier identifier;
     private final UserService userService;
 
     /*
@@ -35,10 +34,10 @@ public class UserClubService {
 
     // 소모임 가입 요청
     public UserClub joinClub(UserClub userClub, Long userId) {
-        clubService.findVerifiedClub(userClub.getClub().getClubId());
-        userService.findVerifiedUser(userClub.getUser().getUserId());
+//        clubService.findVerifiedClub(userClub.getClub().getClubId());
+//        userService.findVerifiedUser(userClub.getUser().getUserId());
 
-//        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
+        existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
 
 //        if (userClub.getUser().getUserId() == userId) {
 //            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
@@ -134,10 +133,12 @@ public class UserClubService {
 //    }
 
     // 소모임 안에 멤버들 기록 조회
-    public Page<UserClub> findUsers(int page, int size, long clubId) {
-        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
+    public Page<UserClub> getClubMembers(int page, int size,  Long clubId) {
 
-        return userClubPage;
+        clubService.findVerifiedClub(clubId);
+        return  userClubRepository.findByClubMemberStatus(
+                PageRequest.of(page, size, Sort.by("winRate")), ClubMemberStatus.MEMBER_ACTIVE);
+
     }
 
     public void existsUserClubByUserIdAndClubId(Long userId, Long clubId) {

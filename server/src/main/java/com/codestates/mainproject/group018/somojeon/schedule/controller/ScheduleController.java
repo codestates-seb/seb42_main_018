@@ -70,6 +70,41 @@ public class ScheduleController {
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
     }
 
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")
+    public ResponseEntity postAttend(@PathVariable("club-id") @Positive long clubId,
+                                     @PathVariable("schedule-id") @Positive long scheduleId,
+                                     @PathVariable("user-id") @Positive long userId,
+                                     @Valid @RequestBody ScheduleDto.attendPost requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+        requestBody.addUserId(userId);
+
+        Schedule schedule = scheduleMapper.scheduleAttendPostDtoToSchedule(requestBody);
+
+        Schedule createdAttend = scheduleService.attendCandidate(schedule, clubId, userId);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdAttend, userMapper)), HttpStatus.OK);
+    }
+
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/absent")
+    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive long clubId,
+                                     @PathVariable("schedule-id") @Positive long scheduleId,
+                                     @PathVariable("user-id") @Positive long userId,
+                                     @Valid @RequestBody ScheduleDto.absentPost requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+        requestBody.addUserId(userId);
+
+        Schedule schedule = scheduleMapper.scheduleAbsentPostDtoToSchedule(requestBody);
+
+        Schedule createdAbsent = scheduleService.absentCandidate(schedule, clubId, userId);
+
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdAbsent, userMapper)), HttpStatus.OK);
+    }
+
     @GetMapping("/clubs/{club-id}/schedules")
     public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
                                              @RequestParam(value = "page", defaultValue = "1") int page,
@@ -92,7 +127,7 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
-    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    @DeleteMapping("/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);

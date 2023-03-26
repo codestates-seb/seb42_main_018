@@ -99,14 +99,14 @@ function ClubIntro() {
     getClubInfo();
   }, []);
 
-  // console.log(clubInfo);
+  console.log(clubInfo);
 
-  // TODO : profileImage 이미지 잘 뜨는지 확인
+  // TODO : clubImageUrl 이미지 잘 뜨는지 확인
   const {
     clubName,
     content,
     categoryName,
-    profileImage,
+    clubImageUrl,
     local,
     memberCount,
     tagResponseDtos: tags
@@ -146,9 +146,9 @@ function ClubIntro() {
         <Tabmenu tabs={tabs}></Tabmenu>
         <ClubIntroWrapper>
           <div className='profile-img-box'>
-            {/* TODO: img src 추후 profileImage로 변경 */}
+            {/* TODO: img src 추후 clubImageUrl로 변경 */}
             <img
-              src={profileImage}
+              src={clubImageUrl}
               alt='소모임 소개 이미지'
               className='profile-img'
               style={{ width: '100%' }}

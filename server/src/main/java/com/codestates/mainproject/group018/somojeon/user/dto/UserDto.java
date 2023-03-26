@@ -1,6 +1,8 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
@@ -25,8 +27,6 @@ public class UserDto {
         @Nullable
         String password;
 
-        private Long profileImageId;
-
 
     }
     @Getter
@@ -37,7 +37,6 @@ public class UserDto {
         Long userId;
         @Nullable
         String nickName;
-        private Long profileImageId;
 
     }
     @Getter
@@ -107,7 +106,10 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ResponseWithClub {
+        private Long userId;
         String nickName;
+        private ClubMemberStatus clubMemberStatus;
+        private ClubRole clubRole;
         private ImagesResponseDto profileImage;
         private Integer playCount;
         private Integer winCount;
