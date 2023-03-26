@@ -1,5 +1,11 @@
+import styled from 'styled-components';
 import { S_Label, S_Description } from '../UI/S_Text';
 import { S_Input } from '../UI/S_Input';
+
+const S_PasswordWrapper = styled.div<{ name: string }>`
+  height: ${(props) => (props.name === 'password' ? '148px' : '120px')};
+  margin-bottom: 1rem;
+`;
 
 interface InputPasswordProps {
   name: string;
@@ -21,7 +27,7 @@ function InputPassword({
   errorMsg
 }: InputPasswordProps) {
   return (
-    <div>
+    <S_PasswordWrapper name={name}>
       <label htmlFor={name}>
         <S_Label>{label}</S_Label>
       </label>
@@ -35,7 +41,7 @@ function InputPassword({
         onChange={onChange}
       />
       {errorState && <S_Description color={'var(--red100)'}>{errorMsg}</S_Description>}
-    </div>
+    </S_PasswordWrapper>
   );
 }
 

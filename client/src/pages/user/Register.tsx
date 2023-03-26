@@ -16,21 +16,21 @@ import { useDispatch } from 'react-redux';
 import InputEmail from '../../components/login/_inputEmail';
 import InputPassword from '../../components/login/_inputPassword';
 import InputNickname from '../../components/login/_inputNickname';
+import { AxiosResponse } from 'axios';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
+  height: 100%;
+
   & .title-wrapper {
+    height: 10vh;
     justify-content: flex-start;
   }
 
   & .form-wrapper {
-    margin-top: 1vh;
-    height: 70vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
   }
   & .email-input-area {
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
 
@@ -39,7 +39,7 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
     }
   }
   & .register-btn {
-    margin-top: 1vh;
+    margin-top: 2rem;
   }
 `;
 
@@ -61,7 +61,7 @@ function Register() {
   };
 
   // 소셜 로그인 최초 시도 후 회원가입 페이지로 보내진 경우
-  // tempTokens: 소셜 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
+  // @param tempTokens: 소셜 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
   const [tempTokens, setTempTokens] = useState<JwtTokensType>();
 
   useEffect(() => {
@@ -74,7 +74,6 @@ function Register() {
       const refreshToken = url.searchParams.get('refresh_token');
       const snsEmail = url.searchParams.get('email');
 
-      // TODO: temp 리프레쉬 토큰이 만료한 경우(30분 경과) 액세스 토큰 재발급 로직 필요
       if (accessToken && refreshToken)
         setTempTokens({
           accessToken,
@@ -89,11 +88,6 @@ function Register() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-
-  // * POST 요청 관련 로직
-  const { handleLogin } = useLoginRequestLogic();
-  const POST_URL = `${process.env.REACT_APP_URL}/users`;
-  const dispatch = useDispatch();
 
   const checkEmailValidation = () => {
     const isValidEmail = checkEmail(email);
@@ -115,6 +109,25 @@ function Register() {
     return isValidPassword && password === confirmPassword;
   };
 
+  const dispatch = useDispatch();
+  const setGlobalState = (res: AxiosResponse) => {
+    if (res) {
+      // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)
+      dispatch(setIsLogin(true));
+      dispatch(setUserInfo(res.data.data));
+      dispatch(
+        setTokens({
+          accessToken: res.headers.authorization,
+          refreshToken: res.headers.refresh
+        })
+      );
+      navigate('/home');
+    }
+  };
+
+  // * POST 요청 관련 로직
+  const POST_URL = `${process.env.REACT_APP_URL}/users`;
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!isEmailDuplicationChecked) {
@@ -125,32 +138,15 @@ function Register() {
     const userInfo: RegisterUserInputType = { ...inputs };
 
     if (isFromOauthLogin) {
-      console.log('카톡 회원가입 요청');
-
       if (!email || !nickName) return;
 
       delete userInfo.password;
       delete userInfo.confirmPassword;
 
-      const registerResponse = await postFetch(POST_URL, userInfo, tempTokens);
-      // ! post 요청 이후 서버가 일괄적으로 return url 쿼리 값으로 보내주도록 시도
-
       // * access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌
-      if (registerResponse) {
-        // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)
-        // console.log(registerResponse);
-        // dispatch(setIsLogin(true));
-        // dispatch(setUserInfo(registerResponse.data.data));
-        // dispatch(
-        //   setTokens({
-        //     accessToken: registerResponse.headers.authorization,
-        //     refreshToken: registerResponse.headers.refresh
-        //   })
-        // );
-        // navigate('/home');
-      }
+      const res = await postFetch(POST_URL, userInfo, tempTokens);
+      if (res) setGlobalState(res);
     } else {
-      console.log('일반 회원가입 요청');
       if (!email || !password || !confirmPassword || !nickName) return;
 
       // 이메일 & 비밀번호 유효성 검사
@@ -158,17 +154,10 @@ function Register() {
       const result2 = checkPasswordValidation();
       if (!result1 || !result2) return;
 
-      // 서버에 회원가입 post 요청
       delete userInfo.confirmPassword;
 
-      const registerResponse = await postFetch(POST_URL, userInfo);
-
-      // 회원가입 성공 후 로그인 post 요청 연달아 시도
-      if (registerResponse) {
-        delete userInfo.nickName;
-        const loginResponse = await handleLogin(userInfo);
-        if (loginResponse) navigate('/home');
-      }
+      const res = await postFetch(POST_URL, userInfo);
+      if (res) setGlobalState(res);
     }
   };
 
@@ -202,7 +191,7 @@ function Register() {
       <S_RegisterWrapper>
         <div className='title-wrapper'>
           <Link to='/'>
-            <S_Title>소모전 로그인하기</S_Title>
+            <S_Title>소모전 회원가입</S_Title>
           </Link>
         </div>
         <form onSubmit={onSubmit}>

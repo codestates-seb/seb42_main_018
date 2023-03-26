@@ -17,6 +17,7 @@ public class ExceptionAdvice {
             return ResponseEntity.status(1000).body(response);
         }
 
+
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }
