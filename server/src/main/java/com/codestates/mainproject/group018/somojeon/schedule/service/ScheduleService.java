@@ -20,6 +20,7 @@ import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRe
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -44,6 +45,8 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
+    private final UserTeamRepository userTeamRepository;
+    private final UserRepository userRepository;
     private final ClubService clubService;
     private final UserService userService;
 
@@ -109,48 +112,94 @@ public class ScheduleService {
         Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
-        // Schedule 객체의 ID값이 일치하는 경우에만 업데이트
-        if (findSchedule.getScheduleId() == schedule.getScheduleId()) {
-            findSchedule.setDate(schedule.getDate());
-            findSchedule.setTime(schedule.getTime());
-            findSchedule.setPlaceName(schedule.getPlaceName());
-            findSchedule.setLongitude(schedule.getLongitude());
-            findSchedule.setLatitude(schedule.getLatitude());
+        Optional.ofNullable(schedule.getDate())
+                .ifPresent(findSchedule::setDate);
+        Optional.ofNullable(schedule.getTime())
+                .ifPresent(findSchedule::setTime);
+        Optional.ofNullable(schedule.getPlaceName())
+                .ifPresent(findSchedule::setPlaceName);
+        Optional.ofNullable(schedule.getLongitude())
+                .ifPresent(findSchedule::setLongitude);
+        Optional.ofNullable(schedule.getLatitude())
+                .ifPresent(findSchedule::setLatitude);
 
-            // Candidates, TeamList, Records 리스트를 매개변수로 전달된 리스트로 업데이트
-            findSchedule.setCandidates(candidates);
-            findSchedule.setTeamList(teamList);
-            findSchedule.setRecords(records);
+        findSchedule.setCandidates(candidates);
+        findSchedule.setTeamList(teamList);
+        findSchedule.setRecords(records);
 
-            // Candidates 정보 저장
-            for (Candidate candidate : candidates) {
-                candidate.setSchedule(findSchedule);
-                candidate.setAttendance(Candidate.Attendance.ATTEND);
-                candidateRepository.save(candidate);
-            }
 
-            // Team 정보 저장
+        // candidate 정보 저장
+        for (Candidate candidate : candidates) {
+            candidate.setSchedule(findSchedule);
+            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
+            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
+            candidate.setUser(userClub.getUser());
+            candidate.setAttendance(Candidate.Attendance.ATTEND);
+            candidateRepository.save(candidate);
+
+
+            // team 정보 저장
             for (Team team : teamList) {
                 team.setSchedule(findSchedule);
+
+                // team에 속한 유저 중에서, candidate에서 가져온 유저와 일치하는 유저를 찾음
+                User teamUser = null;
+                for (UserTeam userTeam : team.getUserTeams()) {
+                    User user = userTeam.getUser();
+                    if (user.equals(candidateUser)) {
+                        teamUser = user;
+                        break;
+                    }
+                }
+
+                if (teamUser != null) {
+                    // 일치하는 유저가 있으면, candidate 정보와 team 정보 연결
+                    UserClub teamUserClub = userClubRepository.findByUserAndClub(teamUser, club);
+                    UserTeam userTeam = userTeamRepository.findByUserAndTeam(teamUserClub.getUser(), team);
+                    candidate.setUser(teamUserClub.getUser());
+                    team.addUserTeam(userTeam);
+
+                    // team과 record 연결 및 정보 저장
+                    for (Record record : records) {
+                        if (team.getTeamRecords().equals(record)) {
+                            TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
+                            if (teamRecord == null) {
+                                teamRecord = new TeamRecord();
+                            }
+                            teamRecord.setTeam(team);
+                            teamRecord.setRecord(record);
+                            teamRecordRepository.save(teamRecord);
+                        }
+                        record.setSchedule(findSchedule);
+                        recordRepository.save(record);
+                    }
+                }
                 teamRepository.save(team);
             }
-
-            // Record 정보 저장
-            for (Record record : records) {
-                record.setSchedule(findSchedule);
-                recordRepository.save(record);
-                for (Team team : teamList) {
-                    TeamRecord teamRecord = new TeamRecord(record, team);
-                    teamRecordRepository.save(teamRecord);
-                    record.addTeamRecord(teamRecord);
-                }
-            }
-
-            clubRepository.save(club);
-            return findSchedule;
-        } else {
-            throw new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND);
         }
+
+//        // record 정보 저장
+//        for (Record record : records) {
+//            record.setSchedule(findSchedule);
+//            recordRepository.save(record);
+//
+//            // record와 team 연결 정보 저장
+//            for (Team team : teamList) {
+//                if (record.getTeamRecords().equals(team)) {
+//                    TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
+//                    if (teamRecord == null) {
+//                        teamRecord = new TeamRecord();
+//                    }
+//                    teamRecord.setTeam(team);
+//                    teamRecord.setRecord(record);
+//                    teamRecordRepository.save(teamRecord);
+//                }
+//            }
+//        }
+
+        clubRepository.save(club);
+
+        return findSchedule;
     }
 
 
