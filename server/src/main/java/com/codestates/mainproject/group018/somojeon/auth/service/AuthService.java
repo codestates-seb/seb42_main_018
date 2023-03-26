@@ -36,7 +36,7 @@ public class AuthService {
         try {
             claims = getClaimsValues(refreshToken);
         } catch (ExpiredJwtException expiredJwtException) {
-            response.addHeader("Refresh Token Expired ", "True");
+            response.addHeader("Refresh-Token-Expired ", "True");
             response.setStatus(HttpStatus.OK.value());
             return;
         }
@@ -47,7 +47,7 @@ public class AuthService {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User user = optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         jwtTokenProvider.provideTokens(user, response);
-        response.addHeader("Refresh Token Expired ", "False");
+        response.addHeader("Refresh-Token-Expired ", "False");
     }
 
     public Map<String, Object> getClaimsValues(String token) {

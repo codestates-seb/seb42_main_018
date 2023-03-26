@@ -43,7 +43,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
         try {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
-            response.addHeader("Access Token Expired","False");
+            response.addHeader("Access-Token-Expired","False");
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
@@ -51,7 +51,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
                 response.sendRedirect("http://localhost:3000/login");
             }
             else{
-                response.addHeader("Access Token Expired","True");
+                response.addHeader("Access-Token-Expired","True");
                 response.setStatus(HttpStatus.OK.value());
                 request.getRequestURI();
                 return;

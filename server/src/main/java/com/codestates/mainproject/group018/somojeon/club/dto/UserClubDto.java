@@ -83,9 +83,26 @@ public class UserClubDto {
         private int playCount;
         private int winCount;
         private int winRate;
+
+    }
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ResponseWithUser {
+
+        private Long clubId;
+        private ClubRole clubRole;
+        private ClubMemberStatus clubMemberStatus;
+        private boolean isPlayer;
+        private Level level;
+        private int playCount;
+        private int winCount;
+        private int winRate;
         private UserDto.UserInfoResponse userInfo;
 
     }
+
 
     @Getter
     @Setter
