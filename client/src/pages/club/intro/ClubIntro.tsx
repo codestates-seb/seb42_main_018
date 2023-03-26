@@ -5,6 +5,7 @@ import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
 import { ClubData } from '../../../types';
+import { RETURN_URL_PARAM } from '../../../util/commonConstants';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
 import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
@@ -125,7 +126,6 @@ function ClubIntro() {
 
   // * 로그인 여부에 따른 분기 처리
   const { pathname } = useLocation();
-  const RETURN_URL_PARAM = 'returnUrl';
 
   const handleJoinRequest = () => {
     if (isApplied) {
