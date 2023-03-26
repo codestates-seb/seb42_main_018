@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactNode } from 'react';
 import getGlobalState from '../util/authorization/getGlobalState';
 
@@ -8,11 +8,14 @@ interface LoginCheckerProps {
 }
 
 function LoginChecker({ children }: LoginCheckerProps) {
-  const navigate = useNavigate();
   const { isLogin } = getGlobalState();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const RETURN_URL_PARAM = 'returnUrl';
 
   useEffect(() => {
-    if (!isLogin) navigate('/login');
+    if (!isLogin)
+      navigate(`/login?${RETURN_URL_PARAM}=${encodeURIComponent(pathname)}`, { replace: true });
   }, [isLogin]);
 
   return isLogin ? <>{children}</> : null;

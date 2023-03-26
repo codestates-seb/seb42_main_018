@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { S_Label, S_Description } from '../../../components/UI/S_Text';
+import { S_Description } from '../../../components/UI/S_Text';
+import { S_Label_mg_top } from './EditClub';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_Tag } from '../../../components/UI/S_Tag';
 
@@ -41,7 +42,7 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
   return (
     <div>
       <label htmlFor='tagName'>
-        <S_Label>태그</S_Label>
+        <S_Label_mg_top>태그</S_Label_mg_top>
       </label>
       <S_Description>최대 3개까지 입력할 수 있습니다.</S_Description>
       <S_Input

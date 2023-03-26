@@ -33,9 +33,10 @@ const S_ButtonBox = styled.div`
 interface RegisterModalProps {
   showModal: boolean;
   handleModal: () => void;
+  setIsApplied: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
+function ClubJoinModal({ showModal, handleModal, setIsApplied }: RegisterModalProps) {
   const { userInfo, tokens } = getGlobalState();
   const { id: clubId } = useParams();
   const [content, setContent] = useState('');
@@ -55,6 +56,7 @@ function ClubJoinModal({ showModal, handleModal }: RegisterModalProps) {
     // TODO : 모달이 떠있는 채로 alert를 띄우면 모바일에서 겹쳐 보이는지 확인
     if (res) {
       setContent('');
+      setIsApplied(true);
       handleModal();
       alert('가입신청을 완료했어요. 마이페이지에서 가입신청 승인 현황을 확인할 수 있습니다.');
     }
