@@ -33,7 +33,7 @@ public class AuthService {
         try {
             claims = getClaimsValues(refreshToken);
         } catch (ExpiredJwtException expiredJwtException) {
-            response.addHeader("Expired", "True");
+            response.addHeader("Refresh Token Expired ", "True");
             response.setStatus(HttpStatus.OK.value());
             return;
         }

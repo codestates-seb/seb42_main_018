@@ -51,7 +51,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
                 response.sendRedirect("http://localhost:3000/login");
             }
             else{
-                response.addHeader("Expired","True");
+                response.addHeader("Access Token Expired","True");
                 response.setStatus(HttpStatus.OK.value());
                 return;
             }
