@@ -44,16 +44,15 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
-    private final UserTeamRepository userTeamRepository;
     private final ClubService clubService;
     private final UserService userService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates, List<User> users) {
+                                   List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
-        schedule.setTeams(teamList);
         schedule.setCandidates(candidates);
+        schedule.setTeamList(teamList);
         schedule.setRecords(records);
 
         try {
@@ -62,22 +61,17 @@ public class ScheduleService {
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
 
-            // team 정보 저장
-            for (Team team : teamList) {
-                team.setSchedule(schedule);
-                teamRepository.save(team);
-                for (User user : users) {
-                    UserTeam userTeam = new UserTeam(user, team);
-                    userTeamRepository.save(userTeam);
-                    user.addUserTeam(userTeam);
-                }
-            }
-
             // candidate 정보 저장
             for (Candidate candidate : candidates) {
                 candidate.setSchedule(schedule);
                 candidate.setAttendance(Candidate.Attendance.ATTEND);
                 candidateRepository.save(candidate);
+            }
+
+            // team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(schedule);
+                teamRepository.save(team);
             }
 
             // record 정보 저장
@@ -107,31 +101,58 @@ public class ScheduleService {
             }
             throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
         }
-
         return schedule;
     }
 
-    public Schedule updateSchedule(Schedule schedule, List<Record> records,
+    public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
+        Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
-        Optional.ofNullable(schedule.getDate())
-                .ifPresent(findSchedule::setDate);
-        Optional.ofNullable(schedule.getTime())
-                .ifPresent(findSchedule::setTime);
-        Optional.ofNullable(schedule.getPlaceName())
-                .ifPresent(findSchedule::setPlaceName);
-        Optional.ofNullable(schedule.getLongitude())
-                .ifPresent(findSchedule::setLongitude);
-        Optional.ofNullable(schedule.getLatitude())
-                .ifPresent(findSchedule::setLatitude);
+        // Schedule 객체의 ID값이 일치하는 경우에만 업데이트
+        if (findSchedule.getScheduleId() == schedule.getScheduleId()) {
+            findSchedule.setDate(schedule.getDate());
+            findSchedule.setTime(schedule.getTime());
+            findSchedule.setPlaceName(schedule.getPlaceName());
+            findSchedule.setLongitude(schedule.getLongitude());
+            findSchedule.setLatitude(schedule.getLatitude());
 
-        findSchedule.setRecords(records);
-        findSchedule.setCandidates(candidates);
-        findSchedule.setTeams(teamList);
+            // Candidates, TeamList, Records 리스트를 매개변수로 전달된 리스트로 업데이트
+            findSchedule.setCandidates(candidates);
+            findSchedule.setTeamList(teamList);
+            findSchedule.setRecords(records);
 
-        return scheduleRepository.save(findSchedule);
+            // Candidates 정보 저장
+            for (Candidate candidate : candidates) {
+                candidate.setSchedule(findSchedule);
+                candidate.setAttendance(Candidate.Attendance.ATTEND);
+                candidateRepository.save(candidate);
+            }
+
+            // Team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(findSchedule);
+                teamRepository.save(team);
+            }
+
+            // Record 정보 저장
+            for (Record record : records) {
+                record.setSchedule(findSchedule);
+                recordRepository.save(record);
+                for (Team team : teamList) {
+                    TeamRecord teamRecord = new TeamRecord(record, team);
+                    teamRecordRepository.save(teamRecord);
+                    record.addTeamRecord(teamRecord);
+                }
+            }
+
+            clubRepository.save(club);
+            return findSchedule;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND);
+        }
     }
+
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
@@ -220,4 +241,37 @@ public class ScheduleService {
         return findSchedule;
     }
 
+    public void calculateWinRate(UserClub userClub, Team team) {
+        String winLoseDraw = team.getWinLoseDraw();
+        int winCount = userClub.getWinCount();
+        int drawCount = userClub.getDrawCount();
+        int loseCount = userClub.getLoseCount();
+        int playCount = userClub.getPlayCount();
+
+        switch (winLoseDraw) {
+            case "win":
+                winCount++;
+                break;
+            case "lose":
+                loseCount++;
+                break;
+            case "draw":
+                drawCount++;
+                break;
+        }
+        playCount++;
+
+        double winRate = 0.0;
+        if (playCount > 0) {
+            winRate = ((double) (winCount * 3 + drawCount)) / (playCount * 3) * 100;
+        }
+
+        userClub.setWinCount(winCount);
+        userClub.setDrawCount(drawCount);
+        userClub.setLoseCount(loseCount);
+        userClub.setPlayCount(playCount);
+        userClub.setWinRate((float) winRate);
+
+        userClubRepository.save(userClub);
+    }
 }

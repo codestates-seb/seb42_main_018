@@ -88,7 +88,7 @@ public interface UserClubMapper {
         userInfoResponse.setUserId(user.getUserId());
         userInfoResponse.setEmail(user.getEmail());
         userInfoResponse.setNickName(user.getNickName());
-//        userInfoResponse.setProfileImage(imagesToImagesResponseDto(user.getImages()));
+        userInfoResponse.setProfileImage(user.getProfileImageUrl());
 
         return userInfoResponse;
     }
@@ -124,7 +124,6 @@ public interface UserClubMapper {
         response.playCount( userClub.getPlayCount() );
         response.winCount( userClub.getWinCount() );
         response.winRate( (int) userClub.getWinRate() );
-        response.userInfo(userToUserInfoResponse(userClub.getUser()));
 
         return response.build();
     }

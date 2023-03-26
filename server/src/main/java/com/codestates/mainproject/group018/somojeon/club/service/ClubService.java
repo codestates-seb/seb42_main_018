@@ -10,14 +10,11 @@ import com.codestates.mainproject.group018.somojeon.club.repository.ClubReposito
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,39 +47,6 @@ public class ClubService {
     private final ImageService imageService;
     private final UserRepository userRepository;
 
-
-//    public Club createClub(Club club, Long userId, List<String> tagName)  {
-//
-//        User findUser = findVerifiedUser(userId);
-//
-//        categoryService.verifyExistsCategoryName(club.getCategoryName());
-//        List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
-//        tagList.forEach(tag -> new ClubTag(club, tag));
-//        if (tagList.size() > 3) {
-//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
-//        }
-//        club.setCreatedAt(LocalDateTime.now());
-//        club.setMemberCount(club.getMemberCount() + 1);
-//        // 리더 권한 추가.
-////        club.setClubRole(ClubRole.LEADER);
-//        club.setClubImageUrl(defaultClubImage);
-//        Club createdClub = clubRepository.save(club);
-//
-//        UserClub userClub = new UserClub();
-//        userClub.setUser(findUser);
-//        userClub.setClub(createdClub);
-//        userClub.setClubRole(ClubRole.LEADER);
-//        userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
-//        userClubRepository.save(userClub);
-//
-//        List<UserClub> userClubList = new ArrayList<>();
-//        userClubList.add(userClub);
-//        createdClub.setUserClubList(userClubList);
-//
-//
-//        return clubRepository.save(createdClub);
-//    }
-
     // 소모임 생성
     public Club createClub(Club club, Long userId, List<String> tagName)  {
         Club justClub = clubRepository.save(club);
@@ -100,12 +64,14 @@ public class ClubService {
 
         findClub.setClubImageUrl(defaultClubImage);
 
+        log.info("Start Creating UserClub");
         UserClub userClub = new UserClub();
         userClub.setUser(user);
         userClub.setClub(findClub);
         userClub.setClubRole(ClubRole.LEADER);
         userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
         userClubRepository.save(userClub);
+        log.info("Created UserClub");
 
         List<UserClub> userClubList = new ArrayList<>();
         userClubList.add(userClub);

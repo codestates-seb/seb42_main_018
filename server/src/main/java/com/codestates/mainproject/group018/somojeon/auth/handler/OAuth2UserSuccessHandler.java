@@ -51,25 +51,24 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             throw new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND);
         }
         Map<String, String> param = new HashMap<>();
+        String path = "register";
         if(oauthUserService.IsUser(registration, registrationId)){
             log.info("Request kakao user is already somojeon user!");
             param.put("id", String.valueOf(identifier.getUserId(registration, registrationId)));
+            path = "oauth2/receive";
         }
         else{
             if((boolean)account.get("has_email")) email = (String) account.get("email");
             param.put("email", email);
-
-
         }
-        redirect(request, response, registration, String.valueOf(registrationId), param);
+        redirect(request, response, registration, String.valueOf(registrationId), param, path);
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
-                         ,String registration, String registrationId,  Map<String, String> param) throws IOException {
+                         ,String registration, String registrationId,  Map<String, String> param, String path) throws IOException {
         String accessToken = delegateAccessToken(registration, registrationId);
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = (String) request.getAttribute("returnurl");
-        log.info("path =", path);
+//        String path = (String) request.getAttribute("oauth2/receive");
         String uri =  createURI(accessToken, refreshToken, path, param).toString();
 
         getRedirectStrategy().sendRedirect(request, response, uri);

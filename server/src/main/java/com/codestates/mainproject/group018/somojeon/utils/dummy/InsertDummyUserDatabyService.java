@@ -30,7 +30,7 @@ class InsertDummyUserDatabyService {
             user.setPassword(encodedPassword);
             user.setNickName(nickName);
             user.setEmail(email);
-            userService.createUser(user, null, null);
+            userService.createUser(user, null, null, null);
         }
         System.out.println("100 rows inserted successfully.");
     }
