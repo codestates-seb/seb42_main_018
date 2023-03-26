@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,5 +44,15 @@ public interface TeamMapper {
                 .collect(Collectors.toList());
     }
 
-    List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teamList);
+    default List<TeamDto.Response> teamsToTeamResponseDtos(List<Team> teamList) {
+        if (teamList == null) {
+            return null;
+        }
+
+        List<TeamDto.Response> list = new ArrayList<>( teamList.size() );
+        for (Team team : teamList) {
+            list.add(teamToTeamResponseDto(team));
+        }
+        return list;
+    }
 }

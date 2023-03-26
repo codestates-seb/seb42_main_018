@@ -62,8 +62,8 @@ public class ScheduleController {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
-        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
-                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
+        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody), clubId,
+                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates(), requestBody.getUsers());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);

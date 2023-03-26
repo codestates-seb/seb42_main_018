@@ -76,7 +76,7 @@ function MainContents() {
           key={el.clubId}
           clubId={el.clubId}
           clubName={el.clubName}
-          clubImageUrl={el.profileImage}
+          clubImage={el.profileImage}
           content={el.content}
           local={el.local}
           categoryName={el.categoryName}
