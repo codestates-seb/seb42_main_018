@@ -10,8 +10,6 @@ interface ReturnUrlProps {
 }
 
 function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
-  console.log(returnUrl);
-
   if (returnUrl) {
     sessionStorage.setItem(RETURN_URL_PARAM, returnUrl);
   }
