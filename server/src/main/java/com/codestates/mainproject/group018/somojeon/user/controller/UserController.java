@@ -94,9 +94,9 @@ public class UserController {
                                     @RequestParam String nickName,
                                     @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
 
-//        if(!identifier.isVerified(userId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
-//        }
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+        }
         User response = userService.updateUser(userId, user, nickName, multipartFile);
 
         return new ResponseEntity<>(
