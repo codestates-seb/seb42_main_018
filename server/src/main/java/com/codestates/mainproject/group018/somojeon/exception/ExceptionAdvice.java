@@ -17,6 +17,10 @@ public class ExceptionAdvice {
             return ResponseEntity.status(1000).body(response);
         }
 
+        if (e.getExceptionCode() == ExceptionCode.EXPIRED_JWT_TOKEN) {
+            return ResponseEntity.status(200).body(response);
+        }
+
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }
