@@ -4,7 +4,6 @@ import { HandleDropDownClick } from './_createCategory';
 const S_DropDownContainer = styled.ul`
   background-color: var(--gray100);
 
-  /* //TODO: input이 focus를 잃으면 dropdown이 안 보이게 코드 수정 */
   width: 100%;
   display: block;
   margin-left: auto;
@@ -38,25 +37,23 @@ interface DropDownProps {
   currentOption: number;
   options?: string[];
   handleComboBox: HandleDropDownClick;
+  isFocused: boolean;
 }
 
-function DropDown({ currentOption, options, handleComboBox }: DropDownProps) {
-  return (
+function DropDown({ currentOption, options, handleComboBox, isFocused }: DropDownProps) {
+  return isFocused && options && options.length > 0 ? (
     <S_DropDownContainer>
-      {options?.map((item, idx) => {
+      {options.map((item, idx) => {
         return (
-          <li
-            role='presentation'
-            key={idx}
-            className={idx === currentOption ? 'selected' : ''}
-            onClick={() => handleComboBox(item)}
-          >
-            {item}
+          <li key={idx} className={idx === currentOption ? 'selected' : ''}>
+            <button type='button' onClick={() => handleComboBox(item)}>
+              {item}
+            </button>
           </li>
         );
       })}
     </S_DropDownContainer>
-  );
+  ) : null;
 }
 
 export default DropDown;

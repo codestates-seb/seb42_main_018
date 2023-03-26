@@ -88,7 +88,7 @@ public interface UserClubMapper {
         userInfoResponse.setUserId(user.getUserId());
         userInfoResponse.setEmail(user.getEmail());
         userInfoResponse.setNickName(user.getNickName());
-//        userInfoResponse.setProfileImage(imagesToImagesResponseDto(user.getImages()));
+        userInfoResponse.setProfileImage(user.getProfileImageUrl());
 
         return userInfoResponse;
     }
