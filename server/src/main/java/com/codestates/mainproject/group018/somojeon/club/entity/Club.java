@@ -45,15 +45,11 @@ public class Club {
     @Column(nullable = false)
     private boolean isSecret;
 
+    private String clubImageUrl;
+
     private int viewCount;
 
     private int memberCount;
-
-    private String clubImageUrl;
-
-//    @ElementCollection
-//    @CollectionTable(name="tags", joinColumns = @JoinColumn(name= "TAG_ID"))
-//    private List<String> tags;
 
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
@@ -83,12 +79,11 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "club")
     private List<UserClub> userClubList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_ID")
-    private Images images;
+//    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Images images;
 
 
     public void setClubTag(ClubTag clubTag) {

@@ -58,12 +58,13 @@ public class UserClubController {
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
     @GetMapping("/{club-id}/joins")
     public ResponseEntity<?> getRequestJoinUsers(@PathVariable("club-id") @Positive Long clubId,
+                                                 @Positive Long userId,
                                                  @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int size) {
+                                                 @RequestParam(defaultValue = "100") int size) {
 //        if (!identifier.checkClubRole(clubId, "LEADER")) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        }
-        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, clubId);
+        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, userId, clubId);
         List<UserClub> content = userClubPage.getContent();
 
         return new ResponseEntity<>(
@@ -155,19 +156,18 @@ public class UserClubController {
     // 소모임 안에 멤버들 기록 조회
     @GetMapping("/{club-id}/members")
     public ResponseEntity getClubUsers(@RequestParam (defaultValue = "1") int page,
-                                       @RequestParam (defaultValue = "10") int size,
+                                       @RequestParam (defaultValue = "100") int size,
                                        @PathVariable("club-id") @Positive Long clubId) {
 //        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        }
 
-        Page<UserClub> pageUserClubs = userClubService.findUsers(page - 1, size, clubId);
+        Page<UserClub> pageUserClubs = userClubService.getClubMembers(page - 1, size, clubId);
         List<UserClub> userClubs = pageUserClubs.getContent();
 
 
         List<UserDto.ResponseWithClub> response = userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
+                userMapper::userToUserResponseWithClub).collect(Collectors.toList());
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
                 HttpStatus.OK);
     }

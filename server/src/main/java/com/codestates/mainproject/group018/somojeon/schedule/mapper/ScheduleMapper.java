@@ -15,7 +15,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +22,8 @@ import java.util.stream.Collectors;
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
     Schedule schedulePatchDtoToSchedule(ScheduleDto.Patch requestBody);
+    Schedule scheduleAttendPostDtoToSchedule(ScheduleDto.attendPost requestBody);
+    Schedule scheduleAbsentPostDtoToSchedule(ScheduleDto.absentPost requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
     default ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule, UserMapper userMapper) {
         if (schedule == null) {
@@ -97,7 +98,8 @@ public interface ScheduleMapper {
                 .map(candidate -> {
                     CandidateDto.Response response = new CandidateDto.Response();
                     response.setCandidateId(candidate.getCandidateId());
-//                    response.setNickName(candidate.getUser().getNickName());
+                    response.setUserId(candidate.getUser().getUserId());
+                    response.setNickName(candidate.getUser().getNickName());
                     response.setAttendance(candidate.getAttendance());
 
                     return response;

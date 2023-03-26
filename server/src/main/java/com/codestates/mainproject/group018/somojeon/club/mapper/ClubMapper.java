@@ -48,6 +48,7 @@ public interface ClubMapper {
                 .memberCount(club.getMemberCount())
                 .viewCount(club.getViewCount())
                 .isSecret(club.isSecret())
+                .clubImage(club.getClubImageUrl())
                 .modifiedAt(club.getModifiedAt())
                 .tagResponseDtos(clubTagsToTagResponse(club.getClubTagList()))
                 .build();
@@ -62,6 +63,7 @@ public interface ClubMapper {
 
         response.clubId(userClub.getClub().getClubId());
         response.clubRole( userClub.getClubRole() );
+        response.clubMemberStatus(userClub.getClubMemberStatus());
         response.level( userClub.getLevel() );
         response.playCount( userClub.getPlayCount() );
         response.winCount( userClub.getWinCount() );

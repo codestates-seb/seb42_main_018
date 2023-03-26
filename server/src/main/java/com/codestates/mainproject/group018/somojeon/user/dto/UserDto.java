@@ -1,9 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
+import org.mapstruct.Builder;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
@@ -65,7 +68,7 @@ public class UserDto {
 
        User.UserStatus userStatus;
 
-        private ImagesResponseDto profileImage;
+        private String profileImage;
 
         public String getUserStatus() {
             return userStatus.getStatus();
@@ -88,7 +91,7 @@ public class UserDto {
 
         User.UserStatus userStatus;
 
-        ImagesResponseDto profileImage;
+        private String profileImage;
 
         List<UserClubDto.Response> userClubResponses;
 
@@ -104,8 +107,11 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ResponseWithClub {
+        private Long userId;
         String nickName;
-        private ImagesResponseDto profileImage;
+        private ClubMemberStatus clubMemberStatus;
+        private ClubRole clubRole;
+        private String profileImage;
         private Integer playCount;
         private Integer winCount;
         private Integer loseCount;
@@ -123,7 +129,7 @@ public class UserDto {
         private Long userId;
         private String nickName;
         private String email;
-        private ImagesResponseDto profileImage;
+        private String profileImage;
     }
 
 }

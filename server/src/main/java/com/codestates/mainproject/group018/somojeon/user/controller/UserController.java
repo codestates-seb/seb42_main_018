@@ -1,7 +1,9 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
+import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -21,11 +23,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +44,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final Identifier identifier;
+    private final ClubService clubService;
 
     private final ClubMapper clubMapper;
     private final ImageMapper imageMapper;
@@ -66,21 +71,36 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(
-            @PathVariable("user-id") @Positive long userId,
-            @Valid @RequestBody UserDto.Patch requestBody) {
+    // 이전 코드는 주석처리 해놓
+//    @PatchMapping("/{user-id}")
+//    public ResponseEntity patchUser(
+//            @PathVariable("user-id") @Positive long userId,
+//            @Valid @RequestBody UserDto.Patch requestBody) {
+//
+//        requestBody.setUserId(userId);
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+//        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+//                HttpStatus.OK);
+//    }
 
-        requestBody.setUserId(userId);
-        if(!identifier.isVerified(userId)){
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
-        }
-        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+    @PatchMapping("/{user-id}")
+    public ResponseEntity patchUser(@PathVariable("user-id") @Positive long userId,
+                                    @ModelAttribute User user,
+                                    @RequestParam String nickName,
+                                    @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
+
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+        User response = userService.updateUser(userId, user, nickName, multipartFile);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
-                HttpStatus.OK);
-
+                new SingleResponseDto<>(userMapper.userToUserResponse(response)), HttpStatus.OK);
     }
 
     @PatchMapping("/{user-id}/password")
@@ -165,4 +185,19 @@ public class UserController {
                 HttpStatus.OK);
 
     }
+
+    // 내가 가입한 소모임 조회
+    @GetMapping("/{user-id}/clubs")
+    public ResponseEntity getMyClubs(@PathVariable("user-id") @Positive Long userId,
+                                     @RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "100") int size) {
+
+        Page<Club> myClubs = clubService.findMyClubs(page - 1, size, userId);
+        List<Club> content = myClubs.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(
+                        clubMapper.clubToClubResponseDtos(content), myClubs), HttpStatus.OK);
+    }
+
 }
