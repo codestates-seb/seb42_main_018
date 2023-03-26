@@ -11,6 +11,7 @@ import { S_Title, S_Description } from '../../components/UI/S_Text';
 import RegisterModal from './_registerModal';
 import InputEmail from '../../components/login/_inputEmail';
 import InputPassword from '../../components/login/_inputPassword';
+import ReceiveOauth2 from './_receiveOauth2';
 
 export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
@@ -150,6 +151,7 @@ function Login() {
       </S_LoginWrapper>
 
       <RegisterModal handleModal={handleModal} showModal={showModal} />
+      {returnUrl && <ReceiveOauth2 returnUrl={returnUrl} />}
     </S_Container>
   );
 }
