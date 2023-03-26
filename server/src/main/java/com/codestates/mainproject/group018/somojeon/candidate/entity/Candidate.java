@@ -31,7 +31,7 @@ public class Candidate {
     private Schedule schedule;
 
     public enum Attendance {
-        ATTEND("ATTENT"),
+        ATTEND("ATTEND"),
         ABSENT("ABSENT"),
         HOLD("HOLD");
 
