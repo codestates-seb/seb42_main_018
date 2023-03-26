@@ -116,7 +116,7 @@ public class ScheduleService {
 
     public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates, List<User> users) {
-        Club club = clubService.findVerifiedClub(clubId);
+        clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
         Optional.ofNullable(schedule.getDate())
@@ -129,73 +129,79 @@ public class ScheduleService {
                 .ifPresent(findSchedule::setLongitude);
         Optional.ofNullable(schedule.getLatitude())
                 .ifPresent(findSchedule::setLatitude);
+        Optional.ofNullable(schedule.getCandidates())
+                .ifPresent(candidate -> findSchedule.setCandidates(candidates));
+        Optional.ofNullable(schedule.getTeamList())
+                .ifPresent(team -> findSchedule.setTeamList(teamList));
+        Optional.ofNullable(schedule.getRecords())
+                .ifPresent(record -> findSchedule.setRecords(records));
 
-        findSchedule.setClub(club);
-        findSchedule.setCandidates(candidates);
-        findSchedule.setTeamList(teamList);
-        findSchedule.setRecords(records);
+//        findSchedule.setClub(club);
+//        findSchedule.setCandidates(candidates);
+//        findSchedule.setTeamList(teamList);
+//        findSchedule.setRecords(records);
 
-        try {
-            // club 정보 저장
-            club.getScheduleList().add(findSchedule);
-            clubRepository.save(club);
-
-            // candidate 정보 저장
-            for (Candidate candidate : candidates) {
-                candidate.setSchedule(findSchedule);
-                Candidate existingCandidate = candidateRepository.findById(candidate.getCandidateId()).orElse(null);
-                if (existingCandidate == null) {
-                    // 새로운 candidate를 추가하는 경우
-                    candidate.setAttendance(Candidate.Attendance.ATTEND);
-                } else {
-                    // 기존 candidate를 업데이트 하는 경우
-                    candidate.setAttendance(Candidate.Attendance.HOLD);
-                }
-                candidateRepository.save(candidate);
-            }
-
-            // team 정보 저장
-            for (Team team : teamList) {
-                team.setSchedule(findSchedule);
-                teamRepository.save(team);
-                for (User user : users) {
-                    UserTeam userTeam = new UserTeam(user, team);
-                    userTeamRepository.save(userTeam);
-                    user.addUserTeam(userTeam);
-                }
-            }
-
-            // record 정보 저장
-            for (Record record : records) {
-                record.setSchedule(findSchedule);
-                recordRepository.save(record);
-                for (Team team : teamList) {
-                    TeamRecord teamRecord = new TeamRecord(record, team);
-                    teamRecordRepository.save(teamRecord);
-                    record.addTeamRecord(teamRecord);
-                    for (User user : users) {
-                        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
-                        calculateWinRate(userClub, team);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            if (e instanceof DataAccessException) {
-                // 데이터 저장 예외 처리
-                DataAccessException dataAccessException = (DataAccessException) e;
-                String exceptionMessage = dataAccessException.getMessage();
-                if (exceptionMessage.contains("club")) {
-                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
-                } else if (exceptionMessage.contains("team")) {
-                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
-                } else if (exceptionMessage.contains("candidate")) {
-                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
-                } else if (exceptionMessage.contains("record")) {
-                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
-                }
-            }
-            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
-        }
+//        try {
+//            // club 정보 저장
+//            club.getScheduleList().add(findSchedule);
+//            clubRepository.save(club);
+//
+//            // candidate 정보 저장
+//            for (Candidate candidate : candidates) {
+//                candidate.setSchedule(findSchedule);
+//                Candidate existingCandidate = candidateRepository.findById(candidate.getCandidateId()).orElse(null);
+//                if (existingCandidate == null) {
+//                    // 새로운 candidate를 추가하는 경우
+//                    candidate.setAttendance(Candidate.Attendance.ATTEND);
+//                } else {
+//                    // 기존 candidate를 업데이트 하는 경우
+//                    candidate.setAttendance(existingCandidate.getAttendance());
+//                }
+//                candidateRepository.save(candidate);
+//            }
+//
+//            // team 정보 저장
+//            for (Team team : teamList) {
+//                team.setSchedule(findSchedule);
+//                teamRepository.save(team);
+//                for (User user : users) {
+//                    UserTeam userTeam = new UserTeam(user, team);
+//                    userTeamRepository.save(userTeam);
+//                    user.addUserTeam(userTeam);
+//                }
+//            }
+//
+//            // record 정보 저장
+//            for (Record record : records) {
+//                record.setSchedule(findSchedule);
+//                recordRepository.save(record);
+//                for (Team team : teamList) {
+//                    TeamRecord teamRecord = new TeamRecord(record, team);
+//                    teamRecordRepository.save(teamRecord);
+//                    record.addTeamRecord(teamRecord);
+//                    for (User user : users) {
+//                        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+//                        calculateWinRate(userClub, team);
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            if (e instanceof DataAccessException) {
+//                // 데이터 저장 예외 처리
+//                DataAccessException dataAccessException = (DataAccessException) e;
+//                String exceptionMessage = dataAccessException.getMessage();
+//                if (exceptionMessage.contains("club")) {
+//                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
+//                } else if (exceptionMessage.contains("team")) {
+//                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
+//                } else if (exceptionMessage.contains("candidate")) {
+//                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
+//                } else if (exceptionMessage.contains("record")) {
+//                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
+//                }
+//            }
+//            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
+//        }
         return scheduleRepository.save(findSchedule);
     }
 
