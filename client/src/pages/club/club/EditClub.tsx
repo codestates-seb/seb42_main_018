@@ -134,7 +134,7 @@ function EditClub() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (clubImage) {
+    if (clubImageFile) {
       const formData: FormData = new FormData();
       formData.append('clubName', clubName);
       formData.append('content', content);
