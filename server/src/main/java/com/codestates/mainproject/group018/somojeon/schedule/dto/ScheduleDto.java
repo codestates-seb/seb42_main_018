@@ -98,6 +98,7 @@ public class ScheduleDto {
         private List<Record> records;
         private List<Candidate> candidates;
         private List<Team> teamList;
+        private List<User> users;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
