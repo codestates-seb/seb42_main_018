@@ -53,6 +53,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             else{
                 response.addHeader("Access Token Expired","True");
                 response.setStatus(HttpStatus.OK.value());
+
+                request.getRequestURI();
                 return;
             }
 
