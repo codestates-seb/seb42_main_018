@@ -124,7 +124,6 @@ public interface UserClubMapper {
         response.playCount( userClub.getPlayCount() );
         response.winCount( userClub.getWinCount() );
         response.winRate( (int) userClub.getWinRate() );
-        response.userInfo(userToUserInfoResponse(userClub.getUser()));
 
         return response.build();
     }
