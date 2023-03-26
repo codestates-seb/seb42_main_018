@@ -35,7 +35,6 @@ function ClubSchedule() {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
   const [clubSchedules, setClubSchedules] = useState<Schedule[]>([]);
 
   const tabs = [
@@ -68,7 +67,7 @@ function ClubSchedule() {
 
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
-      console.log(data);
+      console.log(data.data);
       setClubSchedules([...data.data]);
     });
   }, []);

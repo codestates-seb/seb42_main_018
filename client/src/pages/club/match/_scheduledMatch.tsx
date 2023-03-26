@@ -26,6 +26,7 @@ function ScheduledMatch(props: ScheduledMatchProps) {
               date={el.date}
               time={el.time}
               placeName={el.placeName}
+              candidates={el.candidates}
             />
           );
         })}

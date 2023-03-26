@@ -24,6 +24,7 @@ function PastMatch(props: PastMatchProps) {
               date={el.date}
               time={el.time}
               placeName={el.placeName}
+              candidates={el.candidates}
             />
           );
         })}

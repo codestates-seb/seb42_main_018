@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { idText, ScriptKind } from 'typescript';
+import { Schedule } from '../../pages/club/match/ClubSchedule';
 import { Candidate } from '../../pages/club/match/CreateMatch';
 import { getFetch, postFetch } from '../../util/api';
 import getGlobalState from '../../util/authorization/getGlobalState';
@@ -35,15 +36,25 @@ interface ScheduleCardProps {
   placeName?: string;
   scheduleId: number;
   clubId: number;
+  candidates: Candidate[];
 }
 function ScheduleCard(props: ScheduleCardProps) {
-  // const { id } = useParams();
+  const { id } = useParams();
   const { isLogin, userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
-  const [clickedButton, setClickedButton] = useState<string | null>('');
-  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
-  const buttonHandler = (e: React.MouseEvent<HTMLElement>) => {
-    setClickedButton(e.currentTarget.getAttribute('name'));
+  const [candidateList, setCandidateList] = useState<Candidate[]>(props.candidates);
+  const [candidatesUserId, setCandidatesUserId] = useState<number[]>([]);
+
+  const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
+  const isLeader = myClub?.clubRole === 'LEADER';
+  const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
+
+  const buttonHandler = () => {
+    getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${props.scheduleId}`).then(
+      (data) => {
+        setCandidateList([...data.data]);
+      }
+    );
   };
 
   const attendSchedule = () => {
@@ -56,12 +67,7 @@ function ScheduleCard(props: ScheduleCardProps) {
       },
       tokens
     ).then(() => {
-      getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${props.scheduleId}`).then(
-        (data) => {
-          setCandidateList([...data.data]);
-          console.log(candidateList);
-        }
-      );
+      buttonHandler();
     });
   };
 
@@ -74,8 +80,16 @@ function ScheduleCard(props: ScheduleCardProps) {
         clubId: props.clubId
       },
       tokens
-    );
+    ).then(() => {
+      buttonHandler();
+    });
   };
+
+  useEffect(() => {
+    setCandidatesUserId([
+      ...candidateList.filter((ele) => ele.attendance === '참석').map((el) => el.userId)
+    ]);
+  }, [candidateList]);
 
   return (
     <>
@@ -85,24 +99,24 @@ function ScheduleCard(props: ScheduleCardProps) {
           <S_Label>{props.placeName}</S_Label>
         </S_Information>
         <S_ButtonContainer>
-          <S_SmallDescription
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/club/${props.clubId}/match/${props.scheduleId}/edit`);
-            }}
-            color='var(--red100)'
-            style={{ textAlign: 'right', marginRight: '10px' }}
-          >
-            수정
-          </S_SmallDescription>
+          {isLeader && (
+            <S_SmallDescription
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/club/${props.clubId}/match/${props.scheduleId}/edit`);
+              }}
+              color='var(--red100)'
+              style={{ textAlign: 'right', marginRight: '10px' }}
+            >
+              수정
+            </S_SmallDescription>
+          )}
           <S_ButtonWrapper>
             <S_SelectButton
               name='attendance'
-              clicked={`${clickedButton}`}
-              className={clickedButton === 'attendance' ? 'clicked' : ''}
+              className={candidatesUserId.includes(userInfo.userId as number) ? 'attendance' : ''}
               onClick={(e) => {
                 e.stopPropagation();
-                buttonHandler(e);
                 attendSchedule();
               }}
               style={{ margin: '2px' }}
@@ -111,11 +125,9 @@ function ScheduleCard(props: ScheduleCardProps) {
             </S_SelectButton>
             <S_SelectButton
               name='absence'
-              clicked={`${clickedButton}`}
-              className={clickedButton === 'absence' ? 'clicked' : ''}
+              className={!candidatesUserId.includes(userInfo.userId as number) ? 'absence' : ''}
               onClick={(e) => {
                 e.stopPropagation();
-                buttonHandler(e);
                 absentSchedule();
               }}
               style={{ margin: '2px' }}
