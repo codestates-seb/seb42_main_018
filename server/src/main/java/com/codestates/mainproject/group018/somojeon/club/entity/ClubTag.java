@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ClubTag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clubTagId;
 
     @ManyToOne(fetch = FetchType.LAZY)
