@@ -7,7 +7,7 @@ import getGlobalState from '../../util/authorization/getGlobalState';
 import leaderBadgeIcon from '../../assets/icon_leader-badge.svg';
 import { S_NegativeButton, S_SelectButton } from '../UI/S_Button';
 import { useEffect, useState } from 'react';
-import { getFetch } from '../../util/api';
+import { getFetch, deleteFetch } from '../../util/api';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -57,8 +57,8 @@ const S_Hidden = styled.div`
 `;
 
 interface ClubListSettingProps {
-  userClubId: number;
-  clubRole: string;
+  userClubId?: number;
+  clubRole?: string | null;
 }
 
 function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
@@ -66,6 +66,7 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
   // 받아온 userClubResponses.userClubId로 get 요청 보내기
   // 요청보낼 URI는 API 문서 28번 '소모임 단건 조회'
   const [club, setClub] = useState<ClubData>();
+
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${userClubId}`).then((data) => {
       // const club: ClubData = data.data;
@@ -101,12 +102,15 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
         <div className='settingbox'>
           {clubRole === 'LEADER' ? (
             // 롤이 리더인 경우 설정으로 가기
-            <S_SelectButton width='80px' onClick={() => navigate('/')}>
+            <S_SelectButton width='80px' onClick={() => navigate(`/club/${club?.clubId}/edit`)}>
               소모임 설정
             </S_SelectButton>
-          ) : (
-            // 롤이 멤버인 경우 탈퇴 요청 하기
+          ) : clubRole === 'MANAGER' || clubRole === 'LEADER' ? (
+            // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
             <S_NegativeButton>소모임 탈퇴</S_NegativeButton>
+          ) : (
+            // 롤이 null 일때는 가입 취소 버튼
+            <S_SelectButton width='80px'>가입 취소</S_SelectButton>
           )}
         </div>
       </S_ContentsBox>

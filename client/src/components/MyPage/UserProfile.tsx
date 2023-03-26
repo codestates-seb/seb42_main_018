@@ -25,7 +25,12 @@ const S_ImgBox = styled.div<{ img?: string }>`
   background-image: url(${(props) => props.img});
 `;
 
-function UserProfile({ userId, profileImage }: UserInfoType) {
+interface UserProfileProps {
+  userId: number | undefined;
+  profileImage: string;
+}
+
+function UserProfile({ userId, profileImage }: UserProfileProps) {
   const navigate = useNavigate();
 
   return (

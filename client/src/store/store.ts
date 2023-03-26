@@ -34,7 +34,7 @@ export interface UserInfoType {
   nickName: string;
   userStatus: '' | 'USER_NEW' | 'USER_ACTIVE' | 'USER_SLEEP' | 'USER_QUIT';
   profileImage: string;
-  userClubResponses?: UserClubResponsesType[];
+  userClubResponses: UserClubResponsesType[];
 }
 
 export interface JwtTokensType {

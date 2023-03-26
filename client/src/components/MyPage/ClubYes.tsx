@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { UserClubResponsesType } from '../../store/store';
-import { getFetch } from '../../util/api';
 
 import { S_Title } from '../UI/S_Text';
 import ClubListSetting from './ClubListSetting';
@@ -12,16 +10,14 @@ const S_Box = styled.div`
   }
 `;
 
-interface ClubResponses {
-  userClubId: number;
-  isPlayer: boolean;
-  clubRole: string;
-  playCount: number;
-  winCount: number;
-  winRate: number;
+interface ClubYesProps {
+  userClubResponses: {
+    userClubId?: number;
+    clubRole?: string | null;
+  }[];
 }
 
-function ClubYes() {
+function ClubYes({ userClubResponses }: ClubYesProps) {
   // 1. 받아온 userClubResponses에서
   // 2. 각 객체별 clubId를 가져와
   // 3. 해당 주소로 get요청 보내고
@@ -34,13 +30,30 @@ function ClubYes() {
     <S_Box>
       <div className='myclub'>
         <S_Title>내 소모임</S_Title>
-        <ClubListSetting key={1} userClubId={1} clubRole='LEADER' />
-        {/* {data.map((el) => {
-          <ClubListSetting key={el.userClubId} userClubId={el.userClubId} clubRole={el.clubRole} />;
-        })} */}
-        {/* 받아온 클럽 정보 뿌려주기 */}
+        {userClubResponses.map(
+          (el) =>
+            el.clubRole !== null && (
+              <ClubListSetting
+                key={el.userClubId}
+                userClubId={el.userClubId}
+                clubRole={el.clubRole}
+              />
+            )
+        )}
       </div>
-      <S_Title>가입 대기 소모임</S_Title>
+      <div className='notMyClub'>
+        <S_Title>가입 대기 소모임</S_Title>
+        {userClubResponses.map(
+          (el) =>
+            el.clubRole === null && (
+              <ClubListSetting
+                key={el.userClubId}
+                userClubId={el.userClubId}
+                clubRole={el.clubRole}
+              />
+            )
+        )}
+      </div>
     </S_Box>
   );
 }
