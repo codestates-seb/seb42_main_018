@@ -66,7 +66,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                          ,String registration, String registrationId,  Map<String, String> param) throws IOException {
         String accessToken = delegateAccessToken(registration, registrationId);
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = (String) request.getAttribute("oauth2/receive");
+//        String path = (String) request.getAttribute("oauth2/receive");
+        String path = "oauth2/receive";
         log.info("path =", path);
         String uri =  createURI(accessToken, refreshToken, path, param).toString();
 
