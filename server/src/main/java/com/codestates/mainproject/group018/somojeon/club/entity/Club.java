@@ -60,14 +60,12 @@ public class Club {
     private LocalDateTime modifiedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Enumerated(value = EnumType.STRING)
+//    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
 
-    @Enumerated(value = EnumType.STRING)
-    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-    ClubMemberStatus clubMemberStatus = ClubMemberStatus.MEMBER_ACTIVE;
-
-    @Enumerated(value = EnumType.STRING)
-    ClubRole clubRole;
+//    @Enumerated(value = EnumType.STRING)
+//    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+//    ClubMemberStatus clubMemberStatus = ClubMemberStatus.MEMBER_ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
