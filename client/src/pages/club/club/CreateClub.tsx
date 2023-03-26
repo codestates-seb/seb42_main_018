@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
+import LoginChecker from '../../../components/LoginChecker';
 import CreateCategory from './_createCategory';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
@@ -60,6 +62,7 @@ function CreateClub() {
   const [tags, setTags] = useState<string[]>([]);
   const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
+  const { userInfo } = getGlobalState();
 
   // * textarea 높이 자동 조절 관련
   // const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -120,81 +123,83 @@ function CreateClub() {
 
     // console.log(newClubData);
 
-    const POST_URL = `${process.env.REACT_APP_URL}/clubs`;
+    const POST_URL = `${process.env.REACT_APP_URL}/${userInfo.userId}/clubs`;
     const res = await postFetch(POST_URL, newClubData);
     if (res) navigate(res.headers.location);
   };
 
   return (
-    <S_Container>
-      <S_Title>신규 소모임 만들기</S_Title>
-      <S_FormWrapper>
-        <form onSubmit={onSubmit}>
-          <div>
-            <label htmlFor='clubName'>
-              <S_Label_mg_top>소모임 이름 *</S_Label_mg_top>
-            </label>
-            <S_Input
-              id='clubName'
-              name='clubName'
-              type='text'
-              maxLength={16}
-              value={clubName}
-              onChange={onChange}
-              width='96%'
-            />
-          </div>
-          <div>
-            <label htmlFor='content'>
-              <S_Label_mg_top>소모임 소개글 *</S_Label_mg_top>
-            </label>
-            <S_TextArea
-              id='content'
-              name='content'
-              maxLength={255}
-              placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요. (글자수 제한 255자)'
-              value={content}
-              onChange={onChange}
-              // ref={textareaRef}
-            />
-          </div>
-          <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
-          <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
-          <CreateTag tags={tags} setTags={setTags} />
-          <fieldset className='isSecret'>
+    <LoginChecker>
+      <S_Container>
+        <S_Title>신규 소모임 만들기</S_Title>
+        <S_FormWrapper>
+          <form onSubmit={onSubmit}>
             <div>
-              <S_Label_mg_top>공개여부 *</S_Label_mg_top>
+              <label htmlFor='clubName'>
+                <S_Label_mg_top>소모임 이름 *</S_Label_mg_top>
+              </label>
+              <S_Input
+                id='clubName'
+                name='clubName'
+                type='text'
+                maxLength={16}
+                value={clubName}
+                onChange={onChange}
+                width='96%'
+              />
             </div>
-            <S_RadioWrapper>
-              <div className='partition'>
-                <S_Input
-                  type='radio'
-                  id='public'
-                  name='isSecret'
-                  value='false'
-                  onChange={onChange}
-                  defaultChecked
-                />
-                <label htmlFor='public'>공개</label>
+            <div>
+              <label htmlFor='content'>
+                <S_Label_mg_top>소모임 소개글 *</S_Label_mg_top>
+              </label>
+              <S_TextArea
+                id='content'
+                name='content'
+                maxLength={255}
+                placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요. (글자수 제한 255자)'
+                value={content}
+                onChange={onChange}
+                // ref={textareaRef}
+              />
+            </div>
+            <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
+            <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
+            <CreateTag tags={tags} setTags={setTags} />
+            <fieldset className='isSecret'>
+              <div>
+                <S_Label_mg_top>공개여부 *</S_Label_mg_top>
               </div>
-              <div className='partition'>
-                <S_Input
-                  type='radio'
-                  id='private'
-                  name='isSecret'
-                  value='true'
-                  onChange={onChange}
-                />
-                <label htmlFor='private'>비공개</label>
-              </div>
-            </S_RadioWrapper>
-          </fieldset>
-          <div className='submit-btn-box'>
-            <S_Button>소모임 만들기</S_Button>
-          </div>
-        </form>
-      </S_FormWrapper>
-    </S_Container>
+              <S_RadioWrapper>
+                <div className='partition'>
+                  <S_Input
+                    type='radio'
+                    id='public'
+                    name='isSecret'
+                    value='false'
+                    onChange={onChange}
+                    defaultChecked
+                  />
+                  <label htmlFor='public'>공개</label>
+                </div>
+                <div className='partition'>
+                  <S_Input
+                    type='radio'
+                    id='private'
+                    name='isSecret'
+                    value='true'
+                    onChange={onChange}
+                  />
+                  <label htmlFor='private'>비공개</label>
+                </div>
+              </S_RadioWrapper>
+            </fieldset>
+            <div className='submit-btn-box'>
+              <S_Button>소모임 만들기</S_Button>
+            </div>
+          </form>
+        </S_FormWrapper>
+      </S_Container>
+    </LoginChecker>
   );
 }
 
