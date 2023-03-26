@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.user.controller;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
@@ -48,18 +49,23 @@ public class UserController {
 
     private final ClubMapper clubMapper;
     private final ImageMapper imageMapper;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
-                                   HttpServletRequest request,
+                                   HttpServletRequest request, HttpServletResponse response,
                                    Images images){
         User user =  userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser =  userService.createUser(user, token, images);
-        URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
-        return ResponseEntity.created(location).build();
+        User createdUser =  userService.createUser(user, token, images, response);
+        jwtTokenProvider.provideTokens(createdUser, response);
+        List<UserClub> userClubs =  userService.findUserClub(createdUser.getUserId());
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>( userMapper.userToUserResponseWithClubs(createdUser, userClubs, clubMapper, imageMapper)),
+                HttpStatus.OK);
     }
 
     @PostMapping("/email")
@@ -94,9 +100,9 @@ public class UserController {
                                     @RequestParam String nickName,
                                     @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
 
-//        if(!identifier.isVerified(userId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
-//        }
+        if(!identifier.isVerified(userId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+        }
         User response = userService.updateUser(userId, user, nickName, multipartFile);
 
         return new ResponseEntity<>(

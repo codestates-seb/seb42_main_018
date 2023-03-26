@@ -40,7 +40,7 @@ public interface ScheduleMapper {
                 .placeName(schedule.getPlaceName())
                 .longitude(schedule.getLongitude())
                 .latitude(schedule.getLatitude())
-                .teamList(teamsToTeamResponseDtos(schedule.getTeams(), userMapper))
+                .teamList(teamsToTeamResponseDtos(schedule.getTeamList(), userMapper))
                 .records(recordsToRecordResponseDtos(schedule.getRecords()))
                 .candidates(candidatesToCandidateResponseDtos(schedule.getCandidates()))
                 .build();
