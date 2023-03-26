@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.user.service;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
@@ -50,8 +51,13 @@ public class UserService {
     private final OauthUserService oauthUserService;
 
 
-    public User createUser(User user, String token, Images images) {
+    public User createUser(User user, String token, Images images, HttpServletResponse response) {
         verifyExistsEmail(user.getEmail());
+
+        // DB에 User Role 저장
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
+        user.setRoles(roles);
+
         if(token != null){
             user.setPassword("OAUTH2.0");
             oauthUserService.createOAuthUser(token, user);
@@ -62,8 +68,6 @@ public class UserService {
         user.setPassword(encryptedPassword);
 
         // DB에 User Role 저장
-        List<String> roles = authorityUtils.createRoles(user.getEmail());
-        user.setRoles(roles);
         user.setProfileImageUrl(defaultProfileImage);
 
         User savedUser = userRepository.save(user);

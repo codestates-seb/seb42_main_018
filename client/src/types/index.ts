@@ -2,9 +2,8 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  // TODO: default image 설정이 잘 된다면 추후 null 값 들어올 일이 없음
-  // TODO: optional ? 도 삭제해야 함
-  clubImageUrl?: string;
+  // TODO: optional ? 삭제해야 함
+  clubImage?: string;
   content: string;
   local: string;
   categoryName: string;

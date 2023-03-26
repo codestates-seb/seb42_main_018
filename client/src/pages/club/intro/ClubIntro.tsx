@@ -15,8 +15,9 @@ import ClubJoinModal from './_clubJoinModal';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 
 const ClubIntroWrapper = styled.div`
-  /* position: relative; */
+  position: relative;
   margin-top: 30px;
+  min-height: 88vh;
 
   & > .profile-img-box {
     margin: 0 -20px;
@@ -26,27 +27,24 @@ const ClubIntroWrapper = styled.div`
     align-items: center;
     background-color: var(--gray100);
   }
-  & .profile-img {
-    max-width: 100%;
-    max-height: 100%;
-  }
 
   & > .club-info-box {
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
+    padding-bottom: 0.4rem;
     display: flex;
     border-bottom: 1px solid var(--gray200);
+
+    .profile-img {
+      /* background-size: contain; */
+    }
   }
   & .club-info-area {
     flex: 3;
   }
   & .club-title-box {
-    margin-bottom: 5px;
     display: flex;
     align-items: center;
-    & .club-title {
-      margin: 0;
-    }
-    & > img {
+    & > .leader-badge-icon {
       margin-left: 6px;
       transform: scale(1.2);
     }
@@ -57,38 +55,35 @@ const ClubIntroWrapper = styled.div`
   }
 
   & > .club-content-box {
-    margin-top: 12px;
+    margin-top: 1rem;
+    margin-bottom: calc(50px + 1rem);
   }
 
   & > .join-btn-box {
-    /* position: absolute;
+    position: absolute;
     bottom: 0;
     right: 0;
-    left: 0; */
-    margin-top: 1.5rem;
+    left: 0;
 
     display: flex;
     justify-content: space-between;
   }
 `;
+
 function ClubIntro() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isLogin, userInfo } = getGlobalState();
   const [clubInfo, setClubInfo] = useState<ClubData>();
-
-  console.log(userInfo);
+  // @param isApplied : 가입신청을 이미 한 번 했으면 true, 아직 안했으면 false
+  const [isApplied, setIsApplied] = useState(false);
 
   // TODO : 리더에게만 뱃지와 프로필 설정 버튼이 보이는지 확인
-  const myClub = userInfo.userClubResponses?.find((club) => club.userClubId === Number(id));
+  const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
   const isLeader = myClub?.clubRole === 'LEADER';
   const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
   // console.log(myClub);
   // console.log(isMember);
-
-  // ! TODO : 가입신청 후 모달만 꺼지기 때문에 clubRole === null 바로 확인할 수가 없음
-  // 가입신청 성공을 확인하는 상태를 하나 더 만들어서 관리하든지
-  // useEffect로 get 요청을 보내서 최신 유저 정보를 한 번 더 확인해야 할지?
 
   useEffect(() => {
     const GET_URL = `${process.env.REACT_APP_URL}/clubs/${id}`;
@@ -97,16 +92,18 @@ function ClubIntro() {
       setClubInfo(res.data);
     };
     getClubInfo();
+
+    if (myClub && myClub.clubRole === null) setIsApplied(true);
   }, []);
 
+  console.log(userInfo);
   console.log(clubInfo);
 
-  // TODO : clubImageUrl 이미지 잘 뜨는지 확인
   const {
     clubName,
     content,
     categoryName,
-    clubImageUrl,
+    clubImage,
     local,
     memberCount,
     tagResponseDtos: tags
@@ -130,9 +127,12 @@ function ClubIntro() {
   const { pathname } = useLocation();
   const RETURN_URL_PARAM = 'returnUrl';
 
-  // !! TODO : 이미 가입 신청을 완료한 소모임인지 확인 필요
-  // 가입신청 완료한 상태에서 또 클릭하면 사용자에게 알람
   const handleJoinRequest = () => {
+    if (isApplied) {
+      alert('이미 가입신청을 하셨어요. 마이페이지에서 가입신청 승인 현황을 확인할 수 있습니다.');
+      return;
+    }
+
     if (isLogin) {
       handleModal();
     } else {
@@ -146,19 +146,15 @@ function ClubIntro() {
         <Tabmenu tabs={tabs}></Tabmenu>
         <ClubIntroWrapper>
           <div className='profile-img-box'>
-            {/* TODO: img src 추후 clubImageUrl로 변경 */}
-            <img
-              src={clubImageUrl}
-              alt='소모임 소개 이미지'
-              className='profile-img'
-              style={{ width: '100%' }}
-            />
+            <img src={clubImage} alt='소모임 소개 이미지' className='profile-img' />
           </div>
           <div className='club-info-box'>
             <div className='club-info-area'>
               <div className='club-title-box'>
                 <S_Title className='club-title'>{clubName}</S_Title>
-                {isLeader && <img src={leaderBadgeIcon} alt='소모임장 아이콘' />}
+                {isLeader && (
+                  <img src={leaderBadgeIcon} alt='소모임장 아이콘' className='leader-badge-icon' />
+                )}
               </div>
               <div className='club-detail-box'>
                 <S_Description>
@@ -186,7 +182,6 @@ function ClubIntro() {
           <div className='club-content-box'>
             <p style={{ whiteSpace: 'pre-line' }}>{content}</p>
           </div>
-          {/* //! 공개 소모임 중에서 소모임 멤버가 아닌 유저에게만 렌더링 */}
           {!isMember && (
             <div className='join-btn-box'>
               <S_Button addStyle={{ width: '48%' }} onClick={handleJoinRequest}>
@@ -207,7 +202,11 @@ function ClubIntro() {
           )}
         </ClubIntroWrapper>
 
-        <ClubJoinModal handleModal={handleModal} showModal={showModal} />
+        <ClubJoinModal
+          handleModal={handleModal}
+          showModal={showModal}
+          setIsApplied={setIsApplied}
+        />
       </S_Container>
     </>
   );

@@ -55,7 +55,7 @@ public class Schedule {
     private Club club;
 
     @OneToMany(mappedBy = "schedule")
-    private List<Team> teams = new ArrayList<>();
+    private List<Team> teamList = new ArrayList<>();
 
     @OneToMany(mappedBy = "schedule")
     private List<Record> records = new ArrayList<>();
