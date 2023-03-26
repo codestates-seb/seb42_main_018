@@ -18,6 +18,8 @@ public class ClubDto {
     @AllArgsConstructor
     public static class Post {
 
+        private Long userId;
+
         private String clubName;
 
         private String content;
