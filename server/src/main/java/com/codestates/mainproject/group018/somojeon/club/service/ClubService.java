@@ -10,26 +10,30 @@ import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepo
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
+import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ClubService {
@@ -40,10 +44,9 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
-//    private final Identifier identifier;
 
-    // 소모임 생성 (일반유저 모두 가능)
-    public Club createClub(Club club, List<String> tagName, Long profileImageId) {
+
+    public Club createClub(Club club, List<String> tagName)  {
         //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
 
         categoryService.verifyExistsCategoryName(club.getCategoryName());
@@ -54,38 +57,26 @@ public class ClubService {
         }
         club.setCreatedAt(LocalDateTime.now());
         club.setMemberCount(club.getMemberCount() + 1);
-        // profileImageId 들어오면 Image도 저장
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            club.setImages(images);
-        }
-//        else {
-//            club.getImages().setUrl(defaultClubImage);
-//        }
+        // 리더 권한 추가.
+        club.setClubRole(ClubRole.LEADER);
+        club.setClubImageUrl(defaultClubImage);
 
         return clubRepository.save(club);
     }
 
+
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Club club, List<String> tagName, Long profileImageId) {
-        //TODO-DW: 리더와 매니저만 수정가능하게 하기 로직 추가 해야함
-        Club findClub = findVerifiedClub(club.getClubId());
+    public Club updateClub(Long clubId, Club club, String clubName, String content, String local, List<String> tagName,boolean isSecret, MultipartFile multipartFile) throws IOException {
 
-        Optional.ofNullable(club.getClubName())
-                .ifPresent(findClub::setClubName);
-        Optional.ofNullable(club.getContent())
-                .ifPresent(findClub::setContent);
-        Optional.ofNullable(club.getLocal())
-                .ifPresent(findClub::setLocal);
-        Optional.of(club.isPrivate())
-                .ifPresent(findClub::setPrivate);
-        // profileImageId 들어오면 Image도 저장
-        if (profileImageId != null) {
-            Images images = imageService.validateVerifyFile(profileImageId);
-            club.setImages(images);
-        } else {
-            club.getImages().setUrl(defaultClubImage);
+        Club findClub = findVerifiedClub(clubId);
+
+        if (club.getClubName() != null && club.getContent() != null || club.getLocal() != null || multipartFile != null) {
+            findClub.setClubName(clubName);
+            findClub.setContent(content);
+            findClub.setLocal(local);
+            findClub.setSecret(isSecret);
+            findClub.setClubImageUrl(imageService.uploadClubImage(multipartFile));
         }
 
         List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
@@ -93,8 +84,20 @@ public class ClubService {
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         } else {
-            return clubRepository.save(findClub);
+            clubRepository.save(findClub);
         }
+
+//        if (club.getClubImageUrl() != null) {
+//        String oldImage = club.getClubImageUrl();
+//            if (oldImage != null) {
+//                imageService.deleteClubImage(oldImage);
+//                imagesRepository.delete(oldImage);
+//            }
+//            String newImage = imageService.uploadClubImage(multipartFile);
+//            findClub.setClubImageUrl(newImage.getUrl());
+//        }
+
+        return clubRepository.save(findClub);
     }
 
     // 소모임 단건 조회 (전체 ROLE 가능)
@@ -122,11 +125,6 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
-//    // 소모임 전체 스케줄 조회
-//    public Page<Schedule> findSchedulesByClub(long clubId, String clubName, int page, int size) {
-//        findVerifiedClub(clubId);
-//        return clubRepository.findSchedulesByClubName(clubName, PageRequest.of(page, size, Sort.by("scheduleId")));
-//    }
 
     public void deleteClub(Long clubId) {
         //TODO-DW: 리더 인지 검증
@@ -153,47 +151,37 @@ public class ClubService {
         return userClubs;
     }
 
-    public Page<UserClub> getClubMembers(PageRequest pageRequest,  Long clubId) {
-        //TODO-DW: 검토 부탁드려요 by 제훈
-        findVerifiedClub(clubId);
-        Page<UserClub> userClubs =  userClubRepository.findAllByClubId(pageRequest, clubId);
-
-
-
-        return userClubs;
-    }
-
 
 
      //소모임 회원 등급 설정
 
      //소모임 회원 등급 설정 (리더와 매니저만 가능)
-    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
-
-//        identifier.checkClubRole(userClub.getUserClubId());
-
-        switch (clubRole) {
-            case "Manager" : userClub.getClubRole().setRoles("Manager");
-            default : userClub.getClubRole().setRoles("Member");
-        }
-
-        return userClubRepository.save(userClub);
-    }
+//    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
+//
+////        identifier.checkClubRole(userClub.getUserClubId());
+//
+//        switch (clubRole) {
+//            case "Manager" : userClub.getClubRole().setRoles("Manager");
+//            default : userClub.getClubRole().setRoles("Member");
+//        }
+//
+//        return userClubRepository.save(userClub);
+//    }
 
     //    //TODO-DW: UserClub DI - ClubRole
     // 소모임 리더 위임 (리더만 가능)
-    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
-        if (!userClub.getClubRole().getRoles().equals("Leader")) {
-            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-        }
-
-        if (clubRole.equals("Leader")) {
-            Long userId = userClub.getUser().getUserId();
-
-
-        }
-        return null;
-    }
+//    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
+//        if (!userClub.getClubRole().getRoles().equals("Leader")) {
+//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
+//        }
+//
+//        if (clubRole.equals("Leader")) {
+//            Long userId = userClub.getUser().getUserId();
+//
+//
+//        }
+//        return null;
+//    }
 
 
     //TODO-DW: user 연결해야됨

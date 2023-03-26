@@ -2,10 +2,12 @@ package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.join.entity.Joins;
+
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +27,7 @@ import java.util.List;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long clubId;
 
     @Column(nullable = false)
@@ -41,7 +43,9 @@ public class Club {
     private String categoryName;
 
     @Column(nullable = false)
-    private boolean isPrivate;
+    private boolean isSecret;
+
+    private String clubImageUrl;
 
     private int viewCount;
 
@@ -60,12 +64,14 @@ public class Club {
     private LocalDateTime modifiedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
     ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
     ClubMemberStatus clubMemberStatus = ClubMemberStatus.MEMBER_ACTIVE;
+
+    @Enumerated(value = EnumType.STRING)
+    ClubRole clubRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
@@ -75,20 +81,25 @@ public class Club {
     private List<ClubTag> clubTagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<Joins> joinsList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<UserClub> userClubList = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_ID")
-    private Images images;
+//    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Images images;
 
 
     public void setClubTag(ClubTag clubTag) {
         clubTagList.add(clubTag);
+    }
+
+    public UserClub addUserClub(UserClub userClub) {
+        this.userClubList.add(userClub);
+        if (userClub.getClub() != this) {
+            userClub.setClub(this);
+        }
+
+        return userClub;
     }
 }

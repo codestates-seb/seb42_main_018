@@ -5,8 +5,11 @@ import lombok.Getter;
 // ??
 public enum ExceptionCode {
     USER_NOT_FOUND(404, "User not found"),
+    MEMBER_NOT_FOUND(404, "Member not found"),
     CLIENT_NOT_FOUND(404, "Client not found"),
     USER_EXISTS(409, "User exists"),
+    CURRENT_PASSWORD_NOT_MATCH(409, "Current password is not match"),
+    NEXT_PASSWORD_NOT_MATCH(409, "Next password is not match"),
     CATEGORY_EXISTS(409, "Category exists"),
     CLUB_EXISTS(409, "Club exists"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
@@ -26,12 +29,17 @@ public enum ExceptionCode {
     NOT_FOUND_EXCEPTION(404, "Not found"),
     SCHEDULE_NOT_FOUND(404, "Schedule not found"),
     TEAM_NOT_FOUND(404, "Team not found"),
-
     USER_CLUB_NOT_FOUND(404, "User club not found"),
+    CLUB_MEMBER_EXISTS(409, "User club exists"),
+    JOIN_EXISTS(409, "You already applied for a join"),
     S3_FILE_NOT_FOUND(404, "S3 file not found"),
     ACCESS_DENIED_JOIN_THIS_CLUB(401, "You can't join this club"),
-
-    EMAIL_ALREADY_EXIT(1000, "Same email already exits");
+    EMAIL_ALREADY_EXIT(1000, "Same email already exits"),
+    CLUB_SAVE_ERROR(400, "Club data error, please try again"),
+    TEAM_SAVE_ERROR(400, "Team data error, please try again"),
+    CANDIDATE_SAVE_ERROR(400, "Candidate data error, please try again"),
+    RECORD_SAVE_ERROR(400, "Record data error, please try again"),
+    GENERAL_ERROR(400, "Data error, please try again");
 
 
 

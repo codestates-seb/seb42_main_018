@@ -1,15 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.candidate.dto;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 public class CandidateDto {
 
     @Getter
-    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post {
 
     }
@@ -18,7 +15,6 @@ public class CandidateDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
-
         private Long candidateId;
 
         Candidate.Attendance attendance;
@@ -26,10 +22,12 @@ public class CandidateDto {
         public void addCandidateId(Long candidateId) {
             this.candidateId = candidateId;
         }
+
     }
 
     @Getter
     @Setter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
@@ -37,7 +35,6 @@ public class CandidateDto {
         private Long userId;
         private String nickName;
         Candidate.Attendance attendance;
-        private Long scheduleId;
 
         public String getAttendance() {
             return attendance.getStatus();

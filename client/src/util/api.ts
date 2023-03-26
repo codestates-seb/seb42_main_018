@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { JwtTokensType } from '../store/store';
 
 export const getFetch = async (url: string) => {
   try {
@@ -9,21 +10,50 @@ export const getFetch = async (url: string) => {
   }
 };
 
-// ? data의 타입 여러 가지인데 이 경우 타입 지정 어떻게 해결?
-export const postFetch = async <T>(url: string, newData: T, accessToken?: string) => {
+export const postFetch = async <T>(url: string, newData: T, tokens?: JwtTokensType) => {
   try {
-    const res = await axios.post(url, JSON.stringify(newData), {
+    const res = await axios.post(url, newData, {
       headers: {
         'Content-Type': 'application/json',
         withCredentials: true,
-        Authorization: accessToken
+        Authorization: tokens && tokens.accessToken,
+        Refresh: tokens && tokens.refreshToken
       }
     });
 
-    if (res.status === 200 || res.status === 201) {
-      return res;
-    }
+    if (res.status === 200 || res.status === 201) return res;
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const patchFetch = async <T>(url: string, updateData: T, tokens?: JwtTokensType) => {
+  try {
+    const res = await axios.patch(url, updateData, {
+      headers: {
+        'Content-Type': 'application/json',
+        withCredentials: true,
+        Authorization: tokens?.accessToken,
+        Refresh: tokens?.refreshToken
+      }
+    });
+    if (res.status === 200) return res;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
+  try {
+    const res = await axios.delete(url, {
+      headers: {
+        withCredentials: true,
+        Authorization: tokens?.accessToken,
+        Refresh: tokens?.refreshToken
+      }
+    });
+    if (res.status === 204) return res;
+  } catch (err) {
+    console.log(err);
   }
 };

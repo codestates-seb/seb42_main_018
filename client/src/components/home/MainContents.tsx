@@ -57,7 +57,6 @@ function MainContents() {
       setPageInfo(pageInfo);
     });
   }, []);
-  console.log(clubs);
 
   return (
     <div>
@@ -77,7 +76,7 @@ function MainContents() {
           key={el.clubId}
           clubId={el.clubId}
           clubName={el.clubName}
-          profileImage={el.profileImage}
+          clubImageUrl={el.profileImage}
           content={el.content}
           local={el.local}
           categoryName={el.categoryName}

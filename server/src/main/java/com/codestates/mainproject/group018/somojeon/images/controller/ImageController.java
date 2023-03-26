@@ -25,39 +25,39 @@ public class ImageController {
     private final ImageMapper mapper;
 
     // 유저 프로필 이미지 파일 업로드
-    @PostMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadProfileImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
-
-        Images images = imageService.uploadProfileImage(multipartFile);
-        ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+//    @PostMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity uploadProfileImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException {
+//
+//        imageService.uploadProfileImage(multipartFile);
+//        ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
 
 
     // 클럽 소개 이미지 파일 업로드
-    @PostMapping(value = "/clubs", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadClubImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException{
+//    @PostMapping(value = "/clubs", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity uploadClubImage(@RequestPart(value = "image", required = false) MultipartFile multipartFile) throws IOException{
+//
+//        Images images = imageService.uploadClubImage(multipartFile);
+//        ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
+//
+//    // 유저 프로필 이미지 파일 삭제
+//    @DeleteMapping("/users")
+//    public ResponseEntity deleteProfileImage(@RequestPart("url") String url) {
+//
+//        imageService.deleteProfileImage(url);
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 
-        Images images = imageService.uploadClubImage(multipartFile);
-        ImagesResponseDto response = mapper.imagesToImageResponseDto(images);
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    // 유저 프로필 이미지 파일 삭제
-    @DeleteMapping("/users")
-    public ResponseEntity deleteProfileImage(@RequestPart("url") String url) throws IOException{
-
-        imageService.deleteProfileImage(url);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    // 클럽 소개 이미지 파일 삭제
-    @DeleteMapping("/clubs")
-    public ResponseEntity deleteClubImage(@RequestPart("url") String url) throws IOException{
-
-        imageService.deleteClubImage(url);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//    // 클럽 소개 이미지 파일 삭제
+//    @DeleteMapping("/clubs")
+//    public ResponseEntity deleteClubImage(@RequestPart("url") String url) {
+//
+//        imageService.deleteClubImage(url);
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 }

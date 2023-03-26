@@ -2,7 +2,9 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  profileImage?: string;
+  // TODO: default image 설정이 잘 된다면 추후 null 값 들어올 일이 없음
+  // TODO: optional ? 도 삭제해야 함
+  clubImageUrl?: string;
   content: string;
   local: string;
   categoryName: string;
@@ -13,7 +15,8 @@ export interface ClubData {
     tagName: string;
   }[];
   modifiedAt?: string;
-  private?: boolean;
+  // TODO: secret의 optional ? 삭제 필요
+  secret?: boolean;
 }
 export interface ClubPage {
   // 페이지네이션 정보 타입 설정
@@ -54,17 +57,25 @@ export interface SubTabProps {
 
 export interface MemberData {
   // 멤버목록 확인을 위한 데이터 타입
+  // nickName: string;
+  // profileImage: {
+  //   imageId?: number;
+  //   fileName?: string;
+  //   url?: string;
+  // };
+  // playCount?: number;
+  // winCount?: number;
+  // loseCount?: number;
+  // drawCount?: number;
+  // winRate?: number;
+  // 수정한 데이터타입
   nickName: string;
-  profileImage: {
-    imageId?: number;
-    fileName?: string;
-    url?: string;
-  };
+  profileImage: string;
+  winRate: number;
   playCount?: number;
   winCount?: number;
-  loseCount?: number;
   drawCount?: number;
-  winRate?: number;
+  loseCount?: number;
 }
 
 export interface MemberProps {

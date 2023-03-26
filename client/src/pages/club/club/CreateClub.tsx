@@ -10,8 +10,9 @@ import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
 import { S_Title, S_Label } from '../../../components/UI/S_Text';
 import { S_Button } from '../../../components/UI/S_Button';
+import { EditClubDataType } from './EditClub';
 
-const S_FormWrapper = styled.div`
+export const S_FormWrapper = styled.div`
   margin-top: 12px;
   display: flex;
   flex-direction: column;
@@ -23,7 +24,7 @@ const S_FormWrapper = styled.div`
   }
 `;
 
-const S_RadioWrapper = styled.div`
+export const S_RadioWrapper = styled.div`
   width: 40%;
   display: flex;
   justify-content: space-around;
@@ -46,13 +47,8 @@ const S_RadioWrapper = styled.div`
   }
 `;
 
-export interface clubType {
-  clubName: string;
-  content: string;
-  local: string;
+export interface CreateClubDataType extends EditClubDataType {
   categoryName: string;
-  tagName?: string[];
-  isPrivate: boolean;
 }
 
 function CreateClub() {
@@ -73,7 +69,7 @@ function CreateClub() {
   //   }
   // }, [textareaRef]);
 
-  const [inputs, setInputs] = useState<clubType>({
+  const [inputs, setInputs] = useState<CreateClubDataType>({
     clubName: '',
     content: '',
     local: '',
@@ -81,6 +77,7 @@ function CreateClub() {
     isPrivate: false
   });
   const { clubName, content, isPrivate } = inputs;
+  console.log(inputs);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -105,7 +102,7 @@ function CreateClub() {
       return;
     }
 
-    const newClubData: clubType = {
+    const newClubData: CreateClubDataType = {
       ...inputs,
       categoryName: categoryValue,
       local: localValue,

@@ -1,12 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.user.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.mapstruct.Builder;
 import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.Email;
@@ -28,8 +28,6 @@ public class UserDto {
         @Nullable
         String password;
 
-        private Long profileImageId;
-
 
     }
     @Getter
@@ -38,15 +36,22 @@ public class UserDto {
     @NoArgsConstructor
     public static class Patch{
         Long userId;
-
         @Nullable
         String nickName;
 
-        private Long profileImageId;
-
-//        @Nullable
-//        String password;
-
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PatchPassword{
+        Long userId;
+        @NotNull
+        String currentPassword;
+        @NotNull
+        String nextPassword;
+        @NotNull
+        String nextPasswordCheck;
     }
     @Getter
     @Setter
@@ -63,7 +68,7 @@ public class UserDto {
 
        User.UserStatus userStatus;
 
-        private ImagesResponseDto profileImage;
+        private String profileImage;
 
         public String getUserStatus() {
             return userStatus.getStatus();
@@ -86,7 +91,7 @@ public class UserDto {
 
         User.UserStatus userStatus;
 
-        ImagesResponseDto profileImage;
+        private String profileImage;
 
         List<UserClubDto.Response> userClubResponses;
 
@@ -102,8 +107,11 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ResponseWithClub {
+        private Long userId;
         String nickName;
-        private ImagesResponseDto profileImage;
+        private ClubMemberStatus clubMemberStatus;
+        private ClubRole clubRole;
+        private String profileImage;
         private Integer playCount;
         private Integer winCount;
         private Integer loseCount;
@@ -112,4 +120,16 @@ public class UserDto {
 
 
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class UserInfoResponse {
+
+        private Long userId;
+        private String nickName;
+        private String email;
+        private String profileImage;
+    }
+
 }

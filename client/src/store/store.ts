@@ -8,8 +8,9 @@ export interface RootState {
 
 export interface UserClubResponsesType {
   userClubId: number;
-  isPlayer: boolean;
-  clubRole: string;
+  clubRole: null | 'MEMBER' | 'MANAGER' | 'LEADER';
+  player: boolean;
+  level: null | string;
   playCount: number;
   winCount: number;
   winRate: number;
@@ -19,8 +20,7 @@ export interface UserInfoType {
   email: string;
   nickName: string;
   userStatus: string;
-  // TODO: MyPage 컴포넌트 수정 후 optional ? 제거
-  profileImage?: string;
+  profileImage: string;
   userClubResponses?: UserClubResponsesType[];
 }
 

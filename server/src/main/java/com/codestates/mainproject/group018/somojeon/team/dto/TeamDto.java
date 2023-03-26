@@ -11,21 +11,40 @@ public class TeamDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
-        private Long recordId;
+        private Long clubId;
+        private Long scheduleId;
         private Integer score;
         private String winLoseDraw;
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
     }
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch {
+        private Long clubId;
+        private Long scheduleId;
         private Long teamId;
         private Integer score;
         private String winLoseDraw;
 
         public void addTeamId(Long teamId) {
             this.teamId = teamId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
         }
     }
 

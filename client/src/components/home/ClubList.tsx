@@ -47,7 +47,7 @@ const S_Hidden = styled.div`
 function ClubList({
   clubId,
   clubName,
-  profileImage,
+  clubImageUrl,
   content,
   local,
   categoryName,
@@ -56,26 +56,28 @@ function ClubList({
 }: ClubData) {
   return (
     <S_ClubBox>
-      <S_ImgBox img={profileImage} />
-      <S_ContentsBox>
-        <S_TitleBox>
-          <S_Label>
-            <Link to={`/club/${clubId}`}>{clubName}</Link>
-            {/* 왕관 표시 조건부 렌더링 */}
-          </S_Label>
-        </S_TitleBox>
-        <S_SmallDescription>
-          {categoryName} ・ {local} ・ 인원 {memberCount}명
-        </S_SmallDescription>
-        <S_Hidden>
-          <S_Description color='var(--gray600)'>{content}</S_Description>
-        </S_Hidden>
-        <div>
-          {tagResponseDtos.map((el) => (
-            <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
-          ))}
-        </div>
-      </S_ContentsBox>
+      <S_ImgBox img={clubImageUrl} />
+      <Link to={`/club/${clubId}`}>
+        <S_ContentsBox>
+          <S_TitleBox>
+            <S_Label>
+              {clubName}
+              {/* 왕관 표시 조건부 렌더링 */}
+            </S_Label>
+          </S_TitleBox>
+          <S_SmallDescription>
+            {categoryName} ・ {local} ・ 인원 {memberCount}명
+          </S_SmallDescription>
+          <S_Hidden>
+            <S_Description color='var(--gray600)'>{content}</S_Description>
+          </S_Hidden>
+          <div>
+            {tagResponseDtos.map((el) => (
+              <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
+            ))}
+          </div>
+        </S_ContentsBox>
+      </Link>
     </S_ClubBox>
   );
 }

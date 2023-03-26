@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.candidate.mapper.CandidateMa
 import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,11 +28,10 @@ import java.util.List;
 public class CandidateController {
     private final CandidateService candidateService;
     private final CandidateMapper candidateMapper;
-    private final UserService userService;
-    private final Identifier identifier;
 
     @PostMapping
     public ResponseEntity postCandidate(@Valid @RequestBody CandidateDto.Post requestBody) {
+
         Candidate candidate = candidateMapper.candidatePostDtoToCandidate(requestBody);
 
         Candidate createdCandidate = candidateService.createCandidate(candidate);
@@ -48,10 +45,8 @@ public class CandidateController {
                                          @Valid @RequestBody CandidateDto.Patch requestBody) {
         requestBody.addCandidateId(candidateId);
 
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
-        Candidate candidate = candidateService.updateCandidate(candidateMapper.candidatePatchDtoToCandidate(requestBody));
+        Candidate candidate = candidateService.updateCandidate(
+                candidateMapper.candidatePatchDtoToCandidate(requestBody));
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
@@ -65,10 +60,11 @@ public class CandidateController {
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getCandidates(@RequestParam("page") int page,
-                                        @RequestParam("size") int size) {
-        Page<Candidate> pageCandidates = candidateService.findCandidates(page - 1, size);
+    @GetMapping("/schedules/{schedule-id}")
+    public ResponseEntity getCandidates(@PathVariable("schedule-id") @Positive long scheduleId,
+                                        @RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "size", defaultValue = "10") int size) {
+        Page<Candidate> pageCandidates = candidateService.findCandidates(scheduleId, page - 1, size);
         List<Candidate> candidates = pageCandidates.getContent();
 
         return new ResponseEntity<>(
@@ -79,10 +75,6 @@ public class CandidateController {
     @DeleteMapping("/{candidate-id}")
     public ResponseEntity deleteCandidate(@PathVariable("candidate-id") @Positive long candidateId) {
         candidateService.deleteCandidate(candidateId);
-
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

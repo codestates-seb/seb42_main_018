@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
@@ -20,11 +21,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,11 +50,11 @@ public class UserController {
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
-                                   HttpServletRequest request){
-        Long profileImageId = userDtoPost.getProfileImageId();
+                                   HttpServletRequest request,
+                                   Images images){
         User user =  userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser =  userService.createUser(user, token, profileImageId);
+        User createdUser =  userService.createUser(user, token, images);
         URI location = UriCreator.createUri(USER_DEFAULT_URL, createdUser.getUserId());
         return ResponseEntity.created(location).build();
     }
@@ -65,23 +68,55 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(
-            @PathVariable("user-id") @Positive long userId,
-            @Valid @RequestBody UserDto.Patch requestBody) {
+    // 이전 코드는 주석처리 해놓
+//    @PatchMapping("/{user-id}")
+//    public ResponseEntity patchUser(
+//            @PathVariable("user-id") @Positive long userId,
+//            @Valid @RequestBody UserDto.Patch requestBody) {
+//
+//        requestBody.setUserId(userId);
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+//        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
+//                HttpStatus.OK);
+//    }
 
-        Long profileImageId = requestBody.getProfileImageId();
+    @PatchMapping("/{user-id}")
+    public ResponseEntity patchUser(@PathVariable("user-id") @Positive long userId,
+                                    @ModelAttribute User user,
+                                    @RequestParam String nickName,
+                                    @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
+
+//        if(!identifier.isVerified(userId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
+//        }
+        User response = userService.updateUser(userId, user, nickName, multipartFile);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userMapper.userToUserResponse(response)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{user-id}/password")
+    public ResponseEntity patchUserPassword(
+            @PathVariable("user-id") @Positive long userId,
+            @Valid @RequestBody UserDto.PatchPassword requestBody) {
+
         requestBody.setUserId(userId);
         if(!identifier.isVerified(userId)){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUser(userMapper.userPatchToUser(requestBody), profileImageId);
+        User user = userService.updateUserPassword(requestBody);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(user)),
                 HttpStatus.OK);
 
     }
+
 
     // get
     @GetMapping("/{user-id}")
@@ -97,27 +132,28 @@ public class UserController {
 
     }
 
+    // UserClub으로 옮김
 
-    @GetMapping("/clubs/{club-id}")
-    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
-                                     @RequestParam @Positive int size,
-                                       @PathVariable("club-id") @Positive Long clubId){
-        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
-            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-        }
-
-        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
-        List<UserClub> userClubs = pageUserClubs.getContent();
-
-
-        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
-
-
-        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
-                HttpStatus.OK);
-    }
+//    @GetMapping("/clubs/{club-id}")
+//    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
+//                                     @RequestParam @Positive int size,
+//                                       @PathVariable("club-id") @Positive Long clubId){
+//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+//        }
+//
+//        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
+//        List<UserClub> userClubs = pageUserClubs.getContent();
+//
+//
+//        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
+//                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
+//        ).collect(Collectors.toList());
+//
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
+//                HttpStatus.OK);
+//    }
 
     // delete
     @DeleteMapping("/{user-id}")

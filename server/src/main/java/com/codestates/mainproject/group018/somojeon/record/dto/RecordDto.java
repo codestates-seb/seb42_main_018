@@ -1,7 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.record.dto;
 
 import com.codestates.mainproject.group018.somojeon.comment.dto.CommentDto;
-import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -59,7 +58,6 @@ public class RecordDto {
     @NoArgsConstructor
     @Builder
     public static class Response {
-        private Long scheduleId;
         private Long recordId;
         private LocalDateTime createdAt;
         private String firstTeam;
@@ -67,6 +65,5 @@ public class RecordDto {
         private Integer firstTeamScore;
         private Integer secondTeamScore;
         private List<CommentDto.Response> comments;
-        private List<TeamDto.Response> teams;
     }
 }
