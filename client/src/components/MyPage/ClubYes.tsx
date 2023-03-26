@@ -18,14 +18,6 @@ interface ClubYesProps {
 }
 
 function ClubYes({ userClubResponses }: ClubYesProps) {
-  // 1. 받아온 userClubResponses에서
-  // 2. 각 객체별 clubId를 가져와
-  // 3. 해당 주소로 get요청 보내고
-  // 4. 그렇게 받아온 클럽데이터를
-  // 5. 클럽리스트로 보여주기
-  // 5-1. clubRole이 멤버면 '탈퇴하기'만
-  // 5-2. clubRole이 LEADER면 '클럽설정' 버튼
-
   return (
     <S_Box>
       <div className='myclub'>

@@ -69,8 +69,6 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
 
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${userClubId}`).then((data) => {
-      // const club: ClubData = data.data;
-      console.log(data.data);
       setClub(data.data);
     });
   }, []);
@@ -107,9 +105,11 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
             </S_SelectButton>
           ) : clubRole === 'MANAGER' || clubRole === 'LEADER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
+            // TODO : 탈퇴 로직 구현
             <S_NegativeButton>소모임 탈퇴</S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
+            // TODO : 가입 취소 로직 구현
             <S_SelectButton width='80px'>가입 취소</S_SelectButton>
           )}
         </div>

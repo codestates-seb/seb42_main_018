@@ -17,6 +17,7 @@ function DeleteAccount() {
     { id: 2, title: '계정 설정', path: `/mypage/edit/password` },
     { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
   ];
+
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />

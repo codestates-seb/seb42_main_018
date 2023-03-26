@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import NoItem from '../../../components/club/member/NoItem';
 import MemberRecordList from '../../../components/club/member/recordList';
 import MemberRecordTitle from '../../../components/club/member/recordTitle';
 import { ClubMemberProps } from '../../../types';
@@ -11,22 +12,29 @@ const S_Box = styled.div`
 `;
 
 function MemberRecord({ members }: ClubMemberProps) {
-  const list = members.map((el) => (
-    <MemberRecordList
-      key={el.nickName}
-      profileImage={el.profileImage}
-      nickName={el.nickName}
-      winRate={el.winRate}
-      playCount={el.playCount}
-      winCount={el.winCount}
-      drawCount={el.drawCount}
-      loseCount={el.loseCount}
-    />
-  ));
   return (
     <S_Box>
-      <MemberRecordTitle />
-      {members.length === 0 ? '아직 멤버 기록이 없어요!' : list}
+      {members.length !== 0 && <MemberRecordTitle />}
+      {members.length === 0 ? (
+        <NoItem
+          src='https://3dicons.sgp1.cdn.digitaloceanspaces.com/v1/dynamic/color/chart-dynamic-color.png'
+          alt='차트 이미지'
+          label='아직 기록된 경기가 없어요!'
+        />
+      ) : (
+        members.map((el) => (
+          <MemberRecordList
+            key={el.nickName}
+            profileImage={el.profileImage}
+            nickName={el.nickName}
+            winRate={el.winRate}
+            playCount={el.playCount}
+            winCount={el.winCount}
+            drawCount={el.drawCount}
+            loseCount={el.loseCount}
+          />
+        ))
+      )}
     </S_Box>
   );
 }
