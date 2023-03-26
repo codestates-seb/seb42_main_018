@@ -7,6 +7,8 @@ import com.codestates.mainproject.group018.somojeon.club.mapper.UserClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -61,9 +63,9 @@ public class UserClubController {
                                                  @Positive Long userId,
                                                  @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "100") int size) {
-//        if (!identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.checkClubRole(clubId)) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, userId, clubId);
         List<UserClub> content = userClubPage.getContent();
 
@@ -177,9 +179,9 @@ public class UserClubController {
     public ResponseEntity getClubUsers(@RequestParam (defaultValue = "1") int page,
                                        @RequestParam (defaultValue = "100") int size,
                                        @PathVariable("club-id") @Positive Long clubId) {
-//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         Page<UserClub> pageUserClubs = userClubService.getClubMembers(page - 1, size, clubId);
         List<UserClub> userClubs = pageUserClubs.getContent();
