@@ -73,14 +73,14 @@ export interface MatchData {
   placeName: string | undefined;
   longitude: number | undefined;
   latitude: number | undefined;
-  candidates: string[];
+  candidates: Candidate[];
   teamList: TeamList[];
   records: Record[];
 }
 
 export interface Candidate {
   userId: number;
-  nickname: string;
+  nickName: string;
   attendance: string;
 }
 
@@ -101,10 +101,11 @@ function CreateMatch() {
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
-  const candidates: string[] = [];
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  // const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
-  const [candidateList, setCandidateList] = useState(candidates);
+  const [candidateList, setCandidateList] = useState(candidates.map((el) => el.nickName));
 
   const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, members: [] }]);
   const [records, setRecords] = useState<Record[]>([]);
@@ -174,7 +175,7 @@ function CreateMatch() {
 
   const deleteTeam = (idx: number) => {
     if (teamList.length === 1) {
-      setCandidateList(candidates);
+      setCandidateList(candidates.map((el) => el.nickName));
       setTeamList([
         {
           id: 0,
@@ -304,7 +305,7 @@ function CreateMatch() {
         <div>
           {candidates &&
             candidates.map((member, idx) => {
-              return <S_NameTag key={idx}>{member}</S_NameTag>;
+              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
       </div>

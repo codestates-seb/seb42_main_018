@@ -40,13 +40,14 @@ function MatchDetail() {
   };
 
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`)
-      .then((data) => setMatchData({ ...data.data }))
-      .then(() => {
-        getFetch(`${process.env.REACT_APP_URL}/candidates/${scid}`).then((data) => {
-          setCandidateList([...data.data]);
-        });
-      });
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
+      setMatchData({ ...data.data });
+    });
+    // .then(() => {
+    //   getFetch(`${process.env.REACT_APP_URL}/candidates/${scid}`).then((data) => {
+    //     setCandidateList([...data.data]);
+    //   });
+    // });
   }, []);
 
   return (
@@ -78,9 +79,9 @@ function MatchDetail() {
         </S_Description>
         <S_Description>참석을 선택한 멤버는 자동으로 등록됩니다.</S_Description>
         <div>
-          {candidateList &&
-            candidateList.map((member, idx) => {
-              return <S_NameTag key={idx}>{member.nickname}</S_NameTag>;
+          {matchData?.candidates &&
+            matchData?.candidates.map((member, idx) => {
+              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
       </div>
