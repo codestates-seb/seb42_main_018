@@ -4,6 +4,7 @@ import com.codestates.mainproject.group018.somojeon.category.service.CategorySer
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
@@ -15,6 +16,8 @@ import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
 import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,24 +48,71 @@ public class ClubService {
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
+    private final UserRepository userRepository;
 
 
-    public Club createClub(Club club, List<String> tagName)  {
-        //TODO-DW: 회원검증 추가 해야함 (ROLE이 USER인지 확인)
+//    public Club createClub(Club club, Long userId, List<String> tagName)  {
+//
+//        User findUser = findVerifiedUser(userId);
+//
+//        categoryService.verifyExistsCategoryName(club.getCategoryName());
+//        List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
+//        tagList.forEach(tag -> new ClubTag(club, tag));
+//        if (tagList.size() > 3) {
+//            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+//        }
+//        club.setCreatedAt(LocalDateTime.now());
+//        club.setMemberCount(club.getMemberCount() + 1);
+//        // 리더 권한 추가.
+////        club.setClubRole(ClubRole.LEADER);
+//        club.setClubImageUrl(defaultClubImage);
+//        Club createdClub = clubRepository.save(club);
+//
+//        UserClub userClub = new UserClub();
+//        userClub.setUser(findUser);
+//        userClub.setClub(createdClub);
+//        userClub.setClubRole(ClubRole.LEADER);
+//        userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
+//        userClubRepository.save(userClub);
+//
+//        List<UserClub> userClubList = new ArrayList<>();
+//        userClubList.add(userClub);
+//        createdClub.setUserClubList(userClubList);
+//
+//
+//        return clubRepository.save(createdClub);
+//    }
 
+    // 소모임 생성
+    public Club createClub(Club club, Long userId, List<String> tagName)  {
+        Club justClub = clubRepository.save(club);
+
+        User user = findVerifiedUser(userId);
+        Club findClub = findVerifiedClub(justClub.getClubId());
         categoryService.verifyExistsCategoryName(club.getCategoryName());
         List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
         tagList.forEach(tag -> new ClubTag(club, tag));
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         }
-        club.setCreatedAt(LocalDateTime.now());
-        club.setMemberCount(club.getMemberCount() + 1);
-        // 리더 권한 추가.
-        club.setClubRole(ClubRole.LEADER);
-        club.setClubImageUrl(defaultClubImage);
+        findClub.setCreatedAt(LocalDateTime.now());
+        findClub.setMemberCount(club.getMemberCount() + 1);
 
-        return clubRepository.save(club);
+        findClub.setClubImageUrl(defaultClubImage);
+
+        UserClub userClub = new UserClub();
+        userClub.setUser(user);
+        userClub.setClub(findClub);
+        userClub.setClubRole(ClubRole.LEADER);
+        userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
+        userClubRepository.save(userClub);
+
+        List<UserClub> userClubList = new ArrayList<>();
+        userClubList.add(userClub);
+        findClub.setUserClubList(userClubList);
+
+
+        return clubRepository.save(findClub);
     }
 
 
@@ -87,16 +138,6 @@ public class ClubService {
             clubRepository.save(findClub);
         }
 
-//        if (club.getClubImageUrl() != null) {
-//        String oldImage = club.getClubImageUrl();
-//            if (oldImage != null) {
-//                imageService.deleteClubImage(oldImage);
-//                imagesRepository.delete(oldImage);
-//            }
-//            String newImage = imageService.uploadClubImage(multipartFile);
-//            findClub.setClubImageUrl(newImage.getUrl());
-//        }
-
         return clubRepository.save(findClub);
     }
 
@@ -112,6 +153,11 @@ public class ClubService {
     public Page<Club> findClubs(int page, int size) {
         return clubRepository.findAll(PageRequest.of(page, size, Sort.by("viewCount").descending()));
 
+    }
+
+    // 내가 가입한 소모임 찾기
+    public Page<Club> findMyClubs(int page, int size, Long userId) {
+        return clubRepository.findClubsByUserId(PageRequest.of(page, size, Sort.by("clubId")), userId);
     }
 
     // 키워드로 소모임 찾기 (전체 ROLE 가능)
@@ -151,51 +197,7 @@ public class ClubService {
         return userClubs;
     }
 
-
-
-     //소모임 회원 등급 설정
-
-     //소모임 회원 등급 설정 (리더와 매니저만 가능)
-//    public UserClub changeClubRoles(UserClub userClub, String clubRole) {
-//
-////        identifier.checkClubRole(userClub.getUserClubId());
-//
-//        switch (clubRole) {
-//            case "Manager" : userClub.getClubRole().setRoles("Manager");
-//            default : userClub.getClubRole().setRoles("Member");
-//        }
-//
-//        return userClubRepository.save(userClub);
-//    }
-
-    //    //TODO-DW: UserClub DI - ClubRole
-    // 소모임 리더 위임 (리더만 가능)
-//    public UserClub changeClubLeader(UserClub userClub, String clubRole) {
-//        if (!userClub.getClubRole().getRoles().equals("Leader")) {
-//            throw new BusinessLogicException(ExceptionCode.REQUEST_FORBIDDEN);
-//        }
-//
-//        if (clubRole.equals("Leader")) {
-//            Long userId = userClub.getUser().getUserId();
-//
-//
-//        }
-//        return null;
-//    }
-
-
     //TODO-DW: user 연결해야됨
-
-    // 소모임 멤버 상태 변경 (리더와 매니저만 가능)
-    public UserClub changeClubMemberStatus(Long userId) {
-        return null;
-    }
-    //TODO-DW: user 연결해야됨
-
-    // 소모임 회원 탈퇴 (소모임 리더, 매니저, 멤버 가능)
-    public void memberQuit(Long userId) {
-
-    }
 
     public void verifyExistsClubName(String clubName) {
         Optional<Club> club = clubRepository.findByClubName(clubName);
@@ -222,6 +224,13 @@ public class ClubService {
 
                 }).collect(Collectors.toList());
         return userClubs;
+    }
+
+    public User findVerifiedUser(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+        User user = findUser.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return user;
     }
 
 

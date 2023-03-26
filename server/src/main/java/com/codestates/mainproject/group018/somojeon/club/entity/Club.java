@@ -27,7 +27,7 @@ import java.util.List;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clubId;
 
     @Column(nullable = false)
@@ -50,10 +50,6 @@ public class Club {
     private int viewCount;
 
     private int memberCount;
-
-//    @ElementCollection
-//    @CollectionTable(name="tags", joinColumns = @JoinColumn(name= "TAG_ID"))
-//    private List<String> tags;
 
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false)
@@ -83,7 +79,7 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "club")
     private List<UserClub> userClubList = new ArrayList<>();
 
 //    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
