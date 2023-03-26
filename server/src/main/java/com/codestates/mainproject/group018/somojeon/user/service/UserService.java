@@ -44,8 +44,8 @@ public class UserService {
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
 
-    @Value("${defaultClub.image.address}")
-    private String defaultClubImage;
+    @Value("${defaultProfile.image.address}")
+    private String defaultProfileImage;
     private final ClubService clubService;
     private final ImageService imageService;
     private final OauthUserService oauthUserService;
@@ -67,8 +67,8 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
-
-        user.setProfileImageUrl(defaultClubImage);
+        // DB에 User Role 저장
+        user.setProfileImageUrl(defaultProfileImage);
 
         User savedUser = userRepository.save(user);
 

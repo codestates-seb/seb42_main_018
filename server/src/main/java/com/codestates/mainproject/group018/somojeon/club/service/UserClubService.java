@@ -44,11 +44,16 @@ public class UserClubService {
 //            throw new BusinessLogicException(ExceptionCode.JOIN_EXISTS);
 //        }
 
+        if (userClub.getClubMemberStatus() == ClubMemberStatus.MEMBER_BLACKED) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_JOIN_THIS_CLUB);
+        }
+
         if (userClub.getJoinCount() > 6) {
             userClub.setJoinStatus(JoinStatus.BANISHED);
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_JOIN_THIS_CLUB);
         } else {
             userClub.setJoinStatus(JoinStatus.PENDING);
+            // 가입신청하면 joinCount 증가
             userClub.setJoinCount(userClub.getJoinCount() + 1);
         }
 
@@ -57,10 +62,10 @@ public class UserClubService {
 
 
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
-    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId, Long userId) {
-        existsUserClubByUserIdAndClubId(userId, clubId);
-        return userClubRepository.findAll(
-                PageRequest.of(page, size, Sort.by("userClubId").descending()));
+    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId) {
+        clubService.findVerifiedClub(clubId);
+        return userClubRepository.findAllByClubId(
+                PageRequest.of(page, size, Sort.by("userClubId").descending()), JoinStatus.PENDING, clubId);
     }
 
     // 소모임 가입 요청 취소 (가입 신청한 유저 또는 리더만 가능)
@@ -90,8 +95,14 @@ public class UserClubService {
         if (joinStatus == JoinStatus.CONFIRMED) {
             userClub.setClubRole(ClubRole.MEMBER);
             userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
+            // 승인되면 joinCount 0으로 초기화
+            userClub.setJoinCount(0);
             // 승인되면 멤버카운트 증가
             findClub.setMemberCount(findClub.getMemberCount() + 1);
+        }
+
+        if (joinStatus == JoinStatus.REFUSED) {
+            userClub.setJoinStatus(null);
         }
 
         return userClubRepository.save(userClub);
@@ -109,9 +120,10 @@ public class UserClubService {
         }
         // 탈퇴/ 추방시 멤버카운트 감소
         if (clubMemberStatus == ClubMemberStatus.MEMBER_BLACKED
-                || clubMemberStatus == ClubMemberStatus.MEMBER_BANISHED
                 || clubMemberStatus == ClubMemberStatus.MEMBER_QUIT) {
             findClub.setMemberCount(findClub.getMemberCount() - 1);
+            // 탈퇴 추방시 ClubRole 삭제
+            userClub.setClubRole(null);
         }
 
         userClub.setClubMemberStatus(clubMemberStatus);
@@ -163,7 +175,7 @@ public class UserClubService {
 
         clubService.findVerifiedClub(clubId);
         return  userClubRepository.findByClubMemberStatus(
-                PageRequest.of(page, size, Sort.by("winRate")), clubId, ClubMemberStatus.MEMBER_ACTIVE);
+                PageRequest.of(page, size, Sort.by("winRate")), ClubMemberStatus.MEMBER_ACTIVE, clubId);
 
     }
 
