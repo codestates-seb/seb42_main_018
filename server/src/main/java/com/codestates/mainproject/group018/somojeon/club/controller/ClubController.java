@@ -33,7 +33,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(value = {"https://dev.somojeon.site", "https://dev-somojeon.vercel.app"})
-@RequestMapping("/clubs")
+@RequestMapping
 public class ClubController {
 
     private final static String CLUB_DEFAULT_URL = "/club";
@@ -44,31 +44,48 @@ public class ClubController {
 
 
     // 소모임 생성
-    @PostMapping
+    @PostMapping("/{user-id}/clubs")
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody,
-                                      Images images)  {
+                                      @PathVariable("user-id") @Positive Long userId) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), requestBody.getTagName(), images);
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), userId, requestBody.getTagName());
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
     }
 
-    // 소모임 수정 (소개글, 이미지 등)
-    @PatchMapping(path = "/{club-id}")
-    public ResponseEntity<?> patchClub(@PathVariable("club-id") @Positive Long clubId,
-                                       @RequestBody @Valid ClubDto.Patch requestBody) {
+//    // 소모임 수정 (소개글, 이미지 등)
+//    @PostMapping(path = "/{clubId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
+//                                       @RequestPart ClubDto.Patch requestPart,
+//                                       @RequestPart(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
+//
+//        requestPart.setClubId(clubId);
+//        Club response = clubService.updateClub(mapper.clubPatchDtoToClub(requestPart), requestPart.getTagName(), multipartFile);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
+//    }
 
-        requestBody.setClubId(clubId);
-        Club response = clubService.updateClub(
-                mapper.clubPatchDtoToClub(requestBody), requestBody.getTagName());
+    // 소모임 수정 (소개글, 이미지 등)
+    @PatchMapping(path = "/clubs/{clubId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> patchClub(@PathVariable("clubId") @Positive Long clubId,
+                                       @ModelAttribute Club club,
+                                       @RequestParam String clubName,
+                                       @RequestParam String content,
+                                       @RequestParam String local,
+                                       @RequestParam List<String> tagName,
+                                       @RequestParam boolean isSecret,
+                                       @RequestParam(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
+
+        Club response = clubService.updateClub(clubId, club, clubName, content, local, tagName, isSecret, multipartFile);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
     }
 
     // 퍼블릭 소모임 단건 조회
-    @GetMapping("/{club-id}")
+    @GetMapping("/clubs/{club-id}")
     public ResponseEntity<?> getClub(@PathVariable("club-id") @Positive Long clubId) {
 
         Club findClub = clubService.findClub(clubId);
@@ -78,9 +95,9 @@ public class ClubController {
     }
 
     // 퍼블릭 소모임 전체 조회
-    @GetMapping
+    @GetMapping("/clubs")
     public ResponseEntity<?> getClubs(@RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(defaultValue = "10") int size) {
+                                   @RequestParam(defaultValue = "200") int size) {
 
         Page<Club> clubPage = clubService.findClubs(page - 1, size);
         List<Club> content = clubPage.getContent();
@@ -89,7 +106,7 @@ public class ClubController {
     }
 
     // 키워드로 퍼블릭 소모임 찾기
-    @GetMapping("/search")
+    @GetMapping("/clubs/search")
     public ResponseEntity<?> searchClubs(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size,
                                      @RequestParam String keyword) {
@@ -102,7 +119,7 @@ public class ClubController {
     }
 
     // 카테고리별로 소모임 조회
-    @GetMapping("/categories")
+    @GetMapping("/clubs/categories")
     public ResponseEntity<?> getClubsByCategoryName(@RequestParam("categoryName") String categoryName,
                                                     @RequestParam(defaultValue = "1") int page,
                                                     @RequestParam(defaultValue = "10") int size) {
@@ -115,37 +132,34 @@ public class ClubController {
     }
 
     // 소모임 삭제
-    @DeleteMapping("/{club-id}")
+    @DeleteMapping("/clubs/{club-id}")
     public ResponseEntity deleteClub(@PathVariable("club-id") @Positive Long clubId) {
         clubService.deleteClub(clubId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    // 소모임 안에 멤버 목록 조회
-
-
     // 내 소모임 찾기
-    @GetMapping("/my")
+    @GetMapping("/user")
     public ResponseEntity getMyClub() {
         return null;
     }
 
     // TODO: admin 컨트롤러로 가야함. 소모임 상태 변경
-    @PatchMapping("/{club-id}/club-status")
+    @PatchMapping("/clubs/{club-id}/club-status")
     public ResponseEntity patchClubStatus() {
         return null;
     }
 
 
     // 소모임 리더 위임
-    @PatchMapping("/manage/{user-id}/leader")
+    @PatchMapping("/clubs/manage/{user-id}/leader")
     public ResponseEntity patchClubLeader() {
         return null;
     }
 
 
-    @PostMapping("/player")
+    @PostMapping("/clubs/player")
     public ResponseEntity postPlayers(@Valid @RequestBody ClubDto.PostPlayers requestBody) {
         if(!identifier.checkClubRole(requestBody.getClubId())){
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);

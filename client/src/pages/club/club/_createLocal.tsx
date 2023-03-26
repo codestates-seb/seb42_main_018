@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DIVISIONS_DATA } from './divisions';
-import { CreateCategoryAndLocalProps } from './_createCategory';
-import { S_Label } from '../../../components/UI/S_Text';
+import { CreateCategoryProps } from './_createCategory';
+import { S_Label_mg_top } from './EditClub';
 import { S_Select } from '../../../components/UI/S_Select';
 
 interface DistrictType {
@@ -15,7 +15,11 @@ interface DivisionType {
   districts: DistrictType[];
 }
 
-function CreateLocal({ inputValue, setInputValue }: CreateCategoryAndLocalProps) {
+interface CreateLocalProps extends CreateCategoryProps {
+  prevData?: string;
+}
+
+function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) {
   // division: 지역 1단계 (광역시/도)
   // district: 지역 2단계 (시/군/구)
   const [divisionSelectValue, setDivisionSelectValue] = useState('');
@@ -56,27 +60,59 @@ function CreateLocal({ inputValue, setInputValue }: CreateCategoryAndLocalProps)
     }
   };
 
+  // * EditClub 컴포넌트를 위한 기존 local 정보 핸들링
+  const [prevLocal1, prevLocal2] = prevData?.split(' ') || [];
+  const [prevDivisionCode, setPrevDivisionCode] = useState('');
+  const [prevDistrictCode, setPrevDistrictCode] = useState('');
+
+  useEffect(() => {
+    const prevLocal1Code = DIVISIONS_DATA.find((d) => d.name === prevLocal1)?.code.slice(0, 2);
+    if (prevLocal1Code) setPrevDivisionCode(prevLocal1Code);
+
+    const prevLocal2Code = DIVISIONS_DATA.find((d) => d.name === prevLocal1)?.districts.find(
+      (d) => d.name === prevLocal2
+    )?.code;
+    if (prevLocal2Code) setPrevDistrictCode(prevLocal2Code);
+  });
+
+  useEffect(() => {
+    if (prevDivisionCode) setDivisionSelectValue(prevDivisionCode);
+    if (prevDistrictCode) setDistrictSelectValue(prevDistrictCode);
+  }, [prevDivisionCode, prevDistrictCode]);
+
   return (
     <div>
       <label htmlFor='local'>
-        <S_Label>지역 *</S_Label>
+        <S_Label_mg_top>지역 *</S_Label_mg_top>
       </label>
       <S_Select id='local' name='division' onChange={handleSelectChange}>
         <option>선택</option>
-        {divisionList.map((d) => (
-          <option key={d.code} value={d.code}>
-            {d.name}
-          </option>
-        ))}
+        {divisionList.map((d) =>
+          d.code === prevDivisionCode ? (
+            <option key={d.code} value={d.code} selected>
+              {d.name}
+            </option>
+          ) : (
+            <option key={d.code} value={d.code}>
+              {d.name}
+            </option>
+          )
+        )}
       </S_Select>
       <S_Select id='local' name='district' onChange={handleSelectChange}>
         <option>선택</option>
         {districtList &&
-          districtList.map((d) => (
-            <option key={d.code} value={d.code}>
-              {d.name}
-            </option>
-          ))}
+          districtList.map((d) =>
+            d.code === prevDistrictCode ? (
+              <option key={d.code} value={d.code} selected>
+                {d.name}
+              </option>
+            ) : (
+              <option key={d.code} value={d.code}>
+                {d.name}
+              </option>
+            )
+          )}
       </S_Select>
     </div>
   );

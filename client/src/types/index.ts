@@ -2,7 +2,8 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  profileImage?: string;
+  // TODO: optional ? 삭제해야 함
+  clubImage?: string;
   content: string;
   local: string;
   categoryName: string;
@@ -13,6 +14,7 @@ export interface ClubData {
     tagName: string;
   }[];
   modifiedAt?: string;
+  // TODO: secret의 optional ? 삭제 필요
   secret?: boolean;
 }
 export interface ClubPage {
