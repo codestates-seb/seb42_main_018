@@ -51,7 +51,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             throw new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND);
         }
         Map<String, String> param = new HashMap<>();
-        String path = "";
+        String path = "register";
         if(oauthUserService.IsUser(registration, registrationId)){
             log.info("Request kakao user is already somojeon user!");
             param.put("id", String.valueOf(identifier.getUserId(registration, registrationId)));
