@@ -1,9 +1,16 @@
 import axios from 'axios';
 import { JwtTokensType } from '../store/store';
 
-export const getFetch = async (url: string) => {
+export const getFetch = async (url: string, tokens?: JwtTokensType) => {
   try {
-    const res = await axios.get(url);
+    const res = await axios.get(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        withCredentials: true,
+        Authorization: tokens && tokens.accessToken,
+        Refresh: tokens && tokens.refreshToken
+      }
+    });
     return res.data;
   } catch (err) {
     console.error(err);
