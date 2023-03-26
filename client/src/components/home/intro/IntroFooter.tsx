@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_Label, S_Description, S_SmallDescription } from '../UI/S_Text';
+import { S_Label, S_Description, S_SmallDescription } from '../../UI/S_Text';
 import TeamMember from './TeamMember';
 import { teamMembers } from './TeamMemberData';
 

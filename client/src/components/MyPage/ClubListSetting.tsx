@@ -76,7 +76,7 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
 
   return (
     <S_ClubBox>
-      <S_ImgBox img={club?.clubImageUrl} />
+      <S_ImgBox img={club?.clubImage} />
       <S_ContentsBox>
         <Link to={`/club/${club?.clubId}`}>
           <S_TitleBox>

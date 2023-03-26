@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ClubList from './ClubList';
-import { S_Title } from '../UI/S_Text';
-import { ClubData, ClubPage } from './ClubListData';
-import { getFetch } from '../../util/api';
-import S_Page from '../UI/S_Page';
+import { S_Title } from '../../UI/S_Text';
+import { ClubData, ClubPage } from '../../../types';
+import { getFetch } from '../../../util/api';
 
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
@@ -76,7 +75,7 @@ function MainContents() {
           key={el.clubId}
           clubId={el.clubId}
           clubName={el.clubName}
-          clubImageUrl={el.profileImage}
+          clubImage={el.clubImage}
           content={el.content}
           local={el.local}
           categoryName={el.categoryName}

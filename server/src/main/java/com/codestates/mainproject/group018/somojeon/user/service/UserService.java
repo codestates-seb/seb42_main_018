@@ -25,9 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,17 +38,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Value("${defaultProfile.image.address")
-    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
 
+    @Value("${defaultClub.image.address}")
+    private String defaultClubImage;
     private final ClubService clubService;
-    private final OauthUserService oauthUserService;
     private final ImageService imageService;
-    private final ImagesRepository imagesRepository;
+    private final OauthUserService oauthUserService;
 
 
     public User createUser(User user, String token, Images images) {
@@ -63,27 +64,32 @@ public class UserService {
         // DB에 User Role 저장
         List<String> roles = authorityUtils.createRoles(user.getEmail());
         user.setRoles(roles);
-
-        // 기본이미지 저장.
-//        user.setImages(images);
-//        images.setUrl(defaultProfileImage);
-//        imagesRepository.save(images);
+        user.setProfileImageUrl(defaultClubImage);
 
         User savedUser = userRepository.save(user);
 
         return savedUser;
     }
 
-
-
-
+    // 이전 코드는 주석처리 해놓음.
+//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+//    public User updateUser(User user)  {
+//        User findUser = findVerifiedUser(user.getUserId());
+//
+//        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
+//        optionalNickName.ifPresent(findUser::setNickName);
+//
+//        return userRepository.save(findUser);
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user)  {
-        User findUser = findVerifiedUser(user.getUserId());
+    public User updateUser(Long userId, User user, String nickName, MultipartFile multipartFile) throws IOException {
+        User findUser = findVerifiedUser(userId);
 
-        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-        optionalNickName.ifPresent(findUser::setNickName);
+        if (user.getNickName() != null ||multipartFile != null) {
+            findUser.setNickName(nickName);
+            findUser.setProfileImageUrl(imageService.uploadProfileImage(multipartFile));
+        }
 
         return userRepository.save(findUser);
     }
@@ -125,14 +131,6 @@ public class UserService {
 
     }
 
-    // UserClub으로 옮김
-
-//    public Page<UserClub> findUsers(int page, int size, long clubId) {
-//
-//        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
-//
-//        return userClubPage;
-//    }
 
     public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);

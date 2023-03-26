@@ -1,10 +1,8 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_TagSmall } from '../UI/S_Tag';
-import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
-import { ClubData } from '../../types';
-import getGlobalState from '../../util/authorization/getGlobalState';
-import leaderBadgeIcon from '../../assets/icon_leader-badge.svg';
+import { S_TagSmall } from '../../UI/S_Tag';
+import { S_Description, S_Label, S_SmallDescription } from '../../UI/S_Text';
+import { ClubData } from '../../../types';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -49,7 +47,7 @@ const S_Hidden = styled.div`
 function ClubList({
   clubId,
   clubName,
-  clubImageUrl,
+  clubImage,
   content,
   local,
   categoryName,
@@ -58,15 +56,11 @@ function ClubList({
 }: ClubData) {
   return (
     <S_ClubBox>
-      <S_ImgBox img={clubImageUrl} />
+      <S_ImgBox img={clubImage} />
       <Link to={`/club/${clubId}`}>
         <S_ContentsBox>
           <S_TitleBox>
-            <S_Label>
-              {clubName}
-              {/* <img src={leaderBadgeIcon} alt='소모임장 아이콘' /> */}
-              {/* 왕관 표시 조건부 렌더링 */}
-            </S_Label>
+            <S_Label>{clubName}</S_Label>
           </S_TitleBox>
           <S_SmallDescription>
             {categoryName} ・ {local} ・ 인원 {memberCount}명

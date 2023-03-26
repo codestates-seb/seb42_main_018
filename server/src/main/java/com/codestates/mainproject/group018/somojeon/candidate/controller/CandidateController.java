@@ -60,10 +60,11 @@ public class CandidateController {
                 new SingleResponseDto<>(candidateMapper.candidateToCandidateResponseDto(candidate)), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getCandidates(@RequestParam(value = "page", defaultValue = "1") int page,
+    @GetMapping("/schedules/{schedule-id}")
+    public ResponseEntity getCandidates(@PathVariable("schedule-id") @Positive long scheduleId,
+                                        @RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "size", defaultValue = "10") int size) {
-        Page<Candidate> pageCandidates = candidateService.findCandidates(page - 1, size);
+        Page<Candidate> pageCandidates = candidateService.findCandidates(scheduleId, page - 1, size);
         List<Candidate> candidates = pageCandidates.getContent();
 
         return new ResponseEntity<>(

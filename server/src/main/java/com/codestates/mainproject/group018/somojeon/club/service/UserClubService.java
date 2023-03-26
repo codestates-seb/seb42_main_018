@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,8 @@ public class UserClubService {
 
 
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
-    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId) {
-        clubService.findVerifiedClub(clubId);
+    public Page<UserClub> findRequestJoinUsers(int page, int size, Long clubId, Long userId) {
+        existsUserClubByUserIdAndClubId(userId, clubId);
         return userClubRepository.findAll(
                 PageRequest.of(page, size, Sort.by("userClubId").descending()));
     }
@@ -77,7 +78,7 @@ public class UserClubService {
 
     // 소모임 가입 승인/거절 (리더만 가능)
     public UserClub joinDecision(Long userId, Long clubId, JoinStatus joinStatus) {
-        clubService.findVerifiedClub(clubId);
+        Club findClub = clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
         if (userClub.getJoinStatus() != JoinStatus.PENDING) {
@@ -89,6 +90,8 @@ public class UserClubService {
         if (joinStatus == JoinStatus.CONFIRMED) {
             userClub.setClubRole(ClubRole.MEMBER);
             userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
+            // 승인되면 멤버카운트 증가
+            findClub.setMemberCount(findClub.getMemberCount() + 1);
         }
 
         return userClubRepository.save(userClub);
@@ -97,12 +100,18 @@ public class UserClubService {
 
     // 소모임 회원 탈퇴/추방 (소모임 회원, 리더, 매니저 가능)
     public UserClub rejectUserClub(Long userId, Long clubId, ClubMemberStatus clubMemberStatus) {
-        clubService.findVerifiedClub(clubId);
+        Club findClub = clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
 
         if (userClub.getClubMemberStatus() != ClubMemberStatus.MEMBER_ACTIVE) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        // 탈퇴/ 추방시 멤버카운트 감소
+        if (clubMemberStatus == ClubMemberStatus.MEMBER_BLACKED
+                || clubMemberStatus == ClubMemberStatus.MEMBER_BANISHED
+                || clubMemberStatus == ClubMemberStatus.MEMBER_QUIT) {
+            findClub.setMemberCount(findClub.getMemberCount() - 1);
         }
 
         userClub.setClubMemberStatus(clubMemberStatus);
@@ -111,7 +120,7 @@ public class UserClubService {
 
     // 소모임 회원 등급 설정
     public UserClub updateClubRole(Long userId, Long clubId, ClubRole clubRole) {
-        clubService.findVerifiedClub(clubId);
+//        clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
 
@@ -123,7 +132,24 @@ public class UserClubService {
         return userClubRepository.save(userClub);
     }
 
-    // TODO-DW: 소모임장 위임
+    // 소모임장 위임
+    public void changeClubLeader(Long leaderId, Long memberId, Long clubId, ClubRole leaderChangeClubRole, ClubRole memberChangeClubRole) {
+        User leader = userService.findVerifiedUser(leaderId);
+        User member = userService.findVerifiedUser(memberId);
+
+        UserClub userClubLeader = findUserClubByUserIdAndClubId(leader.getUserId(), clubId);
+        UserClub userClubMember = findUserClubByUserIdAndClubId(member.getUserId(), clubId);
+
+        if (leaderChangeClubRole == ClubRole.MEMBER && memberChangeClubRole == ClubRole.LEADER) {
+            userClubLeader.setClubRole(ClubRole.MEMBER);
+            userClubMember.setClubRole(ClubRole.LEADER);
+        } else if (leaderChangeClubRole == ClubRole.MANAGER && memberChangeClubRole == ClubRole.LEADER) {
+            userClubLeader.setClubRole(ClubRole.MANAGER);
+            userClubMember.setClubRole(ClubRole.LEADER);
+        }
+
+        userClubRepository.saveAll(List.of(userClubLeader, userClubMember));
+    }
 
     // 소모임 안에 활동중인 멤버 목록 조회
 //    public Page<UserClub> findAllMembersByClubMemberStatus(int page, int size, Long clubId) {

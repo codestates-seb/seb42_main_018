@@ -29,7 +29,7 @@ const S_EditBox = styled.div`
   }
 `;
 
-const S_ImgBox = styled.div`
+export const S_ImgBox = styled.div`
   // 유저 프로필이미지 설정
   display: flex;
   align-items: center;

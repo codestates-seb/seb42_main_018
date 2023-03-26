@@ -18,6 +18,8 @@ public class ClubDto {
     @AllArgsConstructor
     public static class Post {
 
+        private Long userId;
+
         private String clubName;
 
         private String content;
@@ -64,7 +66,6 @@ public class ClubDto {
         private List<String> tagName;
         private boolean isSecret;
 
-        private String clubImageUrl;
     }
 
 
@@ -82,14 +83,11 @@ public class ClubDto {
         private int viewCount;
         private int memberCount;
         private List<TagDto.Response> tagResponseDtos;
-        private String clubImageUrl;
+        private String clubImage;
         private boolean isSecret;
         private LocalDateTime modifiedAt;
 
     }
-
-
-    //TODO-DW: myResponse 는 아마도 따로해야 할듯?
 
 
 }

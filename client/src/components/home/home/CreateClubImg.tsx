@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_Label, S_SmallDescription, S_Text, S_Title } from '../UI/S_Text';
+import { S_Label, S_SmallDescription, S_Text, S_Title } from '../../UI/S_Text';
 
 const S_ImgBox = styled.div`
   display: flex;

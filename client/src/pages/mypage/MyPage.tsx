@@ -7,7 +7,7 @@ import { setIsLogin, UserClubResponsesType } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import { S_Title } from '../../components/UI/S_Text';
-import ClubList from '../../components/home/ClubList';
+import ClubList from '../../components/home/home/ClubList';
 
 function MyPage() {
   // TODO : 로그아웃 구성

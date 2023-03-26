@@ -4,15 +4,13 @@ import S_Container from '../../../components/UI/S_Container';
 import MemberRecord from './MemberRecord';
 import SubTabMenu from '../../../components/SubTabMenu';
 import MemberList from './MemberList';
-import { MemberProps, MemberData } from '../../../types';
+import { MemberData } from '../../../types';
 import { useEffect, useState } from 'react';
 import { getFetch } from '../../../util/api';
 
 function ClubMember() {
   const { id } = useParams();
 
-  // `${process.env.REACT_APP_URL}/user/clubs/${id}`
-  // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
   const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
@@ -36,7 +34,11 @@ function ClubMember() {
       title: '전체 멤버',
       contents: <MemberList members={members} />
     },
-    { id: 2, title: '멤버 기록', contents: <MemberRecord members={members} /> }
+    {
+      id: 2,
+      title: '멤버 기록',
+      contents: <MemberRecord members={members} />
+    }
   ];
 
   return (

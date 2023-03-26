@@ -45,8 +45,7 @@ public class ScheduleController {
         Schedule schedule = scheduleMapper.schedulePostDtoToSchedule(requestBody);
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
-                requestBody.getTeamList(), requestBody.getCandidates());
-
+                requestBody.getTeamList(), requestBody.getCandidates(), requestBody.getUsers());
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);
@@ -71,9 +70,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")
-    public ResponseEntity postAttend(@PathVariable("club-id") @Positive long clubId,
-                                     @PathVariable("schedule-id") @Positive long scheduleId,
-                                     @PathVariable("user-id") @Positive long userId,
+    public ResponseEntity postAttend(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
                                      @Valid @RequestBody ScheduleDto.attendPost requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
@@ -88,9 +87,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/absent")
-    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive long clubId,
-                                     @PathVariable("schedule-id") @Positive long scheduleId,
-                                     @PathVariable("user-id") @Positive long userId,
+    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
                                      @Valid @RequestBody ScheduleDto.absentPost requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
@@ -108,7 +107,7 @@ public class ScheduleController {
     @GetMapping("/clubs/{club-id}/schedules")
     public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
                                              @RequestParam(value = "page", defaultValue = "1") int page,
-                                             @RequestParam(value = "size", defaultValue = "10") int size) {
+                                             @RequestParam(value = "size", defaultValue = "50") int size) {
         Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
         List<Schedule> schedules = schedulePage.getContent();
 

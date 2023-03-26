@@ -6,6 +6,8 @@ import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
+import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class CandidateService {
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
+    private final ScheduleService scheduleService;
 
     public Candidate createCandidate(Candidate candidate) {
 
@@ -46,8 +49,9 @@ public class CandidateService {
         return findVerifiedCandidate(candidateId);
     }
 
-    public Page<Candidate> findCandidates(int page, int size) {
-        return candidateRepository.findAllByAttendance(
+    public Page<Candidate> findCandidates(long scheduleId, int page, int size) {
+        scheduleService.findVerifiedSchedule(scheduleId);
+        return candidateRepository.findBySchedule(scheduleId,
                 PageRequest.of(page, size, Sort.by("candidateId")), Candidate.Attendance.ATTEND);
     }
 

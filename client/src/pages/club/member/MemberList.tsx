@@ -8,17 +8,19 @@ const S_Box = styled.div`
 `;
 
 function MemberList({ members }: ClubMemberProps) {
+  const list = members.map((el) => (
+    <ClubMemberItem
+      key={el.userId}
+      profileImage={el.profileImage}
+      nickName={el.nickName}
+      winRate={el.winRate}
+    />
+  ));
+
   return (
     <S_Box>
       {/* 받아온 데이터 맵핑 */}
-      {members.map((el) => (
-        <ClubMemberItem
-          key={el.nickName}
-          profileImage={el.profileImage}
-          nickName={el.nickName}
-          winRate={el.winRate}
-        />
-      ))}
+      {members.length === 0 ? '아직 멤버가 없어요!' : list}
     </S_Box>
   );
 }

@@ -2,16 +2,13 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.mapper.UserClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
@@ -24,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Validated
@@ -58,12 +58,13 @@ public class UserClubController {
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
     @GetMapping("/{club-id}/joins")
     public ResponseEntity<?> getRequestJoinUsers(@PathVariable("club-id") @Positive Long clubId,
+                                                 @Positive Long userId,
                                                  @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "100") int size) {
 //        if (!identifier.checkClubRole(clubId, "LEADER")) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        }
-        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, clubId);
+        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, userId, clubId);
         List<UserClub> content = userClubPage.getContent();
 
         return new ResponseEntity<>(
@@ -138,6 +139,25 @@ public class UserClubController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    // 소모임장 위임
+    @PatchMapping("/{club-id}/delegate")
+    public ResponseEntity<LinkedHashMap<Object, Object>> patchDelegateLeader(@PathVariable("club-id") @Positive Long clubId,
+                                                                             @RequestParam Long leaderId,
+                                                                             @RequestParam ClubRole leaderChangeClubRole,
+                                                                             @RequestParam Long memberId,
+                                                                             @RequestParam ClubRole memberChangeClubRole) {
+
+        userClubService.changeClubLeader(leaderId, memberId, clubId, leaderChangeClubRole, memberChangeClubRole);
+        LinkedHashMap<Object, Object> response = new LinkedHashMap<>();
+        response.put("leaderId", leaderId);
+        response.put("leaderChangeClubRole", leaderChangeClubRole);
+        response.put("memberId", memberId);
+        response.put("memberChangeClubRole", memberChangeClubRole);
+
+        return ResponseEntity.ok().body(response);
+
+    }
+
     // 소모임 안에 멤버 목록 조회
 //    @GetMapping("{club-id}/members")
 //    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
@@ -166,8 +186,7 @@ public class UserClubController {
 
 
         List<UserDto.ResponseWithClub> response = userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
+                userMapper::userToUserResponseWithClub).collect(Collectors.toList());
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
                 HttpStatus.OK);
     }

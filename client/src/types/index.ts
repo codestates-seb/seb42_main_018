@@ -2,9 +2,7 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  // TODO: default image 설정이 잘 된다면 추후 null 값 들어올 일이 없음
-  // TODO: optional ? 도 삭제해야 함
-  clubImageUrl?: string;
+  clubImage?: string;
   content: string;
   local: string;
   categoryName: string;
@@ -69,13 +67,17 @@ export interface MemberData {
   // drawCount?: number;
   // winRate?: number;
   // 수정한 데이터타입
+
+  userId?: number;
   nickName: string;
-  profileImage: string;
-  winRate: number;
+  clubMemberStatus?: string;
+  clubRole?: string;
+  profileImage: string | null;
   playCount?: number;
   winCount?: number;
-  drawCount?: number;
   loseCount?: number;
+  drawCount?: number;
+  winRate: number;
 }
 
 export interface MemberProps {

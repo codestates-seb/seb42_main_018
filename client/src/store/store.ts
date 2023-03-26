@@ -7,11 +7,16 @@ export interface RootState {
 }
 
 export interface UserClubResponsesType {
-  userClubId: number;
+  clubId: number;
+  // * clubRole: null - 가입신청을 하였으나 아직 처리(승인 또는 거절)가 되지 않은 pending 상태일 때의 값
   clubRole: null | 'MEMBER' | 'MANAGER' | 'LEADER';
-  player: boolean;
+  // * ACTIVE: 활동중 | BLACKED: 추방 | QUIT: 탈퇴
+  clubMemberStatus: null | 'MEMBER ACTIVE' | 'MEMBER BLACKED' | 'MEMBER QUIT';
+  // TODO: joinStatus 항목 안 보이는데 BE에 확인 필요
+  joinStatus?: null | 'PENDING' | 'CONFIRMED' | 'REFUSED' | 'BANISHED';
   level: null | string;
   playCount: number;
+  player: boolean;
   winCount: number;
   winRate: number;
   userInfo: {
@@ -27,7 +32,7 @@ export interface UserInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;
-  userStatus: string;
+  userStatus: '' | 'USER_NEW' | 'USER_ACTIVE' | 'USER_SLEEP' | 'USER_QUIT';
   profileImage: string;
   userClubResponses?: UserClubResponsesType[];
 }

@@ -11,21 +11,22 @@ const S_Box = styled.div`
 `;
 
 function MemberRecord({ members }: ClubMemberProps) {
+  const list = members.map((el) => (
+    <MemberRecordList
+      key={el.nickName}
+      profileImage={el.profileImage}
+      nickName={el.nickName}
+      winRate={el.winRate}
+      playCount={el.playCount}
+      winCount={el.winCount}
+      drawCount={el.drawCount}
+      loseCount={el.loseCount}
+    />
+  ));
   return (
     <S_Box>
       <MemberRecordTitle />
-      {members.map((el) => (
-        <MemberRecordList
-          key={el.nickName}
-          profileImage={el.profileImage}
-          nickName={el.nickName}
-          winRate={el.winRate}
-          playCount={el.playCount}
-          winCount={el.winCount}
-          drawCount={el.drawCount}
-          loseCount={el.loseCount}
-        />
-      ))}
+      {members.length === 0 ? '아직 멤버 기록이 없어요!' : list}
     </S_Box>
   );
 }

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { S_SmallDescription, S_Text } from '../UI/S_Text';
+import { S_SmallDescription, S_Text } from '../../UI/S_Text';
 import { Members } from './TeamMemberData';
 
 const S_MemberBox = styled.div`
