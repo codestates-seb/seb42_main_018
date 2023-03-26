@@ -90,7 +90,4 @@ public class ClubDto {
     }
 
 
-    //TODO-DW: myResponse 는 아마도 따로해야 할듯?
-
-
 }
