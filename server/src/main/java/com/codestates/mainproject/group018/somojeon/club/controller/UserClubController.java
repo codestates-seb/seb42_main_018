@@ -60,13 +60,12 @@ public class UserClubController {
     // 소모임 가입 요청한 전체 유저 조회 (리더만 가능)
     @GetMapping("/{club-id}/joins")
     public ResponseEntity<?> getRequestJoinUsers(@PathVariable("club-id") @Positive Long clubId,
-                                                 @Positive Long userId,
                                                  @RequestParam(defaultValue = "1") int page,
                                                  @RequestParam(defaultValue = "100") int size) {
-//        if (!identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
-        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, userId, clubId);
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+        Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, clubId);
         List<UserClub> content = userClubPage.getContent();
 
         return new ResponseEntity<>(
@@ -79,9 +78,10 @@ public class UserClubController {
     public ResponseEntity<?> deleteJoin(@PathVariable("club-id") @Positive Long clubId,
                                         @PathVariable("user-id") @Positive Long userId) {
 
-//        if (!identifier.isVerified(userId) && identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.getUserId().equals(userId) && identifier.checkClubRole(clubId, "LEADER")
+                && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         userClubService.cancelJoin(userId, clubId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -93,9 +93,9 @@ public class UserClubController {
                                            @PathVariable("user-id") @Positive Long userId,
                                            @RequestBody UserClubDto.JoinDecisionPatch requestBody) {
 
-//        if (!identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
 
@@ -111,9 +111,9 @@ public class UserClubController {
                                                    @PathVariable("user-id") @Positive Long userId,
                                                    @RequestBody UserClubDto.MemberStatusPatch requestBody) {
 
-//        if (!identifier.getClubIds().equals(userId) || identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.getUserId().equals(userId) && !identifier.checkClubRole(clubId) && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
         UserClub userClub = userClubService.rejectUserClub(userId, clubId, requestBody.getClubMemberStatus());
@@ -129,9 +129,9 @@ public class UserClubController {
                                            @PathVariable("user-id") @Positive Long userId,
                                            @RequestBody UserClubDto.ClubRolePatch requestBody) {
 
-//        if (!identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.checkClubRole(clubId) && identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
@@ -141,13 +141,17 @@ public class UserClubController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    // 소모임장 위임
+    // 소모임장 위임 (리더만 가능)
     @PatchMapping("/{club-id}/delegate")
     public ResponseEntity<LinkedHashMap<Object, Object>> patchDelegateLeader(@PathVariable("club-id") @Positive Long clubId,
                                                                              @RequestParam Long leaderId,
                                                                              @RequestParam ClubRole leaderChangeClubRole,
                                                                              @RequestParam Long memberId,
                                                                              @RequestParam ClubRole memberChangeClubRole) {
+
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         userClubService.changeClubLeader(leaderId, memberId, clubId, leaderChangeClubRole, memberChangeClubRole);
         LinkedHashMap<Object, Object> response = new LinkedHashMap<>();
@@ -159,19 +163,6 @@ public class UserClubController {
         return ResponseEntity.ok().body(response);
 
     }
-
-    // 소모임 안에 멤버 목록 조회
-//    @GetMapping("{club-id}/members")
-//    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
-//                                            @RequestParam(defaultValue = "1") int page,
-//                                            @RequestParam(defaultValue = "10") int size) {
-//        Page<UserClub> clubMembersPage = userClubService.findAllMembersByClubMemberStatus(page - 1, size, clubId);
-//        List<UserClub> content = clubMembersPage.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(
-//                        userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
-//    }
 
 
     // 소모임 안에 멤버들 기록 조회
