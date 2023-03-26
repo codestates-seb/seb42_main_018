@@ -20,7 +20,7 @@ export interface Schedule {
   createdAt: string;
   records: Record[];
   teamList: TeamList[];
-  candidates: string[];
+  candidates: Candidate[];
 }
 
 interface SubTab {

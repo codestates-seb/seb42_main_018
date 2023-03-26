@@ -56,9 +56,12 @@ function ScheduleCard(props: ScheduleCardProps) {
       },
       tokens
     ).then(() => {
-      getFetch(`${process.env.REACT_APP_URL}/candidates/${props.scheduleId}`).then((data) => {
-        setCandidateList([...data.data]);
-      });
+      getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${props.scheduleId}`).then(
+        (data) => {
+          setCandidateList([...data.data]);
+          console.log(candidateList);
+        }
+      );
     });
   };
 
