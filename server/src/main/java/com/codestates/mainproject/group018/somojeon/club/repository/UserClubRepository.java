@@ -28,8 +28,8 @@ public interface UserClubRepository extends JpaRepository<UserClub, Long> {
 
     Page<UserClub> findAll(Pageable pageable);
 
-    @Query("SELECT uc FROM UserClub uc WHERE uc.clubMemberStatus = :clubMemberStatus")
-    Page<UserClub> findByClubMemberStatus(Pageable pageable, ClubMemberStatus clubMemberStatus);
+    @Query("SELECT uc FROM UserClub uc WHERE uc.clubMemberStatus = :clubMemberStatus AND uc.club.clubId = :clubId")
+    Page<UserClub> findByClubMemberStatus(Pageable pageable, Long clubId, ClubMemberStatus clubMemberStatus);
 
     @Query("SELECT uc FROM UserClub uc WHERE uc.user = :user AND uc.club = :club")
     UserClub findByUserAndClub(@Param("user") User user, @Param("club") Club club);
