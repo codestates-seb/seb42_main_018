@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
 //                .allowedOrigins("http://localhost:3000")
 //                .allowedOrigins("http://dev-somojeon.vercel.app")
                 .allowedMethods("GET","DELETE", "POST", "PATCH", "OPTIONS").allowCredentials(true)
-                .exposedHeaders("Authorization", "Refresh", "location", "member-id", "email", "Request", "Access Token Expired", "Refresh Token Expired");
+//                .exposedHeaders("Authorization", "Refresh", "location", "member-id", "email", "Request", "Access Token Expired", "Refresh Token Expired");
+                .exposedHeaders("*");
     }
 }

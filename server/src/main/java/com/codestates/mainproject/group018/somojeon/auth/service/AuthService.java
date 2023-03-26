@@ -29,6 +29,9 @@ public class AuthService {
     public void refresh(HttpServletRequest request, HttpServletResponse response) {
         // RefreshToken 검증
         String refreshToken = request.getHeader("Refresh");
+        if(refreshToken == null) {
+
+        }
         Map<String, Object> claims = null;
         try {
             claims = getClaimsValues(refreshToken);
@@ -44,6 +47,7 @@ public class AuthService {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User user = optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         jwtTokenProvider.provideTokens(user, response);
+        response.addHeader("Refresh Token Expired ", "False");
     }
 
     public Map<String, Object> getClaimsValues(String token) {
