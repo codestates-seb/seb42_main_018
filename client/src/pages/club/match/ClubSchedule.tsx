@@ -48,8 +48,8 @@ function ClubSchedule() {
       id: 1,
       title: '예정 경기',
       contents: (
-        // <ScheduledMatch schedule={clubSchedules.filter((el) => new Date(el.date) >= new Date())} />
-        <ScheduledMatch schedule={clubSchedules} />
+        <ScheduledMatch schedule={clubSchedules.filter((el) => new Date(el.date) >= new Date())} />
+        // <ScheduledMatch schedule={clubSchedules} />
       )
     },
     {

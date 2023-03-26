@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { idText, ScriptKind } from 'typescript';
-import { Schedule } from '../../pages/club/match/ClubSchedule';
 import { Candidate } from '../../pages/club/match/CreateMatch';
 import { getFetch, postFetch } from '../../util/api';
 import getGlobalState from '../../util/authorization/getGlobalState';
