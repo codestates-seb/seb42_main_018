@@ -18,19 +18,18 @@ import InputPassword from '../../components/login/_inputPassword';
 import InputNickname from '../../components/login/_inputNickname';
 
 const S_RegisterWrapper = styled(S_LoginWrapper)`
+  height: 100%;
+
   & .title-wrapper {
+    height: 10vh;
     justify-content: flex-start;
   }
 
   & .form-wrapper {
-    margin-top: 1vh;
-    height: 70vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
   }
   & .email-input-area {
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
 
@@ -39,7 +38,7 @@ const S_RegisterWrapper = styled(S_LoginWrapper)`
     }
   }
   & .register-btn {
-    margin-top: 1vh;
+    margin-top: 2rem;
   }
 `;
 

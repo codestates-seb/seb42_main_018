@@ -18,7 +18,7 @@ export const S_LoginWrapper = styled.div`
   flex-direction: column;
 
   & > .title-wrapper {
-    height: 20vh;
+    height: 16vh;
     display: flex;
     justify-content: center;
     align-items: center;
