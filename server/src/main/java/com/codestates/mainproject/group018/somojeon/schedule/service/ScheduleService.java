@@ -159,7 +159,7 @@ public class ScheduleService {
                     candidate.setUser(teamUserClub.getUser());
                     team.addUserTeam(userTeam);
 
-                    // team과 record 연결 정보 저장
+                    // team과 record 연결 및 정보 저장
                     for (Record record : records) {
                         if (team.getTeamRecords().equals(record)) {
                             TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
@@ -170,30 +170,32 @@ public class ScheduleService {
                             teamRecord.setRecord(record);
                             teamRecordRepository.save(teamRecord);
                         }
+                        record.setSchedule(findSchedule);
+                        recordRepository.save(record);
                     }
                 }
                 teamRepository.save(team);
             }
         }
 
-        // record 정보 저장
-        for (Record record : records) {
-            record.setSchedule(findSchedule);
-            recordRepository.save(record);
-
-            // record와 team 연결 정보 저장
-            for (Team team : teamList) {
-                if (record.getTeamRecords().equals(team)) {
-                    TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
-                    if (teamRecord == null) {
-                        teamRecord = new TeamRecord();
-                    }
-                    teamRecord.setTeam(team);
-                    teamRecord.setRecord(record);
-                    teamRecordRepository.save(teamRecord);
-                }
-            }
-        }
+//        // record 정보 저장
+//        for (Record record : records) {
+//            record.setSchedule(findSchedule);
+//            recordRepository.save(record);
+//
+//            // record와 team 연결 정보 저장
+//            for (Team team : teamList) {
+//                if (record.getTeamRecords().equals(team)) {
+//                    TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
+//                    if (teamRecord == null) {
+//                        teamRecord = new TeamRecord();
+//                    }
+//                    teamRecord.setTeam(team);
+//                    teamRecord.setRecord(record);
+//                    teamRecordRepository.save(teamRecord);
+//                }
+//            }
+//        }
 
         clubRepository.save(club);
 
