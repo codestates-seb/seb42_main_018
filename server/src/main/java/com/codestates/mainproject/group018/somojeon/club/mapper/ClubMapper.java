@@ -15,11 +15,8 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClubMapper {
-
-    //    @Mapping(source = "categoryId", target = "category.categoryId")
     Club clubPostDtoToClub(ClubDto.Post requestBody);
 
-    Club clubPatchDtoToClub(ClubDto.Patch requestBody);
     List<ClubDto.Response> clubToClubResponseDtos(List<Club> clubs);
 
     default List<TagDto.Response> clubTagsToTagResponse(List<ClubTag> clubTagList) {
@@ -49,6 +46,7 @@ public interface ClubMapper {
                 .viewCount(club.getViewCount())
                 .isSecret(club.isSecret())
                 .clubImage(club.getClubImageUrl())
+                .clubStatus(club.getClubStatus())
                 .modifiedAt(club.getModifiedAt())
                 .tagResponseDtos(clubTagsToTagResponse(club.getClubTagList()))
                 .build();
