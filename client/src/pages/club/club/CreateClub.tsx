@@ -105,7 +105,10 @@ function CreateClub() {
       return;
     }
 
-    // TODO : localValue에 공백이나 특수문자 있는지 확인하고 alert
+    if (categoryValue.includes(' ')) {
+      alert('소모임 종류의 입력란에 있는 공백을 제거해 주세요.');
+      return;
+    }
 
     const newClubData: CreateClubDataType = {
       ...inputs,
@@ -117,7 +120,6 @@ function CreateClub() {
 
     // console.log(newClubData);
 
-    // TODO: 서버 post 요청 로직 작성
     const POST_URL = `${process.env.REACT_APP_URL}/clubs`;
     const res = await postFetch(POST_URL, newClubData);
     if (res) navigate(res.headers.location);

@@ -16,8 +16,11 @@ export interface CreateCategoryProps {
 interface CategoryListDataType {
   categoryName: string;
 }
+
 function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
   const [categories, setCategories] = useState<string[]>();
+  const [isFocused, setIsFocused] = useState(false);
+
   useEffect(() => {
     const GET_URL = `${process.env.REACT_APP_URL}/categories`;
     const getCategoryList = async () => {
@@ -63,6 +66,16 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
     }
   };
 
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 150);
+  };
+
   return (
     <div style={{ marginTop: '0.8rem' }}>
       <>
@@ -77,8 +90,11 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
           value={inputValue}
           onKeyUp={handleKeyUp}
           onChange={handleInputChange}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           ref={input}
           width='96%'
+          autoComplete='off'
         />
       </>
       {hasText && (
@@ -86,6 +102,7 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
           options={options}
           handleComboBox={handleDropDownClick}
           currentOption={currentOption}
+          isFocused={isFocused}
         />
       )}
     </div>
