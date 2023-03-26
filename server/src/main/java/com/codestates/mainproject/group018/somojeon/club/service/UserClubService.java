@@ -77,7 +77,7 @@ public class UserClubService {
 
     // 소모임 가입 승인/거절 (리더만 가능)
     public UserClub joinDecision(Long userId, Long clubId, JoinStatus joinStatus) {
-        clubService.findVerifiedClub(clubId);
+        Club findClub = clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
         if (userClub.getJoinStatus() != JoinStatus.PENDING) {
@@ -89,6 +89,8 @@ public class UserClubService {
         if (joinStatus == JoinStatus.CONFIRMED) {
             userClub.setClubRole(ClubRole.MEMBER);
             userClub.setClubMemberStatus(ClubMemberStatus.MEMBER_ACTIVE);
+            // 승인되면 멤버카운트 증가
+            findClub.setMemberCount(findClub.getMemberCount() + 1);
         }
 
         return userClubRepository.save(userClub);
@@ -97,12 +99,18 @@ public class UserClubService {
 
     // 소모임 회원 탈퇴/추방 (소모임 회원, 리더, 매니저 가능)
     public UserClub rejectUserClub(Long userId, Long clubId, ClubMemberStatus clubMemberStatus) {
-        clubService.findVerifiedClub(clubId);
+        Club findClub = clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
 
         if (userClub.getClubMemberStatus() != ClubMemberStatus.MEMBER_ACTIVE) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        // 탈퇴/ 추방시 멤버카운트 감소
+        if (clubMemberStatus == ClubMemberStatus.MEMBER_BLACKED
+                || clubMemberStatus == ClubMemberStatus.MEMBER_BANISHED
+                || clubMemberStatus == ClubMemberStatus.MEMBER_QUIT) {
+            findClub.setMemberCount(findClub.getMemberCount() - 1);
         }
 
         userClub.setClubMemberStatus(clubMemberStatus);
