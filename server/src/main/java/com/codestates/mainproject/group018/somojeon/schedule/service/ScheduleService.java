@@ -44,12 +44,11 @@ public class ScheduleService {
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
-    private final UserTeamRepository userTeamRepository;
     private final ClubService clubService;
     private final UserService userService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates, List<User> users) {
+                                   List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
         schedule.setCandidates(candidates);
@@ -73,11 +72,6 @@ public class ScheduleService {
             for (Team team : teamList) {
                 team.setSchedule(schedule);
                 teamRepository.save(team);
-                for (User user : users) {
-                    UserTeam userTeam = new UserTeam(user, team);
-                    userTeamRepository.save(userTeam);
-                    user.addUserTeam(userTeam);
-                }
             }
 
             // record 정보 저장
@@ -88,10 +82,6 @@ public class ScheduleService {
                     TeamRecord teamRecord = new TeamRecord(record, team);
                     teamRecordRepository.save(teamRecord);
                     record.addTeamRecord(teamRecord);
-                    for (User user : users) {
-                        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
-                        calculateWinRate(userClub, team);
-                    }
                 }
             }
         } catch (Exception e) {
@@ -115,95 +105,54 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates, List<User> users) {
-        clubService.findVerifiedClub(clubId);
+                                   List<Team> teamList, List<Candidate> candidates) {
+        Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
-        Optional.ofNullable(schedule.getDate())
-                .ifPresent(findSchedule::setDate);
-        Optional.ofNullable(schedule.getTime())
-                .ifPresent(findSchedule::setTime);
-        Optional.ofNullable(schedule.getPlaceName())
-                .ifPresent(findSchedule::setPlaceName);
-        Optional.ofNullable(schedule.getLongitude())
-                .ifPresent(findSchedule::setLongitude);
-        Optional.ofNullable(schedule.getLatitude())
-                .ifPresent(findSchedule::setLatitude);
-        Optional.ofNullable(schedule.getCandidates())
-                .ifPresent(candidate -> findSchedule.setCandidates(candidates));
-        Optional.ofNullable(schedule.getTeamList())
-                .ifPresent(team -> findSchedule.setTeamList(teamList));
-        Optional.ofNullable(schedule.getRecords())
-                .ifPresent(record -> findSchedule.setRecords(records));
+        // Schedule 객체의 ID값이 일치하는 경우에만 업데이트
+        if (findSchedule.getScheduleId() == schedule.getScheduleId()) {
+            findSchedule.setDate(schedule.getDate());
+            findSchedule.setTime(schedule.getTime());
+            findSchedule.setPlaceName(schedule.getPlaceName());
+            findSchedule.setLongitude(schedule.getLongitude());
+            findSchedule.setLatitude(schedule.getLatitude());
 
-//        findSchedule.setClub(club);
-//        findSchedule.setCandidates(candidates);
-//        findSchedule.setTeamList(teamList);
-//        findSchedule.setRecords(records);
+            // Candidates, TeamList, Records 리스트를 매개변수로 전달된 리스트로 업데이트
+            findSchedule.setCandidates(candidates);
+            findSchedule.setTeamList(teamList);
+            findSchedule.setRecords(records);
 
-//        try {
-//            // club 정보 저장
-//            club.getScheduleList().add(findSchedule);
-//            clubRepository.save(club);
-//
-//            // candidate 정보 저장
-//            for (Candidate candidate : candidates) {
-//                candidate.setSchedule(findSchedule);
-//                Candidate existingCandidate = candidateRepository.findById(candidate.getCandidateId()).orElse(null);
-//                if (existingCandidate == null) {
-//                    // 새로운 candidate를 추가하는 경우
-//                    candidate.setAttendance(Candidate.Attendance.ATTEND);
-//                } else {
-//                    // 기존 candidate를 업데이트 하는 경우
-//                    candidate.setAttendance(existingCandidate.getAttendance());
-//                }
-//                candidateRepository.save(candidate);
-//            }
-//
-//            // team 정보 저장
-//            for (Team team : teamList) {
-//                team.setSchedule(findSchedule);
-//                teamRepository.save(team);
-//                for (User user : users) {
-//                    UserTeam userTeam = new UserTeam(user, team);
-//                    userTeamRepository.save(userTeam);
-//                    user.addUserTeam(userTeam);
-//                }
-//            }
-//
-//            // record 정보 저장
-//            for (Record record : records) {
-//                record.setSchedule(findSchedule);
-//                recordRepository.save(record);
-//                for (Team team : teamList) {
-//                    TeamRecord teamRecord = new TeamRecord(record, team);
-//                    teamRecordRepository.save(teamRecord);
-//                    record.addTeamRecord(teamRecord);
-//                    for (User user : users) {
-//                        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
-//                        calculateWinRate(userClub, team);
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            if (e instanceof DataAccessException) {
-//                // 데이터 저장 예외 처리
-//                DataAccessException dataAccessException = (DataAccessException) e;
-//                String exceptionMessage = dataAccessException.getMessage();
-//                if (exceptionMessage.contains("club")) {
-//                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("team")) {
-//                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("candidate")) {
-//                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
-//                } else if (exceptionMessage.contains("record")) {
-//                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
-//                }
-//            }
-//            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
-//        }
-        return scheduleRepository.save(findSchedule);
+            // Candidates 정보 저장
+            for (Candidate candidate : candidates) {
+                candidate.setSchedule(findSchedule);
+                candidate.setAttendance(Candidate.Attendance.ATTEND);
+                candidateRepository.save(candidate);
+            }
+
+            // Team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(findSchedule);
+                teamRepository.save(team);
+            }
+
+            // Record 정보 저장
+            for (Record record : records) {
+                record.setSchedule(findSchedule);
+                recordRepository.save(record);
+                for (Team team : teamList) {
+                    TeamRecord teamRecord = new TeamRecord(record, team);
+                    teamRecordRepository.save(teamRecord);
+                    record.addTeamRecord(teamRecord);
+                }
+            }
+
+            clubRepository.save(club);
+            return findSchedule;
+        } else {
+            throw new BusinessLogicException(ExceptionCode.SCHEDULE_NOT_FOUND);
+        }
     }
+
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
