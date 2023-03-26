@@ -58,8 +58,6 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         else{
             if((boolean)account.get("has_email")) email = (String) account.get("email");
             param.put("email", email);
-
-
         }
         redirect(request, response, registration, String.valueOf(registrationId), param);
     }
@@ -68,7 +66,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                          ,String registration, String registrationId,  Map<String, String> param) throws IOException {
         String accessToken = delegateAccessToken(registration, registrationId);
         String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = (String) request.getAttribute("returnurl");
+        String path = (String) request.getAttribute("oauth2/receive");
         log.info("path =", path);
         String uri =  createURI(accessToken, refreshToken, path, param).toString();
 
