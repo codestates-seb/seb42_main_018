@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../store/store';
 import { JwtTokensType, setTokens } from '../store/store';
 
 const refreshTokens = async (res: AxiosResponse, tokens: JwtTokensType) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // * refreshToken 만료 (maxAge: 420 min)
   if (res.headers['expired'] === 'True') {
