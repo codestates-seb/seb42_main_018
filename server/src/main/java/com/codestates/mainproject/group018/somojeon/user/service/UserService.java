@@ -87,7 +87,7 @@ public class UserService {
 //    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(Long userId, User user, String nickName, MultipartFile multipartFile) throws IOException {
+    public User updateUser(Long userId, String nickName, MultipartFile multipartFile) throws IOException {
         User findUser = findVerifiedUser(userId);
 
         if (multipartFile.isEmpty()) {

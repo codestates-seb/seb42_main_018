@@ -86,7 +86,7 @@ public class ClubService {
 
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Long clubId, Club club, String clubName, String content, String local, List<String> tagName,boolean isSecret, MultipartFile multipartFile) throws IOException {
+    public Club updateClub(Long clubId, String clubName, String content, String local, List<String> tagName, boolean isSecret, MultipartFile multipartFile) throws IOException {
 
         Club findClub = findVerifiedClub(clubId);
 
@@ -101,15 +101,13 @@ public class ClubService {
             findClub.setLocal(local);
             findClub.setSecret(isSecret);
             findClub.setClubImageUrl(imageService.uploadClubImage(multipartFile));
+            List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
+            tagList.forEach(tag -> new ClubTag(findClub, tag));
+            if (tagList.size() > 3) {
+                throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+            }
         }
 
-        List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
-        tagList.forEach(tag -> new ClubTag(club, tag));
-        if (tagList.size() > 3) {
-            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
-        } else {
-            clubRepository.save(findClub);
-        }
 
         return clubRepository.save(findClub);
     }
