@@ -9,7 +9,6 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -132,7 +131,7 @@ public class ClubController {
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
-    // 소모임 삭제 (리더만 가능)
+    // 소모임 해체 (리더만 가능)
     @DeleteMapping("/clubs/{club-id}")
     public ResponseEntity deleteClub(@PathVariable("club-id") @Positive Long clubId) {
 
@@ -152,9 +151,9 @@ public class ClubController {
     public ResponseEntity patchClubStatus(@PathVariable("club-id") Long clubId,
                                           @RequestBody ClubDto.StatusPatch requestBody) {
 
-//        if (!identifier.isAdmin()) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         requestBody.setClubId(clubId);
         Club club = clubService.changeClubStatus(clubId, requestBody.getClubStatus());
         ClubDto.Response response = mapper.clubToClubResponse(club);

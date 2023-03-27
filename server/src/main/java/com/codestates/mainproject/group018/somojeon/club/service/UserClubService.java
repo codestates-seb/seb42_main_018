@@ -11,7 +11,6 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,8 +50,7 @@ public class UserClubService {
         if (userClub.getJoinCount() > 6) {
             userClub.setJoinStatus(JoinStatus.BANISHED);
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_JOIN_THIS_CLUB);
-        }
-        if (userClub.getJoinStatus() == null) {
+        } else {
             userClub.setJoinStatus(JoinStatus.PENDING);
             // 가입신청하면 joinCount 증가
             userClub.setJoinCount(userClub.getJoinCount() + 1);
@@ -100,10 +98,6 @@ public class UserClubService {
             userClub.setJoinCount(0);
             // 승인되면 멤버카운트 증가
             findClub.setMemberCount(findClub.getMemberCount() + 1);
-        }
-
-        if (joinStatus == JoinStatus.REFUSED) {
-            userClub.setJoinStatus(null);
         }
 
         return userClubRepository.save(userClub);

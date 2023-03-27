@@ -146,7 +146,7 @@ public class ClubService {
         return clubRepository.save(club);
     }
 
-
+    // 소모임 해체 (남은 사람이 리더 1명일때만 가능)
     public void deleteClub(Long clubId) {
         Club findClub = findVerifiedClub(clubId);
         if (findClub.getMemberCount() > 1) {
