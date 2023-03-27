@@ -37,8 +37,6 @@ export const getFetch = async (url: string, tokens?: JwtTokensType) => {
       }
     });
 
-    if (tokens) refreshTokens(res, tokens);
-
     if (res.status === 200) return res.data;
   } catch (err: unknown) {
     // console.error(err);
@@ -58,8 +56,6 @@ export const postFetch = async <T>(url: string, newData: T, tokens?: JwtTokensTy
         Refresh: tokens && tokens.refreshToken
       }
     });
-
-    if (tokens) refreshTokens(res, tokens);
 
     if (res.status === 200 || res.status === 201) return res;
   } catch (err) {
@@ -83,8 +79,6 @@ export const patchFetch = async <T>(
       }
     });
 
-    if (tokens) refreshTokens(res, tokens);
-
     if (res.status === 200) return res;
   } catch (err) {
     console.error(err);
@@ -100,8 +94,6 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
         Refresh: tokens?.refreshToken
       }
     });
-
-    if (tokens) refreshTokens(res, tokens);
 
     if (res.status === 204) return res;
   } catch (err) {
