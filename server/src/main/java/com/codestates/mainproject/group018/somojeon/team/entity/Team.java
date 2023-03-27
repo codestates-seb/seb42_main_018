@@ -25,7 +25,6 @@ public class Team {
     @Column(nullable = false)
     private Integer score;
 
-    @Column(nullable = false)
     private String winLoseDraw;
 
     @ManyToOne(fetch = FetchType.LAZY)
