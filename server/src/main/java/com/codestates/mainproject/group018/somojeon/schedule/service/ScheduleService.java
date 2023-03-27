@@ -170,6 +170,8 @@ public class ScheduleService {
                             teamRecord.setRecord(record);
                             teamRecordRepository.save(teamRecord);
                         }
+                        team.updateScoreAndResult(record);
+                        calculateWinRate(teamUserClub, team);
                         record.setSchedule(findSchedule);
                         recordRepository.save(record);
                     }
