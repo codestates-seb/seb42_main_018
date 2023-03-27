@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -137,9 +138,16 @@ public class ClubService {
         return clubRepository.findByCategoryName(categoryName, PageRequest.of(page, size, Sort.by("clubId")));
     }
 
+    // 소모임 이용정지 / 해제 (관리자만 가능)
+    public Club changeClubStatus(Long clubId, ClubStatus clubStatus) {
+        Club club = findVerifiedClub(clubId);
 
+        club.setClubStatus(clubStatus);
+        return clubRepository.save(club);
+    }
+
+    // 소모임 해체 (남은 사람이 리더 1명일때만 가능)
     public void deleteClub(Long clubId) {
-        //TODO-DW: 리더 인지 검증
         Club findClub = findVerifiedClub(clubId);
         if (findClub.getMemberCount() > 1) {
             throw new BusinessLogicException(ExceptionCode.CLUB_CAN_NOT_DELETE);
@@ -149,7 +157,6 @@ public class ClubService {
     }
 
     public ClubRole getUserClub(Long userId, Long clubId) {
-        //TODO-DW: 검토 부탁드려요 by 제훈
         Optional<UserClub> optionalUserClub =  userClubRepository.findByUserIdAndClubId(userId, clubId);
         UserClub userClub =  optionalUserClub.orElseThrow(()-> new BusinessLogicException(ExceptionCode.USER_CLUB_NOT_FOUND));
 
@@ -157,13 +164,11 @@ public class ClubService {
     }
 
     public List<UserClub> getUserClubs(Long userId) {
-        //TODO-DW: 검토 부탁드려요 by 제훈
         List<UserClub> userClubs =  userClubRepository.findAllByUserId(userId);
 
         return userClubs;
     }
 
-    //TODO-DW: user 연결해야됨
 
     public void verifyExistsClubName(String clubName) {
         Optional<Club> club = clubRepository.findByClubName(clubName);

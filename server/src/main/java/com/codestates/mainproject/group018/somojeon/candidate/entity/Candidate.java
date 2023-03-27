@@ -31,9 +31,9 @@ public class Candidate {
     private Schedule schedule;
 
     public enum Attendance {
-        ATTEND("참석"),
-        ABSENT("불참"),
-        HOLD("보류");
+        ATTEND("ATTEND"),
+        ABSENT("ABSENT"),
+        HOLD("HOLD");
 
         @Getter
         String status;

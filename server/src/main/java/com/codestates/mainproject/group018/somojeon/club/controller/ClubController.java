@@ -9,9 +9,6 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +37,6 @@ public class ClubController {
     private final ClubService clubService;
     private final ClubMapper mapper;
     private final Identifier identifier;
-    private final ScheduleMapper scheduleMapper;
 
 
     // 소모임 생성 (모두 가능)
@@ -135,7 +131,7 @@ public class ClubController {
                         mapper.clubToClubResponseDtos(content), clubPage), HttpStatus.OK);
     }
 
-    // 소모임 삭제 (리더만 가능)
+    // 소모임 해체 (리더만 가능)
     @DeleteMapping("/clubs/{club-id}")
     public ResponseEntity deleteClub(@PathVariable("club-id") @Positive Long clubId) {
 
@@ -150,9 +146,19 @@ public class ClubController {
 
 
     // TODO: admin 컨트롤러로 가야함. 소모임 상태 변경
-    @PatchMapping("/clubs/{club-id}/club-status")
-    public ResponseEntity patchClubStatus() {
-        return null;
+    // 소모임 이용정지 / 해제 (관리자만 가능)
+    @PatchMapping("/admin/{club-id}")
+    public ResponseEntity patchClubStatus(@PathVariable("club-id") Long clubId,
+                                          @RequestBody ClubDto.StatusPatch requestBody) {
+
+        if (!identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+        requestBody.setClubId(clubId);
+        Club club = clubService.changeClubStatus(clubId, requestBody.getClubStatus());
+        ClubDto.Response response = mapper.clubToClubResponse(club);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
 

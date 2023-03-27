@@ -9,7 +9,6 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
@@ -23,10 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Validated
@@ -39,7 +36,6 @@ public class UserClubController {
     private final UserClubService userClubService;
     private final UserClubMapper userClubMapper;
     private final UserMapper userMapper;
-    private final ImageMapper imageMapper;
     private final Identifier identifier;
 
     // 소모임 가입 요청
@@ -51,7 +47,7 @@ public class UserClubController {
         requestBody.addClubId(clubId);
         requestBody.addUserId(userId);
 
-        UserClub createdUserClub = userClubService.joinClub(userClubMapper.joinPostToUserClub(requestBody), requestBody.getUserId());
+        UserClub createdUserClub = userClubService.joinClub(userClubMapper.joinPostToUserClub(requestBody));
         URI location = UriCreator.createUri("/joins", createdUserClub.getUserClubId());
 
         return ResponseEntity.created(location).build();
