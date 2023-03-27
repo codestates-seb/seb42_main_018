@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
-    Schedule schedulePatchDtoToSchedule(ScheduleDto.Patch requestBody);
+    Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody);
     Schedule scheduleAttendPostDtoToSchedule(ScheduleDto.attendPost requestBody);
     Schedule scheduleAbsentPostDtoToSchedule(ScheduleDto.absentPost requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
@@ -56,13 +56,14 @@ public interface ScheduleMapper {
                 .map(team -> {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(team.getTeamId());
+                    response.setTeamNumber(team.getTeamNumber());
 
                     List<UserTeam> userTeams = team.getUserTeams();
                     List<User> users = userTeams.stream()
                             .map(userTeam -> userTeam.getUser())
                             .collect(Collectors.toList());
 
-                    response.setUsers(userMapper.usersToUserResponses(users));
+                    response.setMembersId(userMapper.usersToUserResponses(users));
 
                     return response;
                 })

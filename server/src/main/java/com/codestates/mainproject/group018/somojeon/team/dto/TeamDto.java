@@ -54,6 +54,6 @@ public class TeamDto {
     public static class Response {
         private Long teamId;
         private Integer teamNumber;
-        private List<UserDto.Response> users;
+        private List<UserDto.Response> membersId;
     }
 }
