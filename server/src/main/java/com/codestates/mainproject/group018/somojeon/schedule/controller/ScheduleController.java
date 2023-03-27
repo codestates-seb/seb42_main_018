@@ -51,19 +51,25 @@ public class ScheduleController {
                 HttpStatus.CREATED);
     }
 
-    @PutMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    @PutMapping("/{user-id}/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity putSchedule(@PathVariable("club-id") @Positive long clubId,
                                         @PathVariable("schedule-id") @Positive long scheduleId,
+                                        @PathVariable("user-id") @Positive long userId,
+                                        @Positive long recordId,
+                                        @Positive long candidateId,
+                                        @Positive long teamId,
                                         @Valid @RequestBody ScheduleDto.Put requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
+        requestBody.setRecordId(recordId);
+        requestBody.setCandidateId(candidateId);
+        requestBody.setTeamId(teamId);
 
 //        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
-        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePutDtoToSchedule(requestBody), clubId,
-                requestBody.getRecords(), requestBody.getCandidates(), requestBody.getTeamList());
+        Schedule schedule = scheduleService.updateSchedule(requestBody, scheduleId, userId, clubId, recordId, teamId, requestBody.getTeamList(), requestBody.getCandidateId());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);

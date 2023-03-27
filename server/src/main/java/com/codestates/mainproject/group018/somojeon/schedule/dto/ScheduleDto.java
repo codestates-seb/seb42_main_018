@@ -80,12 +80,16 @@ public class ScheduleDto {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Put {
         private Long scheduleId;
-
+        private Long userId;
         private Long clubId;
+        private Long recordId;
+        private Long candidateId;
+        private Long teamId;
 
         private String date;
         private String time;

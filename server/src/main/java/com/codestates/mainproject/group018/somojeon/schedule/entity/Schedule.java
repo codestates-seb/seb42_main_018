@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.schedule.entity;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
+import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
+
+    private List<ScheduleDto.ScheduleTeamDto> teams;
 
     @Column(nullable = false)
     private String date;

@@ -2,15 +2,18 @@ package com.codestates.mainproject.group018.somojeon.schedule.service;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
+import com.codestates.mainproject.group018.somojeon.candidate.service.CandidateService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
+import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
+import com.codestates.mainproject.group018.somojeon.record.service.RecordService;
 import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
@@ -20,6 +23,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
+import com.codestates.mainproject.group018.somojeon.team.service.TeamService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
@@ -51,6 +55,10 @@ public class ScheduleService {
     private final UserRepository userRepository;
     private final ClubService clubService;
     private final UserService userService;
+    private final RecordService recordService;
+    private final CandidateService candidateService;
+    private final TeamService teamService;
+    private final UserClubService userClubService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
@@ -109,75 +117,69 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates) {
-        Club club = clubService.findVerifiedClub(clubId);
-        Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
+    public Schedule updateSchedule(ScheduleDto.Put requestBody,long scheduleId, long userId, long clubId, long recordId,
+                                   long teamId,
+                                   List<ScheduleDto.ScheduleTeamDto> teams, long candidateId) {
+        UserClub findUserClub = userClubService.findUserClubByUserIdAndClubId(userId, clubId);
+        User findUser = userService.findVerifiedUser(userId);
+        Schedule findSchedule = findVerifiedSchedule(scheduleId);
+        Record findRecord = recordService.findVerifiedRecord(recordId);
+        Candidate findCandidate = candidateService.findVerifiedCandidate(candidateId);
+        Team findTeam = teamService.findVerifiedTeam(teamId);
+
 
         // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다.
 
-        Optional.ofNullable(schedule.getDate())
-                .ifPresent(findSchedule::setDate);
-        Optional.ofNullable(schedule.getTime())
-                .ifPresent(findSchedule::setTime);
-        Optional.ofNullable(schedule.getPlaceName())
-                .ifPresent(findSchedule::setPlaceName);
-        Optional.ofNullable(schedule.getLongitude())
-                .ifPresent(findSchedule::setLongitude);
-        Optional.ofNullable(schedule.getLatitude())
-                .ifPresent(findSchedule::setLatitude);
-
-        findSchedule.setCandidates(candidates);
-        findSchedule.setTeamList(teamList);
-        findSchedule.setRecords(records);
+        findSchedule.setDate(requestBody.getDate());
+        findSchedule.setTime(requestBody.getTime());
+        findSchedule.setPlaceName(requestBody.getPlaceName());
+        findSchedule.setLongitude(requestBody.getLongitude());
+        findSchedule.setLatitude(requestBody.getLatitude());
+//        findSchedule.setCandidates(candidates);
+        findSchedule.setTeams(teams);
+//        findSchedule.setRecords(records);
 
 
         // candidate 정보 저장
-        for (Candidate candidate : candidates) {
-            candidate.setSchedule(findSchedule);
-            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
-            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
-            candidate.setUser(userClub.getUser());
-            candidate.setAttendance(Candidate.Attendance.ATTEND);
-            candidateRepository.save(candidate);
-        }
+
+        findCandidate.setSchedule(findSchedule);
+//        User candidateUser = userRepository.findByCandidate(findCandidate.getCandidateId());
+//        UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
+        findCandidate.setUser(findUser);
+        findCandidate.setAttendance(Candidate.Attendance.ATTEND);
+        candidateRepository.save(findCandidate);
+
 
         // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
         // team 정보 저장
-        for (Team team : teamList) {
-            team.setSchedule(findSchedule);
-
-            teamRepository.save(team);
-        }
 
         // record 정보 저장
-        for (Record record : records) {
-            record.setSchedule(findSchedule);
+
+        findCandidate.setSchedule(findSchedule);
 
             // firstTeam과 매핑되는 Team을 찾아서 설정
-            int firstTeamNumber = record.getFirstTeam();
-            Optional<Team> firstTeamOptional = teamList.stream()
-                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
-                    .findFirst();
-            if (firstTeamOptional.isPresent()) {
-                Team firstTeam = firstTeamOptional.get();
-                TeamRecord teamRecord = new TeamRecord(record, firstTeam);
-                teamRecordRepository.save(teamRecord);
-            }
-
-            // secondTeam과 매핑되는 Team을 찾아서 설정
-            int secondTeamNumber = record.getSecondTeam();
-            Optional<Team> secondTeamOptional = teamList.stream()
-                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
-                    .findFirst();
-            if (secondTeamOptional.isPresent()) {
-                Team secondTeam = secondTeamOptional.get();
-                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
-                teamRecordRepository.save(teamRecord);
-            }
-
-            recordRepository.save(record);
+        int firstTeamNumber = findRecord.getFirstTeam();
+        Optional<Team> firstTeamOptional = teamList.stream()
+                .filter(team -> team.getTeamNumber() == firstTeamNumber)
+                .findFirst();
+        if (firstTeamOptional.isPresent()) {
+            Team firstTeam = firstTeamOptional.get();
+            TeamRecord teamRecord = new TeamRecord(record, firstTeam);
+            teamRecordRepository.save(teamRecord);
         }
+        // secondTeam과 매핑되는 Team을 찾아서 설정
+        int secondTeamNumber = record.getSecondTeam();
+        Optional<Team> secondTeamOptional = teamList.stream()
+                .filter(team -> team.getTeamNumber() == secondTeamNumber)
+                .findFirst();
+        if (secondTeamOptional.isPresent()) {
+            Team secondTeam = secondTeamOptional.get();
+            TeamRecord teamRecord = new TeamRecord(findRecord, secondTeam);
+            teamRecordRepository.save(teamRecord);
+        }
+
+        recordRepository.save(record);
+
         return findSchedule;
     }
 
