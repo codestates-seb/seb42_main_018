@@ -2,7 +2,6 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
-import com.codestates.mainproject.group018.somojeon.club.entity.ClubTag;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
@@ -13,8 +12,6 @@ import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepo
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
-import com.codestates.mainproject.group018.somojeon.tag.entity.Tag;
-import com.codestates.mainproject.group018.somojeon.tag.service.TagService;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +41,6 @@ public class ClubService {
     @Value("${defaultClub.image.address}")
     private String defaultClubImage;
     private final ClubRepository clubRepository;
-    private final TagService tagService;
     private final UserClubRepository userClubRepository;
     private final CategoryService categoryService;
     private final ImageService imageService;
@@ -56,15 +53,15 @@ public class ClubService {
         User user = findVerifiedUser(userId);
         Club findClub = findVerifiedClub(justClub.getClubId());
         categoryService.verifyExistsCategoryName(club.getCategoryName());
-        List<Tag> tagList = tagService.findTagsElseCreateTags(tagName);
-        tagList.forEach(tag -> new ClubTag(club, tag));
-        if (tagList.size() > 3) {
-            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
-        }
         findClub.setCreatedAt(LocalDateTime.now());
         findClub.setMemberCount(club.getMemberCount() + 1);
-
         findClub.setClubImageUrl(defaultClubImage);
+
+        if (tagName.size() > 3) {
+            throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+        } else {
+            findClub.setTagName(tagName);
+        }
 
         log.info("Start Creating UserClub");
         UserClub userClub = new UserClub();
@@ -95,15 +92,20 @@ public class ClubService {
             findClub.setContent(content);
             findClub.setLocal(local);
             findClub.setSecret(isSecret);
+            findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+            findClub.setTagName(tagName);
+            if (tagName.size() > 3) {
+                throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
+            }
         } else {
             findClub.setClubName(clubName);
             findClub.setContent(content);
             findClub.setLocal(local);
             findClub.setSecret(isSecret);
+            findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             findClub.setClubImageUrl(imageService.uploadClubImage(multipartFile));
-            List<Tag> tagList = tagService.updateQuestionTags(findClub,tagName);
-            tagList.forEach(tag -> new ClubTag(findClub, tag));
-            if (tagList.size() > 3) {
+            findClub.setTagName(tagName);
+            if (tagName.size() > 3) {
                 throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
             }
         }

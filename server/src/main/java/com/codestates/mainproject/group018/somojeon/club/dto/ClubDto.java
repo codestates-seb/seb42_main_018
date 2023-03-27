@@ -89,11 +89,11 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
+        private List<String> tagList;
+        private boolean isSecret;
         private int viewCount;
         private int memberCount;
-        private List<TagDto.Response> tagResponseDtos;
         private String clubImage;
-        private boolean isSecret;
         private ClubStatus clubStatus;
         private LocalDateTime modifiedAt;
 
