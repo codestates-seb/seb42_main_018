@@ -15,6 +15,7 @@ import { S_TagWrapper } from '../club/_createTag';
 import ClubJoinModal from './_clubJoinModal';
 import { userInitialState } from '../../../store/store';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
+import defaultClubImg from '../../../assets/default_Img.svg';
 
 const ClubIntroWrapper = styled.div`
   position: relative;
@@ -35,20 +36,20 @@ const ClubIntroWrapper = styled.div`
     padding-bottom: 0.4rem;
     display: flex;
     border-bottom: 1px solid var(--gray200);
-
-    /* .profile-img {
-      background-size: contain;
-    } */
   }
   & .club-info-area {
     flex: 3;
   }
   & .club-title-box {
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     & > .leader-badge-icon {
       margin-left: 6px;
       transform: scale(1.2);
+    }
+    & .club-title {
+      margin: 0;
     }
   }
 
@@ -72,17 +73,13 @@ const ClubIntroWrapper = styled.div`
   }
 `;
 
-// ! 다양한 사이즈 이미지로 css 코드 확인
-const S_ClubImgArea = styled.img<{ src?: string }>`
+const S_ClubImgArea = styled.img<{ src: string }>`
   height: 100%;
   background-size: cover;
   background-position: center;
   background-image: url(${(props) => props.src});
 `;
 
-// TODO: 클럽 생성하고 바로 왔을 때 리더 뱃지, 프로필 안 보임
-// => get 요청으로 userInfo 최신화
-// TODO: 이미지 박스 css 코드 확인
 function ClubIntro() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -92,7 +89,6 @@ function ClubIntro() {
   // isApplied : 가입신청을 이미 한 번 했으면 true, 아직 안했으면 false
   const [isApplied, setIsApplied] = useState(false);
 
-  // TODO : 리더에게만 뱃지와 프로필 설정 버튼이 보이는지 확인
   const myClub = updatedUserInfo.userClubResponses?.find((club) => club.clubId === Number(id));
   const isLeader = myClub?.clubRole === 'LEADER';
   const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
@@ -102,26 +98,19 @@ function ClubIntro() {
     const getClubInfo = async () => {
       const res = await getFetch(CLUB_URL);
       if (res) setClubInfo(res.data);
-
-      // ! 서버 다시 켜지면 if - else 확인
-      // if (res === 'Request failed with status code 404') navigate('/notfound');
-      // else setClubInfo(res.data);
     };
-    getClubInfo();
 
     const USER_URL = `${process.env.REACT_APP_URL}/users/${userInfo.userId}`;
     const getUserInfo = async () => {
       const res = await getFetch(USER_URL);
-      if (res) setUpdatedUserInfo(updatedUserInfo);
+      if (res) setUpdatedUserInfo(res.data);
     };
+
+    getClubInfo();
     getUserInfo();
 
     if (myClub && myClub.clubRole === null) setIsApplied(true);
   }, []);
-
-  console.log(clubInfo);
-  console.log(updatedUserInfo);
-  console.log(isLeader);
 
   const {
     clubName,
@@ -169,7 +158,10 @@ function ClubIntro() {
         <Tabmenu tabs={tabs}></Tabmenu>
         <ClubIntroWrapper>
           <div className='profile-img-box'>
-            <S_ClubImgArea src={clubImage} alt='소모임 소개 이미지'></S_ClubImgArea>
+            <S_ClubImgArea
+              src={clubImage ? clubImage : defaultClubImg}
+              alt='소모임 소개 이미지'
+            ></S_ClubImgArea>
           </div>
           <div className='club-info-box'>
             <div className='club-info-area'>
