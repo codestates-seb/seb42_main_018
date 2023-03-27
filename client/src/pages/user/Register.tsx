@@ -99,12 +99,8 @@ function Register() {
 
   const checkPasswordValidation = () => {
     const isValidPassword = checkPassword(password);
-
-    if (!isValidPassword) setPasswordError(true);
-    else setPasswordError(false);
-
-    if (password !== confirmPassword) setConfirmPasswordError(true);
-    else setConfirmPasswordError(false);
+    setPasswordError(!isValidPassword);
+    setConfirmPasswordError(password !== confirmPassword);
 
     return isValidPassword && password === confirmPassword;
   };
