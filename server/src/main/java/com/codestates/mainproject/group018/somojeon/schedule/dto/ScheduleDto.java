@@ -82,7 +82,7 @@ public class ScheduleDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Patch {
+    public static class Put {
         private Long scheduleId;
 
         private Long clubId;

@@ -30,6 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -142,20 +143,38 @@ public class ScheduleService {
         // team 정보 저장
         for (Team team : teamList) {
             team.setSchedule(findSchedule);
-//            UserTeam userTeam = userTeamRepository.findByTeam(team);
-//            userTeam.setTeam(team);
-//            team.setUserTeam(userTeam);
-//            userTeamRepository.save(userTeam);
+
             teamRepository.save(team);
         }
-
 
         // record 정보 저장
         for (Record record : records) {
             record.setSchedule(findSchedule);
+
+            // firstTeam과 매핑되는 Team을 찾아서 설정
+            int firstTeamNumber = record.getFirstTeam();
+            Optional<Team> firstTeamOptional = teamList.stream()
+                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
+                    .findFirst();
+            if (firstTeamOptional.isPresent()) {
+                Team firstTeam = firstTeamOptional.get();
+                TeamRecord teamRecord = new TeamRecord(record, firstTeam);
+                teamRecordRepository.save(teamRecord);
+            }
+
+            // secondTeam과 매핑되는 Team을 찾아서 설정
+            int secondTeamNumber = record.getSecondTeam();
+            Optional<Team> secondTeamOptional = teamList.stream()
+                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
+                    .findFirst();
+            if (secondTeamOptional.isPresent()) {
+                Team secondTeam = secondTeamOptional.get();
+                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
+                teamRecordRepository.save(teamRecord);
+            }
+
             recordRepository.save(record);
         }
-
         return findSchedule;
     }
 
