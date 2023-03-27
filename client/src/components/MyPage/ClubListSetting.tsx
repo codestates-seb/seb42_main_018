@@ -62,16 +62,35 @@ interface ClubListSettingProps {
 }
 
 function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
+  const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
   // 받아온 userClubResponses.userClubId로 get 요청 보내기
   // 요청보낼 URI는 API 문서 28번 '소모임 단건 조회'
   const [club, setClub] = useState<ClubData>();
 
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${userClubId}`).then((data) => {
-      setClub(data.data);
-    });
+    // 받아온 유저클럽아이디로 클럽 정보 받아오기
+    getFetch(`${process.env.REACT_APP_URL}clubs/${userClubId}/joins/${userInfo.userId}`).then(
+      (data) => {
+        setClub(data.data);
+      }
+    );
   }, []);
+
+  const leaveClub = async () => {
+    // 클럽 탈퇴 요청
+    // URL : /clubs//memberStatus/{user-id}
+    // request : {  "clubMemberStatus" : "MEMBER QUIT"}
+  };
+
+  const cancelJoinClub = async () => {
+    // 가입신청 취소 요청
+    if (tokens) {
+      const res = await deleteFetch(`${process.env.REACT_APP_URL}`, tokens);
+      if (res) alert('가입 신청이 취소되었습니다'); // 추후 모달 처리
+      // 바로 데이터 반영되는지? 목록 없어지는지?
+    }
+  };
 
   return (
     <S_ClubBox>
@@ -105,12 +124,14 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
             </S_SelectButton>
           ) : clubRole === 'MANAGER' || clubRole === 'LEADER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
-            // TODO : 탈퇴 로직 구현
+            // TODO : 탈퇴 로직 구현 API 34번
             <S_NegativeButton>소모임 탈퇴</S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
-            // TODO : 가입 취소 로직 구현
-            <S_SelectButton width='80px'>가입 취소</S_SelectButton>
+            // TODO : 가입 취소 로직 구현 API 37번
+            <S_SelectButton width='80px' onClick={cancelJoinClub}>
+              가입 취소
+            </S_SelectButton>
           )}
         </div>
       </S_ContentsBox>

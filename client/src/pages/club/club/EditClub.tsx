@@ -23,7 +23,7 @@ export interface EditClubDataType {
   isSecret: boolean;
 }
 
-interface ClubImageType {
+export interface ImageFileType {
   lastModified: number;
   lastModifiedDate?: object;
   name: string;
@@ -111,7 +111,7 @@ function EditClub() {
 
   // 파일로 가져온 이미지 브라우저에서 미리보기
   const [imgFile, setImgFile] = useState(clubImage); // 사용자가 선택한 사진을 화면에서 바로 보여주기 위한 string
-  const [clubImageFile, setClubImageFile] = useState<ClubImageType>(); // 서버에 form-data로 전송할 파일 객체
+  const [clubImageFile, setClubImageFile] = useState<ImageFileType>(); // 서버에 form-data로 전송할 파일 객체
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
