@@ -13,7 +13,7 @@ interface PastMatchProps {
 function PastMatch(props: PastMatchProps) {
   return (
     <S_MatchSchedule>
-      <S_Text>지난 경기는 클릭하여 자세히 볼 수 있어요.</S_Text>
+      <S_Text style={{ marginBottom: '20px' }}>지난 경기는 클릭하여 자세히 볼 수 있어요.</S_Text>
       <S_List>
         {props.schedule.map((el) => {
           return (
@@ -24,6 +24,7 @@ function PastMatch(props: PastMatchProps) {
               date={el.date}
               time={el.time}
               placeName={el.placeName}
+              candidates={el.candidates}
             />
           );
         })}

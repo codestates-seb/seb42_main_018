@@ -3,7 +3,7 @@ import { WaitingUser } from '../../pages/club/setting/_waitingMember';
 import dummy from '../../assets/default_profile.svg';
 import { S_Description, S_Text } from '../UI/S_Text';
 import { S_SelectButton } from '../UI/S_Button';
-import { postFetch } from '../../util/api';
+import { patchFetch, postFetch } from '../../util/api';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -38,17 +38,19 @@ interface MemberWaitingCardProps {
 function MemberWaitingCard(props: MemberWaitingCardProps) {
   const { id } = useParams();
   const acceptMember = async () => {
-    await axios
-      .patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
-        joinStatus: 'CONFIRMED'
-      })
-      .then(() => {
-        props.setIsUpdated(!props.isUpdated);
-      });
+    patchFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+      joinStatus: 'CONFIRMED'
+    }).then(() => {
+      props.setIsUpdated(!props.isUpdated);
+    });
   };
 
-  const rejectMember = () => {
-    alert('가입 거절 patch날리기');
+  const rejectMember = async () => {
+    patchFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+      joinStatus: 'REFUSED'
+    }).then(() => {
+      props.setIsUpdated(!props.isUpdated);
+    });
   };
   return (
     <S_WaitingCardContainer>
