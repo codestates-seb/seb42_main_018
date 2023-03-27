@@ -26,18 +26,18 @@ const S_ImgBox = styled.div<{ img?: string }>`
 `;
 
 interface UserProfileProps {
-  userId: number | undefined;
+  nickName: string;
   profileImage: string;
 }
 
-function UserProfile({ userId, profileImage }: UserProfileProps) {
+function UserProfile({ nickName, profileImage }: UserProfileProps) {
   const navigate = useNavigate();
 
   return (
     <S_profileBox>
       <S_ImgBox img={profileImage} />
       <div>
-        <S_Label>{userId}</S_Label>
+        <S_Label>{nickName}</S_Label>
         <S_EditButton onClick={() => navigate('edit')}>프로필 수정</S_EditButton>
       </div>
     </S_profileBox>

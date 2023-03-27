@@ -90,7 +90,12 @@ public class ClubService {
 
         Club findClub = findVerifiedClub(clubId);
 
-        if (club.getClubName() != null && club.getContent() != null || club.getLocal() != null || multipartFile != null) {
+        if (multipartFile.isEmpty()) {
+            findClub.setClubName(clubName);
+            findClub.setContent(content);
+            findClub.setLocal(local);
+            findClub.setSecret(isSecret);
+        } else {
             findClub.setClubName(clubName);
             findClub.setContent(content);
             findClub.setLocal(local);

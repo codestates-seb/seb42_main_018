@@ -24,12 +24,12 @@ public interface RecordMapper {
         return RecordDto.Response
                 .builder()
                 .recordId(record.getRecordId())
-                .createdAt(record.getCreatedAt())
+//                .createdAt(record.getCreatedAt())
                 .firstTeam(record.getFirstTeam())
                 .firstTeamScore(record.getFirstTeamScore())
                 .secondTeam(record.getSecondTeam())
                 .secondTeamScore(record.getSecondTeamScore())
-                .comments(commentsToCommentResponseDtos(record.getComments()))
+//                .comments(commentsToCommentResponseDtos(record.getComments()))
                 .build();
     }
 

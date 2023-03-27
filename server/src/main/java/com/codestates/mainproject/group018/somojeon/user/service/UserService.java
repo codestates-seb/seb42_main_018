@@ -90,7 +90,9 @@ public class UserService {
     public User updateUser(Long userId, User user, String nickName, MultipartFile multipartFile) throws IOException {
         User findUser = findVerifiedUser(userId);
 
-        if (user.getNickName() != null ||multipartFile != null) {
+        if (multipartFile.isEmpty()) {
+            findUser.setNickName(nickName);
+        } else {
             findUser.setNickName(nickName);
             findUser.setProfileImageUrl(imageService.uploadProfileImage(multipartFile));
         }
