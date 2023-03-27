@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MemberWaitingCard from '../../../components/setting/MemberWaitingCard';
 import { getFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 export interface WaitingUser {
   userClubId: number;
@@ -20,11 +21,10 @@ export interface WaitingUser {
 function WaitingMember() {
   const [data, setData] = useState<WaitingUser[]>([]);
   const [isUpdated, setIsUpdated] = useState(false);
-  // const data: WaitingUser[] = [];
+  const { tokens } = getGlobalState();
   const { id } = useParams();
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((data) => {
-      // console.log(data);
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`, tokens).then((data) => {
       setData(data.data);
     });
   }, [isUpdated]);
