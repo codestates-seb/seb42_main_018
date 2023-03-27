@@ -44,7 +44,7 @@ const isLogin = createSlice({
 });
 
 // 전역상태 #2. 로그인한 사용자의 정보
-const userInitialState: UserInfoType = {
+export const userInitialState: UserInfoType = {
   userId: undefined,
   email: '',
   nickName: '',
@@ -62,7 +62,7 @@ const userInfo = createSlice({
 });
 
 // 전역상태 #3. 로그인한 사용자의 jwt 토큰
-const tokensInitialState: JwtTokensType = {
+export const tokensInitialState: JwtTokensType = {
   accessToken: '',
   refreshToken: ''
 };
