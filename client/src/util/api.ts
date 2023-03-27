@@ -70,3 +70,12 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
     console.log(err);
   }
 };
+
+export const putFetch = async <T>(url: string, putData: T) => {
+  try {
+    const res = await axios.put(url, putData);
+    if (res.status === 200) return res;
+  } catch (err) {
+    console.error(err);
+  }
+};

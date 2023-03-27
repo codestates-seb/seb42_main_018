@@ -10,6 +10,7 @@ import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
 import { useParams } from 'react-router-dom';
 import { Schedule } from './ClubSchedule';
+import { Candidate } from './CreateMatch';
 
 const S_MapView = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ function MatchDetail() {
   const [matchData, setMatchData] = useState<Schedule>();
   const { id, scid } = useParams();
 
-  const candidates: string[] = [];
+  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
 
   const mapViewModalHandler = () => {
@@ -39,9 +40,14 @@ function MatchDetail() {
   };
 
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) =>
-      setMatchData({ ...data.data })
-    );
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
+      setMatchData({ ...data.data });
+    });
+    // .then(() => {
+    //   getFetch(`${process.env.REACT_APP_URL}/candidates/${scid}`).then((data) => {
+    //     setCandidateList([...data.data]);
+    //   });
+    // });
   }, []);
 
   return (
@@ -73,9 +79,9 @@ function MatchDetail() {
         </S_Description>
         <S_Description>참석을 선택한 멤버는 자동으로 등록됩니다.</S_Description>
         <div>
-          {candidates &&
-            candidates.map((member, idx) => {
-              return <S_NameTag key={idx}>{member}</S_NameTag>;
+          {matchData?.candidates &&
+            matchData?.candidates.map((member, idx) => {
+              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
       </div>

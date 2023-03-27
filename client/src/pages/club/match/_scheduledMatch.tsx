@@ -13,7 +13,9 @@ interface ScheduledMatchProps {
 function ScheduledMatch(props: ScheduledMatchProps) {
   return (
     <S_MatchSchedule>
-      <S_Text>경기 시작 전까지 참석하기 버튼을 누를 수 있어요.</S_Text>
+      <S_Text style={{ marginBottom: '20px' }}>
+        경기 시작 전까지 참석하기 버튼을 누를 수 있어요.
+      </S_Text>
       <S_List>
         {props.schedule.map((el) => {
           return (
@@ -24,6 +26,7 @@ function ScheduledMatch(props: ScheduledMatchProps) {
               date={el.date}
               time={el.time}
               placeName={el.placeName}
+              candidates={el.candidates}
             />
           );
         })}

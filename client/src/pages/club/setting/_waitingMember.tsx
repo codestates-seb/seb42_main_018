@@ -24,7 +24,7 @@ function WaitingMember() {
   const { id } = useParams();
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins`).then((data) => {
-      console.log(data);
+      // console.log(data);
       setData(data.data);
     });
   }, [isUpdated]);
