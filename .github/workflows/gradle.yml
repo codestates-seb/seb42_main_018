@@ -85,6 +85,7 @@ jobs:
           context: ./server
           push: true
           tags: gnswp21/somojeon:latest
+          repository: gnswp21/somojeon
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
