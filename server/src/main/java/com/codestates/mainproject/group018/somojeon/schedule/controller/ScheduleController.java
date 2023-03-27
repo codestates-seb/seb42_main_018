@@ -63,7 +63,7 @@ public class ScheduleController {
 //        };
 
         Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePutDtoToSchedule(requestBody), clubId,
-                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
+                requestBody.getRecords(), requestBody.getCandidates(), requestBody.getTeamList());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);

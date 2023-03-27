@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
+import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
@@ -112,7 +113,8 @@ public class ScheduleService {
                                    List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
-        clubRepository.save(club);
+
+        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다.
 
         Optional.ofNullable(schedule.getDate())
                 .ifPresent(findSchedule::setDate);
@@ -140,6 +142,7 @@ public class ScheduleService {
             candidateRepository.save(candidate);
         }
 
+        // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
         // team 정보 저장
         for (Team team : teamList) {
             team.setSchedule(findSchedule);

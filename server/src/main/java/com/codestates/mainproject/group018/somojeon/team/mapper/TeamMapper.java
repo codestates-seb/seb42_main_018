@@ -25,7 +25,7 @@ public interface TeamMapper {
                 .builder()
                 .teamId(team.getTeamId())
                 .teamNumber(team.getTeamNumber())
-                .membersId(userTeamsToUserTeamResponseDtos(team.getUserTeams()))
+                .users(userTeamsToUserTeamResponseDtos(team.getUserTeams()))
                 .build();
     }
 

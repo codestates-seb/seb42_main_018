@@ -63,7 +63,7 @@ public interface ScheduleMapper {
                             .map(userTeam -> userTeam.getUser())
                             .collect(Collectors.toList());
 
-                    response.setMembersId(userMapper.usersToUserResponses(users));
+                    response.setUsers(userMapper.usersToUserResponses(users));
 
                     return response;
                 })
@@ -120,6 +120,23 @@ public interface ScheduleMapper {
         }
 
         return list;
+    }
+
+    default List<Team> ScheduleTeamToTeamListDtos(List<ScheduleDto.ScheduleTeamDto> scheduleTeamDtos) {
+        if (scheduleTeamDtos == null) {
+            return null;
+        }
+
+        return scheduleTeamDtos.stream()
+                .map(scheduleTeamDto -> {
+                    Team team = new Team();
+                    team.setTeamNumber(scheduleTeamDto.getTeamNumber());
+
+                    List<Long> membersId = scheduleTeamDto.getMembersId();
+                    membersId.stream()
+                            .map(memberId -> new UserTeam(team, ))
+                })
+
     }
 }
 
