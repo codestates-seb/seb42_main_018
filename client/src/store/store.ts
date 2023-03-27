@@ -19,14 +19,22 @@ export interface UserClubResponsesType {
   player: boolean;
   winCount: number;
   winRate: number;
+  userInfo: {
+    userId: number | undefined;
+    email: string;
+    nickName: string;
+    userStatus: string;
+    profileImage: string;
+  };
 }
+
 export interface UserInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;
   userStatus: '' | 'USER_NEW' | 'USER_ACTIVE' | 'USER_SLEEP' | 'USER_QUIT';
   profileImage: string;
-  userClubResponses?: UserClubResponsesType[];
+  userClubResponses: UserClubResponsesType[];
 }
 
 export interface JwtTokensType {
@@ -44,7 +52,7 @@ const isLogin = createSlice({
 });
 
 // 전역상태 #2. 로그인한 사용자의 정보
-const userInitialState: UserInfoType = {
+export const userInitialState: UserInfoType = {
   userId: undefined,
   email: '',
   nickName: '',
@@ -62,7 +70,7 @@ const userInfo = createSlice({
 });
 
 // 전역상태 #3. 로그인한 사용자의 jwt 토큰
-const tokensInitialState: JwtTokensType = {
+export const tokensInitialState: JwtTokensType = {
   accessToken: '',
   refreshToken: ''
 };

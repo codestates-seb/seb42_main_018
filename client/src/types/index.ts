@@ -2,7 +2,6 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  // TODO: optional ? 삭제해야 함
   clubImage?: string;
   content: string;
   local: string;
@@ -68,13 +67,17 @@ export interface MemberData {
   // drawCount?: number;
   // winRate?: number;
   // 수정한 데이터타입
+
+  userId?: number;
   nickName: string;
+  clubMemberStatus?: string;
+  clubRole?: string;
   profileImage: string;
-  winRate: number;
   playCount?: number;
   winCount?: number;
-  drawCount?: number;
   loseCount?: number;
+  drawCount?: number;
+  winRate: number;
 }
 
 export interface MemberProps {

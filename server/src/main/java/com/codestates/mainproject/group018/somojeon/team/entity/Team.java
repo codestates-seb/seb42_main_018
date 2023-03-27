@@ -1,6 +1,5 @@
 package com.codestates.mainproject.group018.somojeon.team.entity;
 
-import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,19 +21,14 @@ public class Team {
     @Column(nullable = false)
     private Integer teamNumber;
 
-    @Column(nullable = false)
-    private Integer score;
-
-    private String winLoseDraw;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<UserTeam> userTeams = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {
@@ -57,27 +51,5 @@ public class Team {
 
     public void setUserTeam(UserTeam userTeam) {
         userTeams.add(userTeam);
-    }
-
-    public void updateScoreAndResult(Record record) {
-        if (record.getFirstTeam().equals(this.getTeamNumber())) {
-            this.setScore(this.getScore() + record.getFirstTeamScore());
-            if (record.getFirstTeamScore() > record.getSecondTeamScore()) {
-                this.setWinLoseDraw("win");
-            } else if (record.getFirstTeamScore() < record.getSecondTeamScore()) {
-                this.setWinLoseDraw("lose");
-            } else {
-                this.setWinLoseDraw("draw");
-            }
-        } else if (record.getSecondTeam().equals(this.getTeamNumber())) {
-            this.setScore(this.getScore() + record.getSecondTeamScore());
-            if (record.getSecondTeamScore() > record.getFirstTeamScore()) {
-                this.setWinLoseDraw("win");
-            } else if (record.getSecondTeamScore() < record.getFirstTeamScore()) {
-                this.setWinLoseDraw("lose");
-            } else {
-                this.setWinLoseDraw("draw");
-            }
-        }
     }
 }

@@ -25,8 +25,6 @@ public interface TeamMapper {
                 .builder()
                 .teamId(team.getTeamId())
                 .teamNumber(team.getTeamNumber())
-                .score(team.getScore())
-                .winLoseDraw(team.getWinLoseDraw())
                 .users(userTeamsToUserTeamResponseDtos(team.getUserTeams()))
                 .build();
     }
@@ -36,7 +34,7 @@ public interface TeamMapper {
                 .map(userTeam -> {
                     UserDto.Response response = new UserDto.Response();
                     response.setUserId(userTeam.getUser().getUserId());
-                    response.setNickName(userTeam.getUser().getNickName());
+//                    response.setNickName(userTeam.getUser().getNickName());
 //                    response.setEmail(userTeam.getUser().getEmail());
 //                    response.setUserStatus(userTeam.getUser().getUserStatus());
 

@@ -82,7 +82,7 @@ public class ScheduleDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Patch {
+    public static class Put {
         private Long scheduleId;
 
         private Long clubId;
@@ -96,7 +96,9 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teamList;
+//        private List<Team> teamList;
+
+        private List<ScheduleTeamDto> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
@@ -105,6 +107,16 @@ public class ScheduleDto {
         public void addClubId(Long clubId) {
             this.clubId = clubId;
         }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ScheduleTeamDto {
+
+        private Integer teamNumber;
+        private List<Long> membersId;
     }
 
     @Getter
