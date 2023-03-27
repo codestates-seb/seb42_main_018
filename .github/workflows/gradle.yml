@@ -90,6 +90,6 @@ jobs:
           NAME: gnswp21 # 계정 명
           REPO: somojeon # 레포 이름
         run: |
-          docker build -t $REPO .
+          docker build -t $REPO ./server
           docker tag $REPO:latest $NAME/$REPO:latest
           docker push $NAME/$REPO:latest
