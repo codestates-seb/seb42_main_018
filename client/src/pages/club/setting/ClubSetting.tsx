@@ -23,7 +23,7 @@ function ClubSetting() {
           borderTop: '1px solid var(--gray200)'
         }}
       />
-      <S_Label fontSize='1.1rem'>소모임장 위임</S_Label>
+      {/* <S_Label fontSize='1.1rem'>소모임장 위임</S_Label> */}
       <S_Label fontSize='1.1rem' color='var(--red100)'>
         소모임 해체
       </S_Label>
