@@ -84,7 +84,7 @@ function ScheduleCard(props: ScheduleCardProps) {
 
   useEffect(() => {
     setCandidatesUserId([
-      ...candidateList.filter((ele) => ele.attendance === '참석').map((el) => el.userId)
+      ...candidateList.filter((ele) => ele.attendance === 'ATTEND').map((el) => el.userId)
     ]);
   }, [candidateList]);
 
