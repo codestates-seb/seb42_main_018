@@ -59,11 +59,11 @@ public class RecordDto {
     @Builder
     public static class Response {
         private Long recordId;
-        private LocalDateTime createdAt;
+//        private LocalDateTime createdAt;
         private Integer firstTeam;
         private Integer secondTeam;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
-        private List<CommentDto.Response> comments;
+//        private List<CommentDto.Response> comments;
     }
 }
