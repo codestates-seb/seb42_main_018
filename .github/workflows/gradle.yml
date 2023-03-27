@@ -78,3 +78,10 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name deploy-application-somojeon-group
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=somojeon-main.zip
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: /server
+          push: true
+          tags: gnswp21/somojeon:latest
