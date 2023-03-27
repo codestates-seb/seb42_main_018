@@ -4,12 +4,14 @@ import { useDispatch } from 'react-redux';
 import { JwtTokensType, setTokens } from '../store/store';
 
 const refreshAccessToken = async (res: AxiosResponse, tokens: JwtTokensType) => {
-  console.log('api.ts 파일', res);
-  console.log(res.headers['access-token-expired']);
-  console.log(typeof res.headers['access-token-expired']); // string
+  // console.log('api.ts 파일', res);
+  // console.log(res.headers['access-token-expired']);
+  // console.log(typeof res.headers['access-token-expired']); // string
 
   // * accessToken 만료 (maxAge: 30 min)
-  if (res.headers['Access-Token-Expired'] === 'True') {
+  if (res.headers['access-token-expired'] === 'True') {
+    console.log('accessToken 만료');
+
     const REFRESH_URL = `${process.env.REACT_APP_URL}/auth/refresh`;
     const res = await axios.post(REFRESH_URL, '', {
       headers: {
@@ -21,13 +23,16 @@ const refreshAccessToken = async (res: AxiosResponse, tokens: JwtTokensType) => 
     });
 
     // * refreshToken 만료 (maxAge: 420 min)
-    if (res.headers['Refresh-Token-Expired'] === 'True') {
+    if (res.headers['refresh-token-expired'] === 'True') {
+      console.log('refreshToken 만료');
       const navigate = useNavigate();
       navigate('/login');
     }
 
     // * refreshToken은 유효해서 accessToken이 새로 발급됨
     if (res.status === 200) {
+      console.log('accessToken이 새로 발급');
+
       const dispatch = useDispatch();
       dispatch(
         setTokens({
