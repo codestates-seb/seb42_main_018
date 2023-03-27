@@ -7,8 +7,8 @@ interface Title {
 }
 
 const titleContents: Title[] = [
-  { name: '순위' },
-  { name: '', width: '190px' },
+  // { name: '순위' },
+  { name: '멤버', width: '190px' },
   { name: '승률', width: '80px', color: 'var(--blue300)' },
   { name: '경기 수', width: '80px' },
   { name: '승' },

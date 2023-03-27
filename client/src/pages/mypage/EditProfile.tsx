@@ -7,6 +7,7 @@ import S_Container from '../../components/UI/S_Container';
 import { S_Label, S_Title } from '../../components/UI/S_Text';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import InputNickname from '../../components/login/_inputNickname';
+import { patchFetch } from '../../util/api';
 
 const S_EditBox = styled.div`
   margin-top: 50px;
@@ -54,6 +55,7 @@ function EditProfile() {
 
   // 파일로 가져온 이미지 미리보기
   const [imgFile, setImgFile] = useState(userInfo.profileImage);
+
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
@@ -67,6 +69,7 @@ function EditProfile() {
 
   // 닉네임 수정 관련
   const [inputs, setInputs] = useState({
+    profileImageId: userInfo.profileImage,
     nickName: userInfo.nickName
   });
   const { nickName } = inputs;
@@ -76,9 +79,12 @@ function EditProfile() {
   };
 
   // 회원정보 수정 버튼 클릭시 실행될 함수
-  const submitProfile = () => {
+  const submitProfile = async () => {
     // TODO : 패치 데이터 날리기
-    navigate('/mypage'); // 수정 마치면 마이페이지로 이동
+    // const res = await patchFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, inputs);
+
+    alert('수정이 완료되었습니다!'); // TODO : 모달로 변경
+    history.go(-1); // 수정 마치면 이전페이지 이동
   };
 
   return (

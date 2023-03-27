@@ -19,14 +19,22 @@ export interface UserClubResponsesType {
   player: boolean;
   winCount: number;
   winRate: number;
+  userInfo: {
+    userId: number | undefined;
+    email: string;
+    nickName: string;
+    userStatus: string;
+    profileImage: string;
+  };
 }
+
 export interface UserInfoType {
   userId: number | undefined;
   email: string;
   nickName: string;
   userStatus: '' | 'USER_NEW' | 'USER_ACTIVE' | 'USER_SLEEP' | 'USER_QUIT';
   profileImage: string;
-  userClubResponses?: UserClubResponsesType[];
+  userClubResponses: UserClubResponsesType[];
 }
 
 export interface JwtTokensType {
