@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Pagination from 'react-js-pagination';
-import { ClubPage } from '../home/ClubListData';
+import { ClubPage } from '../../types';
 import { useState } from 'react';
 
 const S_PageBox = styled.div`

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { S_SmallDescription, S_Text } from '../UI/S_Text';
+import { S_SmallDescription, S_Text } from '../../UI/S_Text';
 import { Members } from './TeamMemberData';
 
 const S_MemberBox = styled.div`
@@ -22,7 +22,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   margin-right: 15px;
   border-radius: 50px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-image: url(${(props) => props.img});
 `;
 

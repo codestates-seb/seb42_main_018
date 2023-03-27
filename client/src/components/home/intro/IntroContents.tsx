@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import getGlobalState from '../../util/authorization/getGlobalState';
-import { S_Button } from '../UI/S_Button';
-import { S_Label, S_Text, S_Title } from '../UI/S_Text';
+import getGlobalState from '../../../util/authorization/getGlobalState';
+import { S_Button } from '../../UI/S_Button';
+import { S_Label, S_Text, S_Title } from '../../UI/S_Text';
 
 const S_IntroBox = styled.div`
   padding: 40px 20px;
