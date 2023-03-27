@@ -11,9 +11,8 @@ import S_Container from '../../../components/UI/S_Container';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
 import { S_Title } from '../../../components/UI/S_Text';
-import { S_Label_mg_top } from './EditClub';
+import { S_Label_mg_top, EditClubDataType } from './EditClub';
 import { S_Button } from '../../../components/UI/S_Button';
-import { EditClubDataType } from './EditClub';
 
 export const S_FormWrapper = styled.div`
   margin-top: 1.2rem;

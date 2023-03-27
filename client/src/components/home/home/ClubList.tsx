@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { S_TagSmall } from '../UI/S_Tag';
-import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
-import { ClubData } from '../../types';
+import { S_TagSmall } from '../../UI/S_Tag';
+import { S_Description, S_Label, S_SmallDescription } from '../../UI/S_Text';
+import { ClubData } from '../../../types';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -26,7 +26,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   height: 80px;
   border-radius: 10px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-image: url(${(props) => props.img});
 `;
 const S_ContentsBox = styled.div`
@@ -60,10 +60,7 @@ function ClubList({
       <Link to={`/club/${clubId}`}>
         <S_ContentsBox>
           <S_TitleBox>
-            <S_Label>
-              {clubName}
-              {/* 왕관 표시 조건부 렌더링 */}
-            </S_Label>
+            <S_Label>{clubName}</S_Label>
           </S_TitleBox>
           <S_SmallDescription>
             {categoryName} ・ {local} ・ 인원 {memberCount}명

@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -125,6 +126,11 @@ public class ClubService {
     // 내가 가입한 소모임 찾기
     public Page<Club> findMyClubs(int page, int size, Long userId) {
         return clubRepository.findClubsByUserId(PageRequest.of(page, size, Sort.by("clubId")), userId);
+    }
+
+    // 내가 가입 신청한 소모임 찾기
+    public Page<Club> findClubsByMyJoinRequest(int page, int size, Long userId) {
+        return clubRepository.findClubsByJoinStatusAndUserId(PageRequest.of(page, size, Sort.by("clubId")), JoinStatus.PENDING, userId);
     }
 
     // 키워드로 소모임 찾기 (전체 ROLE 가능)

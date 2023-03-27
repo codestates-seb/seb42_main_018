@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import backImg from '../../assets/intro_background.png';
-import { S_Text, S_Title } from '../UI/S_Text';
+import backImg from '../../../assets/intro_background.png';
+import { S_Text, S_Title } from '../../UI/S_Text';
 
 const S_IntroBox = styled.div`
   margin-top: 50px;

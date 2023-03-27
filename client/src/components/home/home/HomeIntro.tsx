@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { S_Label, S_Description, S_SmallDescription } from '../UI/S_Text';
+import { S_Label, S_Description, S_SmallDescription } from '../../UI/S_Text';
 
 const S_IntroBox = styled.div`
   // 정렬 설정

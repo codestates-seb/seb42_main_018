@@ -7,12 +7,11 @@ import getGlobalState from '../../../util/authorization/getGlobalState';
 import CreateLocal from './_createLocal';
 import CreateTag from './_createTag';
 import S_Container from '../../../components/UI/S_Container';
-import { S_FormWrapper } from './CreateClub';
+import { S_FormWrapper, S_RadioWrapper } from './CreateClub';
 import { S_Title, S_Label, S_Description } from '../../../components/UI/S_Text';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
 import { S_Button, S_EditButton } from '../../../components/UI/S_Button';
-import { S_RadioWrapper } from './CreateClub';
 import { S_ImgBox } from '../../mypage/EditProfile';
 import { ClubData } from '../../../types';
 

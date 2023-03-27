@@ -21,8 +21,6 @@ const S_Contents = styled.div`
 `;
 
 function ClubMemberItem({ nickName, profileImage, winRate }: MemberData) {
-  // TODO: 전달받은 클럽 멤버 데이터를 매핑해줄 것
-
   return (
     <S_Box>
       <img src={profileImage} alt='프로필이미지' />
