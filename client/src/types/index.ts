@@ -72,7 +72,7 @@ export interface MemberData {
   nickName: string;
   clubMemberStatus?: string;
   clubRole?: string;
-  profileImage: string | null;
+  profileImage: string;
   playCount?: number;
   winCount?: number;
   loseCount?: number;

@@ -6,6 +6,7 @@ import { ClubMemberProps } from '../../../types';
 const S_Box = styled.div`
   // 컨텐츠 전체 박스
   margin-top: 20px;
+  overflow-x: auto;
 `;
 
 function MemberList({ members }: ClubMemberProps) {

@@ -5,6 +5,7 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -24,5 +25,16 @@ public interface CandidateMapper {
                 .attendance(candidate.getAttendance())
                 .build();
     }
-    List<CandidateDto.Response> candidatesToCandidateResponseDtos(List<Candidate> candidates);
+    default List<CandidateDto.Response> candidatesToCandidateResponseDtos(List<Candidate> candidates) {
+        if (candidates == null) {
+            return null;
+        }
+
+        List<CandidateDto.Response> list = new ArrayList<>(candidates.size());
+        for (Candidate candidate : candidates) {
+            list.add(candidateToCandidateResponseDto(candidate));
+        }
+
+        return list;
+    }
 }

@@ -20,6 +20,7 @@ import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRe
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -45,15 +46,16 @@ public class ScheduleService {
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
     private final UserTeamRepository userTeamRepository;
+    private final UserRepository userRepository;
     private final ClubService clubService;
     private final UserService userService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates, List<User> users) {
+                                   List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
-        schedule.setTeams(teamList);
         schedule.setCandidates(candidates);
+        schedule.setTeamList(teamList);
         schedule.setRecords(records);
 
         try {
@@ -62,22 +64,17 @@ public class ScheduleService {
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
 
-            // team 정보 저장
-            for (Team team : teamList) {
-                team.setSchedule(schedule);
-                teamRepository.save(team);
-                for (User user : users) {
-                    UserTeam userTeam = new UserTeam(user, team);
-                    userTeamRepository.save(userTeam);
-                    user.addUserTeam(userTeam);
-                }
-            }
-
             // candidate 정보 저장
             for (Candidate candidate : candidates) {
                 candidate.setSchedule(schedule);
                 candidate.setAttendance(Candidate.Attendance.ATTEND);
                 candidateRepository.save(candidate);
+            }
+
+            // team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(schedule);
+                teamRepository.save(team);
             }
 
             // record 정보 저장
@@ -107,12 +104,12 @@ public class ScheduleService {
             }
             throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
         }
-
         return schedule;
     }
 
-    public Schedule updateSchedule(Schedule schedule, List<Record> records,
+    public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
+        Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
         Optional.ofNullable(schedule.getDate())
@@ -126,12 +123,87 @@ public class ScheduleService {
         Optional.ofNullable(schedule.getLatitude())
                 .ifPresent(findSchedule::setLatitude);
 
-        findSchedule.setRecords(records);
         findSchedule.setCandidates(candidates);
-        findSchedule.setTeams(teamList);
+        findSchedule.setTeamList(teamList);
+        findSchedule.setRecords(records);
 
-        return scheduleRepository.save(findSchedule);
+
+        // candidate 정보 저장
+        for (Candidate candidate : candidates) {
+            candidate.setSchedule(findSchedule);
+            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
+            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
+            candidate.setUser(userClub.getUser());
+            candidate.setAttendance(Candidate.Attendance.ATTEND);
+            candidateRepository.save(candidate);
+
+
+            // team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(findSchedule);
+
+                // team에 속한 유저 중에서, candidate에서 가져온 유저와 일치하는 유저를 찾음
+                User teamUser = null;
+                for (UserTeam userTeam : team.getUserTeams()) {
+                    User user = userTeam.getUser();
+                    if (user.equals(candidateUser)) {
+                        teamUser = user;
+                        break;
+                    }
+                }
+
+                if (teamUser != null) {
+                    // 일치하는 유저가 있으면, candidate 정보와 team 정보 연결
+                    UserClub teamUserClub = userClubRepository.findByUserAndClub(teamUser, club);
+                    UserTeam userTeam = userTeamRepository.findByUserAndTeam(teamUserClub.getUser(), team);
+                    candidate.setUser(teamUserClub.getUser());
+                    team.addUserTeam(userTeam);
+
+                    // team과 record 연결 및 정보 저장
+                    for (Record record : records) {
+                        if (team.getTeamRecords().equals(record)) {
+                            TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
+                            if (teamRecord == null) {
+                                teamRecord = new TeamRecord();
+                            }
+                            teamRecord.setTeam(team);
+                            teamRecord.setRecord(record);
+                            teamRecordRepository.save(teamRecord);
+                        }
+                        team.updateScoreAndResult(record);
+                        calculateWinRate(teamUserClub, team);
+                        record.setSchedule(findSchedule);
+                        recordRepository.save(record);
+                    }
+                }
+                teamRepository.save(team);
+            }
+        }
+
+//        // record 정보 저장
+//        for (Record record : records) {
+//            record.setSchedule(findSchedule);
+//            recordRepository.save(record);
+//
+//            // record와 team 연결 정보 저장
+//            for (Team team : teamList) {
+//                if (record.getTeamRecords().equals(team)) {
+//                    TeamRecord teamRecord = teamRecordRepository.findByTeamAndRecord(team, record);
+//                    if (teamRecord == null) {
+//                        teamRecord = new TeamRecord();
+//                    }
+//                    teamRecord.setTeam(team);
+//                    teamRecord.setRecord(record);
+//                    teamRecordRepository.save(teamRecord);
+//                }
+//            }
+//        }
+
+        clubRepository.save(club);
+
+        return findSchedule;
     }
+
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
@@ -220,4 +292,37 @@ public class ScheduleService {
         return findSchedule;
     }
 
+    public void calculateWinRate(UserClub userClub, Team team) {
+        String winLoseDraw = team.getWinLoseDraw();
+        int winCount = userClub.getWinCount();
+        int drawCount = userClub.getDrawCount();
+        int loseCount = userClub.getLoseCount();
+        int playCount = userClub.getPlayCount();
+
+        switch (winLoseDraw) {
+            case "win":
+                winCount++;
+                break;
+            case "lose":
+                loseCount++;
+                break;
+            case "draw":
+                drawCount++;
+                break;
+        }
+        playCount++;
+
+        double winRate = 0.0;
+        if (playCount > 0) {
+            winRate = ((double) (winCount * 3 + drawCount)) / (playCount * 3) * 100;
+        }
+
+        userClub.setWinCount(winCount);
+        userClub.setDrawCount(drawCount);
+        userClub.setLoseCount(loseCount);
+        userClub.setPlayCount(playCount);
+        userClub.setWinRate((float) winRate);
+
+        userClubRepository.save(userClub);
+    }
 }

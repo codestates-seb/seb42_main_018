@@ -23,6 +23,8 @@ import GlobalStyles from './GlobalStyles';
 import Admin from './pages/admin/Admin';
 import EditPassword from './pages/mypage/EditPassword';
 import DeleteAccount from './pages/mypage/DeleteAccount';
+import ReceiveOauth2 from './pages/user/_receiveOauth2';
+import NotFound from './pages/404/NotFound';
 
 function App() {
   return (
@@ -61,6 +63,8 @@ function App() {
         {/* // TODO : API 테스트 후 삭제 (import 라인 같이 삭제) */}
         <Route path='/api' element={<API_TEST />} />
         <Route path='/admin' element={<Admin />} />
+        <Route path='/oauth2/receive' element={<ReceiveOauth2 />} />
+        <Route path='/notfound' element={<NotFound />} />
       </Routes>
     </div>
   );

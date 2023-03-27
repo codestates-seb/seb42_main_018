@@ -18,7 +18,6 @@ function ClubMember() {
       setMembers(members);
     });
   }, []);
-  console.log(members);
 
   // 상단탭
   const tabs = [

@@ -46,9 +46,7 @@ interface RegisterModalProps {
 
 function RegisterModal({ showModal, handleModal }: RegisterModalProps) {
   const navigate = useNavigate();
-  const goToRegister = () => {
-    navigate('/register');
-  };
+
   return (
     <>
       {showModal && (
@@ -60,7 +58,7 @@ function RegisterModal({ showModal, handleModal }: RegisterModalProps) {
               <button className='sns-btn kakao' onClick={handleKakaoLogin}></button>
               <button className='sns-btn naver' onClick={alertPreparingService}></button>
             </S_SnsButtonBox>
-            <S_EditButton onClick={goToRegister}>이메일로 가입하기</S_EditButton>
+            <S_EditButton onClick={() => navigate('/register')}>이메일로 가입하기</S_EditButton>
           </S_RegisterModalContainer>
         </ModalBackdrop>
       )}

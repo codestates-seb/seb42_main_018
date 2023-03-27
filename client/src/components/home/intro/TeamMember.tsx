@@ -22,7 +22,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   margin-right: 15px;
   border-radius: 50px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-image: url(${(props) => props.img});
 `;
 

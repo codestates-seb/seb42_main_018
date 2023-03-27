@@ -20,7 +20,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   height: 80px;
   border-radius: 10px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-color: var(--gray200); // 위치 확인하기 위한 색상
   background-image: url(${(props) => props.img});
 `;

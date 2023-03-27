@@ -25,6 +25,7 @@ const S_Category = styled.span`
   :hover {
     color: var(--gray600);
     border: 1px solid var(--gray600);
+    cursor: pointer;
   }
 `;
 

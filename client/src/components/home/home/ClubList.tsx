@@ -26,7 +26,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   height: 80px;
   border-radius: 10px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-image: url(${(props) => props.img});
 `;
 const S_ContentsBox = styled.div`

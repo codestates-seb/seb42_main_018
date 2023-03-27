@@ -1,6 +1,11 @@
+import styled from 'styled-components';
 import { S_Label, S_Description } from '../UI/S_Text';
 import { S_SelectButton } from '../UI/S_Button';
 import { S_Input } from '../UI/S_Input';
+
+export const S_InputWrapper = styled.div`
+  height: 120px;
+`;
 
 interface InputEmailProps {
   value: string;
@@ -18,7 +23,7 @@ function InputEmail({
   onClick
 }: InputEmailProps) {
   return (
-    <div>
+    <S_InputWrapper>
       <label htmlFor='email'>
         <S_Label>이메일</S_Label>
       </label>
@@ -46,7 +51,7 @@ function InputEmail({
       {errorState && (
         <S_Description color={'var(--red100)'}>유효하지 않은 형식의 이메일입니다.</S_Description>
       )}
-    </div>
+    </S_InputWrapper>
   );
 }
 

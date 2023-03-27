@@ -39,7 +39,10 @@ public enum ExceptionCode {
     TEAM_SAVE_ERROR(400, "Team data error, please try again"),
     CANDIDATE_SAVE_ERROR(400, "Candidate data error, please try again"),
     RECORD_SAVE_ERROR(400, "Record data error, please try again"),
-    GENERAL_ERROR(400, "Data error, please try again");
+    GENERAL_ERROR(400, "Data error, please try again"),
+
+    EXPIRED_JWT_TOKEN(200, "Expired JWT token");
+
 
 
 

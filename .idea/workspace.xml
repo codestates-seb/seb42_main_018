@@ -4,20 +4,84 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="🔧 update : schedule service 변수 부분 수정">
+    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="♻ refactor expired jwt Expired Header True/False Expired 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/dto/UserClubDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/dto/UserClubDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="jh" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NXiTpF7N0iyUHBSV3WjC1XTxH2" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/resources"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="애플리케이션.로컬카카오">
+    <configuration name="로컬카카오" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="com.codestates.mainproject.group018.somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=local" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="com.codestates.mainproject.group018.somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=dummy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="애플리케이션.로컬카카오" />
+      <item itemvalue="애플리케이션.SomojeonApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="🔧 update : schedule 조회 부분 수정">
       <created>1679625385935</created>
@@ -40,7 +104,97 @@
       <option name="project" value="LOCAL" />
       <updated>1679631050826</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task active="true" id="Default" summary="디폴트 작업">
+      <created>1679816837783</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679816837783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="🚑 !HOTFIX return path">
+      <created>1679827593573</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1679827593573</updated>
+    </task>
+    <task id="LOCAL-00005" summary="🚑 !HOTFIX return path">
+      <created>1679827708041</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679827708041</updated>
+    </task>
+    <task id="LOCAL-00006" summary="🚑 !HOTFIX return path">
+      <created>1679829012321</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829012321</updated>
+    </task>
+    <task id="LOCAL-00007" summary="🚑 !HOTFIX return path">
+      <created>1679829437823</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829437823</updated>
+    </task>
+    <task id="LOCAL-00008" summary="🚑 !HOTFIX return path">
+      <created>1679829796384</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829796384</updated>
+    </task>
+    <task id="LOCAL-00009" summary="🔧 update : 회원가입 시 유저인포, 엑세스 토큰">
+      <created>1679831957384</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679831957384</updated>
+    </task>
+    <task id="LOCAL-00010" summary="🚑 !HOTFIX CORS 에러">
+      <created>1679834906102</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679834906102</updated>
+    </task>
+    <task id="LOCAL-00011" summary="✨ feat expired jwt Expired Header True/False 반응 추가">
+      <created>1679836665071</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679836665071</updated>
+    </task>
+    <task id="LOCAL-00012" summary="♻ refactor expired jwt Expired Header True/False Expired에서 헤더 이름 변경">
+      <created>1679840106218</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1679840106218</updated>
+    </task>
+    <task id="LOCAL-00013" summary="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 추가">
+      <created>1679841791985</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679841791985</updated>
+    </task>
+    <task id="LOCAL-00014" summary="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 all">
+      <created>1679842628593</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679842628593</updated>
+    </task>
+    <task id="LOCAL-00015" summary="♻ refactor expired jwt Expired Header True/False Expired 수정">
+      <created>1679842920191</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1679842920191</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -48,19 +202,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="ET/feat/refactor" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -70,6 +212,26 @@
     <MESSAGE value=" update : schedule 조회 부분 수정" />
     <MESSAGE value=" update : schedule response 부분 수정" />
     <MESSAGE value=" update : schedule service 변수 부분 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value=" update : schedule service 변수 부분 수정" />
+    <MESSAGE value=" !HOTFIX returh path" />
+    <MESSAGE value=" !HOTFIX return path" />
+    <MESSAGE value=" update : 회원가입 시 유저인포, 엑세스 토큰" />
+    <MESSAGE value=" !HOTFIX CORS 에러" />
+    <MESSAGE value="✨ feat expired jwt Expired Header True/False 반응 추가" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 헤더 이름 변경" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 추가" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 all" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="♻ refactor expired jwt Expired Header True/False Expired 수정" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

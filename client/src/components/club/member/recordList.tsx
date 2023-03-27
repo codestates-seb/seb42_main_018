@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { MemberData } from '../../../types';
-import memberProfile from '../../../assets/default_profile.svg';
 
 const S_ListBox = styled.div`
   display: flex;
@@ -45,7 +44,7 @@ function MemberRecordList({
     <S_ListBox>
       <S_ListItem>순위</S_ListItem>
       <S_ProfileItem>
-        <img src={profileImage ? profileImage : memberProfile} alt='프로필사진'></img>
+        <img src={profileImage} alt='프로필사진'></img>
         {nickName}
       </S_ProfileItem>
       <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>

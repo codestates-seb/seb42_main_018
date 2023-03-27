@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { S_Label, S_Description } from '../../UI/S_Text';
 import { MemberData } from '../../../types';
-import memberProfile from '../../../assets/default_profile.svg';
 
 const S_Box = styled.div`
   // 전체 컨테이너 스타일
@@ -24,7 +23,7 @@ const S_Contents = styled.div`
 function ClubMemberItem({ nickName, profileImage, winRate }: MemberData) {
   return (
     <S_Box>
-      <img src={profileImage ? profileImage : memberProfile} alt='프로필이미지' />
+      <img src={profileImage} alt='프로필이미지' />
       <S_Contents>
         <S_Label>{nickName}</S_Label>
         <S_Description>승률 {winRate}%</S_Description>

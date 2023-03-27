@@ -5,7 +5,7 @@ const S_Box = styled.div`
   margin-top: 10vh;
   text-align: center;
   img {
-    width: 70%;
+    width: 60%;
     margin-top: 3vh;
   }
 `;

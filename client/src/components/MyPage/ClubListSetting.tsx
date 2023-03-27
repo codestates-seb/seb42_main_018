@@ -31,7 +31,7 @@ const S_ImgBox = styled.div<{ img?: string }>`
   height: 80px;
   border-radius: 10px;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-image: url(${(props) => props.img});
 `;
 const S_ContentsBox = styled.div`
@@ -82,7 +82,7 @@ function ClubListSetting({ userClubId, clubRole }: ClubListSettingProps) {
             <S_Label>
               {club?.clubName}
               {/* 롤이 리더인 경우 아이콘 보여주기 */}
-              {clubRole === 'LEADER' ? <img src={leaderBadgeIcon} alt='소모임장 아이콘' /> : null}
+              {clubRole === 'LEADER' && <img src={leaderBadgeIcon} alt='소모임장 아이콘' />}
             </S_Label>
           </S_TitleBox>
           <S_SmallDescription>
