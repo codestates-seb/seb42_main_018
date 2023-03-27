@@ -11,7 +11,6 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +33,7 @@ public class UserClubService {
      */
 
     // 소모임 가입 요청
-    public UserClub joinClub(UserClub userClub, Long userId) {
+    public UserClub joinClub(UserClub userClub) {
 //        clubService.findVerifiedClub(userClub.getClub().getClubId());
 //        userService.findVerifiedUser(userClub.getUser().getUserId());
 
@@ -101,10 +100,6 @@ public class UserClubService {
             findClub.setMemberCount(findClub.getMemberCount() + 1);
         }
 
-        if (joinStatus == JoinStatus.REFUSED) {
-            userClub.setJoinStatus(null);
-        }
-
         return userClubRepository.save(userClub);
 
     }
@@ -130,7 +125,7 @@ public class UserClubService {
         return userClubRepository.save(userClub);
     }
 
-    // 소모임 회원 등급 설정
+    // 소모임 회원 등급 설정 (리더, 매니저 가능)
     public UserClub updateClubRole(Long userId, Long clubId, ClubRole clubRole) {
 //        clubService.findVerifiedClub(clubId);
 
@@ -144,7 +139,7 @@ public class UserClubService {
         return userClubRepository.save(userClub);
     }
 
-    // 소모임장 위임
+    // 소모임장 위임 (리더만 가능)
     public void changeClubLeader(Long leaderId, Long memberId, Long clubId, ClubRole leaderChangeClubRole, ClubRole memberChangeClubRole) {
         User leader = userService.findVerifiedUser(leaderId);
         User member = userService.findVerifiedUser(memberId);

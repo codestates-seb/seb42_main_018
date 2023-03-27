@@ -5,7 +5,7 @@ import { S_Button, S_TabButton } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Title } from '../../../components/UI/S_Text';
 import { getFetch } from '../../../util/api';
-import { Record, TeamList } from './CreateMatch';
+import { Candidate, Record, TeamList } from './CreateMatch';
 import PastMatch from './_pastMatch';
 import ScheduledMatch from './_scheduledMatch';
 
@@ -20,7 +20,7 @@ export interface Schedule {
   createdAt: string;
   records: Record[];
   teamList: TeamList[];
-  candidates: string[];
+  candidates: Candidate[];
 }
 
 interface SubTab {
@@ -31,7 +31,7 @@ interface SubTab {
 
 function ClubSchedule() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, scid } = useParams();
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -48,8 +48,8 @@ function ClubSchedule() {
       id: 1,
       title: '예정 경기',
       contents: (
-        // <ScheduledMatch schedule={clubSchedules.filter((el) => new Date(el.date) >= new Date())} />
-        <ScheduledMatch schedule={clubSchedules} />
+        <ScheduledMatch schedule={clubSchedules.filter((el) => new Date(el.date) >= new Date())} />
+        // <ScheduledMatch schedule={clubSchedules} />
       )
     },
     {
@@ -67,7 +67,7 @@ function ClubSchedule() {
 
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
-      console.log(data);
+      console.log(data.data);
       setClubSchedules([...data.data]);
     });
   }, []);

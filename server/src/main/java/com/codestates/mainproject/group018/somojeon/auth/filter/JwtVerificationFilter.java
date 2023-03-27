@@ -4,8 +4,11 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
+import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
+import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,12 +43,20 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
         try {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
+            response.addHeader("Access-Token-Expired","False");
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
+                // todo-jh 하드 코딩 제거
                 response.sendRedirect("http://localhost:3000/login");
             }
-            request.setAttribute("exception", ee);
+            else{
+                response.addHeader("Access-Token-Expired","True");
+                response.setStatus(HttpStatus.OK.value());
+                request.getRequestURI();
+                return;
+            }
+
         }
 
         filterChain.doFilter(request, response);

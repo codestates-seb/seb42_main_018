@@ -24,6 +24,7 @@ public interface TeamMapper {
         return TeamDto.Response
                 .builder()
                 .teamId(team.getTeamId())
+                .teamNumber(team.getTeamNumber())
                 .score(team.getScore())
                 .winLoseDraw(team.getWinLoseDraw())
                 .users(userTeamsToUserTeamResponseDtos(team.getUserTeams()))
