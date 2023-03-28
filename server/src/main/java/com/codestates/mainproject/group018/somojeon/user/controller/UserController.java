@@ -96,15 +96,14 @@ public class UserController {
 //    }
 
     @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(@PathVariable("user-id") @Positive long userId,
-                                    @ModelAttribute User user,
+    public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
                                     @RequestParam String nickName,
                                     @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
 
         if (!identifier.isVerified(userId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User response = userService.updateUser(userId, user, nickName, multipartFile);
+        User response = userService.updateUser(userId, nickName, multipartFile);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(response)), HttpStatus.OK);
@@ -200,6 +199,10 @@ public class UserController {
                                      @RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "100") int size) {
 
+        if (!identifier.isVerified(userId) && identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
         Page<Club> myClubs = clubService.findMyClubs(page - 1, size, userId);
         List<Club> content = myClubs.getContent();
 
@@ -213,6 +216,10 @@ public class UserController {
     public ResponseEntity getClubsByMyJoinRequest(@PathVariable("user-id") @Positive Long userId,
                                            @RequestParam(defaultValue = "1") int page,
                                            @RequestParam(defaultValue = "100") int size) {
+
+        if (!identifier.isVerified(userId) && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         Page<Club> joinPage = clubService.findClubsByMyJoinRequest(page - 1, size, userId);
         List<Club> content = joinPage.getContent();
