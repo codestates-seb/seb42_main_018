@@ -78,7 +78,7 @@ public interface ScheduleMapper {
                 .map(record -> {
                     RecordDto.Response response = new RecordDto.Response();
                     response.setRecordId(record.getRecordId());
-                    response.setCreatedAt(record.getCreatedAt());
+//                    response.setCreatedAt(record.getCreatedAt());
                     response.setFirstTeam(record.getFirstTeam());
                     response.setFirstTeamScore(record.getFirstTeamScore());
                     response.setSecondTeam(record.getSecondTeam());

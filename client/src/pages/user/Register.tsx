@@ -12,7 +12,7 @@ import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
 import { S_Title } from '../../components/UI/S_Text';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import InputEmail from '../../components/login/_inputEmail';
 import InputPassword from '../../components/login/_inputPassword';
 import InputNickname from '../../components/login/_inputNickname';
@@ -99,17 +99,13 @@ function Register() {
 
   const checkPasswordValidation = () => {
     const isValidPassword = checkPassword(password);
-
-    if (!isValidPassword) setPasswordError(true);
-    else setPasswordError(false);
-
-    if (password !== confirmPassword) setConfirmPasswordError(true);
-    else setConfirmPasswordError(false);
+    setPasswordError(!isValidPassword);
+    setConfirmPasswordError(password !== confirmPassword);
 
     return isValidPassword && password === confirmPassword;
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const setGlobalState = (res: AxiosResponse) => {
     if (res) {
       // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)

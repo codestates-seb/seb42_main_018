@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import getGlobalState from '../../util/authorization/getGlobalState';
 
 import { S_Title } from '../UI/S_Text';
 import ClubListSetting from './ClubListSetting';
@@ -17,7 +18,11 @@ interface ClubYesProps {
   }[];
 }
 
-function ClubYes({ userClubResponses }: ClubYesProps) {
+function ClubYes() {
+  const { userInfo } = getGlobalState();
+  const { userClubResponses } = userInfo || {};
+  console.log(userClubResponses);
+
   return (
     <S_Box>
       <div className='myclub'>
@@ -25,11 +30,7 @@ function ClubYes({ userClubResponses }: ClubYesProps) {
         {userClubResponses.map(
           (el) =>
             el.clubRole !== null && (
-              <ClubListSetting
-                key={el.userClubId}
-                userClubId={el.userClubId}
-                clubRole={el.clubRole}
-              />
+              <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
             )
         )}
       </div>
@@ -38,11 +39,7 @@ function ClubYes({ userClubResponses }: ClubYesProps) {
         {userClubResponses.map(
           (el) =>
             el.clubRole === null && (
-              <ClubListSetting
-                key={el.userClubId}
-                userClubId={el.userClubId}
-                clubRole={el.clubRole}
-              />
+              <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
             )
         )}
       </div>

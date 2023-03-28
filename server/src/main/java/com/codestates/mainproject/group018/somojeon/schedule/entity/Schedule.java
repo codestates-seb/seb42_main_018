@@ -54,10 +54,10 @@ public class Schedule {
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Team> teamList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Record> records = new ArrayList<>();
 
     @OneToMany(mappedBy = "schedule")

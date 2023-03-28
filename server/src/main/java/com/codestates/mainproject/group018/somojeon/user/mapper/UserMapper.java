@@ -3,9 +3,6 @@ package com.codestates.mainproject.group018.somojeon.user.mapper;
 
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
-import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import org.mapstruct.Mapper;
@@ -13,7 +10,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", uses = {ClubMapper.class, ImageMapper.class})
+@Mapper(componentModel = "spring", uses = {ClubMapper.class})
 public interface UserMapper {
     User userPostToUser(UserDto.Post userDtoPost);
     User userPatchToUser(UserDto.Patch userDtoPatch);
@@ -42,7 +39,7 @@ public interface UserMapper {
 
 
     default UserDto.ResponseWithClubs userToUserResponseWithClubs(User user, List<UserClub> userClubs
-            , ClubMapper clubMapper, ImageMapper imageMapper){
+            , ClubMapper clubMapper){
         UserDto.ResponseWithClubs responseWithClubs = new UserDto.ResponseWithClubs(
                 user.getUserId(),
                 user.getNickName(),
