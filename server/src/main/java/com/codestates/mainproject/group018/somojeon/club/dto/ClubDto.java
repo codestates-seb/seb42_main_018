@@ -1,7 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
-import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
