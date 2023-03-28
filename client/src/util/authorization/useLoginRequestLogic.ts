@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { postFetch } from '../api';
 import { setIsLogin, setTokens, setUserInfo } from '../../store/store';
 
@@ -11,7 +11,7 @@ export interface RegisterUserInputType {
 }
 
 export function useLoginRequestLogic() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogin = async (data: RegisterUserInputType) => {
     const POST_URL = `${process.env.REACT_APP_URL}/auth/login`;

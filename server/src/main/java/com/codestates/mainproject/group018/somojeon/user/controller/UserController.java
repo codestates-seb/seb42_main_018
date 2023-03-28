@@ -9,8 +9,6 @@ import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -49,23 +47,21 @@ public class UserController {
     private final ClubService clubService;
 
     private final ClubMapper clubMapper;
-    private final ImageMapper imageMapper;
     private final JwtTokenProvider jwtTokenProvider;
 
 
     // post
     @PostMapping()
     public ResponseEntity postUser(@Valid @RequestBody UserDto.Post userDtoPost,
-                                   HttpServletRequest request, HttpServletResponse response,
-                                   Images images) {
+                                   HttpServletRequest request, HttpServletResponse response) {
         User user = userMapper.userPostToUser(userDtoPost);
         String token = identifier.getAccessToken(request);
-        User createdUser = userService.createUser(user, token, images, response);
+        User createdUser = userService.createUser(user, token, response);
         jwtTokenProvider.provideTokens(createdUser, response);
         List<UserClub> userClubs = userService.findUserClub(createdUser.getUserId());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(userMapper.userToUserResponseWithClubs(createdUser, userClubs, clubMapper, imageMapper)),
+                new SingleResponseDto<>(userMapper.userToUserResponseWithClubs(createdUser, userClubs, clubMapper)),
                 HttpStatus.OK);
     }
 
@@ -96,15 +92,14 @@ public class UserController {
 //    }
 
     @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(@PathVariable("user-id") @Positive long userId,
-                                    @ModelAttribute User user,
+    public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
                                     @RequestParam String nickName,
                                     @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
 
         if (!identifier.isVerified(userId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User response = userService.updateUser(userId, user, nickName, multipartFile);
+        User response = userService.updateUser(userId, nickName, multipartFile);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(response)), HttpStatus.OK);
@@ -135,7 +130,7 @@ public class UserController {
 
         User findUser = userService.findUser(userId);
         List<UserClub> userClubs = userService.findUserClub(userId);
-        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper, imageMapper);
+        UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
@@ -200,6 +195,10 @@ public class UserController {
                                      @RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "100") int size) {
 
+        if (!identifier.isVerified(userId) && identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
         Page<Club> myClubs = clubService.findMyClubs(page - 1, size, userId);
         List<Club> content = myClubs.getContent();
 
@@ -213,6 +212,10 @@ public class UserController {
     public ResponseEntity getClubsByMyJoinRequest(@PathVariable("user-id") @Positive Long userId,
                                            @RequestParam(defaultValue = "1") int page,
                                            @RequestParam(defaultValue = "100") int size) {
+
+        if (!identifier.isVerified(userId) && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         Page<Club> joinPage = clubService.findClubsByMyJoinRequest(page - 1, size, userId);
         List<Club> content = joinPage.getContent();

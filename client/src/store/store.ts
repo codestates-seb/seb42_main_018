@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 
 export interface RootState {
   isLogin: boolean;
@@ -87,10 +88,15 @@ export const { setIsLogin } = isLogin.actions;
 export const { setUserInfo } = userInfo.actions;
 export const { setTokens } = tokens.actions;
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     isLogin: isLogin.reducer,
     userInfo: userInfo.reducer,
     tokens: tokens.reducer
   }
 });
+
+export type DispatchType = typeof store.dispatch;
+export const useAppDispatch: () => DispatchType = useDispatch;
+
+export default store;

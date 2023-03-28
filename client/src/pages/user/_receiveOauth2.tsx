@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/store';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo, setTokens } from '../../store/store';
 import { getFetch } from '../../util/api';
@@ -15,7 +15,7 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
   }
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
   const accessToken = searchParams.get('access_token');
