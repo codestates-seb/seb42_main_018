@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/store';
+import store, { setUserInfo, useAppDispatch } from '../store/store';
 import { JwtTokensType, setTokens } from '../store/store';
 
 const refreshTokens = async (res: AxiosResponse, tokens: JwtTokensType) => {
@@ -46,7 +46,12 @@ export const getFetch = async (url: string, tokens?: JwtTokensType) => {
   }
 };
 
-export const postFetch = async <T>(url: string, newData: T, tokens?: JwtTokensType) => {
+export const postFetch = async <T>(
+  url: string,
+  newData: T,
+  tokens?: JwtTokensType,
+  changeUserInfo?: boolean
+) => {
   try {
     const res = await axios.post(url, newData, {
       headers: {
@@ -56,6 +61,13 @@ export const postFetch = async <T>(url: string, newData: T, tokens?: JwtTokensTy
         Refresh: tokens && tokens.refreshToken
       }
     });
+
+    if (changeUserInfo && res) {
+      const { userInfo, tokens } = store.getState();
+      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
+        store.dispatch(setUserInfo(resp.data))
+      );
+    }
 
     if (res.status === 200 || res.status === 201) return res;
   } catch (err) {
@@ -67,6 +79,7 @@ export const patchFetch = async <T>(
   url: string,
   updateData: T,
   tokens?: JwtTokensType,
+  changeUserInfo?: boolean,
   contentType?: string
 ) => {
   try {
@@ -78,6 +91,13 @@ export const patchFetch = async <T>(
         Refresh: tokens?.refreshToken
       }
     });
+
+    if (changeUserInfo && res) {
+      const { userInfo, tokens } = store.getState();
+      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
+        store.dispatch(setUserInfo(resp.data))
+      );
+    }
 
     if (res.status === 200) return res;
   } catch (err) {

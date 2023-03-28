@@ -138,15 +138,6 @@ function Login() {
           >
             카카오톡 로그인
           </S_Button>
-          <S_Button
-            onClick={alertPreparingService}
-            addStyle={{
-              backgroundColor: 'var(--naver-main-theme)',
-              hoverBgColor: 'var(--naver-hover-theme)'
-            }}
-          >
-            네이버 로그인
-          </S_Button>
         </div>
       </S_LoginWrapper>
 
