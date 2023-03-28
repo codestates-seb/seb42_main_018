@@ -84,7 +84,7 @@ const S_ClubImgArea = styled.img<{ src: string }>`
 function ClubIntro() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLogin, userInfo } = getGlobalState();
+  const { isLogin, userInfo, tokens } = getGlobalState();
   const [clubInfo, setClubInfo] = useState<ClubData>();
   const [updatedUserInfo, setUpdatedUserInfo] = useState(userInitialState);
   // isApplied : 가입신청을 이미 한 번 했으면 true, 아직 안했으면 false
@@ -103,7 +103,7 @@ function ClubIntro() {
 
     const USER_URL = `${process.env.REACT_APP_URL}/users/${userInfo.userId}`;
     const getUserInfo = async () => {
-      const res = await getFetch(USER_URL);
+      const res = await getFetch(USER_URL, tokens);
       if (res) setUpdatedUserInfo(res.data);
     };
 
