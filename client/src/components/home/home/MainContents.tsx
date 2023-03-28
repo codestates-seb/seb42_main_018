@@ -7,7 +7,8 @@ import { getFetch } from '../../../util/api';
 
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
-  padding: 30px 0px;
+  margin-top: 10px;
+  padding: 20px 0px;
 `;
 const S_TagBox = styled.div`
   // 카테고리 태그 박스
@@ -37,24 +38,17 @@ function MainContents() {
   // TODO : 페이지네이션 기능 추가 -> 무한스크롤 도전!
 
   // API로 카테고리 정보 가져오기
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
-  useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/categories`).then((data) => {
-      const categories: CategoryProps[] = data.data.slice(0, 4);
-      setCategories(categories);
-    });
-  }, []);
+  // const [categories, setCategories] = useState<CategoryProps[]>([]);
+  // useEffect(() => {
+  //   getFetch(`${process.env.REACT_APP_URL}/categories`).then((data) => {
+  //     const categories: CategoryProps[] = data.data.slice(0, 4);
+  //     setCategories(categories);
+  //   });
+  // }, []);
 
   // API로 클럽 리스트 가져오기
   const [clubs, setClubs] = useState<ClubData[]>([]); // 뿌려줄 클럽리스트
   const [pageInfo, setPageInfo] = useState<ClubPage>(); // 페이지 인포
-
-  const [categoryFilter, setcategoryFilter] = useState<ClubData[]>(clubs);
-  const onClickCategory = () => {
-    clubs.map((el) => {
-      el.categoryName === '배구';
-    });
-  };
 
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs`).then((data) => {
@@ -66,30 +60,21 @@ function MainContents() {
     });
   }, []);
 
-  const dataCategories =
-    // 데이터에서 가져온 카테고리 리스트
-    clubs
-      .map((el) => {
-        return el.categoryName;
-      })
-      // 인기순으로 나열할 수 있지 않을까 ㅜ
-      .slice(0, 4);
-  console.log(dataCategories);
-
   return (
     <div>
       <S_TitleBox>
         <S_Title>어떤 소모임이 있을까요?</S_Title>
-        <S_TagBox>
-          {/* 최대 5개의 카테고리만 보여주기 */}
-          <S_Category>전체보기</S_Category>
-          {dataCategories.map((el) => (
-            <S_Category key={el} onClick={onClickCategory}>
+        {/* <S_TagBox> */}
+        {/* 최대 5개의 카테고리만 보여주기 */}
+        {/* <S_Category>전체보기</S_Category> */}
+        {/* {categories.map((el) => (
+            <S_Category key={el}>
               {el}
             </S_Category>
-          ))}
-        </S_TagBox>
+          ))} */}
+        {/* </S_TagBox> */}
       </S_TitleBox>
+
       {/* TODO : 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
       {clubs.map(
         (el) =>
