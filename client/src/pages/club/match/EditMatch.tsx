@@ -28,6 +28,7 @@ import {
   S_MapView,
   TeamList
 } from './CreateMatch';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 function EditMatch() {
   const {
@@ -40,6 +41,7 @@ function EditMatch() {
   const [matchData, setMatchData] = useState<MatchData>();
 
   const { id, scid } = useParams();
+  const { userInfo } = getGlobalState();
   const navigate = useNavigate();
 
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
@@ -210,6 +212,10 @@ function EditMatch() {
   }
 
   useEffect(() => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert('권한이 없습니다.');
+      navigate(`/club/${id}`);
+    }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
       setMatchData({ ...data.data });
       setIsPending(false);
