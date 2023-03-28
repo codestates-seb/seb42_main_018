@@ -83,7 +83,7 @@ function MainContents() {
           local={el.local}
           categoryName={el.categoryName}
           memberCount={el.memberCount}
-          tagResponseDtos={el.tagResponseDtos}
+          tagList={el.tagList}
         />
       ))}
       {/* <S_Page /> */}

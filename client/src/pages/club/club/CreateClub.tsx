@@ -116,7 +116,7 @@ function CreateClub() {
       ...inputs,
       categoryName: categoryValue,
       local: localValue,
-      tagName: tags,
+      tagList: tags,
       isSecret
     };
 

@@ -120,7 +120,7 @@ function ClubIntro() {
     clubImage,
     local,
     memberCount,
-    tagResponseDtos: tags
+    tagList: tags
   } = clubInfo || {};
 
   // const longText =
@@ -180,9 +180,9 @@ function ClubIntro() {
               </div>
               <S_TagWrapper>
                 {tags &&
-                  tags.map((tag) => (
-                    <li key={tag.tagId}>
-                      <S_Tag>{tag.tagName}</S_Tag>
+                  tags.map((tag, idx) => (
+                    <li key={idx}>
+                      <S_Tag>{tag}</S_Tag>
                     </li>
                   ))}
               </S_TagWrapper>

@@ -8,12 +8,8 @@ export interface ClubData {
   categoryName: string;
   viewCount?: number;
   memberCount?: number;
-  tagResponseDtos: {
-    tagId: number;
-    tagName: string;
-  }[];
+  tagList: string[];
   modifiedAt?: string;
-  // TODO: secret의 optional ? 삭제 필요
   secret?: boolean;
 }
 export interface ClubPage {
