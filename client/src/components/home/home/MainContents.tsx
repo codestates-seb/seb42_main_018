@@ -53,7 +53,6 @@ function MainContents() {
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs`).then((data) => {
       const clubs: ClubData[] = data.data;
-      console.log(clubs);
       setClubs(clubs);
       const pageInfo: ClubPage = data.pageInfo;
       setPageInfo(pageInfo);

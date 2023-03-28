@@ -88,8 +88,8 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         `${process.env.REACT_APP_URL}/clubs/${club?.clubId}/joins/${userInfo.userId}`,
         tokens
       );
-      console.log(res);
-      if (res) alert('가입 신청이 취소되었습니다'); // 추후 모달 처리
+      if (res) alert('가입 신청이 취소되었습니다');
+      // 추후 모달 처리
       // 바로 데이터 반영되는지? 목록 없어지는지?
     }
   };
