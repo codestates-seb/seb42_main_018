@@ -1,9 +1,13 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final JwtTokenizer jwtTokenizer;
     private final OauthUserService oauthUserService;
     private final Identifier identifier;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -51,32 +56,43 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
             throw new BusinessLogicException(ExceptionCode.CLIENT_NOT_FOUND);
         }
         Map<String, String> param = new HashMap<>();
+        String path = "register";
         if(oauthUserService.IsUser(registration, registrationId)){
             log.info("Request kakao user is already somojeon user!");
             param.put("id", String.valueOf(identifier.getUserId(registration, registrationId)));
+            path = "oauth2/receive";
         }
         else{
             if((boolean)account.get("has_email")) email = (String) account.get("email");
             param.put("email", email);
-
-
         }
-        redirect(request, response, registration, String.valueOf(registrationId), param);
+        redirect(request, response, registration, String.valueOf(registrationId), param, path);
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
-                         ,String registration, String registrationId,  Map<String, String> param) throws IOException {
-        String accessToken = delegateAccessToken(registration, registrationId);
-        String refreshToken = delegateRefreshToken(registration, registrationId);
-        String path = (String) request.getAttribute("returnurl");
-        log.info("path =", path);
-        String uri =  createURI(accessToken, refreshToken, path, param).toString();
+                         ,String registration, String registrationId,  Map<String, String> param, String path) throws IOException {
 
+        String accessToken = null;
+        String refreshToken = null;
+
+        if(oauthUserService.IsUser(registration, Long.valueOf(registrationId))){
+            OAuthUser ouser =  oauthUserService.findOAuthUser(registration, Long.valueOf(registrationId));
+            User user = ouser.getUser();
+            accessToken = jwtTokenProvider.delegateAccessToken(user);
+            refreshToken = jwtTokenProvider.delegateRefreshToken(user);
+
+        }
+        else{
+            accessToken = delegateAccessToken(registration, registrationId);
+            refreshToken = delegateRefreshToken(registration, registrationId);
+        }
+        String uri =  createURI(accessToken, refreshToken, path, param, request).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
     private String delegateAccessToken(String registration, String registrationId) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("registration", registration);
         claims.put("registrationId", registrationId);
 
@@ -100,7 +116,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken, String path, Map<String, String> param) {
+    private URI createURI(String accessToken, String refreshToken, String path, Map<String, String> param, HttpServletRequest request) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
@@ -110,11 +126,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         return UriComponentsBuilder
                 .newInstance()
-//                .scheme("https")
-//                .host("dev-somojeon.vercel.app")
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
+                .scheme("https")
+                .host("dev-somojeon.vercel.app")
                 .path(path)
                 .queryParams(queryParams)
                 .build()

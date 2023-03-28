@@ -20,6 +20,7 @@ import TeamCard from '../../../components/match/TeamCard';
 import { postFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 export const S_MapView = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ export const S_MapView = styled.div`
   }
 `;
 
-const S_ConfirmModalContainer = styled(ModalContainer)`
+export const S_ConfirmModalContainer = styled(ModalContainer)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,7 +49,7 @@ const S_ConfirmModalContainer = styled(ModalContainer)`
   padding: 30px 20px;
 `;
 
-const S_ButtonBox = styled.div`
+export const S_ButtonBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -56,26 +57,34 @@ const S_ButtonBox = styled.div`
 
 export interface TeamList {
   id: number;
+  teamNumber: number;
   members: string[];
+  membersId: number[];
 }
 
 export interface Record {
   id: number;
-  firstTeam: string;
-  secondTeam: string;
+  firstTeam: number;
+  secondTeam: number;
   firstTeamScore: number;
   secondTeamScore: number;
 }
 
 export interface MatchData {
-  date: string | undefined;
+  date: string;
   time: string | undefined;
   placeName: string | undefined;
   longitude: number | undefined;
   latitude: number | undefined;
-  candidates: string[];
+  candidates: Candidate[];
   teamList: TeamList[];
   records: Record[];
+}
+
+export interface Candidate {
+  userId: number;
+  nickName: string;
+  attendance: string;
 }
 
 function CreateMatch() {
@@ -87,6 +96,7 @@ function CreateMatch() {
   } = useForm({ mode: 'onChange' });
 
   const [matchData, setMatchData] = useState<MatchData>();
+  const { userInfo } = getGlobalState();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -95,12 +105,15 @@ function CreateMatch() {
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
-  const candidates: string[] = [];
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  // const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
-  const [candidateList, setCandidateList] = useState(candidates);
+  const [candidateList, setCandidateList] = useState(candidates.map((el) => el.nickName));
 
-  const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, members: [] }]);
+  const [teamList, setTeamList] = useState<TeamList[]>([
+    { id: 0, teamNumber: 1, members: [], membersId: [] }
+  ]);
   const [records, setRecords] = useState<Record[]>([]);
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
@@ -161,18 +174,22 @@ function CreateMatch() {
   const addTeam = () => {
     const newTeam = {
       id: teamList[teamList.length - 1].id + 1,
-      members: []
+      teamNumber: teamList.length + 1,
+      members: [],
+      membersId: []
     };
     setTeamList([...teamList, newTeam]);
   };
 
   const deleteTeam = (idx: number) => {
     if (teamList.length === 1) {
-      setCandidateList(candidates);
+      setCandidateList(candidates.map((el) => el.nickName));
       setTeamList([
         {
           id: 0,
-          members: []
+          teamNumber: 1,
+          members: [],
+          membersId: []
         }
       ]);
       return;
@@ -188,8 +205,8 @@ function CreateMatch() {
   const addRecord = () => {
     const newRecord: Record = {
       id: records.length ? records[records.length - 1].id + 1 : 0,
-      firstTeam: '1',
-      secondTeam: '1',
+      firstTeam: 1,
+      secondTeam: 2,
       firstTeamScore: 0,
       secondTeamScore: 0
     };
@@ -209,7 +226,10 @@ function CreateMatch() {
     copiedValues.forEach((el) => {
       const temp = {
         id: Number(el[0]),
-        ...el[1]
+        firstTeam: Number(el[1].firstTeam),
+        secondTeam: Number(el[1].secondTeam),
+        firstTeamScore: Number(el[1].firstTeamScore),
+        secondTeamScore: Number(el[1].secondTeamScore)
       };
       copiedRecords.push(temp);
     });
@@ -234,9 +254,11 @@ function CreateMatch() {
   };
 
   const postMatchData = async () => {
-    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData).then((res) =>
-      console.log('post했습니다.')
-    );
+    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData)
+      .then((res) => console.log('post했습니다.'))
+      .then(() => {
+        navigate(`/club/${id}/match`);
+      });
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -244,6 +266,10 @@ function CreateMatch() {
   }
 
   useEffect(() => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert('권한이 없습니다.');
+      navigate(`/club/${id}`);
+    }
     saveMatchData();
   }, [records]);
 
@@ -296,7 +322,7 @@ function CreateMatch() {
         <div>
           {candidates &&
             candidates.map((member, idx) => {
-              return <S_NameTag key={idx}>{member}</S_NameTag>;
+              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
       </div>
@@ -386,7 +412,6 @@ function CreateMatch() {
                   addStyle={{ width: '48%' }}
                   onClick={() => {
                     postMatchData();
-                    navigate(`/club/${id}/match`);
                   }}
                 >
                   확인

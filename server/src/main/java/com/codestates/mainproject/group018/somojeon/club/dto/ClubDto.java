@@ -1,9 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
-import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
-import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -17,6 +15,8 @@ public class ClubDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post {
+
+        private Long userId;
 
         private String clubName;
 
@@ -32,7 +32,7 @@ public class ClubDto {
         private String categoryName;
 
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
     }
@@ -61,11 +61,20 @@ public class ClubDto {
         private String local;
 
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
-        private String clubImageUrl;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class StatusPatch {
+
+        private Long clubId;
+        private ClubStatus clubStatus;
+    }
+
 
 
     @Getter
@@ -79,17 +88,15 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
+        private List<String> tagList;
+        private boolean isSecret;
         private int viewCount;
         private int memberCount;
-        private List<TagDto.Response> tagResponseDtos;
-        private String clubImageUrl;
-        private boolean isSecret;
+        private String clubImage;
+        private ClubStatus clubStatus;
         private LocalDateTime modifiedAt;
 
     }
-
-
-    //TODO-DW: myResponse 는 아마도 따로해야 할듯?
 
 
 }

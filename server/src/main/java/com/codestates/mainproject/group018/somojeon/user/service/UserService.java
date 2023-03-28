@@ -1,13 +1,12 @@
 package com.codestates.mainproject.group018.somojeon.user.service;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
@@ -25,9 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,21 +37,25 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Value("${defaultProfile.image.address")
-    private String defaultProfileImage;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtTokenizer jwtTokenizer;
 
+    @Value("${defaultProfile.image.address}")
+    private String defaultProfileImage;
     private final ClubService clubService;
-    private final OauthUserService oauthUserService;
     private final ImageService imageService;
-    private final ImagesRepository imagesRepository;
+    private final OauthUserService oauthUserService;
 
 
-    public User createUser(User user, String token, Images images) {
+    public User createUser(User user, String token, HttpServletResponse response) {
         verifyExistsEmail(user.getEmail());
+
+        // DB에 User Role 저장
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
+        user.setRoles(roles);
+
         if(token != null){
             user.setPassword("OAUTH2.0");
             oauthUserService.createOAuthUser(token, user);
@@ -61,39 +66,45 @@ public class UserService {
         user.setPassword(encryptedPassword);
 
         // DB에 User Role 저장
-        List<String> roles = authorityUtils.createRoles(user.getEmail());
-        user.setRoles(roles);
-
-        // 기본이미지 저장.
-        user.setImages(images);
-        images.setUrl(defaultProfileImage);
-        imagesRepository.save(images);
+        user.setProfileImageUrl(defaultProfileImage);
 
         User savedUser = userRepository.save(user);
 
         return savedUser;
     }
 
-
-
-
+    // 이전 코드는 주석처리 해놓음.
+//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
+//    public User updateUser(User user)  {
+//        User findUser = findVerifiedUser(user.getUserId());
+//
+//        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
+//        optionalNickName.ifPresent(findUser::setNickName);
+//
+//        return userRepository.save(findUser);
+//    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUser(User user)  {
-        User findUser = findVerifiedUser(user.getUserId());
+    public User updateUser(Long userId, String nickName, MultipartFile multipartFile) throws IOException {
+        User findUser = findVerifiedUser(userId);
 
-        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-        optionalNickName.ifPresent(findUser::setNickName);
+        if (multipartFile == null) {
+            findUser.setNickName(nickName);
+        } else {
+            findUser.setNickName(nickName);
+            findUser.setProfileImageUrl(imageService.uploadProfileImage(multipartFile));
+        }
 
         return userRepository.save(findUser);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUserPassword(UserDto.PatchPassword userDto)  {
+    public User updateUserPassword(UserDto.PatchPassword userDto, HttpServletResponse response)  {
         User findUser = findVerifiedUser(userDto.getUserId());
         String savedPassword = findUser.getPassword();
         String currentPassword =  userDto.getCurrentPassword();
         if(!passwordEncoder.matches(currentPassword, savedPassword)){
+            response.addHeader("request", "False");
             throw new BusinessLogicException(ExceptionCode.CURRENT_PASSWORD_NOT_MATCH);
         }
 
@@ -101,6 +112,7 @@ public class UserService {
         String nextPasswordCheck = userDto.getNextPasswordCheck();
 
         if(!nextPassword.equals(nextPasswordCheck)){
+            response.addHeader("request", "False");
             throw new BusinessLogicException(ExceptionCode.NEXT_PASSWORD_NOT_MATCH);
         }
         findUser.setPassword(passwordEncoder.encode(nextPassword));
@@ -125,14 +137,6 @@ public class UserService {
 
     }
 
-    // UserClub으로 옮김
-
-//    public Page<UserClub> findUsers(int page, int size, long clubId) {
-//
-//        Page<UserClub> userClubPage = clubService.getClubMembers(PageRequest.of(page, size, Sort.by("winRate")) , clubId);
-//
-//        return userClubPage;
-//    }
 
     public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);

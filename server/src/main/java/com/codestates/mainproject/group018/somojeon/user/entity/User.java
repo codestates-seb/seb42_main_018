@@ -4,7 +4,6 @@ import com.codestates.mainproject.group018.somojeon.audit.Auditable;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.comment.entity.Comment;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import lombok.AllArgsConstructor;
@@ -32,8 +31,7 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String nickName;
 
-    // 한 소모임에 같은 유저가 5번이상 가입요청하면 차단.
-    private int joinCount;
+    private String profileImageUrl;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -42,9 +40,8 @@ public class User extends Auditable {
     String password;
 
     // 이미지 연관관계 매핑 바꿔봄.
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "IMAGE_ID")
-    private Images images;
+//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Images images;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
@@ -64,10 +61,6 @@ public class User extends Auditable {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     OAuthUser oAuthUser;
-
-    public void setImages(Images images) {
-        this.images = images;
-    }
 
     public enum UserStatus{
 

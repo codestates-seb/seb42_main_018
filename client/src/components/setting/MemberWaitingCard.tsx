@@ -3,9 +3,9 @@ import { WaitingUser } from '../../pages/club/setting/_waitingMember';
 import dummy from '../../assets/default_profile.svg';
 import { S_Description, S_Text } from '../UI/S_Text';
 import { S_SelectButton } from '../UI/S_Button';
-import { postFetch } from '../../util/api';
-import axios from 'axios';
+import { patchFetch } from '../../util/api';
 import { useParams } from 'react-router-dom';
+import getGlobalState from '../../util/authorization/getGlobalState';
 
 const S_WaitingCardContainer = styled.div`
   display: flex;
@@ -37,18 +37,25 @@ interface MemberWaitingCardProps {
 
 function MemberWaitingCard(props: MemberWaitingCardProps) {
   const { id } = useParams();
+  const { tokens } = getGlobalState();
   const acceptMember = async () => {
-    await axios
-      .patch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+    patchFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`,
+      {
         joinStatus: 'CONFIRMED'
-      })
-      .then(() => {
-        props.setIsUpdated(!props.isUpdated);
-      });
+      },
+      tokens
+    ).then(() => {
+      props.setIsUpdated(!props.isUpdated);
+    });
   };
 
-  const rejectMember = () => {
-    alert('가입 거절 patch날리기');
+  const rejectMember = async () => {
+    patchFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
+      joinStatus: 'REFUSED'
+    }).then(() => {
+      props.setIsUpdated(!props.isUpdated);
+    });
   };
   return (
     <S_WaitingCardContainer>
@@ -64,10 +71,10 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
         </S_ContentWrapper>
       </S_CardWrapper>
       <S_ButtonWrapper>
-        <S_SelectButton onClick={acceptMember} width='15%' style={{ marginRight: '5px' }}>
+        <S_SelectButton onClick={acceptMember} width='auto' style={{ marginRight: '5px' }}>
           가입승인
         </S_SelectButton>
-        <S_SelectButton onClick={rejectMember} width='15%'>
+        <S_SelectButton onClick={rejectMember} width='auto'>
           가입거절
         </S_SelectButton>
       </S_ButtonWrapper>

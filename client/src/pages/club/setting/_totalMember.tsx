@@ -1,33 +1,37 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import MemberUserCard from '../../../components/setting/MemberUserCard';
+import { getFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 export interface MemberUser {
-  id: number;
+  userId: number;
   nickName: string;
+  profileImage: string;
+  playCount: number;
+  winCount: number;
+  loseCount: number;
+  drawCount: number;
   winRate: number;
+  clubMemberStatus: string;
+  clubRole: string;
 }
 
 function TotalMember() {
-  const data: MemberUser[] = [
-    {
-      id: 0,
-      nickName: '탁구왕김제빵',
-      winRate: 100
-    },
-    {
-      id: 1,
-      nickName: '배드민턴고수',
-      winRate: 100
-    },
-    {
-      id: 2,
-      nickName: '풋살왕슛돌이',
-      winRate: 100
-    }
-  ];
+  // const data: MemberUser[] = [];
+  const { id } = useParams();
+  const { tokens } = getGlobalState();
+  const [totalMembers, setTotalMembers] = useState<MemberUser[]>([]);
+
+  useEffect(() => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
+      setTotalMembers(data.data);
+    });
+  }, []);
   return (
     <>
-      {data.map((el) => (
-        <MemberUserCard key={el.id} member={el} />
+      {totalMembers?.map((el) => (
+        <MemberUserCard key={el.userId} member={el} />
       ))}
     </>
   );

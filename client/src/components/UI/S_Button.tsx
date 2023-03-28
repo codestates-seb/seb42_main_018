@@ -69,7 +69,11 @@ export const S_ButtonBlack = styled(StyledButton)`
   }
 `;
 
-export const S_SelectButton = styled.button<{ width?: string; clicked?: string }>`
+export const S_SelectButton = styled.button<{
+  width?: string;
+  clicked?: string;
+  isCandidate?: boolean;
+}>`
   // 참석, 불참을 표시하기 전 기본 버튼입니다.
   width: ${(props) => props.width || '46px'};
   height: 30px;
@@ -77,13 +81,14 @@ export const S_SelectButton = styled.button<{ width?: string; clicked?: string }
   background-color: var(--white);
   border: 1px solid var(--gray200);
   border-radius: 5px;
-  &.clicked {
-    background-color: ${(props) =>
-      props.clicked === 'attendance'
-        ? 'var(--green100)'
-        : props.clicked === 'absence'
-        ? 'var(--red100)'
-        : 'var(--white)'};
+  &.attendance {
+    background-color: var(--green100);
+    /* background-color: ${(props) => (props.isCandidate ? 'var(--green100)' : 'var(--red100)')}; */
+    color: var(--white);
+  }
+  &.absence {
+    /* background-color: ${(props) => (props.isCandidate ? 'var(--green100)' : 'var(--red100)')}; */
+    background-color: var(--red100);
     color: var(--white);
   }
 `;

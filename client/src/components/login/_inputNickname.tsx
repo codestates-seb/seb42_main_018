@@ -1,5 +1,6 @@
 import { S_Label, S_Description } from '../UI/S_Text';
 import { S_Input } from '../UI/S_Input';
+import { S_InputWrapper } from './_inputEmail';
 
 interface InputNicknameProps {
   value: string;
@@ -8,7 +9,7 @@ interface InputNicknameProps {
 
 function InputNickname({ value, onChange }: InputNicknameProps) {
   return (
-    <div>
+    <S_InputWrapper>
       <label htmlFor='nickname'>
         <S_Label>닉네임</S_Label>
       </label>
@@ -21,7 +22,7 @@ function InputNickname({ value, onChange }: InputNicknameProps) {
         value={value}
         onChange={onChange}
       />
-    </div>
+    </S_InputWrapper>
   );
 }
 

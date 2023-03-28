@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Tabmenu from '../../components/TabMenu';
 import { S_ButtonBlack } from '../../components/UI/S_Button';
 import S_Container from '../../components/UI/S_Container';
-import { S_Description, S_Label, S_SmallDescription, S_Title } from '../../components/UI/S_Text';
+import { S_Description, S_Label, S_Title } from '../../components/UI/S_Text';
+import { deleteFetch } from '../../util/api';
+import getGlobalState from '../../util/authorization/getGlobalState';
 
 const S_DeleteBox = styled.div`
   margin: 50px 0px;
@@ -12,11 +15,29 @@ const S_DeleteBox = styled.div`
 `;
 
 function DeleteAccount() {
+  const { userInfo, tokens } = getGlobalState();
+  const navigate = useNavigate();
+
   const tabs = [
     { id: 1, title: '프로필', path: `/mypage/edit` },
     { id: 2, title: '계정 설정', path: `/mypage/edit/password` },
     { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
   ];
+
+  const deleteUser = async () => {
+    if (tokens) {
+      const res = await deleteFetch(
+        `${process.env.REACT_APP_URL}/users/${userInfo.userId}`,
+        tokens
+      );
+      if (res) {
+        alert('탈퇴했습니다.'); // 추후 모달 처리
+        navigate('/');
+      }
+      console.log(res);
+    }
+  };
+
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />
@@ -31,7 +52,7 @@ function DeleteAccount() {
         </S_Description>
         <div className='box'></div>
         {/* TODO : 회원탈퇴 버튼 클릭시 유저정보 delete 요청 및 모달*/}
-        <S_ButtonBlack>회원탈퇴</S_ButtonBlack>
+        <S_ButtonBlack onClick={deleteUser}>회원탈퇴</S_ButtonBlack>
       </S_DeleteBox>
     </S_Container>
   );

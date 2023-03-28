@@ -46,7 +46,6 @@ public class ScheduleController {
 
         Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId, requestBody.getRecords(),
                 requestBody.getTeamList(), requestBody.getCandidates());
-
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);
@@ -63,17 +62,52 @@ public class ScheduleController {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
-        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody),
+        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePatchDtoToSchedule(requestBody), clubId,
                 requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
     }
 
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")
+    public ResponseEntity postAttend(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
+                                     @Valid @RequestBody ScheduleDto.attendPost requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+        requestBody.addUserId(userId);
+
+        Schedule schedule = scheduleMapper.scheduleAttendPostDtoToSchedule(requestBody);
+
+        Schedule createdAttend = scheduleService.attendCandidate(schedule, clubId, userId);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdAttend, userMapper)), HttpStatus.OK);
+    }
+
+    @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/absent")
+    public ResponseEntity postAbsent(@PathVariable("club-id") @Positive Long clubId,
+                                     @PathVariable("schedule-id") @Positive Long scheduleId,
+                                     @PathVariable("user-id") @Positive Long userId,
+                                     @Valid @RequestBody ScheduleDto.absentPost requestBody) {
+        requestBody.addClubId(clubId);
+        requestBody.addScheduleId(scheduleId);
+        requestBody.addUserId(userId);
+
+        Schedule schedule = scheduleMapper.scheduleAbsentPostDtoToSchedule(requestBody);
+
+        Schedule createdAbsent = scheduleService.absentCandidate(schedule, clubId, userId);
+
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdAbsent, userMapper)), HttpStatus.OK);
+    }
+
     @GetMapping("/clubs/{club-id}/schedules")
     public ResponseEntity getSchedulesByClub(@PathVariable("club-id") @Positive long clubId,
                                              @RequestParam(value = "page", defaultValue = "1") int page,
-                                             @RequestParam(value = "size", defaultValue = "10") int size) {
+                                             @RequestParam(value = "size", defaultValue = "50") int size) {
         Page<Schedule> schedulePage = scheduleService.findSchedules(clubId, page - 1, size);
         List<Schedule> schedules = schedulePage.getContent();
 
@@ -92,7 +126,7 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
-    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
+    @DeleteMapping("/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);

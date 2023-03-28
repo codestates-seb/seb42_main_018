@@ -1,26 +1,30 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Tabmenu from '../../../components/TabMenu';
 import S_Container from '../../../components/UI/S_Container';
 import MemberRecord from './MemberRecord';
 import SubTabMenu from '../../../components/SubTabMenu';
 import MemberList from './MemberList';
-import { MemberProps, MemberData } from '../../../types';
+import { MemberData } from '../../../types';
 import { useEffect, useState } from 'react';
 import { getFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 function ClubMember() {
   const { id } = useParams();
+  const { userInfo, tokens } = getGlobalState();
+  const navigate = useNavigate();
 
-  // `${process.env.REACT_APP_URL}/user/clubs/${id}`
-  // TODO: 하드코딩 데이터로 표시, 추후 axios get 요청 구현
   const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert('권한이 없습니다.');
+      navigate(`/club/${id}`);
+    }
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
       const members: MemberData[] = data.data;
       setMembers(members);
     });
   }, []);
-  console.log(members);
 
   // 상단탭
   const tabs = [
@@ -36,7 +40,11 @@ function ClubMember() {
       title: '전체 멤버',
       contents: <MemberList members={members} />
     },
-    { id: 2, title: '멤버 기록', contents: <MemberRecord members={members} /> }
+    {
+      id: 2,
+      title: '멤버 기록',
+      contents: <MemberRecord members={members} />
+    }
   ];
 
   return (

@@ -35,11 +35,6 @@ public class TeamService {
         clubService.findClub(clubId);
         scheduleService.findSchedule(scheduleId);
 
-        Optional.ofNullable(team.getScore())
-                .ifPresent(findTeam::setScore);
-        Optional.ofNullable(team.getWinLoseDraw())
-                .ifPresent(findTeam::setWinLoseDraw);
-
         return teamRepository.save(findTeam);
     }
 

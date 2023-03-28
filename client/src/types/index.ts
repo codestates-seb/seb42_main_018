@@ -2,16 +2,13 @@ export interface ClubData {
   // ClubList에 뿌려줄 클럽 데이터 타입 설정
   clubId?: number;
   clubName: string;
-  profileImage?: string;
+  clubImage?: string;
   content: string;
   local: string;
   categoryName: string;
   viewCount?: number;
   memberCount?: number;
-  tagResponseDtos: {
-    tagId: number;
-    tagName: string;
-  }[];
+  tagList: string[];
   modifiedAt?: string;
   secret?: boolean;
 }
@@ -66,13 +63,17 @@ export interface MemberData {
   // drawCount?: number;
   // winRate?: number;
   // 수정한 데이터타입
+
+  userId?: number;
   nickName: string;
+  clubMemberStatus?: string;
+  clubRole?: string;
   profileImage: string;
-  winRate: number;
   playCount?: number;
   winCount?: number;
-  drawCount?: number;
   loseCount?: number;
+  drawCount?: number;
+  winRate: number;
 }
 
 export interface MemberProps {
@@ -83,4 +84,15 @@ export interface MemberProps {
 
 export interface ClubMemberProps {
   members: MemberData[];
+}
+
+export interface myPageUserClubResponses {
+  // 마이페이지에서 가져올 유저데이터의 userClubResponses
+  clubId: number;
+  clubRole: string;
+  playCount: number;
+  winCount: number;
+  loseCount: number;
+  drawCount: number;
+  winRate: number;
 }

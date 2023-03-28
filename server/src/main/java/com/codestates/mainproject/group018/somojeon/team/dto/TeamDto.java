@@ -13,8 +13,7 @@ public class TeamDto {
     public static class Post {
         private Long clubId;
         private Long scheduleId;
-        private Integer score;
-        private String winLoseDraw;
+        private Integer teamNumber;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -32,8 +31,7 @@ public class TeamDto {
         private Long clubId;
         private Long scheduleId;
         private Long teamId;
-        private Integer score;
-        private String winLoseDraw;
+        private Integer teamNumber;
 
         public void addTeamId(Long teamId) {
             this.teamId = teamId;
@@ -55,8 +53,7 @@ public class TeamDto {
     @AllArgsConstructor
     public static class Response {
         private Long teamId;
-        private Integer score;
-        private String winLoseDraw;
+        private Integer teamNumber;
         private List<UserDto.Response> users;
     }
 }

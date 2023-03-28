@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.auth.controller;
 import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/auth/refresh")
+    @PostMapping("/auth/refresh")
     public ResponseEntity<Map<String, String>> getNewTokens(HttpServletRequest request, HttpServletResponse response) {
         authService.refresh(request, response);
         return ResponseEntity.ok().build();

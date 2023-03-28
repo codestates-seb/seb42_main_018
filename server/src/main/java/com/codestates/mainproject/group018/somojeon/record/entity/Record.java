@@ -27,10 +27,10 @@ public class Record {
     private Long recordId;
 
     @Column(nullable = false)
-    private String firstTeam;
+    private Integer firstTeam;
 
     @Column(nullable = false)
-    private String secondTeam;
+    private Integer secondTeam;
 
     @Column(nullable = false)
     private Integer firstTeamScore;
@@ -53,7 +53,7 @@ public class Record {
     @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "record")
+    @OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {

@@ -1,71 +1,56 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { UserClubResponsesType } from '../../store/store';
-import { ClubData } from '../../types';
-import { getFetch } from '../../util/api';
-import ClubList from '../home/ClubList';
-import { S_Button, S_ButtonGray } from '../UI/S_Button';
-import { S_Title } from '../UI/S_Text';
+import { myPageUserClubResponses } from '../../types';
+import getGlobalState from '../../util/authorization/getGlobalState';
+
+import { S_Description, S_Title } from '../UI/S_Text';
+import { S_ButtonGray } from '../UI/S_Button';
 import ClubListSetting from './ClubListSetting';
+import { useNavigate } from 'react-router-dom';
 
 const S_Box = styled.div`
-  margin-bottom: 50px;
-  background-color: var(--blue100);
   button {
     margin: 8px 0px;
+  }
+  .myclub {
+    margin-bottom: 50px;
+  }
+  .notMyClub {
+    margin-bottom: 50px;
   }
 `;
 
 interface ClubYesProps {
-  userClubResponses?: UserClubResponsesType[];
+  userClubs: myPageUserClubResponses[];
+  setUserClubs: React.Dispatch<React.SetStateAction<myPageUserClubResponses[]>>;
 }
 
-function ClubYes(userClubResponses: ClubYesProps) {
-  // 받아온 userClubResponses에서 userClubId만 빼내서
-  // 해당 url 수만큼 get 요청 보내기
-  // 가져온 데이터를 ClubList에 뿌려주기
-  // user상태에 따라 가입한 소모임/가입대기 소모임 나누기
-  // clubRole이 리더면 리더 별 아이콘과 소모임 설정 보여주기
-  // 아니라면 소모임 탈퇴만 보여주기
-
-  const [clubs, setClubs] = useState<ClubData[]>([]); // 뿌려줄 클럽리스트
+function ClubYes({ userClubs, setUserClubs }: ClubYesProps) {
+  const navigate = useNavigate();
+  const { userInfo } = getGlobalState();
+  const { userClubResponses } = userInfo || {};
+  console.log(userClubResponses);
 
   return (
     <S_Box>
-      <div>
+      <div className='myclub'>
         <S_Title>내 소모임</S_Title>
-        <ClubListSetting />
-        {/* 받아온 클럽 정보 뿌려주기 */}
-        {/* {{받아온 데이터 이름}.map((e) => (
-          <ClubList
-            key={e.clubId}
-            clubId={e.clubId}
-            clubName={e.clubName}
-            profileImage={e.profileImage}
-            content={e.content}
-            local={e.local}
-            categoryName={e.categoryName}
-            memberCount={e.memberCount}
-            tagResponseDtos={e.tagResponseDtos}
-          />
-        ))} */}
+        {userClubs.map(
+          (el) =>
+            el.clubRole !== null && (
+              <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
+            )
+        )}
+        <S_ButtonGray onClick={() => navigate('/club/create')}>내 소모임 만들기 +</S_ButtonGray>
       </div>
-      <div>
+      <div className='notMyClub'>
         <S_Title>가입 대기 소모임</S_Title>
-        {/* 받아온 클럽 정보 뿌려주기 */}
-        {/* {{받아온 데이터 이름}.map((e) => (
-          <ClubList
-            key={e.clubId}
-            clubId={e.clubId}
-            clubName={e.clubName}
-            profileImage={e.profileImage}
-            content={e.content}
-            local={e.local}
-            categoryName={e.categoryName}
-            memberCount={e.memberCount}
-            tagResponseDtos={e.tagResponseDtos}
-          />
-        ))} */}
+        <S_Description>리더의 가입 승인을 기다리는 목록입니다</S_Description>
+        {userClubs.map(
+          (el) =>
+            el.clubRole === null && (
+              <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
+            )
+        )}
       </div>
     </S_Box>
   );

@@ -14,8 +14,8 @@ public class RecordDto {
     public static class Post {
         private Long clubId;
         private Long scheduleId;
-        private String firstTeam;
-        private String secondTeam;
+        private Integer firstTeam;
+        private Integer secondTeam;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 
@@ -34,8 +34,8 @@ public class RecordDto {
         private Long clubId;
         private Long scheduleId;
         private Long recordId;
-        private String firstTeam;
-        private String secondTeam;
+        private Integer firstTeam;
+        private Integer secondTeam;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 
@@ -59,11 +59,11 @@ public class RecordDto {
     @Builder
     public static class Response {
         private Long recordId;
-        private LocalDateTime createdAt;
-        private String firstTeam;
-        private String secondTeam;
+//        private LocalDateTime createdAt;
+        private Integer firstTeam;
+        private Integer secondTeam;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
-        private List<CommentDto.Response> comments;
+//        private List<CommentDto.Response> comments;
     }
 }

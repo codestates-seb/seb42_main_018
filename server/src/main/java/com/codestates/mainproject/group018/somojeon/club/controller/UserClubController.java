@@ -1,18 +1,18 @@
 package com.codestates.mainproject.group018.somojeon.club.controller;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.mapper.UserClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +39,9 @@ public class UserClubController {
     private final UserClubService userClubService;
     private final UserClubMapper userClubMapper;
     private final UserMapper userMapper;
-    private final ImageMapper imageMapper;
     private final Identifier identifier;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     // 소모임 가입 요청
     @PostMapping("{club-id}/joins/{user-id}")
@@ -49,7 +52,7 @@ public class UserClubController {
         requestBody.addClubId(clubId);
         requestBody.addUserId(userId);
 
-        UserClub createdUserClub = userClubService.joinClub(userClubMapper.joinPostToUserClub(requestBody), requestBody.getUserId());
+        UserClub createdUserClub = userClubService.joinClub(userClubMapper.joinPostToUserClub(requestBody));
         URI location = UriCreator.createUri("/joins", createdUserClub.getUserClubId());
 
         return ResponseEntity.created(location).build();
@@ -59,10 +62,10 @@ public class UserClubController {
     @GetMapping("/{club-id}/joins")
     public ResponseEntity<?> getRequestJoinUsers(@PathVariable("club-id") @Positive Long clubId,
                                                  @RequestParam(defaultValue = "1") int page,
-                                                 @RequestParam(defaultValue = "10") int size) {
-//        if (!identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+                                                 @RequestParam(defaultValue = "100") int size) {
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         Page<UserClub> userClubPage = userClubService.findRequestJoinUsers(page - 1, size, clubId);
         List<UserClub> content = userClubPage.getContent();
 
@@ -76,9 +79,10 @@ public class UserClubController {
     public ResponseEntity<?> deleteJoin(@PathVariable("club-id") @Positive Long clubId,
                                         @PathVariable("user-id") @Positive Long userId) {
 
-//        if (!identifier.isVerified(userId) && identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.getUserId().equals(userId) && identifier.checkClubRole(clubId, "LEADER")
+                && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         userClubService.cancelJoin(userId, clubId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -90,9 +94,9 @@ public class UserClubController {
                                            @PathVariable("user-id") @Positive Long userId,
                                            @RequestBody UserClubDto.JoinDecisionPatch requestBody) {
 
-//        if (!identifier.checkClubRole(clubId, "LEADER")) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
 
@@ -108,9 +112,9 @@ public class UserClubController {
                                                    @PathVariable("user-id") @Positive Long userId,
                                                    @RequestBody UserClubDto.MemberStatusPatch requestBody) {
 
-//        if (!identifier.getClubIds().equals(userId) || identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.getUserId().equals(userId) && !identifier.checkClubRole(clubId) && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
         UserClub userClub = userClubService.rejectUserClub(userId, clubId, requestBody.getClubMemberStatus());
@@ -126,9 +130,9 @@ public class UserClubController {
                                            @PathVariable("user-id") @Positive Long userId,
                                            @RequestBody UserClubDto.ClubRolePatch requestBody) {
 
-//        if (!identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if (!identifier.checkClubRole(clubId) && identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
         requestBody.setClubId(clubId);
         requestBody.setUserId(userId);
@@ -138,36 +142,47 @@ public class UserClubController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    // 소모임 안에 멤버 목록 조회
-//    @GetMapping("{club-id}/members")
-//    public ResponseEntity<?> getClubMembers(@PathVariable("club-id") @Positive Long clubId,
-//                                            @RequestParam(defaultValue = "1") int page,
-//                                            @RequestParam(defaultValue = "10") int size) {
-//        Page<UserClub> clubMembersPage = userClubService.findAllMembersByClubMemberStatus(page - 1, size, clubId);
-//        List<UserClub> content = clubMembersPage.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(
-//                        userClubMapper.userClubsToUserClubMembersResponses(content, userMapper, imageMapper), clubMembersPage), HttpStatus.OK);
-//    }
+    // 소모임장 위임 (리더만 가능)
+    @PatchMapping("/{club-id}/delegate")
+    public ResponseEntity<LinkedHashMap<Object, Object>> patchDelegateLeader(@PathVariable("club-id") @Positive Long clubId,
+                                                                             @RequestParam Long leaderId,
+                                                                             @RequestParam ClubRole leaderChangeClubRole,
+                                                                             @RequestParam Long memberId,
+                                                                             @RequestParam ClubRole memberChangeClubRole,
+                                                                             HttpServletResponse httpServletResponse) {
+
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+        userClubService.changeClubLeader(leaderId, memberId, clubId, leaderChangeClubRole, memberChangeClubRole);
+        LinkedHashMap<Object, Object> response = new LinkedHashMap<>();
+        response.put("leaderId", leaderId);
+        response.put("leaderChangeClubRole", leaderChangeClubRole);
+        response.put("memberId", memberId);
+        response.put("memberChangeClubRole", memberChangeClubRole);
+        jwtTokenProvider.provideTokens(userService.findUser(leaderId), httpServletResponse);
+
+        return ResponseEntity.ok().body(response);
+
+    }
 
 
     // 소모임 안에 멤버들 기록 조회
     @GetMapping("/{club-id}/members")
     public ResponseEntity getClubUsers(@RequestParam (defaultValue = "1") int page,
-                                       @RequestParam (defaultValue = "10") int size,
+                                       @RequestParam (defaultValue = "100") int size,
                                        @PathVariable("club-id") @Positive Long clubId) {
-//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
+        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
 
-        Page<UserClub> pageUserClubs = userClubService.findUsers(page - 1, size, clubId);
+        Page<UserClub> pageUserClubs = userClubService.getClubMembers(page - 1, size, clubId);
         List<UserClub> userClubs = pageUserClubs.getContent();
 
 
         List<UserDto.ResponseWithClub> response = userClubs.stream().map(
-                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-        ).collect(Collectors.toList());
+                userMapper::userToUserResponseWithClub).collect(Collectors.toList());
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
                 HttpStatus.OK);
     }

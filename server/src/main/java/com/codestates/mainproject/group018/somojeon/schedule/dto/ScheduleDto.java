@@ -6,6 +6,7 @@ import com.codestates.mainproject.group018.somojeon.record.dto.RecordDto;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.team.dto.TeamDto;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -33,6 +34,48 @@ public class ScheduleDto {
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class attendPost {
+        private Long clubId;
+        private Long scheduleId;
+        private Long userId;
+
+        public void addUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class absentPost {
+        private Long clubId;
+        private Long scheduleId;
+        private Long userId;
+
+        public void addUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public void addClubId(Long clubId) {
+            this.clubId = clubId;
+        }
+
+        public void addScheduleId(Long scheduleId) {
+            this.scheduleId = scheduleId;
         }
     }
 

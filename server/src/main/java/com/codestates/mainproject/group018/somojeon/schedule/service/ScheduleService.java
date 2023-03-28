@@ -3,7 +3,9 @@ package com.codestates.mainproject.group018.somojeon.schedule.service;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
+import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
+import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
@@ -13,8 +15,13 @@ import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
+import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
 import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
+import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -23,9 +30,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -37,35 +44,25 @@ public class ScheduleService {
     private final TeamRepository teamRepository;
     private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
+    private final UserClubRepository userClubRepository;
+    private final UserTeamRepository userTeamRepository;
+    private final UserRepository userRepository;
     private final ClubService clubService;
-    private final EntityManager entityManager;
+    private final UserService userService;
 
     public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         schedule.setClub(club);
-        schedule.setTeams(teamList);
         schedule.setCandidates(candidates);
+        schedule.setTeamList(teamList);
         schedule.setRecords(records);
 
         try {
-//            //세션 초기화
-//            entityManager.flush();
-//            entityManager.clear();
 
             // club 정보 저장
             club.getScheduleList().add(schedule);
             clubRepository.save(club);
-
-            // team 정보 저장 (teamRecord 로 team 과 record 연결)
-            for (Team team : teamList) {
-                team.setSchedule(schedule);
-                teamRepository.save(team);
-                for (Record record : records) {
-                    TeamRecord teamRecord = new TeamRecord(record, team);
-                    teamRecordRepository.save(teamRecord);
-                }
-            }
 
             // candidate 정보 저장
             for (Candidate candidate : candidates) {
@@ -74,10 +71,21 @@ public class ScheduleService {
                 candidateRepository.save(candidate);
             }
 
+            // team 정보 저장
+            for (Team team : teamList) {
+                team.setSchedule(schedule);
+                teamRepository.save(team);
+            }
+
             // record 정보 저장
             for (Record record : records) {
                 record.setSchedule(schedule);
                 recordRepository.save(record);
+                for (Team team : teamList) {
+                    TeamRecord teamRecord = new TeamRecord(record, team);
+                    teamRecordRepository.save(teamRecord);
+                    record.addTeamRecord(teamRecord);
+                }
             }
         } catch (Exception e) {
             if (e instanceof DataAccessException) {
@@ -96,13 +104,14 @@ public class ScheduleService {
             }
             throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
         }
-
         return schedule;
     }
 
-    public Schedule updateSchedule(Schedule schedule, List<Record> records,
+    public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
                                    List<Team> teamList, List<Candidate> candidates) {
+        Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        clubRepository.save(club);
 
         Optional.ofNullable(schedule.getDate())
                 .ifPresent(findSchedule::setDate);
@@ -115,11 +124,89 @@ public class ScheduleService {
         Optional.ofNullable(schedule.getLatitude())
                 .ifPresent(findSchedule::setLatitude);
 
-        findSchedule.setRecords(records);
         findSchedule.setCandidates(candidates);
-        findSchedule.setTeams(teamList);
+        findSchedule.setTeamList(teamList);
+        findSchedule.setRecords(records);
 
-        return scheduleRepository.save(findSchedule);
+
+        // candidate 정보 저장
+        for (Candidate candidate : candidates) {
+            candidate.setSchedule(findSchedule);
+            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
+            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
+            candidate.setUser(userClub.getUser());
+            candidate.setAttendance(Candidate.Attendance.ATTEND);
+            candidateRepository.save(candidate);
+        }
+
+        // team 정보 저장
+        for (Team team : teamList) {
+            team.setSchedule(findSchedule);
+//            UserTeam userTeam = userTeamRepository.findByTeam(team);
+//            userTeam.setTeam(team);
+//            team.setUserTeam(userTeam);
+//            userTeamRepository.save(userTeam);
+            teamRepository.save(team);
+        }
+
+
+        // record 정보 저장
+        for (Record record : records) {
+            record.setSchedule(findSchedule);
+            recordRepository.save(record);
+        }
+
+        return findSchedule;
+    }
+
+
+    public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
+        Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
+        User user = userService.findVerifiedUser(userId);
+
+        verifiedSchedule.setClub(club);
+
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        if (userClub == null) {
+            userClub = new UserClub();
+            userClub.setUser(user);
+            userClub.setClub(club);
+        }
+        userClub.setPlayer(true);
+        userClubRepository.save(userClub);
+
+        Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
+        if (candidate == null) {
+            candidate = new Candidate();
+            candidate.setUser(user);
+            candidate.setSchedule(verifiedSchedule);
+        }
+        candidate.setAttendance(Candidate.Attendance.ATTEND);
+        candidateRepository.save(candidate);
+
+
+        return scheduleRepository.save(verifiedSchedule);
+    }
+
+    public Schedule absentCandidate(Schedule schedule, Long clubId, Long userId) {
+        Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
+        Club club = clubService.findVerifiedClub(clubId);
+        User user = userService.findVerifiedUser(userId);
+
+        verifiedSchedule.setClub(club);
+
+        UserClub userClub = userClubRepository.findByUserAndClub(user, club);
+        userClub.setPlayer(false);
+        userClubRepository.save(userClub);
+
+
+        Candidate candidate = candidateRepository.findByUserAndSchedule(user, verifiedSchedule);
+        candidate.setAttendance(Candidate.Attendance.ABSENT);
+        candidateRepository.save(candidate);
+
+
+        return scheduleRepository.save(verifiedSchedule);
     }
 
     public Schedule findSchedule(long scheduleId) {
@@ -134,6 +221,12 @@ public class ScheduleService {
     public Schedule findScheduleByClub(long clubId, long scheduleId) {
         clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(scheduleId);
+
+        List<Candidate> candidates = findSchedule.getCandidates()
+                .stream()
+                .filter(c -> !c.getAttendance().equals(Candidate.Attendance.ABSENT))
+                .collect(Collectors.toList());
+        findSchedule.setCandidates(candidates);
 
         return findSchedule;
     }
@@ -154,4 +247,37 @@ public class ScheduleService {
         return findSchedule;
     }
 
+//    public void calculateWinRate(UserClub userClub, Team team) {
+//        String winLoseDraw = team.getWinLoseDraw();
+//        int winCount = userClub.getWinCount();
+//        int drawCount = userClub.getDrawCount();
+//        int loseCount = userClub.getLoseCount();
+//        int playCount = userClub.getPlayCount();
+//
+//        switch (winLoseDraw) {
+//            case "win":
+//                winCount++;
+//                break;
+//            case "lose":
+//                loseCount++;
+//                break;
+//            case "draw":
+//                drawCount++;
+//                break;
+//        }
+//        playCount++;
+//
+//        double winRate = 0.0;
+//        if (playCount > 0) {
+//            winRate = ((double) (winCount * 3 + drawCount)) / (playCount * 3) * 100;
+//        }
+//
+//        userClub.setWinCount(winCount);
+//        userClub.setDrawCount(drawCount);
+//        userClub.setLoseCount(loseCount);
+//        userClub.setPlayCount(playCount);
+//        userClub.setWinRate((float) winRate);
+//
+//        userClubRepository.save(userClub);
+//    }
 }

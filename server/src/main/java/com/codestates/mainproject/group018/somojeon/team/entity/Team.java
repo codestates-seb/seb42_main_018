@@ -19,19 +19,16 @@ public class Team {
     private Long teamId;
 
     @Column(nullable = false)
-    private Integer score;
-
-    @Column(nullable = false)
-    private String winLoseDraw;
+    private Integer teamNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<TeamRecord> teamRecords = new ArrayList<>();
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private List<UserTeam> userTeams = new ArrayList<>();
 
     public void addTeamRecord(TeamRecord teamRecord) {
