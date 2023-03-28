@@ -117,7 +117,7 @@ public class UserController {
         }
         User user = null;
         try{
-            user = userService.updateUserPassword(requestBody);
+            user = userService.updateUserPassword(requestBody, response);
         }
         catch (BusinessLogicException businessLogicException){
             return ResponseEntity.ok().build();

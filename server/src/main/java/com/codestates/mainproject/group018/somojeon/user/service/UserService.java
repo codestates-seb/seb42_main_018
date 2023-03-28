@@ -99,11 +99,12 @@ public class UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public User updateUserPassword(UserDto.PatchPassword userDto)  {
+    public User updateUserPassword(UserDto.PatchPassword userDto, HttpServletResponse response)  {
         User findUser = findVerifiedUser(userDto.getUserId());
         String savedPassword = findUser.getPassword();
         String currentPassword =  userDto.getCurrentPassword();
         if(!passwordEncoder.matches(currentPassword, savedPassword)){
+            response.addHeader("request", "False");
             throw new BusinessLogicException(ExceptionCode.CURRENT_PASSWORD_NOT_MATCH);
         }
 
@@ -111,6 +112,7 @@ public class UserService {
         String nextPasswordCheck = userDto.getNextPasswordCheck();
 
         if(!nextPassword.equals(nextPasswordCheck)){
+            response.addHeader("request", "False");
             throw new BusinessLogicException(ExceptionCode.NEXT_PASSWORD_NOT_MATCH);
         }
         findUser.setPassword(passwordEncoder.encode(nextPassword));
