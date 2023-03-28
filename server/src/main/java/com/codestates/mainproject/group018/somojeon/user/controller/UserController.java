@@ -205,10 +205,11 @@ public class UserController {
     // 내가 가입한 소모임 조회
     @GetMapping("/{user-id}/clubs")
     public ResponseEntity getMyClubs(@PathVariable("user-id") @Positive Long userId,
+                                     @Positive Long clubId,
                                      @RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "100") int size) {
 
-        if (!identifier.isVerified(userId) && identifier.isAdmin()) {
+        if (!identifier.isVerified(userId) && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 
