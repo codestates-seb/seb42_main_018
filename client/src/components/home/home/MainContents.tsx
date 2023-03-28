@@ -49,6 +49,13 @@ function MainContents() {
   const [clubs, setClubs] = useState<ClubData[]>([]); // 뿌려줄 클럽리스트
   const [pageInfo, setPageInfo] = useState<ClubPage>(); // 페이지 인포
 
+  const [categoryFilter, setcategoryFilter] = useState<ClubData[]>(clubs);
+  const onClickCategory = () => {
+    clubs.map((el) => {
+      el.categoryName === '배구';
+    });
+  };
+
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs`).then((data) => {
       const clubs: ClubData[] = data.data;
@@ -59,13 +66,14 @@ function MainContents() {
     });
   }, []);
 
-  const dataCategories = clubs
+  const dataCategories =
     // 데이터에서 가져온 카테고리 리스트
-    .map((el) => {
-      return el.categoryName;
-    })
-    // 인기순으로 나열할 수 있지 않을까 ㅜ
-    .slice(0, 4);
+    clubs
+      .map((el) => {
+        return el.categoryName;
+      })
+      // 인기순으로 나열할 수 있지 않을까 ㅜ
+      .slice(0, 4);
   console.log(dataCategories);
 
   return (
@@ -76,12 +84,13 @@ function MainContents() {
           {/* 최대 5개의 카테고리만 보여주기 */}
           <S_Category>전체보기</S_Category>
           {dataCategories.map((el) => (
-            <S_Category key={el}>{el}</S_Category>
+            <S_Category key={el} onClick={onClickCategory}>
+              {el}
+            </S_Category>
           ))}
         </S_TagBox>
       </S_TitleBox>
       {/* TODO : 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
-
       {clubs.map(
         (el) =>
           el.secret === false && (
