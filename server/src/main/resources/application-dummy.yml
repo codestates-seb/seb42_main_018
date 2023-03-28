@@ -1,12 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://${RDS_ENDPOINT_DUMMY}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-#    username: ${RDS_ID}
-#    password: ${RDS_PASSWORD}
-    url: jdbc:mysql://database-somojeon-test.cji8sbuqsyk5.ap-northeast-2.rds.amazonaws.com:3306/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
-    username: admin
-    password: password!
+    url: jdbc:mysql://${RDS_ENDPOINT_DUMMY}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    username: ${RDS_ID}
+    password: ${RDS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
