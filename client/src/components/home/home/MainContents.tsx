@@ -70,8 +70,10 @@ function MainContents() {
           ))}
         </S_TagBox>
       </S_TitleBox>
-      {/* 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
+      {/* TODO : 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
+
       {clubs.map((el) => (
+        // el.secret === false &&
         <ClubList
           key={el.clubId}
           clubId={el.clubId}
