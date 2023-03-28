@@ -69,7 +69,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String accessToken = delegateAccessToken(registration, registrationId);
         String refreshToken = delegateRefreshToken(registration, registrationId);
 //        String path = (String) request.getAttribute("oauth2/receive");
-        String uri =  createURI(accessToken, refreshToken, path, param).toString();
+        String uri =  createURI(accessToken, refreshToken, path, param, request).toString();
 
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
@@ -99,24 +99,37 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return refreshToken;
     }
 
-    private URI createURI(String accessToken, String refreshToken, String path, Map<String, String> param) {
+    private URI createURI(String accessToken, String refreshToken, String path, Map<String, String> param, HttpServletRequest request) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
         for(String key : param.keySet()){
             queryParams.add(key, param.get(key));
         }
-
-        return UriComponentsBuilder
-                .newInstance()
-//                .scheme("https")
-//                .host("dev-somojeon.vercel.app")
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path(path)
-                .queryParams(queryParams)
-                .build()
-                .toUri();
+        if(request.getHeader("Origin").contains("localhost")){
+            return UriComponentsBuilder
+                    .newInstance()
+                    .scheme("http")
+                    .host("localhost")
+                    .port(3000)
+                    .path(path)
+                    .queryParams(queryParams)
+                    .build()
+                    .toUri();
+        }
+        else{
+            return UriComponentsBuilder
+                    .newInstance()
+                    .scheme("https")
+                    .host("dev-somojeon.vercel.app")
+                    .path(path)
+                    .queryParams(queryParams)
+                    .build()
+                    .toUri();
+        }
     }
+
+
+
+
 }
