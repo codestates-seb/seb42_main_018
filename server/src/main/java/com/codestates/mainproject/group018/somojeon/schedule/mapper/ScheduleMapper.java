@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -18,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, UserRepository.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
-    Schedule schedulePatchDtoToSchedule(ScheduleDto.Patch requestBody);
+    Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody);
     Schedule scheduleAttendPostDtoToSchedule(ScheduleDto.attendPost requestBody);
     Schedule scheduleAbsentPostDtoToSchedule(ScheduleDto.absentPost requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
@@ -56,6 +57,7 @@ public interface ScheduleMapper {
                 .map(team -> {
                     TeamDto.Response response = new TeamDto.Response();
                     response.setTeamId(team.getTeamId());
+                    response.setTeamNumber(team.getTeamNumber());
 
                     List<UserTeam> userTeams = team.getUserTeams();
                     List<User> users = userTeams.stream()
@@ -119,6 +121,25 @@ public interface ScheduleMapper {
         }
 
         return list;
+    }
+
+    default List<Team> scheduleTeamToTeamListDtos(List<ScheduleDto.ScheduleTeamDto> scheduleTeamDtos,
+                                                  UserRepository userRepository) {
+        if (scheduleTeamDtos == null) {
+            return null;
+        }
+
+        return scheduleTeamDtos.stream()
+                .map(scheduleTeamDto -> {
+                    Team team = new Team();
+                    team.setTeamNumber(scheduleTeamDto.getTeamNumber());
+
+                    List<Long> membersId = scheduleTeamDto.getMembersId();
+                    membersId.stream()
+                            .map(memberId -> new UserTeam(userRepository.findByUserId(memberId), team));
+                    return team;
+                })
+                .collect(Collectors.toList());
     }
 }
 

@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
 import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
+import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
@@ -30,6 +31,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,7 +113,8 @@ public class ScheduleService {
                                    List<Team> teamList, List<Candidate> candidates) {
         Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
-        clubRepository.save(club);
+
+        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
 
         Optional.ofNullable(schedule.getDate())
                 .ifPresent(findSchedule::setDate);
@@ -139,23 +142,45 @@ public class ScheduleService {
             candidateRepository.save(candidate);
         }
 
+        // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
         // team 정보 저장
         for (Team team : teamList) {
             team.setSchedule(findSchedule);
-//            UserTeam userTeam = userTeamRepository.findByTeam(team);
-//            userTeam.setTeam(team);
-//            team.setUserTeam(userTeam);
-//            userTeamRepository.save(userTeam);
             teamRepository.save(team);
+//            UserTeam userTeam = userTeamRepository.findByUserAndTeam(, team);
+//            userTeam.setTeam(team);
+//            userTeam.setUser();
+//            userTeamRepository.save(userTeam);
         }
-
 
         // record 정보 저장
         for (Record record : records) {
             record.setSchedule(findSchedule);
+
+            // firstTeam과 매핑되는 Team을 찾아서 설정
+            int firstTeamNumber = record.getFirstTeam();
+            Optional<Team> firstTeamOptional = teamList.stream()
+                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
+                    .findFirst();
+            if (firstTeamOptional.isPresent()) {
+                Team firstTeam = firstTeamOptional.get();
+                TeamRecord teamRecord = new TeamRecord(record, firstTeam);
+                teamRecordRepository.save(teamRecord);
+            }
+
+            // secondTeam과 매핑되는 Team을 찾아서 설정
+            int secondTeamNumber = record.getSecondTeam();
+            Optional<Team> secondTeamOptional = teamList.stream()
+                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
+                    .findFirst();
+            if (secondTeamOptional.isPresent()) {
+                Team secondTeam = secondTeamOptional.get();
+                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
+                teamRecordRepository.save(teamRecord);
+            }
+
             recordRepository.save(record);
         }
-
         return findSchedule;
     }
 
