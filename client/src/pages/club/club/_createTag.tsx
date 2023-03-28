@@ -41,13 +41,13 @@ function CreateTag({ tags, setTags }: CreateTagProps) {
 
   return (
     <div>
-      <label htmlFor='tagName'>
+      <label htmlFor='tagList'>
         <S_Label_mg_top>태그</S_Label_mg_top>
       </label>
       <S_Description>최대 3개까지 입력할 수 있습니다.</S_Description>
       <S_Input
-        id='tagName'
-        name='tagName'
+        id='tagList'
+        name='tagList'
         type='text'
         width='96%'
         value={inputValue}

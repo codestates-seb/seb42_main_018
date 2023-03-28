@@ -113,15 +113,15 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
             <S_Description color='var(--gray600)'>{club?.content}</S_Description>
           </S_Hidden>
           <div className='tagbox'>
-            {club?.tagResponseDtos.map((el) => (
-              <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
+            {club?.tagList.map((tag, idx) => (
+              <S_TagSmall key={idx}>{tag}</S_TagSmall>
             ))}
           </div>
         </Link>
         <div className='settingbox'>
           {clubRole === 'LEADER' ? (
             // 롤이 리더인 경우 설정으로 가기
-            <S_SelectButton width='80px' onClick={() => navigate(`/club/${club?.clubId}/edit`)}>
+            <S_SelectButton width='80px' onClick={() => navigate(`/club/${club?.clubId}/setting`)}>
               소모임 설정
             </S_SelectButton>
           ) : clubRole === 'MANAGER' || clubRole === 'LEADER' ? (

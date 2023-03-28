@@ -33,6 +33,7 @@ public class Identifier {
     public boolean isVerified(Long targetId){
         // admin이거나 본인이 본인을 타겟으로 하면 true를 리턴
         if(isAdmin()) return true;
+        if(isAnonymous()) return false;
         return getUserId() == targetId;
     }
 
@@ -44,6 +45,11 @@ public class Identifier {
     public boolean isAdmin(Long userId){
         User user = userService.findUser(userId);
         return  user.getRoles().contains("ADMIN");
+    }
+
+    public Boolean  isAnonymous(){
+        if(SecurityContextHolder.getContext().getAuthentication() instanceof CustomAuthenticationToken) return false;
+        return true;
     }
 
 

@@ -1,24 +1,31 @@
 import styled from 'styled-components';
+import { myPageUserClubResponses } from '../../types';
 import getGlobalState from '../../util/authorization/getGlobalState';
 
-import { S_Title } from '../UI/S_Text';
+import { S_Description, S_Title } from '../UI/S_Text';
+import { S_ButtonGray } from '../UI/S_Button';
 import ClubListSetting from './ClubListSetting';
+import { useNavigate } from 'react-router-dom';
 
 const S_Box = styled.div`
-  margin-bottom: 50px;
   button {
     margin: 8px 0px;
+  }
+  .myclub {
+    margin-bottom: 50px;
+  }
+  .notMyClub {
+    margin-bottom: 50px;
   }
 `;
 
 interface ClubYesProps {
-  userClubResponses: {
-    userClubId?: number;
-    clubRole?: string | null;
-  }[];
+  userClubs: myPageUserClubResponses[];
+  setUserClubs: React.Dispatch<React.SetStateAction<myPageUserClubResponses[]>>;
 }
 
-function ClubYes() {
+function ClubYes({ userClubs, setUserClubs }: ClubYesProps) {
+  const navigate = useNavigate();
   const { userInfo } = getGlobalState();
   const { userClubResponses } = userInfo || {};
   console.log(userClubResponses);
@@ -27,16 +34,18 @@ function ClubYes() {
     <S_Box>
       <div className='myclub'>
         <S_Title>내 소모임</S_Title>
-        {userClubResponses.map(
+        {userClubs.map(
           (el) =>
             el.clubRole !== null && (
               <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
             )
         )}
+        <S_ButtonGray onClick={() => navigate('/club/create')}>내 소모임 만들기 +</S_ButtonGray>
       </div>
       <div className='notMyClub'>
         <S_Title>가입 대기 소모임</S_Title>
-        {userClubResponses.map(
+        <S_Description>리더의 가입 승인을 기다리는 목록입니다</S_Description>
+        {userClubs.map(
           (el) =>
             el.clubRole === null && (
               <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />

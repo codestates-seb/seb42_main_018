@@ -45,18 +45,16 @@ function EditMatch() {
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
   const [time, setTime] = useState<string>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
-  //참가를 누른 멤버들
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
-  // const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState<string[]>([]);
 
-  const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, teamNumber: 1, members: [] }]);
+  const [teamList, setTeamList] = useState<TeamList[]>([
+    { id: 0, teamNumber: 1, members: [], membersId: [] }
+  ]);
   const [records, setRecords] = useState<Record[]>([]);
 
   const [isPending, setIsPending] = useState(true);
-
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
@@ -115,19 +113,21 @@ function EditMatch() {
     const newTeam = {
       id: teamList[teamList.length - 1].id + 1,
       teamNumber: teamList.length + 1,
-      members: []
+      members: [],
+      membersId: []
     };
     setTeamList([...teamList, newTeam]);
   };
 
   const deleteTeam = (idx: number) => {
     if (teamList.length === 1) {
-      setCandidateList(candidates.map((el) => el.nickName));
+      setCandidateList(matchData?.candidates.map((el) => el.nickName) as string[]);
       setTeamList([
         {
           id: 0,
           teamNumber: 1,
-          members: []
+          members: [],
+          membersId: []
         }
       ]);
       return;
@@ -227,7 +227,7 @@ function EditMatch() {
       });
       setTeamList(
         matchData.teamList.length === 0
-          ? [{ id: 0, teamNumber: 1, members: [] }]
+          ? [{ id: 0, teamNumber: 1, members: [], membersId: [] }]
           : matchData.teamList
       );
       setRecords(matchData.records);
@@ -313,6 +313,7 @@ function EditMatch() {
           <AddMemberPopUp
             top={addButtonPos.y}
             left={addButtonPos.x}
+            candidates={matchData?.candidates as Candidate[]}
             candidateList={candidateList}
             setCandidateList={setCandidateList}
             idx={addButtonIndex}

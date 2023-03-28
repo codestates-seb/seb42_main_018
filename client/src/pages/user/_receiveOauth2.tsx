@@ -31,6 +31,9 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
     );
   }
 
+  console.log(accessToken);
+  console.log(refreshToken);
+
   // const userId = 85;
   // const accessToken =
   //   'Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJJZCI6ODUsInVzZXJuYW1lIjoidXNlcjg1QGR1bW15LmNvbSIsInN1YiI6InVzZXI4NUBkdW1teS5jb20iLCJpYXQiOjE2Nzk4MzkxOTMsImV4cCI6MTY3OTg0MDk5M30.jNwATSq87ltoIyRukHXpnpsx0wMLkkuk9yqTq0NKmpGlNm-49gMr85jjbzC99bVryzesDwJr8Fzej9dlVyZcxg';

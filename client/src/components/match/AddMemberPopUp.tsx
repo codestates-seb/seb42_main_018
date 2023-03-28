@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { S_NameTag } from '../../components/UI/S_Tag';
-import { TeamList } from '../../pages/club/match/CreateMatch';
+import { Candidate, TeamList } from '../../pages/club/match/CreateMatch';
 
 interface AddMemberPopUpProps {
   top: number;
   left: number;
   idx: number;
+  candidates?: Candidate[];
   candidateList: string[];
   teamList: TeamList[];
   setTeamList: React.Dispatch<React.SetStateAction<TeamList[]>>;
@@ -47,8 +48,11 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
 
   return (
     <S_PopupContainer top={props.top} left={props.left}>
-      {props.candidateList &&
-        props.candidateList.map((member, idx) => {
+      {/* {props.candidateList &&
+        props.candidateList.map((member, idx) => { */}
+
+      {props.candidates &&
+        props.candidates.map((member, idx) => {
           return (
             <S_NameTag
               key={idx}
@@ -57,8 +61,14 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
 
                 //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
                 const copiedTeamList = [...props.teamList];
-                if (!copiedTeamList[props.idx].members.includes(member)) {
-                  copiedTeamList[props.idx].members.push(member);
+
+                // if (!copiedTeamList[props.idx].members.includes(member)) {
+                //   copiedTeamList[props.idx].members.push(member);
+                // }
+
+                if (!copiedTeamList[props.idx].members.includes(member.nickName)) {
+                  copiedTeamList[props.idx].members.push(member.nickName);
+                  copiedTeamList[props.idx].membersId.push(member.userId);
                 }
                 props.setTeamList([...copiedTeamList]);
 
@@ -68,7 +78,7 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
                 props.setCandidateList(copiedCandidateList);
               }}
             >
-              {member}+
+              {member.nickName}+
             </S_NameTag>
           );
         })}

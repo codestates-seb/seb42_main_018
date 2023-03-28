@@ -61,7 +61,7 @@ function CreateClub() {
   const [tags, setTags] = useState<string[]>([]);
   const [categoryValue, setCategoryValue] = useState('');
   const [localValue, setLocalValue] = useState('');
-  const { userInfo } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
 
   // * textarea 높이 자동 조절 관련
   // const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -116,14 +116,15 @@ function CreateClub() {
       ...inputs,
       categoryName: categoryValue,
       local: localValue,
-      tagName: tags,
+      tagList: tags,
       isSecret
     };
 
     // console.log(newClubData);
 
     const POST_URL = `${process.env.REACT_APP_URL}/${userInfo.userId}/clubs`;
-    const res = await postFetch(POST_URL, newClubData);
+    // console.log(tokens);
+    const res = await postFetch(POST_URL, newClubData, tokens);
     if (res) navigate(res.headers.location);
   };
 

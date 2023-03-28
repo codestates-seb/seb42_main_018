@@ -19,7 +19,7 @@ interface CreateLocalProps extends CreateCategoryProps {
   prevData?: string;
 }
 
-function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) {
+function CreateLocal({ inputValue, setInputValue }: CreateLocalProps) {
   // division: 지역 1단계 (광역시/도)
   // district: 지역 2단계 (시/군/구)
   const [divisionSelectValue, setDivisionSelectValue] = useState('');
@@ -31,6 +31,12 @@ function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) 
   }));
 
   const [districtList, setDistrictList] = useState<DistrictType[]>([]);
+
+  useEffect(() => {
+    // 소모임 정보 수정 페이지 진입시 지역 정보 수정하지 않을 때 default value 올려보내기 위한 코드
+    setInputValue(`${divisionSelectValue} ${districtSelectValue}`);
+  }, []);
+
   useEffect(() => {
     if (divisionSelectValue) {
       const districts = DIVISIONS_DATA.find((d) =>
@@ -61,7 +67,7 @@ function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) 
   };
 
   // * EditClub 컴포넌트를 위한 기존 local 정보 핸들링
-  const [prevLocal1, prevLocal2] = prevData?.split(' ') || [];
+  const [prevLocal1, prevLocal2] = inputValue?.split(' ') || [];
   const [prevDivisionCode, setPrevDivisionCode] = useState('');
   const [prevDistrictCode, setPrevDistrictCode] = useState('');
 
