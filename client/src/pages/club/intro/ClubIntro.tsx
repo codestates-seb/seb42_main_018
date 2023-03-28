@@ -74,6 +74,7 @@ const ClubIntroWrapper = styled.div`
 `;
 
 const S_ClubImgArea = styled.img<{ src: string }>`
+  max-width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
