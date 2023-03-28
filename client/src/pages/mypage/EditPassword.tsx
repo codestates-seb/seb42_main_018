@@ -1,7 +1,7 @@
 import S_Container from '../../components/UI/S_Container';
 import Tabmenu from '../../components/TabMenu';
 import styled from 'styled-components';
-import { S_Title } from '../../components/UI/S_Text';
+import { S_Label, S_SmallDescription, S_Title } from '../../components/UI/S_Text';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import InputPassword from '../../components/login/_inputPassword';
 import { useState } from 'react';
@@ -13,15 +13,28 @@ import { patchFetch } from '../../util/api';
 
 const S_PasswordBox = styled.div`
   margin-top: 50px;
+  h1 {
+    margin-bottom: 30px;
+  }
+  .emailBox {
+    margin-bottom: 40px;
+  }
 `;
 
 function EditPassword() {
+  const tabs = [
+    { id: 1, title: '프로필', path: `/mypage/edit` },
+    { id: 2, title: '계정 설정', path: `/mypage/edit/password` },
+    { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
+  ];
+
   // API 7번 유저 암호 정보 수정 URL : /users/{user-id}/password
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { userInfo, tokens } = getGlobalState();
-  const returnUrl = searchParams.get('returnUrl'); // 바로 디코딩해줌. query string이 없으면 null
+  // const returnUrl = searchParams.get('returnUrl'); // 바로 디코딩해줌. query string이 없으면 null
 
+  // 서버로 전해줄 데이터
   const [inputs, setInputs] = useState({
     currentPassword: '',
     nextPassword: '',
@@ -34,12 +47,22 @@ function EditPassword() {
   };
   console.log(inputs);
 
-  const tabs = [
-    { id: 1, title: '프로필', path: `/mypage/edit` },
-    { id: 2, title: '계정 설정', path: `/mypage/edit/password` },
-    { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
-  ];
+  // 비밀번호 유효성 검사 상태관리
+  const [currentPasswordError, setCurrentPasswordError] = useState(false); // 기존 비밀번호
+  const [nextPasswordError, setNextPasswordError] = useState(false); // 바꿀 비밀번호
+  const [nextPasswordCheckError, setNextPasswordCheckError] = useState(false); // 바꿀 비밀번호 확인
 
+  // 비밀번호 유효성 검사 함수
+  const checkPasswordValidation = () => {
+    const isValidPassword = checkPassword(nextPassword);
+    if (!isValidPassword) setNextPasswordError(true);
+    else setNextPasswordError(false);
+    if (nextPassword !== nextPasswordCheck) setNextPasswordCheckError(true);
+    else setNextPasswordCheckError(false);
+    return isValidPassword && nextPassword === nextPasswordCheck;
+  };
+
+  // 제출 버튼 함수
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log('클릭');
     e.preventDefault();
@@ -47,7 +70,6 @@ function EditPassword() {
     if (!currentPassword || !nextPassword || !nextPasswordCheck) return;
     const result = checkPasswordValidation();
     if (!result) return;
-
     const res = await patchFetch(
       `${process.env.REACT_APP_URL}/users/${userInfo.userId}/password`,
       inputs,
@@ -59,31 +81,16 @@ function EditPassword() {
     if (res) alert('수정이 완료되었습니다!'); // TODO : 모달로 변경
   };
 
-  // 비밀번호 유효성 검사 상태관리
-  const [currentPasswordError, setCurrentPasswordError] = useState(false);
-  const [nextPasswordError, setNextPasswordError] = useState(false);
-  const [nextPasswordCheckError, setNextPasswordCheckError] = useState(false);
-
-  const checkPasswordValidation = () => {
-    // 비밀번호 유효성 검사 함수
-    const isValidPassword = checkPassword(nextPassword);
-
-    if (!isValidPassword) setNextPasswordError(true);
-    else setNextPasswordError(false);
-
-    if (nextPassword !== nextPasswordCheck) setNextPasswordCheckError(true);
-    else setNextPasswordCheckError(false);
-
-    return isValidPassword && nextPassword === nextPasswordCheck;
-  };
-
   return (
     <S_Container>
       <Tabmenu tabs={tabs} />
       <S_PasswordBox>
         <S_Title>계정 설정</S_Title>
         {/* TODO : 본인 이메일 div 스타일 */}
-        <div className='emailBox'>{userInfo.email ? userInfo.email : 'emailID@emeil.com'}</div>
+        <div className='emailBox'>
+          <S_Label> 본인 이메일</S_Label>
+          {userInfo.email ? userInfo.email : 'name@emeil.com'}
+        </div>
 
         <form className='passwordBox' onSubmit={onSubmit}>
           <InputPassword
