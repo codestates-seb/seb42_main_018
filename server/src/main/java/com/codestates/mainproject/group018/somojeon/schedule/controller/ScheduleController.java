@@ -44,7 +44,7 @@ public class ScheduleController {
                                        @Valid @RequestBody ScheduleDto.Put requestBody) {
         requestBody.addClubId(clubId);
 
-        if (!identifier.isAdmin() && identifier.checkClubRole(clubId)) {
+        if (!identifier.isAdmin() && !identifier.checkClubRole(clubId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         };
 
@@ -63,7 +63,7 @@ public class ScheduleController {
         requestBody.addClubId(clubId);
         Schedule schedule = scheduleMapper.schedulePutDtoToSchedule(requestBody, userService, clubSerivce);
 
-        if (!identifier.isAdmin() && identifier.checkClubRole(clubId)) {
+        if (!identifier.isAdmin() && !identifier.checkClubRole(clubId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         };
 
@@ -130,14 +130,14 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
-    @DeleteMapping("/{schedule-id}")
+    @DeleteMapping("/schedules/{club-id}/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);
 
-//        if (identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        };
+        if (!identifier.isAdmin() && !identifier.checkClubRole(clubId)) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        };
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
