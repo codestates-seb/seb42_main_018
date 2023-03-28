@@ -7,8 +7,6 @@ import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.repository.ImagesRepository;
 import com.codestates.mainproject.group018.somojeon.images.service.ImageService;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
@@ -51,7 +49,7 @@ public class UserService {
     private final OauthUserService oauthUserService;
 
 
-    public User createUser(User user, String token, Images images, HttpServletResponse response) {
+    public User createUser(User user, String token, HttpServletResponse response) {
         verifyExistsEmail(user.getEmail());
 
         // DB에 User Role 저장

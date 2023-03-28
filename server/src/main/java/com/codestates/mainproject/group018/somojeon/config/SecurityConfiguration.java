@@ -8,7 +8,6 @@ import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.oauth.repository.OAuthUserRepository;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
@@ -45,7 +44,6 @@ public class SecurityConfiguration {
     private final AuthService authService;
     private final OAuthUserRepository oauthUserRepository;
     private final ClubMapper clubMapper;
-    private final ImageMapper imageMapper;
 
     @Value("${oauth.kakao.redirect-address}")
     String redirectAddress;
@@ -128,7 +126,7 @@ public class SecurityConfiguration {
             JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, oauthUserRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userService, userMapper, clubMapper, imageMapper));
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userService, userMapper, clubMapper));
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, authService);

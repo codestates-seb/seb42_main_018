@@ -1,13 +1,10 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
 
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +39,9 @@ public class Club {
     @Column(nullable = false)
     private String categoryName;
 
+    @ElementCollection
+    private List<String> tagName;
+
     @Column(nullable = false)
     private boolean isSecret;
 
@@ -66,8 +66,8 @@ public class Club {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<ClubTag> clubTagList = new ArrayList<>();
+//    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+//    private List<ClubTag> clubTagList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
@@ -79,9 +79,9 @@ public class Club {
 //    private Images images;
 
 
-    public void setClubTag(ClubTag clubTag) {
-        clubTagList.add(clubTag);
-    }
+//    public void setClubTag(ClubTag clubTag) {
+//        clubTagList.add(clubTag);
+//    }
 
     public UserClub addUserClub(UserClub userClub) {
         this.userClubList.add(userClub);
