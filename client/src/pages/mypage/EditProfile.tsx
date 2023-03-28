@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Tabmenu from '../../components/TabMenu';
@@ -7,9 +7,10 @@ import S_Container from '../../components/UI/S_Container';
 import { S_Label, S_Title } from '../../components/UI/S_Text';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import InputNickname from '../../components/login/_inputNickname';
-import { patchFetch } from '../../util/api';
+import { patchFetch, getFetch } from '../../util/api';
 import { ImageFileType } from '../club/club/EditClub';
 import FormData from 'form-data';
+import { userInitialState } from '../../store/store';
 
 const S_EditBox = styled.div`
   margin-top: 50px;
@@ -46,6 +47,20 @@ function EditProfile() {
     { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
   ];
 
+  // 최신 유저 정보를 받아오기 위해 useEffect 안에서 api 응답 데이터로 setState 함수 호출
+  const [updatedUserInfo, setUpdatedUserInfo] = useState(userInitialState);
+  useEffect(() => {
+    const USER_URL = `${process.env.REACT_APP_URL}/users/${userInfo.userId}`;
+    const getUserInfo = async () => {
+      const res = await getFetch(USER_URL, tokens);
+      if (res) {
+        setUpdatedUserInfo(res.data);
+        setInputs({ ...inputs, nickName: res.data.nickName });
+      }
+    };
+    getUserInfo();
+  }, []);
+
   const navigate = useNavigate();
   const { userInfo, tokens } = getGlobalState();
 
@@ -56,7 +71,7 @@ function EditProfile() {
   };
 
   // 파일로 가져온 이미지 미리보기
-  const [imgFile, setImgFile] = useState(userInfo.profileImage);
+  const [imgFile, setImgFile] = useState(updatedUserInfo.profileImage);
   const [profileImageFile, setProfileImageFile] = useState<ImageFileType>(); // 서버에 form-data로 전송할 파일 객체
 
   function handleFileUpload(event: React.ChangeEvent<HTMLInputElement>) {
@@ -73,9 +88,10 @@ function EditProfile() {
 
   // 닉네임 수정 관련
   const [inputs, setInputs] = useState({
-    nickName: userInfo.nickName
+    nickName: ''
   });
   const { nickName } = inputs;
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -91,9 +107,10 @@ function EditProfile() {
     if (profileImageFile) formData.append('profileImage', profileImageFile);
     else formData.append('profileImage', null);
 
-    // console.log(formData); // 빈 객체로 보임
-    // const formDataEntries = formData as unknown as Array<[string, unknown]>;
-    // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
+    console.log(profileImageFile);
+    console.log(formData); // 빈 객체로 보임
+    const formDataEntries = formData as unknown as Array<[string, unknown]>;
+    console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
 
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
     const res = await patchFetch(
@@ -116,7 +133,7 @@ function EditProfile() {
             <S_ImgBox>
               <img
                 id='previewimg'
-                src={imgFile ? imgFile : userInfo.profileImage}
+                src={imgFile ? imgFile : updatedUserInfo.profileImage}
                 alt='프로필사진'
               />
               <label htmlFor='file'>
