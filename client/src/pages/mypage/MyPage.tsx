@@ -13,17 +13,16 @@ import { myPageUserClubResponses } from '../../types';
 
 function MyPage() {
   // TODO : 로그아웃 구성
-  const navigate = useNavigate();
-  const { userInfo } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
   const { handleLogout } = useLogoutRequestLogic();
 
-  // console.log(userInfo);
+  console.log(userInfo);
 
   // API 8번 유저 정보 조회 -> 항상 신규 정보를 받아오는
   // 상태로 받아온 배열 관리 -> 이 배열을 clubYes에 보내주기 상태 두개 다!
   const [userClubs, setUserClubs] = useState<myPageUserClubResponses[]>([]); // 가져올 클럽리스트
   useEffect(() => {
-    getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`).then((data) => {
+    getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((data) => {
       const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
       console.log(userClubs);
       setUserClubs(userClubs);
