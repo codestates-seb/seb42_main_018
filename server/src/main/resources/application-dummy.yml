@@ -14,8 +14,9 @@ spring:
     database: mysql
   servlet:
     multipart:
-      max-file-size: 10MB # 이미지 파일 하나당 크기
-      max-request-size: 10MB #
+#      enabled: true
+      max-file-size: 100MB # 이미지 파일 하나당 크기
+      max-request-size: 100MB #
 cloud:
   aws:
     credentials:
