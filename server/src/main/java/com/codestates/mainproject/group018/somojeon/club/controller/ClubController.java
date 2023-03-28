@@ -45,7 +45,7 @@ public class ClubController {
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody,
                                       @PathVariable("user-id") @Positive Long userId) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), userId, requestBody.getTagName());
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), userId, requestBody.getTagList());
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
@@ -70,7 +70,7 @@ public class ClubController {
                                        @RequestParam String clubName,
                                        @RequestParam String content,
                                        @RequestParam String local,
-                                       @RequestParam List<String> tagName,
+                                       @RequestParam List<String> tagList,
                                        @RequestParam boolean isSecret,
                                        @RequestParam(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
 
@@ -78,7 +78,7 @@ public class ClubController {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 
-        Club response = clubService.updateClub(clubId, clubName, content, local, tagName, isSecret, multipartFile);
+        Club response = clubService.updateClub(clubId, clubName, content, local, tagList, isSecret, multipartFile);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);

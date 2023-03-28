@@ -29,7 +29,7 @@ public interface ClubMapper {
                 .content(club.getContent())
                 .local(club.getLocal())
                 .categoryName(club.getCategoryName())
-                .tagList(club.getTagName())
+                .tagList(club.getTagList())
                 .isSecret(club.isSecret())
                 .memberCount(club.getMemberCount())
                 .viewCount(club.getViewCount())
