@@ -47,7 +47,7 @@ public class ClubService {
     private final UserRepository userRepository;
 
     // 소모임 생성
-    public Club createClub(Club club, Long userId, List<String> tagName)  {
+    public Club createClub(Club club, Long userId, List<String> tagList)  {
         Club justClub = clubRepository.save(club);
 
         User user = findVerifiedUser(userId);
@@ -57,10 +57,10 @@ public class ClubService {
         findClub.setMemberCount(club.getMemberCount() + 1);
         findClub.setClubImageUrl(defaultClubImage);
 
-        if (tagName.size() > 3) {
+        if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
         } else {
-            findClub.setTagName(tagName);
+            findClub.setTagList(tagList);
         }
 
         log.info("Start Creating UserClub");
@@ -83,7 +83,7 @@ public class ClubService {
 
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Long clubId, String clubName, String content, String local, List<String> tagName, boolean isSecret, MultipartFile multipartFile) throws IOException {
+    public Club updateClub(Long clubId, String clubName, String content, String local, List<String> tagList, boolean isSecret, MultipartFile multipartFile) throws IOException {
 
         Club findClub = findVerifiedClub(clubId);
 
@@ -93,8 +93,8 @@ public class ClubService {
             findClub.setLocal(local);
             findClub.setSecret(isSecret);
             findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
-            findClub.setTagName(tagName);
-            if (tagName.size() > 3) {
+            findClub.setTagList(tagList);
+            if (tagList.size() > 3) {
                 throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
             }
         } else {
@@ -104,8 +104,8 @@ public class ClubService {
             findClub.setSecret(isSecret);
             findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             findClub.setClubImageUrl(imageService.uploadClubImage(multipartFile));
-            findClub.setTagName(tagName);
-            if (tagName.size() > 3) {
+            findClub.setTagList(tagList);
+            if (tagList.size() > 3) {
                 throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
             }
         }

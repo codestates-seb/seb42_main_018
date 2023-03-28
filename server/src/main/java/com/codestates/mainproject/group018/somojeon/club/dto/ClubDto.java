@@ -32,7 +32,7 @@ public class ClubDto {
         private String categoryName;
 
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
     }
@@ -61,7 +61,7 @@ public class ClubDto {
         private String local;
 
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
     }

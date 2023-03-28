@@ -40,7 +40,7 @@ public class Club {
     private String categoryName;
 
     @ElementCollection
-    private List<String> tagName;
+    private List<String> tagList;
 
     @Column(nullable = false)
     private boolean isSecret;
