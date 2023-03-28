@@ -1,15 +1,14 @@
 import S_Container from '../../components/UI/S_Container';
 import Tabmenu from '../../components/TabMenu';
 import styled from 'styled-components';
-import { S_Label, S_SmallDescription, S_Title } from '../../components/UI/S_Text';
+import { S_Label, S_Title } from '../../components/UI/S_Text';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import InputPassword from '../../components/login/_inputPassword';
 import { useState } from 'react';
 import { checkPassword } from '../../util/authorization/checkPassword';
-import { useLoginRequestLogic } from '../../util/authorization/useLoginRequestLogic';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { S_Button } from '../../components/UI/S_Button';
-import { patchFetch, postFetch } from '../../util/api';
+import { patchFetch } from '../../util/api';
 
 const S_PasswordBox = styled.div`
   margin-top: 50px;
@@ -45,7 +44,6 @@ function EditPassword() {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  console.log(inputs);
 
   // 비밀번호 유효성 검사 상태관리
   const [currentPasswordError, setCurrentPasswordError] = useState(false); // 기존 비밀번호
@@ -64,12 +62,7 @@ function EditPassword() {
 
   // 제출 버튼 함수
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('클릭');
     e.preventDefault();
-    // 값이 비면 리턴
-    // 리퀘스트 헤더에 리퀘스트 False 담아주면 -> 비밀번호 일치하지 않음 알람 뜨는것
-
-    // 리스폰 헤더에 request: False -> 비밀번호 일치하지 않음
     if (!currentPassword || !nextPassword || !nextPasswordCheck) return;
     const result = checkPasswordValidation();
     if (!result) return;
@@ -78,64 +71,58 @@ function EditPassword() {
       inputs,
       tokens
     );
-    console.log(`헤더리퀘스트:${res?.headers.request}`);
+    // 리스폰 헤더에 request: False -> 비밀번호 일치하지 않음
     if (res) {
       if (res?.headers.request === 'False') {
         alert('비밀번호가 일치하지 않습니다.');
-        setCurrentPasswordError(false);
+        setCurrentPasswordError(true);
         return;
-        // } else {
-        //   alert('수정이 완료되었습니다!');
-        //   setCurrentPasswordError(true);
-        // }
+      } else {
+        alert('수정이 완료되었습니다!');
+        navigate('/mypage');
       }
-      // 서버와 정한 약속, setCurrentPasswordError를 실행시켜줄 함수 필요
-      // '현재 비밀번호가 일치하지 않습니다' 글씨가 뜨도록 -> true/false 컨트롤
-      if (res?.headers.request === 'True') alert('수정이 완료되었습니다!'); // TODO : 모달로 변경
     }
-
-    return (
-      <S_Container>
-        <Tabmenu tabs={tabs} />
-        <S_PasswordBox>
-          <S_Title>계정 설정</S_Title>
-          {/* TODO : 본인 이메일 div 스타일 */}
-          <div className='emailBox'>
-            <S_Label> 본인 이메일</S_Label>
-            {userInfo.email ? userInfo.email : 'name@emeil.com'}
-          </div>
-
-          <form className='passwordBox' onSubmit={onSubmit}>
-            <InputPassword
-              name='currentPassword'
-              label='현재 비밀번호'
-              value={currentPassword}
-              onChange={onChange}
-              errorState={currentPasswordError}
-              errorMsg='현재 비밀번호와 일치하지 않습니다.'
-            />
-            <InputPassword
-              name='nextPassword'
-              label='새 비밀번호'
-              value={nextPassword}
-              onChange={onChange}
-              errorState={nextPasswordError}
-              errorMsg='비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.'
-            />
-            <InputPassword
-              name='nextPasswordCheck'
-              label='비밀번호 확인'
-              value={nextPasswordCheck}
-              onChange={onChange}
-              errorState={nextPasswordCheckError}
-              errorMsg='비밀번호가 일치하지 않습니다.'
-            />
-            <S_Button>비밀번호 수정</S_Button>
-          </form>
-        </S_PasswordBox>
-      </S_Container>
-    );
   };
-}
+  return (
+    <S_Container>
+      <Tabmenu tabs={tabs} />
+      <S_PasswordBox>
+        <S_Title>계정 설정</S_Title>
+        {/* TODO : 본인 이메일 div 스타일 */}
+        <div className='emailBox'>
+          <S_Label> 본인 이메일</S_Label>
+          {userInfo.email ? userInfo.email : 'name@emeil.com'}
+        </div>
 
+        <form className='passwordBox' onSubmit={onSubmit}>
+          <InputPassword
+            name='currentPassword'
+            label='현재 비밀번호'
+            value={currentPassword}
+            onChange={onChange}
+            errorState={currentPasswordError}
+            errorMsg='현재 비밀번호와 일치하지 않습니다.'
+          />
+          <InputPassword
+            name='nextPassword'
+            label='새 비밀번호'
+            value={nextPassword}
+            onChange={onChange}
+            errorState={nextPasswordError}
+            errorMsg='비밀번호는 영문 알파벳과 숫자를 최소 1개 이상 포함하여 8~20자여야 합니다.'
+          />
+          <InputPassword
+            name='nextPasswordCheck'
+            label='비밀번호 확인'
+            value={nextPasswordCheck}
+            onChange={onChange}
+            errorState={nextPasswordCheckError}
+            errorMsg='비밀번호가 일치하지 않습니다.'
+          />
+          <S_Button>비밀번호 수정</S_Button>
+        </form>
+      </S_PasswordBox>
+    </S_Container>
+  );
+}
 export default EditPassword;
