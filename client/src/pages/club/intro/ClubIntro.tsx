@@ -180,10 +180,12 @@ function ClubIntro() {
                 )}
               </div>
               <div className='club-detail-box'>
-                <S_Description>
-                  {categoryName}&nbsp;&middot;&nbsp;{local}&nbsp;&middot;&nbsp;
-                  {`인원 ${memberCount}명`}
-                </S_Description>
+                {memberCount && (
+                  <S_Description>
+                    {categoryName}&nbsp;&middot;&nbsp;{local}&nbsp;&middot;&nbsp;
+                    {`인원 ${memberCount}명`}
+                  </S_Description>
+                )}
               </div>
               <S_TagWrapper>
                 {tags &&
