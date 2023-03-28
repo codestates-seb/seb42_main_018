@@ -5,6 +5,7 @@ import { S_Button, S_TabButton } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Title } from '../../../components/UI/S_Text';
 import { getFetch } from '../../../util/api';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 import { Candidate, Record, TeamList } from './CreateMatch';
 import PastMatch from './_pastMatch';
 import ScheduledMatch from './_scheduledMatch';
@@ -32,6 +33,7 @@ interface SubTab {
 function ClubSchedule() {
   const navigate = useNavigate();
   const { id, scid } = useParams();
+  const { userInfo } = getGlobalState();
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -66,8 +68,11 @@ function ClubSchedule() {
   };
 
   useEffect(() => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert("권한이 없습니다.")
+      navigate(`/club/${id}`);
+    }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
-      console.log(data.data);
       setClubSchedules([...data.data]);
     });
   }, []);
