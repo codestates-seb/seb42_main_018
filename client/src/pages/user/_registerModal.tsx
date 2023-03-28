@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { handleKakaoLogin } from '../../util/authorization/handleSnsLogin';
-import alertPreparingService from '../../util/alertPreparingService';
 import { ModalBackdrop, ModalContainer } from '../../components/UI/S_Modal';
 import { S_Label } from '../../components/UI/S_Text';
 import { S_EditButton } from '../../components/UI/S_Button';
@@ -24,7 +23,7 @@ const S_SnsButtonBox = styled.div`
   width: 45%;
   margin-bottom: 12px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 
   & > .sns-btn {
     width: 60px;
@@ -56,7 +55,6 @@ function RegisterModal({ showModal, handleModal }: RegisterModalProps) {
             <S_Label>SNS로 간편하게 가입해보세요!</S_Label>
             <S_SnsButtonBox>
               <button className='sns-btn kakao' onClick={handleKakaoLogin}></button>
-              <button className='sns-btn naver' onClick={alertPreparingService}></button>
             </S_SnsButtonBox>
             <S_EditButton onClick={() => navigate('/register')}>이메일로 가입하기</S_EditButton>
           </S_RegisterModalContainer>
