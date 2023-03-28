@@ -3,11 +3,22 @@ package com.codestates.mainproject.group018.somojeon.candidate.dto;
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import lombok.*;
 
+import java.util.List;
+
 public class CandidateDto {
 
     @Getter
     @NoArgsConstructor
     public static class Post {
+
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SchedulePost {
+        List<Long> userIds;
 
     }
 

@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응">
+    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="✨ feat team mapper">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/dto/CandidateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/candidate/dto/CandidateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/RecordDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/record/dto/RecordDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/dto/ScheduleDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/mapper/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/mapper/ScheduleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -339,7 +342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679990719346</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="✨ feat team mapper">
+      <created>1680001289766</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1680001289766</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -370,7 +380,8 @@
     <MESSAGE value="✨ feat 리더 권한 변경 후(전) 리더에게 새로운 토큰 발급" />
     <MESSAGE value=" fix 가입한 카아오 유저에게 정상적으로 권한 부여" />
     <MESSAGE value="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응" />
-    <option name="LAST_COMMIT_MESSAGE" value="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응" />
+    <MESSAGE value="✨ feat team mapper" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat team mapper" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -405,6 +416,21 @@
           <line>79</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/mapper/ScheduleMapper.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -415,6 +441,11 @@
     <watches-manager>
       <configuration name="Application">
         <watch expression="request.getHeader(&quot;Origin&quot;)" language="JAVA" />
+        <watch expression="schedule.getRecords()" language="JAVA" />
+        <watch expression="schedule.teamList.get(0).userTeams.get(0)" />
+        <watch expression="candidates.get(0)" />
+        <watch expression="candidates.get(0)" />
+        <watch expression="candidates.get(3).schedule" />
       </configuration>
     </watches-manager>
   </component>

@@ -29,6 +29,16 @@ public class RecordDto {
     }
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class  SchedulePost {
+        private Integer firstTeamScore;
+        private Integer secondTeamScore;
+        private Integer firstTeamNumber;
+        private Integer secondTeamNumber;
+    }
+
+    @Getter
     @AllArgsConstructor
     public static class Patch {
         private Long clubId;

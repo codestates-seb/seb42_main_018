@@ -55,139 +55,72 @@ public class ScheduleService {
     private final UserService userService;
     private final UserClubService userClubService;
 
-    public Schedule createSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<Team> teamList, List<Candidate> candidates) {
-        Club club = clubService.findVerifiedClub(clubId);
-        schedule.setClub(club);
-        schedule.setCandidates(candidates);
-        schedule.setTeamList(teamList);
-        schedule.setRecords(records);
-
-        try {
-
-            // club 정보 저장
-            club.getScheduleList().add(schedule);
-            clubRepository.save(club);
-
-            // candidate 정보 저장
-            for (Candidate candidate : candidates) {
-                candidate.setSchedule(schedule);
-                candidate.setAttendance(Candidate.Attendance.ATTEND);
-                candidateRepository.save(candidate);
-            }
-
-            // team 정보 저장
-            for (Team team : teamList) {
-                team.setSchedule(schedule);
-                teamRepository.save(team);
-            }
-
-            // record 정보 저장
-            for (Record record : records) {
-                record.setSchedule(schedule);
-                recordRepository.save(record);
-                for (Team team : teamList) {
-                    TeamRecord teamRecord = new TeamRecord(record, team);
-                    teamRecordRepository.save(teamRecord);
-                    record.addTeamRecord(teamRecord);
-                }
-            }
-        } catch (Exception e) {
-            if (e instanceof DataAccessException) {
-                // 데이터 저장 예외 처리
-                DataAccessException dataAccessException = (DataAccessException) e;
-                String exceptionMessage = dataAccessException.getMessage();
-                if (exceptionMessage.contains("club")) {
-                    throw new BusinessLogicException(ExceptionCode.CLUB_SAVE_ERROR);
-                } else if (exceptionMessage.contains("team")) {
-                    throw new BusinessLogicException(ExceptionCode.TEAM_SAVE_ERROR);
-                } else if (exceptionMessage.contains("candidate")) {
-                    throw new BusinessLogicException(ExceptionCode.CANDIDATE_SAVE_ERROR);
-                } else if (exceptionMessage.contains("record")) {
-                    throw new BusinessLogicException(ExceptionCode.RECORD_SAVE_ERROR);
-                }
-            }
-            throw new BusinessLogicException(ExceptionCode.GENERAL_ERROR);
-        }
-        return schedule;
+    public Schedule createSchedule(Schedule schedule) {
+        return scheduleRepository.save(schedule);
     }
 
-    public Schedule updateSchedule(Schedule schedule, long clubId, List<Record> records,
-                                   List<ScheduleDto.ScheduleTeamDto> teamList, List<Candidate> candidates) {
-        Club club = clubService.findVerifiedClub(clubId);
-        Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
-
+    public Schedule updateSchedule(Schedule schedule, long clubId, Long scheduleId) {
         // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
-
-        Optional.ofNullable(schedule.getDate())
-                .ifPresent(findSchedule::setDate);
-        Optional.ofNullable(schedule.getTime())
-                .ifPresent(findSchedule::setTime);
-        Optional.ofNullable(schedule.getPlaceName())
-                .ifPresent(findSchedule::setPlaceName);
-        Optional.ofNullable(schedule.getLongitude())
-                .ifPresent(findSchedule::setLongitude);
-        Optional.ofNullable(schedule.getLatitude())
-                .ifPresent(findSchedule::setLatitude);
-
-        findSchedule.setCandidates(candidates);
-        findSchedule.setTeamList(teamList);
-        findSchedule.setRecords(records);
+        deleteSchedule(scheduleId, clubId);
+        return scheduleRepository.save(schedule);
+//        findSchedule.setCandidates(candidates);
+//        findSchedule.setTeamList(teamList);
+//        findSchedule.setRecords(records);
 
 
         // candidate 정보 저장
-        for (Candidate candidate : candidates) {
-            candidate.setSchedule(findSchedule);
-            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
-            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
-            candidate.setUser(userClub.getUser());
-            candidate.setAttendance(Candidate.Attendance.ATTEND);
-            candidateRepository.save(candidate);
-        }
-
-        for (ScheduleDto.ScheduleTeamDto scheduleTeamDto : teamList) {
-
-
-        }
-
-//        // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
-//        // team 정보 저장
-//        for (Team team : teamList) {
-//            team.setSchedule(findSchedule);
-//            teamRepository.save(team);
+//        for (Candidate candidate : candidates) {
+//            candidate.setSchedule(findSchedule);
+//            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
+//            //todo-jh
+//            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
+//            candidate.setUser(userClub.getUser());
+//            candidate.setAttendance(Candidate.Attendance.ATTEND);
+//            candidateRepository.save(candidate);
+//        }
+//
+//        for (ScheduleDto.ScheduleTeamDto scheduleTeamDto : teamList) {
+//
+//
+//        }
+//
+////        // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
+////        // team 정보 저장
+////        for (Team team : teamList) {
+////            team.setSchedule(findSchedule);
+////            teamRepository.save(team);
+////        }
+//
+//        // record 정보 저장
+//        for (Record record : records) {
+//            record.setSchedule(findSchedule);
+//
+//            // firstTeam과 매핑되는 Team을 찾아서 설정
+//            int firstTeamNumber = record.getFirstTeam();
+//            Optional<ScheduleDto.ScheduleTeamDto> firstTeamOptional = teamList.stream()
+//                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
+//                    .findFirst();
+//            if (firstTeamOptional.isPresent()) {
+//                ScheduleDto.ScheduleTeamDto firstTeam = firstTeamOptional.get();
+//                TeamRecord teamRecord = new TeamRecord(record, );
+//                teamRecordRepository.save(teamRecord);
+//            }
+//
+//            // secondTeam과 매핑되는 Team을 찾아서 설정
+//            int secondTeamNumber = record.getSecondTeam();
+//            Optional<ScheduleDto.ScheduleTeamDto> secondTeamOptional = teamList.stream()
+//                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
+//                    .findFirst();
+//            if (secondTeamOptional.isPresent()) {
+//                ScheduleDto.ScheduleTeamDto secondTeam = secondTeamOptional.get();
+//                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
+//                teamRecordRepository.save(teamRecord);
+//            }
+//
+//            recordRepository.save(record);
 //        }
 
-        // record 정보 저장
-        for (Record record : records) {
-            record.setSchedule(findSchedule);
-
-            // firstTeam과 매핑되는 Team을 찾아서 설정
-            int firstTeamNumber = record.getFirstTeam();
-            Optional<ScheduleDto.ScheduleTeamDto> firstTeamOptional = teamList.stream()
-                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
-                    .findFirst();
-            if (firstTeamOptional.isPresent()) {
-                ScheduleDto.ScheduleTeamDto firstTeam = firstTeamOptional.get();
-                TeamRecord teamRecord = new TeamRecord(record, );
-                teamRecordRepository.save(teamRecord);
-            }
-
-            // secondTeam과 매핑되는 Team을 찾아서 설정
-            int secondTeamNumber = record.getSecondTeam();
-            Optional<ScheduleDto.ScheduleTeamDto> secondTeamOptional = teamList.stream()
-                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
-                    .findFirst();
-            if (secondTeamOptional.isPresent()) {
-                ScheduleDto.ScheduleTeamDto secondTeam = secondTeamOptional.get();
-                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
-                teamRecordRepository.save(teamRecord);
-            }
-
-            recordRepository.save(record);
-        }
-        return findSchedule;
     }
-
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
