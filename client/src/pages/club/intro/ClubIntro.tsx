@@ -99,7 +99,7 @@ function ClubIntro() {
   useEffect(() => {
     const CLUB_URL = `${process.env.REACT_APP_URL}/clubs/${id}`;
     const getClubInfo = async () => {
-      const res = await getFetch(CLUB_URL);
+      const res = await getFetch(CLUB_URL, tokens);
       if (res) setClubInfo(res.data);
     };
 
