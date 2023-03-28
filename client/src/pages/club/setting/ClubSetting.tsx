@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { S_Button } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
@@ -18,25 +18,27 @@ function ClubSetting() {
   const [isOpenDisband, setIsOpenDisband] = useState(false);
 
   const checkPossible = () => {
+    console.log(totalMembers);
     if (totalMembers?.length !== 1) {
       alert('다른 멤버가 존재합니다. 소모임 해체를 할 수 없습니다.');
-      return;
+      return false;
     }
+    return true;
   };
 
-  const getMembers = () => {
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
+  const getMembers = async () => {
+    await getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
       setTotalMembers(data.data);
     });
   };
 
   const disbandClub = () => {
-    deleteFetch(`${process.env.REACT_APP_URL}/clubs/${id}`, tokens);
+    if (checkPossible()) {
+      deleteFetch(`${process.env.REACT_APP_URL}/clubs/${id}`, tokens);
+      navigate('/home');
+    }
+    return;
   };
-
-  useEffect(() => {
-    checkPossible();
-  }, [totalMembers]);
 
   return (
     <S_Container>
@@ -83,10 +85,10 @@ function ClubSetting() {
               <S_Button
                 addStyle={{ width: '48%' }}
                 onClick={() => {
-                  getMembers();
-                  disbandClub();
+                  getMembers().then(() => {
+                    disbandClub();
+                  });
                   setIsOpenDisband(false);
-                  navigate('/home');
                 }}
               >
                 확인
