@@ -88,7 +88,7 @@ public class UserService {
     public User updateUser(Long userId, String nickName, MultipartFile multipartFile) throws IOException {
         User findUser = findVerifiedUser(userId);
 
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null) {
             findUser.setNickName(nickName);
         } else {
             findUser.setNickName(nickName);
