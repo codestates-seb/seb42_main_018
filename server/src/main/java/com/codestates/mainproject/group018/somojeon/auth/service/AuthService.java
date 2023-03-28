@@ -26,19 +26,17 @@ public class AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public void refresh(HttpServletRequest request, HttpServletResponse response) {
+    public boolean refresh(HttpServletRequest request, HttpServletResponse response) {
         // RefreshToken 검증
         String refreshToken = request.getHeader("Refresh");
-        if(refreshToken == null) {
-
-        }
+        if(refreshToken == null) return false;
         Map<String, Object> claims = null;
         try {
             claims = getClaimsValues(refreshToken);
         } catch (ExpiredJwtException expiredJwtException) {
             response.addHeader("Refresh-Token-Expired", "True");
             response.setStatus(HttpStatus.OK.value());
-            return;
+            return false;
         }
 
 
@@ -48,6 +46,7 @@ public class AuthService {
         User user = optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
         jwtTokenProvider.provideTokens(user, response);
         response.addHeader("Refresh-Token-Expired ", "False");
+        return true;
     }
 
     public Map<String, Object> getClaimsValues(String token) {
