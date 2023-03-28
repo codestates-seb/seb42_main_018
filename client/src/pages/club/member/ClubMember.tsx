@@ -11,7 +11,7 @@ import getGlobalState from '../../../util/authorization/getGlobalState';
 
 function ClubMember() {
   const { id } = useParams();
-  const { userInfo } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
 
   const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
@@ -20,7 +20,7 @@ function ClubMember() {
       alert('권한이 없습니다.');
       navigate(`/club/${id}`);
     }
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`).then((data) => {
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
       const members: MemberData[] = data.data;
       setMembers(members);
     });
