@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.mapper.ScheduleMapper;
 import com.codestates.mainproject.group018.somojeon.schedule.service.ScheduleService;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class ScheduleController {
     private final ScheduleMapper scheduleMapper;
     private final Identifier identifier;
     private final UserMapper userMapper;
+    private final UserService userService;
 
     @PostMapping("/clubs/{club-id}/schedules")
     public ResponseEntity postSchedule(@PathVariable("club-id") @Positive long clubId,
@@ -57,16 +59,17 @@ public class ScheduleController {
                                         @Valid @RequestBody ScheduleDto.Put requestBody) {
         requestBody.addClubId(clubId);
         requestBody.addScheduleId(scheduleId);
+        Schedule schedule =  scheduleMapper.schedulePutDtoToSchedule(requestBody, userService);
 
 //        if (identifier.checkClubRole(clubId)) {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
-        Schedule schedule = scheduleService.updateSchedule(scheduleMapper.schedulePutDtoToSchedule(requestBody), clubId,
-                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
+        Schedule updatedSchedule = scheduleService.updateSchedule(schedule, clubId,
+                requestBody.getRecords(), schedule.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(updatedSchedule, userMapper)), HttpStatus.OK);
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")

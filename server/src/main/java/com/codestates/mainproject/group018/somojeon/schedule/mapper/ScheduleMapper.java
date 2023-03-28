@@ -12,6 +12,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -19,10 +20,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, UserRepository.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, UserService.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
-    Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody);
+    default Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody, UserService userService){
+        List<ScheduleDto.ScheduleTeamDto> scheduleTeamDtos =  requestBody.getTeamList();
+        // 스케쥴
+        Schedule schedule = new Schedule();
+
+        //팀 유저 팀 생성
+        // 팀넘버, 유저 리스트
+        List<Team> teams =  scheduleTeamDtos.stream().map(
+                scheduleTeamDto -> {
+                    Integer teamNumber = scheduleTeamDto.getTeamNumber();
+                    List<Long> membersIds = scheduleTeamDto.getMembersId();
+                    // 팀 만들기
+                    Team team = new Team();
+                    team.setTeamNumber(teamNumber);
+
+                    membersIds.forEach(membersId -> {
+                                // 유저 불러오기
+                                User user =  userService.findUser(membersId);
+                                // 유저 팀 만들기
+                                UserTeam userTeam = new UserTeam();
+                                userTeam.setUser(user);
+                                userTeam.setTeam(team);
+                                team.setUserTeam(userTeam);
+                                user.setUserTeam(userTeam);});
+                    // team 리턴
+                    return team;
+                }).collect(Collectors.toList()); // team List로 콜렉트
+        schedule.setTeamList(teams);
+
+        //
+        return schedule;
+    }
     Schedule scheduleAttendPostDtoToSchedule(ScheduleDto.attendPost requestBody);
     Schedule scheduleAbsentPostDtoToSchedule(ScheduleDto.absentPost requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
