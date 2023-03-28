@@ -116,7 +116,7 @@ public class ScheduleDto {
     public static class ScheduleTeamDto {
 
         private Integer teamNumber;
-        private List<Long> membersId;
+        private List<Long> users;
     }
 
     @Getter

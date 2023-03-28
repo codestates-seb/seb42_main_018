@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserService.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, UserService.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
     default Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody, UserService userService){
@@ -33,14 +33,14 @@ public interface ScheduleMapper {
         List<Team> teams =  scheduleTeamDtos.stream().map(
                 scheduleTeamDto -> {
                     Integer teamNumber = scheduleTeamDto.getTeamNumber();
-                    List<Long> membersIds = scheduleTeamDto.getMembersId();
+                    List<Long> users = scheduleTeamDto.getUsers();
                     // 팀 만들기
                     Team team = new Team();
                     team.setTeamNumber(teamNumber);
 
-                    membersIds.forEach(membersId -> {
+                    users.forEach(userId -> {
                         // 유저 불러오기
-                        User user =  userService.findUser(membersId);
+                        User user =  userService.findUser(userId);
                         // 유저 팀 만들기
                         UserTeam userTeam = new UserTeam();
                         userTeam.setUser(user);
@@ -167,9 +167,9 @@ public interface ScheduleMapper {
                     Team team = new Team();
                     team.setTeamNumber(scheduleTeamDto.getTeamNumber());
 
-                    List<Long> membersId = scheduleTeamDto.getMembersId();
-                    membersId.stream()
-                            .map(memberId -> new UserTeam(userRepository.findByUserId(memberId), team));
+                    List<Long> users = scheduleTeamDto.getUsers();
+                    users.stream()
+                            .map(userId -> new UserTeam(userRepository.findByUserId(userId), team));
                     return team;
                 })
                 .collect(Collectors.toList());

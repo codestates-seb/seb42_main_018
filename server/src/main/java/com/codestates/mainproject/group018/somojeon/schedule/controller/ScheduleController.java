@@ -65,11 +65,11 @@ public class ScheduleController {
 //            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 //        };
 
-        Schedule createdschedule = scheduleService.updateSchedule(schedule, clubId,
-                requestBody.getRecords(), schedule.getTeamList(), requestBody.getCandidates());
+        Schedule createdSchedule = scheduleService.updateSchedule(schedule, clubId,
+                requestBody.getRecords(), requestBody.getTeamList(), requestBody.getCandidates());
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(schedule, userMapper)), HttpStatus.OK);
+                new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)), HttpStatus.OK);
     }
 
     @PostMapping("/clubs/{club-id}/schedules/{schedule-id}/users/{user-id}/attend")
