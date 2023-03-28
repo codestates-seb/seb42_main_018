@@ -106,30 +106,14 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         for(String key : param.keySet()){
             queryParams.add(key, param.get(key));
         }
-        if(request.getHeader("Origin").contains("localhost")){
-            return UriComponentsBuilder
-                    .newInstance()
-                    .scheme("http")
-                    .host("localhost")
-                    .port(3000)
-                    .path(path)
-                    .queryParams(queryParams)
-                    .build()
-                    .toUri();
-        }
-        else{
-            return UriComponentsBuilder
-                    .newInstance()
-                    .scheme("https")
-                    .host("dev-somojeon.vercel.app")
-                    .path(path)
-                    .queryParams(queryParams)
-                    .build()
-                    .toUri();
-        }
+
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("https")
+                .host("dev-somojeon.vercel.app")
+                .path(path)
+                .queryParams(queryParams)
+                .build()
+                .toUri();
     }
-
-
-
-
 }
