@@ -124,7 +124,7 @@ function CreateClub() {
 
     const POST_URL = `${process.env.REACT_APP_URL}/${userInfo.userId}/clubs`;
     // console.log(tokens);
-    const res = await postFetch(POST_URL, newClubData, tokens);
+    const res = await postFetch(POST_URL, newClubData, tokens, true);
     if (res) navigate(res.headers.location);
   };
 
