@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import getGlobalState from '../util/authorization/getGlobalState';
-import alertPreparingService from '../util/alertPreparingService';
 import logo from '../assets/logo.svg';
-import search from '../assets/icon_search.svg';
 import mypage from '../assets/icon_mypage.svg';
 
 const HeaderContainer = styled.header`
@@ -50,10 +48,6 @@ function Header() {
         <img src={logo} alt='소모전 로고' />
       </Link>
       <IconContainer>
-        {/* TODO : 클릭시 검색창 모달 열리게 */}
-        <button onClick={alertPreparingService}>
-          <img src={search} alt='검색 아이콘' />
-        </button>
         <button onClick={() => navigate('/mypage')}>
           <img src={mypage} alt='마이페이지 아이콘' />
         </button>
