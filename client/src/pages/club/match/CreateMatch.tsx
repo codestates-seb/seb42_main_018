@@ -20,6 +20,7 @@ import TeamCard from '../../../components/match/TeamCard';
 import { postFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 export const S_MapView = styled.div`
   display: flex;
@@ -95,6 +96,7 @@ function CreateMatch() {
   } = useForm({ mode: 'onChange' });
 
   const [matchData, setMatchData] = useState<MatchData>();
+  const { userInfo } = getGlobalState();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -264,6 +266,10 @@ function CreateMatch() {
   }
 
   useEffect(() => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert('권한이 없습니다.');
+      navigate(`/club/${id}`);
+    }
     saveMatchData();
   }, [records]);
 

@@ -20,13 +20,13 @@ public class JwtTokenProvider {
         String accessToken = delegateAccessToken(user);
         String refreshToken = delegateRefreshToken(user);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("Authorization", accessToken);
         response.setHeader("Refresh", refreshToken);
 
     }
 
 
-    private String delegateAccessToken(User user) {
+    public String delegateAccessToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", user.getEmail());
         claims.put("roles", user.getRoles());
@@ -39,11 +39,11 @@ public class JwtTokenProvider {
 
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
-        return accessToken;
+        return "Bearer " + accessToken;
     }
 
 
-    private String delegateRefreshToken(User user) {
+    public String delegateRefreshToken(User user) {
         String subject = user.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());

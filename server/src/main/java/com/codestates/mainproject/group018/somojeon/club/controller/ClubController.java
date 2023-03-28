@@ -145,7 +145,6 @@ public class ClubController {
     }
 
 
-    // TODO: admin 컨트롤러로 가야함. 소모임 상태 변경
     // 소모임 이용정지 / 해제 (관리자만 가능)
     @PatchMapping("/admin/{club-id}")
     public ResponseEntity patchClubStatus(@PathVariable("club-id") Long clubId,

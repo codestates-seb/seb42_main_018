@@ -31,15 +31,6 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
     );
   }
 
-  console.log(accessToken);
-  console.log(refreshToken);
-
-  // const userId = 85;
-  // const accessToken =
-  //   'Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJJZCI6ODUsInVzZXJuYW1lIjoidXNlcjg1QGR1bW15LmNvbSIsInN1YiI6InVzZXI4NUBkdW1teS5jb20iLCJpYXQiOjE2Nzk4MzkxOTMsImV4cCI6MTY3OTg0MDk5M30.jNwATSq87ltoIyRukHXpnpsx0wMLkkuk9yqTq0NKmpGlNm-49gMr85jjbzC99bVryzesDwJr8Fzej9dlVyZcxg';
-  // const refreshToken =
-  //   'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyODVAZHVtbXkuY29tIiwiaWF0IjoxNjc5ODM5MTkzLCJleHAiOjE2Nzk4NjQzOTN9.R1EQygUVMfuehCJ5bhlUzFRXUUbtZgVAKaZ-jkJ_gqZF9-b1ydFS-aj03BIAWFaUP9cU8dxRt6VlIIX7lmRtew';
-
   useEffect(() => {
     const getUserInfo = async () => {
       if (userId) {

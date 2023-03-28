@@ -8,9 +8,10 @@ import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/
 import { S_NameTag } from '../../../components/UI/S_Tag';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Schedule } from './ClubSchedule';
 import { Candidate } from './CreateMatch';
+import getGlobalState from '../../../util/authorization/getGlobalState';
 
 const S_MapView = styled.div`
   display: flex;
@@ -31,6 +32,8 @@ const S_MapView = styled.div`
 function MatchDetail() {
   const [matchData, setMatchData] = useState<Schedule>();
   const { id, scid } = useParams();
+  const { userInfo } = getGlobalState();
+  const navigate = useNavigate();
 
   const [candidateList, setCandidateList] = useState<Candidate[]>([]);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
@@ -40,14 +43,13 @@ function MatchDetail() {
   };
 
   useEffect(() => {
+    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+      alert('권한이 없습니다.');
+      navigate(`/club/${id}`);
+    }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
       setMatchData({ ...data.data });
     });
-    // .then(() => {
-    //   getFetch(`${process.env.REACT_APP_URL}/candidates/${scid}`).then((data) => {
-    //     setCandidateList([...data.data]);
-    //   });
-    // });
   }, []);
 
   return (
