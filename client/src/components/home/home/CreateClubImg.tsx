@@ -6,11 +6,12 @@ const S_ImgBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 90vh;
   background-color: var(--blue300);
   border-radius: 10px;
   padding: 17px 20px 10px 20px;
-  position: absolute;
+  /* position: fixed; */
+  /* top: 90vh; */
+  z-index: 100;
 `;
 const S_Plusbutton = styled.div`
   font-size: 4rem;
