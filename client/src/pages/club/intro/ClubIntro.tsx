@@ -84,7 +84,7 @@ const S_ClubImgArea = styled.img<{ src: string }>`
 function ClubIntro() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isLogin, userInfo } = getGlobalState();
+  const { isLogin, userInfo, tokens } = getGlobalState();
   const [clubInfo, setClubInfo] = useState<ClubData>();
   const [updatedUserInfo, setUpdatedUserInfo] = useState(userInitialState);
   // isApplied : 가입신청을 이미 한 번 했으면 true, 아직 안했으면 false
@@ -93,6 +93,8 @@ function ClubIntro() {
   const myClub = updatedUserInfo.userClubResponses?.find((club) => club.clubId === Number(id));
   const isLeader = myClub?.clubRole === 'LEADER';
   const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
+
+  console.log(userInfo);
 
   useEffect(() => {
     const CLUB_URL = `${process.env.REACT_APP_URL}/clubs/${id}`;
@@ -103,7 +105,7 @@ function ClubIntro() {
 
     const USER_URL = `${process.env.REACT_APP_URL}/users/${userInfo.userId}`;
     const getUserInfo = async () => {
-      const res = await getFetch(USER_URL);
+      const res = await getFetch(USER_URL, tokens);
       if (res) setUpdatedUserInfo(res.data);
     };
 

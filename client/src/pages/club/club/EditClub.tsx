@@ -132,28 +132,35 @@ function EditClub() {
 
   // console.log(clubInfo);
   // console.log(typeof imgFile); // string
-  // console.log(clubImage); // File 객체
+  // console.log(clubImageFile); // File 객체
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(clubName);
-    console.log(content);
-    console.log(localValue);
-    console.log(clubImageFile);
-    if (!clubName || !content || !localValue || localValue.includes('undefined')) {
+
+    let temp = false,
+      localData = '';
+    if (localValue.includes('undefined') && prevLocal) temp = true;
+
+    if (!clubName || !content || !localValue) {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
 
+    // local 변화 없을 때 '서울 undefined'로 값이 들어가는 것을 방어하기 위한 임시 코드
+    if (temp && prevLocal) localData = prevLocal;
+    else localData = localValue;
+
     const formData: FormData = new FormData();
     formData.append('clubName', clubName);
     formData.append('content', content);
-    formData.append('local', localValue);
+    formData.append('local', localData);
     formData.append('tagList', tags);
     formData.append('isSecret', isSecret);
 
     if (clubImageFile) formData.append('clubImage', clubImageFile);
+    else formData.append('clubImage', null);
 
+    // ! BE 확인을 위해 console.log 잠시 풀어둠
     console.log(formData); // 빈 객체로 보임
     const formDataEntries = formData as unknown as Array<[string, unknown]>;
     console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
@@ -162,14 +169,8 @@ function EditClub() {
     // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
     const res = await patchFetch(URL, formData, tokens, contentType);
-    console.log(res);
     if (res) navigate(`/club/${clubId}`);
   };
-  // console.log(inputs);
-  console.log(prevLocal); // '경기 동두천시'
-  console.log(localValue); // '경기 undefined'
-  // ! 한 번 더 렌더링이 되어야 정보가 최신화됨
-  // console.log(tags);
 
   return (
     <S_Container>
@@ -221,7 +222,7 @@ function EditClub() {
           </div>
           {localValue && (
             <CreateLocal
-              prevData={prevLocal}
+              // prevData={prevLocal}
               inputValue={localValue}
               setInputValue={setLocalValue}
             />

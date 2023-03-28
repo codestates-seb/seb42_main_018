@@ -55,7 +55,9 @@ public class ClubService {
         categoryService.verifyExistsCategoryName(club.getCategoryName());
         findClub.setCreatedAt(LocalDateTime.now());
         findClub.setMemberCount(club.getMemberCount() + 1);
-        findClub.setClubImageUrl(defaultClubImage);
+        if (findClub.getClubImageUrl().isEmpty()) {
+            findClub.setClubImageUrl(defaultClubImage);
+        }
 
         if (tagList.size() > 3) {
             throw new BusinessLogicException(ExceptionCode.TAG_CAN_NOT_OVER_THREE);
@@ -87,7 +89,7 @@ public class ClubService {
 
         Club findClub = findVerifiedClub(clubId);
 
-        if (multipartFile.isEmpty()) {
+        if (multipartFile == null) {
             findClub.setClubName(clubName);
             findClub.setContent(content);
             findClub.setLocal(local);
