@@ -108,13 +108,21 @@ public class UserController {
     @PatchMapping("/{user-id}/password")
     public ResponseEntity patchUserPassword(
             @PathVariable("user-id") @Positive long userId,
-            @Valid @RequestBody UserDto.PatchPassword requestBody) {
+            @Valid @RequestBody UserDto.PatchPassword requestBody,
+            HttpServletResponse response) {
 
         requestBody.setUserId(userId);
         if (!identifier.isVerified(userId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
         }
-        User user = userService.updateUserPassword(requestBody);
+        User user = null;
+        try{
+            user = userService.updateUserPassword(requestBody);
+        }
+        catch (BusinessLogicException businessLogicException){
+            return ResponseEntity.ok().build();
+        }
+
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(userMapper.userToUserResponse(user)),
