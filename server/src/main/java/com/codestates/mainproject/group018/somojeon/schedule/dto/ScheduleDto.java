@@ -96,9 +96,9 @@ public class ScheduleDto {
 
         private List<Record> records;
         private List<Candidate> candidates;
-        private List<Team> teamList;
+//        private List<Team> teamList;
 
-//        private List<ScheduleTeamDto> teamList;
+        private List<ScheduleTeamDto> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;

@@ -147,10 +147,6 @@ public class ScheduleService {
         for (Team team : teamList) {
             team.setSchedule(findSchedule);
             teamRepository.save(team);
-//            UserTeam userTeam = userTeamRepository.findByUserAndTeam(, team);
-//            userTeam.setTeam(team);
-//            userTeam.setUser();
-//            userTeamRepository.save(userTeam);
         }
 
         // record 정보 저장
