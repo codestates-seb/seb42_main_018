@@ -70,7 +70,6 @@ function EditProfile() {
       setProfileImageFile(file);
     }
   }
-  // console.log(profileImageFile);
 
   // 닉네임 수정 관련
   const [inputs, setInputs] = useState({
@@ -81,24 +80,20 @@ function EditProfile() {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  // console.log(inputs);
 
   // 회원정보 수정 버튼 클릭시 실행될 함수
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('onsubmit 클릭');
     e.preventDefault();
-    // TODO : 패치 데이터 날리기
 
     const formData: FormData = new FormData();
     formData.append('nickName', inputs.nickName);
-    formData.append('profileImage', profileImageFile);
+
+    if (profileImageFile) formData.append('profileImage', profileImageFile);
+    else formData.append('profileImage', null);
 
     // console.log(formData); // 빈 객체로 보임
     // const formDataEntries = formData as unknown as Array<[string, unknown]>;
     // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
-
-    if (profileImageFile) formData.append('profileImage', profileImageFile);
-    else formData.append('profileImage', null);
 
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
     const res = await patchFetch(
