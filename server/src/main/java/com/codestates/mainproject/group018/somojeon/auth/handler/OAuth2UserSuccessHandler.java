@@ -1,9 +1,13 @@
 package com.codestates.mainproject.group018.somojeon.auth.handler;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
+import com.codestates.mainproject.group018.somojeon.oauth.entity.OAuthUser;
 import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserService;
+import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final JwtTokenizer jwtTokenizer;
     private final OauthUserService oauthUserService;
     private final Identifier identifier;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -66,16 +71,28 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
     private void redirect(HttpServletRequest request, HttpServletResponse response
                          ,String registration, String registrationId,  Map<String, String> param, String path) throws IOException {
-        String accessToken = delegateAccessToken(registration, registrationId);
-        String refreshToken = delegateRefreshToken(registration, registrationId);
-//        String path = (String) request.getAttribute("oauth2/receive");
-        String uri =  createURI(accessToken, refreshToken, path, param, request).toString();
 
+        String accessToken = null;
+        String refreshToken = null;
+
+        if(oauthUserService.IsUser(registration, Long.valueOf(registrationId))){
+            OAuthUser ouser =  oauthUserService.findOAuthUser(registration, Long.valueOf(registrationId));
+            User user = ouser.getUser();
+            accessToken = jwtTokenProvider.delegateAccessToken(user);
+            refreshToken = jwtTokenProvider.delegateRefreshToken(user);
+
+        }
+        else{
+            accessToken = delegateAccessToken(registration, registrationId);
+            refreshToken = delegateRefreshToken(registration, registrationId);
+        }
+        String uri =  createURI(accessToken, refreshToken, path, param, request).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
     private String delegateAccessToken(String registration, String registrationId) {
         Map<String, Object> claims = new HashMap<>();
+
         claims.put("registration", registration);
         claims.put("registrationId", registrationId);
 

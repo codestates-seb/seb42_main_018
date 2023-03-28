@@ -2,11 +2,14 @@ package com.codestates.mainproject.group018.somojeon.auth.filter;
 
 import com.codestates.mainproject.group018.somojeon.auth.service.AuthService;
 import com.codestates.mainproject.group018.somojeon.auth.token.CustomAuthenticationToken;
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenizer;
 import com.codestates.mainproject.group018.somojeon.auth.utils.CustomAuthorityUtils;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwt;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -24,17 +27,13 @@ import java.util.Map;
 
 
 @Slf4j
+@RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private  final AuthService authService;
 
-    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils,
-                                 AuthService authService) {
-        this.jwtTokenizer = jwtTokenizer;
-        this.authorityUtils = authorityUtils;
-        this.authService = authService;
-    }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -44,22 +43,25 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
             response.addHeader("Access-Token-Expired","False");
+            filterChain.doFilter(request, response);
         } catch (ExpiredJwtException ee) {
             log.warn("Expired ACCESS JWT Exception");
+            response.addHeader("Access-Token-Expired","True");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
                 // todo-jh 하드 코딩 제거
-                response.sendRedirect("http://localhost:3000/login");
+                response.sendRedirect("https://dev.somojeon.site/login");
             }
-            else{
-                response.addHeader("Access-Token-Expired","True");
-                response.setStatus(HttpStatus.OK.value());
-                request.getRequestURI();
+            if(authService.refresh(request, response)){
+                log.info("Verified JWT Refresh token");
+                Map<String, Object> claims = authService.getClaimsValues(response.getHeader("Authorization").replace("Bearer ", ""));
+                setAuthenticationToContext(claims);
+                filterChain.doFilter(request, response);
                 return;
             }
+            response.setStatus(HttpStatus.OK.value());
 
         }
 
-        filterChain.doFilter(request, response);
     }
 
 
@@ -71,6 +73,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
+        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+        Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+
+        return claims;
+    }
+
+    private Map<String, Object> checkRefresh(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();

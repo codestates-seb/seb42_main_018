@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.controller;
 
+import com.codestates.mainproject.group018.somojeon.auth.token.JwtTokenProvider;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
@@ -11,6 +12,7 @@ import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicExcep
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import com.codestates.mainproject.group018.somojeon.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.LinkedHashMap;
@@ -37,6 +40,8 @@ public class UserClubController {
     private final UserClubMapper userClubMapper;
     private final UserMapper userMapper;
     private final Identifier identifier;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     // 소모임 가입 요청
     @PostMapping("{club-id}/joins/{user-id}")
@@ -143,7 +148,8 @@ public class UserClubController {
                                                                              @RequestParam Long leaderId,
                                                                              @RequestParam ClubRole leaderChangeClubRole,
                                                                              @RequestParam Long memberId,
-                                                                             @RequestParam ClubRole memberChangeClubRole) {
+                                                                             @RequestParam ClubRole memberChangeClubRole,
+                                                                             HttpServletResponse httpServletResponse) {
 
         if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
@@ -155,6 +161,7 @@ public class UserClubController {
         response.put("leaderChangeClubRole", leaderChangeClubRole);
         response.put("memberId", memberId);
         response.put("memberChangeClubRole", memberChangeClubRole);
+        jwtTokenProvider.provideTokens(userService.findUser(leaderId), httpServletResponse);
 
         return ResponseEntity.ok().body(response);
 
