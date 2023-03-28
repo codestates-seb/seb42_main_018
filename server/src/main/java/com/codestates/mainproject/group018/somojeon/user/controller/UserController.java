@@ -128,6 +128,11 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
                                   HttpServletRequest request) {
 
+        if (!identifier.isVerified(userId)) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        }
+
+
         User findUser = userService.findUser(userId);
         List<UserClub> userClubs = userService.findUserClub(userId);
         UserDto.ResponseWithClubs response = userMapper.userToUserResponseWithClubs(findUser, userClubs, clubMapper);

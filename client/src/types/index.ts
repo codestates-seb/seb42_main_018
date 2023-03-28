@@ -85,3 +85,14 @@ export interface MemberProps {
 export interface ClubMemberProps {
   members: MemberData[];
 }
+
+export interface myPageUserClubResponses {
+  // 마이페이지에서 가져올 유저데이터의 userClubResponses
+  clubId: number;
+  clubRole: string;
+  playCount: number;
+  winCount: number;
+  loseCount: number;
+  drawCount: number;
+  winRate: number;
+}

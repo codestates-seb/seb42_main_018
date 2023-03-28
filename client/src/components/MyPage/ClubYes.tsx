@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { myPageUserClubResponses } from '../../types';
 import getGlobalState from '../../util/authorization/getGlobalState';
 
 import { S_Title } from '../UI/S_Text';
@@ -12,13 +13,11 @@ const S_Box = styled.div`
 `;
 
 interface ClubYesProps {
-  userClubResponses: {
-    userClubId?: number;
-    clubRole?: string | null;
-  }[];
+  userClubs: myPageUserClubResponses[];
+  setUserClubs: React.Dispatch<React.SetStateAction<myPageUserClubResponses[]>>;
 }
 
-function ClubYes() {
+function ClubYes({ userClubs, setUserClubs }: ClubYesProps) {
   const { userInfo } = getGlobalState();
   const { userClubResponses } = userInfo || {};
   console.log(userClubResponses);
@@ -27,7 +26,7 @@ function ClubYes() {
     <S_Box>
       <div className='myclub'>
         <S_Title>내 소모임</S_Title>
-        {userClubResponses.map(
+        {userClubs.map(
           (el) =>
             el.clubRole !== null && (
               <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
@@ -36,7 +35,7 @@ function ClubYes() {
       </div>
       <div className='notMyClub'>
         <S_Title>가입 대기 소모임</S_Title>
-        {userClubResponses.map(
+        {userClubs.map(
           (el) =>
             el.clubRole === null && (
               <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
