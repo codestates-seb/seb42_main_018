@@ -52,11 +52,21 @@ function MainContents() {
   useEffect(() => {
     getFetch(`${process.env.REACT_APP_URL}/clubs`).then((data) => {
       const clubs: ClubData[] = data.data;
+      console.log(clubs);
       setClubs(clubs);
       const pageInfo: ClubPage = data.pageInfo;
       setPageInfo(pageInfo);
     });
   }, []);
+
+  const dataCategories = clubs
+    // 데이터에서 가져온 카테고리 리스트
+    .map((el) => {
+      return el.categoryName;
+    })
+    // 인기순으로 나열할 수 있지 않을까 ㅜ
+    .slice(0, 4);
+  console.log(dataCategories);
 
   return (
     <div>
@@ -65,27 +75,29 @@ function MainContents() {
         <S_TagBox>
           {/* 최대 5개의 카테고리만 보여주기 */}
           <S_Category>전체보기</S_Category>
-          {categories.map((el) => (
-            <S_Category key={el.categoryName}>{el.categoryName}</S_Category>
+          {dataCategories.map((el) => (
+            <S_Category key={el}>{el}</S_Category>
           ))}
         </S_TagBox>
       </S_TitleBox>
       {/* TODO : 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
 
-      {clubs.map((el) => (
-        // el.secret === false &&
-        <ClubList
-          key={el.clubId}
-          clubId={el.clubId}
-          clubName={el.clubName}
-          clubImage={el.clubImage}
-          content={el.content}
-          local={el.local}
-          categoryName={el.categoryName}
-          memberCount={el.memberCount}
-          tagList={el.tagList}
-        />
-      ))}
+      {clubs.map(
+        (el) =>
+          el.secret === false && (
+            <ClubList
+              key={el.clubId}
+              clubId={el.clubId}
+              clubName={el.clubName}
+              clubImage={el.clubImage}
+              content={el.content}
+              local={el.local}
+              categoryName={el.categoryName}
+              memberCount={el.memberCount}
+              tagList={el.tagList}
+            />
+          )
+      )}
       {/* <S_Page /> */}
     </div>
   );
