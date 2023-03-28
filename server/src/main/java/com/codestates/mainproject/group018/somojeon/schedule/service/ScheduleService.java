@@ -114,7 +114,7 @@ public class ScheduleService {
         Club club = clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findVerifiedSchedule(schedule.getScheduleId());
 
-        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다.
+        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
 
         Optional.ofNullable(schedule.getDate())
                 .ifPresent(findSchedule::setDate);
@@ -146,8 +146,11 @@ public class ScheduleService {
         // team 정보 저장
         for (Team team : teamList) {
             team.setSchedule(findSchedule);
-
             teamRepository.save(team);
+//            UserTeam userTeam = userTeamRepository.findByUserAndTeam(, team);
+//            userTeam.setTeam(team);
+//            userTeam.setUser();
+//            userTeamRepository.save(userTeam);
         }
 
         // record 정보 저장

@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
+import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, UserRepository.class})
 public interface ScheduleMapper {
     Schedule schedulePostDtoToSchedule(ScheduleDto.Post requestBody);
     Schedule schedulePutDtoToSchedule(ScheduleDto.Put requestBody);
@@ -122,7 +123,8 @@ public interface ScheduleMapper {
         return list;
     }
 
-    default List<Team> ScheduleTeamToTeamListDtos(List<ScheduleDto.ScheduleTeamDto> scheduleTeamDtos) {
+    default List<Team> scheduleTeamToTeamListDtos(List<ScheduleDto.ScheduleTeamDto> scheduleTeamDtos,
+                                                  UserRepository userRepository) {
         if (scheduleTeamDtos == null) {
             return null;
         }
@@ -134,9 +136,10 @@ public interface ScheduleMapper {
 
                     List<Long> membersId = scheduleTeamDto.getMembersId();
                     membersId.stream()
-                            .map(memberId -> new UserTeam(team, ))
+                            .map(memberId -> new UserTeam(userRepository.findByUserId(memberId), team));
+                    return team;
                 })
-
+                .collect(Collectors.toList());
     }
 }
 
