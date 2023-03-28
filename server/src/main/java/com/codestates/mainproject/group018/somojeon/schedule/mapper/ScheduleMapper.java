@@ -33,20 +33,20 @@ public interface ScheduleMapper {
         List<Team> teams =  scheduleTeamDtos.stream().map(
                 scheduleTeamDto -> {
                     Integer teamNumber = scheduleTeamDto.getTeamNumber();
-                    List<Long> membersIds = scheduleTeamDto.getMembersId();
+                    List<Long> users = scheduleTeamDto.getUsers();
                     // 팀 만들기
                     Team team = new Team();
                     team.setTeamNumber(teamNumber);
 
-                    membersIds.forEach(membersId -> {
-                                // 유저 불러오기
-                                User user =  userService.findUser(membersId);
-                                // 유저 팀 만들기
-                                UserTeam userTeam = new UserTeam();
-                                userTeam.setUser(user);
-                                userTeam.setTeam(team);
-                                team.setUserTeam(userTeam);
-                                user.setUserTeam(userTeam);});
+                    users.forEach(userId -> {
+                        // 유저 불러오기
+                        User user =  userService.findUser(userId);
+                        // 유저 팀 만들기
+                        UserTeam userTeam = new UserTeam();
+                        userTeam.setUser(user);
+                        userTeam.setTeam(team);
+                        team.setUserTeam(userTeam);
+                        user.setUserTeam(userTeam);});
                     // team 리턴
                     return team;
                 }).collect(Collectors.toList()); // team List로 콜렉트
@@ -55,6 +55,7 @@ public interface ScheduleMapper {
         //
         return schedule;
     }
+
     Schedule scheduleAttendPostDtoToSchedule(ScheduleDto.attendPost requestBody);
     Schedule scheduleAbsentPostDtoToSchedule(ScheduleDto.absentPost requestBody);
 //    ScheduleDto.Response scheduleToScheduleResponseDto(Schedule schedule);
@@ -166,9 +167,9 @@ public interface ScheduleMapper {
                     Team team = new Team();
                     team.setTeamNumber(scheduleTeamDto.getTeamNumber());
 
-                    List<Long> membersId = scheduleTeamDto.getMembersId();
-                    membersId.stream()
-                            .map(memberId -> new UserTeam(userRepository.findByUserId(memberId), team));
+                    List<Long> users = scheduleTeamDto.getUsers();
+                    users.stream()
+                            .map(userId -> new UserTeam(userRepository.findByUserId(userId), team));
                     return team;
                 })
                 .collect(Collectors.toList());
