@@ -100,7 +100,7 @@ public class ScheduleDto {
         private Double latitude;
 
         private List<RecordDto.SchedulePost> records;
-        private List<Long> candidates;
+        private List<CandidateDto.SchedulePost> candidates;
         private List<ScheduleTeamDto> teamList;
 
         public void addScheduleId(Long scheduleId) {

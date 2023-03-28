@@ -130,14 +130,14 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
-    @DeleteMapping("/{schedule-id}")
+    @DeleteMapping("/schedules/{club-id}/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);
 
-//        if (identifier.checkClubRole(clubId)) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        };
+        if (!identifier.isAdmin() && identifier.checkClubRole(clubId)) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
+        };
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

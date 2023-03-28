@@ -105,10 +105,10 @@ public interface ScheduleMapper {
             }
             // CandidateDto to candidate
             if(requestBody.getCandidates() != null) {
-                List<Long> candidateIds = requestBody.getCandidates();
-                List<Candidate> candidates = candidateIds.stream().map(candidateId -> {
+                List<CandidateDto.SchedulePost> candidateDtoPosts = requestBody.getCandidates();
+                List<Candidate> candidates = candidateDtoPosts.stream().map(candidateDtoPost -> {
                     Candidate candidate = new Candidate();
-                    candidate.setUser(userService.findUser(candidateId));
+                    candidate.setUser(userService.findUser(candidateDtoPost.getUserId()));
                     candidate.setAttendance(Candidate.Attendance.ATTEND);
                     candidate.setSchedule(schedule);
                     return candidate;
