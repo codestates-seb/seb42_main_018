@@ -94,6 +94,8 @@ function ClubIntro() {
   const isLeader = myClub?.clubRole === 'LEADER';
   const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
 
+  console.log(userInfo);
+
   useEffect(() => {
     const CLUB_URL = `${process.env.REACT_APP_URL}/clubs/${id}`;
     const getClubInfo = async () => {

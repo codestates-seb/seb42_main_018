@@ -132,7 +132,7 @@ function EditClub() {
 
   // console.log(clubInfo);
   // console.log(typeof imgFile); // string
-  console.log(clubImageFile); // File 객체
+  // console.log(clubImageFile); // File 객체
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -141,7 +141,7 @@ function EditClub() {
       localData = '';
     if (localValue.includes('undefined') && prevLocal) temp = true;
 
-    if (!clubName || !content || !localValue || localValue.includes('undefined')) {
+    if (!clubName || !content || !localValue) {
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
@@ -158,7 +158,7 @@ function EditClub() {
     formData.append('isSecret', isSecret);
 
     if (clubImageFile) formData.append('clubImage', clubImageFile);
-    else formData.append('clubImage', new FileReader());
+    else formData.append('clubImage', null);
 
     // ! BE 확인을 위해 console.log 잠시 풀어둠
     console.log(formData); // 빈 객체로 보임
