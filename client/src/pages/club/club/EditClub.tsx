@@ -168,7 +168,7 @@ function EditClub() {
     // ! any 외에 다른 방법은 정녕 없는가
     // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
-    const res = await patchFetch(URL, formData, tokens, contentType);
+    const res = await patchFetch(URL, formData, tokens, false, contentType);
     if (res) navigate(`/club/${clubId}`);
   };
 

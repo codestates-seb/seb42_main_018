@@ -117,6 +117,7 @@ function EditProfile() {
       `${process.env.REACT_APP_URL}/users/${userInfo.userId}`,
       formData,
       tokens,
+      true,
       contentType
     );
     if (res) alert('수정이 완료되었습니다!'); // TODO : 모달로 변경
