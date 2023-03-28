@@ -19,7 +19,7 @@ export interface EditClubDataType {
   clubName: string;
   content: string;
   local: string;
-  tagName?: string[];
+  tagList?: string[];
   isSecret: boolean;
 }
 
@@ -58,10 +58,16 @@ function EditClub() {
     clubName: '',
     content: '',
     local: '',
-    tagName: [],
+    tagList: [],
     isSecret: false
   });
-  const { categoryName, clubImage, local: prevLocal, secret } = clubInfo || {};
+  const {
+    categoryName,
+    clubImage,
+    local: prevLocal,
+    tagList: prevTagList,
+    secret
+  } = clubInfo || {};
   const { clubName, content, isSecret } = inputs || {};
 
   useEffect(() => {
@@ -71,9 +77,8 @@ function EditClub() {
       setClubInfo(clubInfo);
 
       // * 기존 소모임 정보를 input 초기값으로 세팅
-      const { local: prevLocal, tagResponseDtos } = clubInfo || {};
-      const prevTags = tagResponseDtos?.map((tag) => tag.tagName) || [];
-      setTags(prevTags);
+      const { local: prevLocal, tagList: prevTagList } = clubInfo || {};
+      setTags(prevTagList);
       setLocalValue(prevLocal);
 
       if (clubInfo) {
@@ -81,10 +86,9 @@ function EditClub() {
           ...inputs,
           clubName: clubInfo.clubName,
           content: clubInfo.content,
-          local: clubInfo.local,
-          tagName: clubInfo.tagResponseDtos.map((tag) => tag.tagName),
+          local: prevLocal,
+          tagList: prevTagList,
 
-          // TODO: types > index.ts에서 secret 필드 ? 빠진거 확인하고 || false 삭제
           // !BUG : 비공개 소모임(secret: true) 생성해도 서버에서 전부 secret: false 로 처리되고 있음
           isSecret: clubInfo.secret || false
         });
@@ -100,7 +104,7 @@ function EditClub() {
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: name === 'isPrivate' ? value === 'true' : value });
+    setInputs({ ...inputs, [name]: name === 'isSecret' ? value === 'true' : value });
   };
 
   // 버튼 클릭시 파일첨부(input#file) 실행시켜주는 함수
@@ -126,33 +130,46 @@ function EditClub() {
     }
   };
 
-  console.log(clubInfo);
+  // console.log(clubInfo);
   // console.log(typeof imgFile); // string
   // console.log(clubImage); // File 객체
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (clubImageFile) {
-      const formData: FormData = new FormData();
-      formData.append('clubName', clubName);
-      formData.append('content', content);
-      formData.append('local', localValue);
-      formData.append('tagName', tags);
-      formData.append('isSecret', isSecret);
-      formData.append('clubImage', clubImageFile);
-
-      // console.log(formData); // 빈 객체로 보임
-      // const formDataEntries = formData as unknown as Array<[string, unknown]>;
-      // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
-
-      // ! any 외에 다른 방법은 정녕 없는가
-      // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
-      const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
-      const res = await patchFetch(URL, formData, tokens, contentType);
-      if (res) navigate(`/club/${clubId}`);
+    console.log(clubName);
+    console.log(content);
+    console.log(localValue);
+    console.log(clubImageFile);
+    if (!clubName || !content || !localValue || localValue.includes('undefined')) {
+      alert('*가 표시된 항목은 필수 입력란입니다.');
+      return;
     }
+
+    const formData: FormData = new FormData();
+    formData.append('clubName', clubName);
+    formData.append('content', content);
+    formData.append('local', localValue);
+    formData.append('tagList', tags);
+    formData.append('isSecret', isSecret);
+
+    if (clubImageFile) formData.append('clubImage', clubImageFile);
+
+    console.log(formData); // 빈 객체로 보임
+    const formDataEntries = formData as unknown as Array<[string, unknown]>;
+    console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
+
+    // ! any 외에 다른 방법은 정녕 없는가
+    // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
+    const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
+    const res = await patchFetch(URL, formData, tokens, contentType);
+    console.log(res);
+    if (res) navigate(`/club/${clubId}`);
   };
+  // console.log(inputs);
+  console.log(prevLocal); // '경기 동두천시'
+  console.log(localValue); // '경기 undefined'
+  // ! 한 번 더 렌더링이 되어야 정보가 최신화됨
+  // console.log(tags);
 
   return (
     <S_Container>
@@ -202,7 +219,13 @@ function EditClub() {
               width='96%'
             />
           </div>
-          <CreateLocal prevData={prevLocal} inputValue={localValue} setInputValue={setLocalValue} />
+          {localValue && (
+            <CreateLocal
+              prevData={prevLocal}
+              inputValue={localValue}
+              setInputValue={setLocalValue}
+            />
+          )}
           <CreateTag tags={tags} setTags={setTags} />
 
           <div>

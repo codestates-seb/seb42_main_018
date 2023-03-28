@@ -61,7 +61,7 @@ function CreateLocal({ inputValue, setInputValue, prevData }: CreateLocalProps) 
   };
 
   // * EditClub 컴포넌트를 위한 기존 local 정보 핸들링
-  const [prevLocal1, prevLocal2] = prevData?.split(' ') || [];
+  const [prevLocal1, prevLocal2] = inputValue?.split(' ') || [];
   const [prevDivisionCode, setPrevDivisionCode] = useState('');
   const [prevDistrictCode, setPrevDistrictCode] = useState('');
 

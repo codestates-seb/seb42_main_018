@@ -52,7 +52,7 @@ function ClubList({
   local,
   categoryName,
   memberCount,
-  tagResponseDtos
+  tagList
 }: ClubData) {
   return (
     <S_ClubBox>
@@ -69,8 +69,8 @@ function ClubList({
             <S_Description color='var(--gray600)'>{content}</S_Description>
           </S_Hidden>
           <div>
-            {tagResponseDtos.map((el) => (
-              <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
+            {tagList.map((tag, idx) => (
+              <S_TagSmall key={idx}>{tag}</S_TagSmall>
             ))}
           </div>
         </S_ContentsBox>

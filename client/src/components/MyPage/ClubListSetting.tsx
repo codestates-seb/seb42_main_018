@@ -113,8 +113,8 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
             <S_Description color='var(--gray600)'>{club?.content}</S_Description>
           </S_Hidden>
           <div className='tagbox'>
-            {club?.tagResponseDtos.map((el) => (
-              <S_TagSmall key={el.tagId}>{el.tagName}</S_TagSmall>
+            {club?.tagList.map((tag, idx) => (
+              <S_TagSmall key={idx}>{tag}</S_TagSmall>
             ))}
           </div>
         </Link>
