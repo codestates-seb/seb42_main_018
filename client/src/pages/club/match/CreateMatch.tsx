@@ -56,13 +56,14 @@ export const S_ButtonBox = styled.div`
 
 export interface TeamList {
   id: number;
+  teamNumber: number;
   members: string[];
 }
 
 export interface Record {
   id: number;
-  firstTeam: string;
-  secondTeam: string;
+  firstTeam: number;
+  secondTeam: number;
   firstTeamScore: number;
   secondTeamScore: number;
 }
@@ -107,7 +108,7 @@ function CreateMatch() {
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates.map((el) => el.nickName));
 
-  const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, members: [] }]);
+  const [teamList, setTeamList] = useState<TeamList[]>([{ id: 0, teamNumber: 1, members: [] }]);
   const [records, setRecords] = useState<Record[]>([]);
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
@@ -168,6 +169,7 @@ function CreateMatch() {
   const addTeam = () => {
     const newTeam = {
       id: teamList[teamList.length - 1].id + 1,
+      teamNumber: teamList.length + 1,
       members: []
     };
     setTeamList([...teamList, newTeam]);
@@ -179,6 +181,7 @@ function CreateMatch() {
       setTeamList([
         {
           id: 0,
+          teamNumber: 1,
           members: []
         }
       ]);
@@ -195,8 +198,8 @@ function CreateMatch() {
   const addRecord = () => {
     const newRecord: Record = {
       id: records.length ? records[records.length - 1].id + 1 : 0,
-      firstTeam: '1',
-      secondTeam: '1',
+      firstTeam: 1,
+      secondTeam: 2,
       firstTeamScore: 0,
       secondTeamScore: 0
     };
@@ -216,7 +219,10 @@ function CreateMatch() {
     copiedValues.forEach((el) => {
       const temp = {
         id: Number(el[0]),
-        ...el[1]
+        firstTeam: Number(el[1].firstTeam),
+        secondTeam: Number(el[1].secondTeam),
+        firstTeamScore: Number(el[1].firstTeamScore),
+        secondTeamScore: Number(el[1].secondTeamScore)
       };
       copiedRecords.push(temp);
     });

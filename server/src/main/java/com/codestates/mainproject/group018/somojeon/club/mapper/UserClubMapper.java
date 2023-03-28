@@ -3,9 +3,6 @@ package com.codestates.mainproject.group018.somojeon.club.mapper;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
-import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
-import com.codestates.mainproject.group018.somojeon.images.entity.Images;
-import com.codestates.mainproject.group018.somojeon.images.mapper.ImageMapper;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.mapper.UserMapper;
@@ -17,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {UserMapper.class, ImageMapper.class})
+        uses = {UserMapper.class})
 public interface UserClubMapper {
 
     default UserClub joinPostToUserClub(UserClubDto.JoinPost requestBody) {
@@ -91,20 +88,6 @@ public interface UserClubMapper {
         userInfoResponse.setProfileImage(user.getProfileImageUrl());
 
         return userInfoResponse;
-    }
-
-    default ImagesResponseDto imagesToImagesResponseDto(Images images) {
-        if ( images == null ) {
-            return null;
-        }
-
-        ImagesResponseDto response = new ImagesResponseDto();
-
-        response.setImageId(images.getImageId());
-        response.setFileName(images.getFileName());
-        response.setUrl(images.getUrl());
-
-        return response;
     }
 
 

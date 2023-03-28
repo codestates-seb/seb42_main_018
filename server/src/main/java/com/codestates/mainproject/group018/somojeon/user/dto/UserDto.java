@@ -3,7 +3,6 @@ package com.codestates.mainproject.group018.somojeon.user.dto;
 import com.codestates.mainproject.group018.somojeon.club.dto.UserClubDto;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
-import com.codestates.mainproject.group018.somojeon.images.dto.ImagesResponseDto;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
 import org.mapstruct.Builder;

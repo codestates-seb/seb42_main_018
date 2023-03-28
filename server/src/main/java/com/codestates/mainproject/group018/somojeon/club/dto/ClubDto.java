@@ -1,7 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
-import com.codestates.mainproject.group018.somojeon.tag.dto.TagDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -33,7 +32,7 @@ public class ClubDto {
         private String categoryName;
 
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
     }
@@ -62,7 +61,7 @@ public class ClubDto {
         private String local;
 
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
-        private List<String> tagName;
+        private List<String> tagList;
         private boolean isSecret;
 
     }
@@ -89,11 +88,11 @@ public class ClubDto {
         private String content;
         private String local;
         private String categoryName;
+        private List<String> tagList;
+        private boolean isSecret;
         private int viewCount;
         private int memberCount;
-        private List<TagDto.Response> tagResponseDtos;
         private String clubImage;
-        private boolean isSecret;
         private ClubStatus clubStatus;
         private LocalDateTime modifiedAt;
 
