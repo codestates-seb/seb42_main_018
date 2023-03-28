@@ -32,6 +32,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import axios from 'axios';
+import ServerError from './pages/Error/ServerError';
 
 const router = createBrowserRouter([
   {
@@ -152,9 +153,13 @@ const router = createBrowserRouter([
             ]
           }
         ]
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ],
-    errorElement: <NotFound />
+    errorElement: <ServerError />
   }
 ]);
 
