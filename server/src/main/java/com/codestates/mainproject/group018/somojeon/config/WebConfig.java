@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("https://dev-somojeon.vercel.app", "http://localhost:3000")
+                .allowedOriginPatterns("https://dev-somojeon.vercel.app", "http://localhost:3000", "https://somojeon.vercel.app")
                 .allowedMethods("GET","DELETE", "POST", "PATCH", "OPTIONS").allowCredentials(true)
 //                .exposedHeaders("Authorization", "Refresh", "location", "member-id", "email", "Request", "Access Token Expired", "Refresh Token Expired");
                 .exposedHeaders("*");
