@@ -38,9 +38,8 @@ public interface RecordMapper {
                 .map(comment -> {
                     CommentDto.Response response = new CommentDto.Response();
                     response.setCommentId(comment.getCommentId());
-//                    response.setUserId(comment.getUser().getUserId());
-//                    response.setNickName(comment.getUser().getNickName());
-//                    response.setImages(comment.getUser().getImages());
+                    response.setUserId(comment.getUser().getUserId());
+                    response.setNickName(comment.getUser().getNickName());
                     response.setContent(comment.getContent());
                     response.setCreatedAt(comment.getCreatedAt());
 

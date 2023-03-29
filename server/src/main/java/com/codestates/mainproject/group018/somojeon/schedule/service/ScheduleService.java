@@ -4,36 +4,24 @@ import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
 import com.codestates.mainproject.group018.somojeon.candidate.repository.CandidateRepository;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
-import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
-import com.codestates.mainproject.group018.somojeon.record.repository.RecordRepository;
-import com.codestates.mainproject.group018.somojeon.schedule.dto.ScheduleDto;
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
 import com.codestates.mainproject.group018.somojeon.schedule.repository.ScheduleRepository;
 import com.codestates.mainproject.group018.somojeon.team.entity.Team;
-import com.codestates.mainproject.group018.somojeon.team.entity.TeamRecord;
-import com.codestates.mainproject.group018.somojeon.team.entity.UserTeam;
-import com.codestates.mainproject.group018.somojeon.team.repository.TeamRecordRepository;
-import com.codestates.mainproject.group018.somojeon.team.repository.TeamRepository;
-import com.codestates.mainproject.group018.somojeon.team.repository.UserTeamRepository;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
-import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +46,6 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(Schedule schedule, long clubId, Long scheduleId) {
-        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
         deleteSchedule(scheduleId, clubId);
         List<Record> records =  schedule.getRecords();
         goUserClub(records, clubId, false);
