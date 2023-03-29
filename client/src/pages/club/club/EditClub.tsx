@@ -65,8 +65,8 @@ function EditClub() {
   const [inputs, setInputs] = useState<EditClubDataType>({
     clubName: '',
     content: '',
-    local: '',
-    tagList: [],
+    local: prevLocal || '',
+    tagList: prevTagList,
     clubPrivateStatus: prevClubPrivateStatus
   });
   const { clubName, content, clubPrivateStatus } = inputs || {};
@@ -82,15 +82,13 @@ function EditClub() {
       setTags(prevTagList);
       setLocalValue(prevLocal);
 
-      if (clubInfo && clubPrivateStatus) {
+      if (clubInfo) {
         setInputs({
           ...inputs,
           clubName: clubInfo.clubName,
           content: clubInfo.content,
           local: prevLocal,
           tagList: prevTagList,
-
-          // !BUG : 비공개 소모임(secret: true) 생성해도 서버에서 전부 secret: false 로 처리되고 있음
           clubPrivateStatus: clubInfo.clubPrivateStatus
         });
       }
@@ -105,7 +103,7 @@ function EditClub() {
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: name === 'isSecret' ? value === 'true' : value });
+    setInputs({ ...inputs, [name]: value });
   };
 
   // 버튼 클릭시 파일첨부(input#file) 실행시켜주는 함수
@@ -162,9 +160,9 @@ function EditClub() {
     else formData.append('clubImage', null);
 
     // ! BE 확인을 위해 console.log 잠시 풀어둠
-    console.log(formData); // 빈 객체로 보임
-    const formDataEntries = formData as unknown as Array<[string, unknown]>;
-    console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
+    // console.log(formData); // 빈 객체로 보임
+    // const formDataEntries = formData as unknown as Array<[string, unknown]>;
+    // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
 
     // ! any 외에 다른 방법은 정녕 없는가
     // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
@@ -249,7 +247,7 @@ function EditClub() {
             </S_ImageBox>
           </div>
 
-          <fieldset className='isSecret'>
+          <fieldset className='clubPrivateStatus'>
             <div>
               <S_Label_mg_top>공개여부 *</S_Label_mg_top>
             </div>
@@ -259,18 +257,18 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isSecret'
-                    value='true'
+                    name='clubPrivateStatus'
+                    value='PUBLIC'
                     onChange={onChange}
+                    defaultChecked
                   />
                 ) : (
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isSecret'
-                    value='true'
+                    name='clubPrivateStatus'
+                    value='PUBLIC'
                     onChange={onChange}
-                    defaultChecked
                   />
                 )}
                 <label htmlFor='public'>공개</label>
@@ -280,18 +278,18 @@ function EditClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isSecret'
-                    value='true'
+                    name='clubPrivateStatus'
+                    value='SECRET'
                     onChange={onChange}
-                    defaultChecked
                   />
                 ) : (
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isSecret'
-                    value='true'
+                    name='clubPrivateStatus'
+                    value='SECRET'
                     onChange={onChange}
+                    defaultChecked
                   />
                 )}
                 <label htmlFor='private'>비공개</label>

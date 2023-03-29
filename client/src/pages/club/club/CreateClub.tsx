@@ -100,7 +100,8 @@ function CreateClub() {
       !content ||
       !categoryValue ||
       !localValue ||
-      localValue.includes('undefined')
+      localValue.includes('undefined') ||
+      !clubPrivateStatus
     ) {
       // TODO: 추후 모달로 변경
       alert('*가 표시된 항목은 필수 입력란입니다.');
@@ -120,10 +121,7 @@ function CreateClub() {
       clubPrivateStatus
     };
 
-    // console.log(newClubData);
-
     const POST_URL = `${process.env.REACT_APP_URL}/${userInfo.userId}/clubs`;
-    // console.log(tokens);
     const res = await postFetch(POST_URL, newClubData, tokens, true);
     if (res) navigate(res.headers.location);
   };
