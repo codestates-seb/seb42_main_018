@@ -39,6 +39,9 @@ function ClubSchedule() {
 
   const [clubSchedules, setClubSchedules] = useState<Schedule[]>([]);
 
+  const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
+  const isLeader = myClub?.clubRole === 'LEADER' || myClub?.clubRole === 'MANAGER';
+
   const tabs = [
     { id: 1, title: '소개', path: `/club/${id}` },
     { id: 2, title: '경기정보', path: `/club/${id}/match` },
@@ -69,7 +72,7 @@ function ClubSchedule() {
 
   useEffect(() => {
     if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
-      alert("권한이 없습니다.")
+      alert('권한이 없습니다.');
       navigate(`/club/${id}`);
     }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
@@ -80,13 +83,15 @@ function ClubSchedule() {
     <S_Container>
       <Tabmenu tabs={tabs}></Tabmenu>
       <div style={{ marginTop: '35px' }}>
-        <S_Button
-          onClick={() => {
-            navigate(`/club/${id}/match/create`);
-          }}
-        >
-          새 경기 또는 지난 경기 등록하기 +
-        </S_Button>
+        {isLeader && (
+          <S_Button
+            onClick={() => {
+              navigate(`/club/${id}/match/create`);
+            }}
+          >
+            새 경기 또는 지난 경기 등록하기 +
+          </S_Button>
+        )}
       </div>
       <div>
         {subTabs.map((el, idx) => (

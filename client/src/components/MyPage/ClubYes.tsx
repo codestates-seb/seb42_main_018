@@ -46,6 +46,7 @@ function ClubYes({ userClubs, setUserClubs }: ClubYesProps) {
         <S_Description>리더의 가입 승인을 기다리는 목록입니다</S_Description>
         {userClubs.map(
           (el) =>
+            el.clubMemberStatus !== 'MEMBER QUIT' &&
             el.clubRole === null && (
               <ClubListSetting key={el.clubId} clubId={el.clubId} clubRole={el.clubRole} />
             )

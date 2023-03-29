@@ -26,6 +26,7 @@ function MemberList({ members }: ClubMemberProps) {
             profileImage={el.profileImage}
             nickName={el.nickName}
             winRate={el.winRate}
+            clubRole={el.clubRole}
           />
         ))
       )}

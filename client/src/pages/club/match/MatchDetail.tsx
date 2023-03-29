@@ -62,8 +62,8 @@ function MatchDetail() {
       const records = resData.records.map((el: Record) => {
         return {
           id: el.recordId,
-          firstTeamNumber: el.firstTeam,
-          secondTeamNumber: el.secondTeam,
+          firstTeamNumber: el.firstTeamNumber,
+          secondTeamNumber: el.secondTeamNumber,
           firstTeamScore: el.firstTeamScore,
           secondTeamScore: el.secondTeamScore
         };
@@ -160,7 +160,11 @@ function MatchDetail() {
                       height: '40px',
                       borderRadius: '8px',
                       backgroundColor:
-                        record.firstTeamScore > record.secondTeamScore ? '#afffaf' : '#ff72726b'
+                        record.firstTeamScore === record.secondTeamScore
+                          ? 'var(--gray300)'
+                          : record.firstTeamScore > record.secondTeamScore
+                          ? '#afffaf'
+                          : '#ff72726b'
                     }}
                   >
                     <span style={{ fontWeight: 'bold' }}>{record.firstTeamNumber}</span>
@@ -189,7 +193,11 @@ function MatchDetail() {
                       height: '40px',
                       borderRadius: '8px',
                       backgroundColor:
-                        record.firstTeamScore < record.secondTeamScore ? '#afffaf' : '#ff72726b'
+                        record.firstTeamScore === record.secondTeamScore
+                          ? 'var(--gray300)'
+                          : record.firstTeamScore < record.secondTeamScore
+                          ? '#afffaf'
+                          : '#ff72726b'
                     }}
                   >
                     <S_Input

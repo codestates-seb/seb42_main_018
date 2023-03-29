@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MemberData } from '../../../types';
+import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 
 const S_ListBox = styled.div`
   display: flex;
@@ -24,16 +25,24 @@ const S_ProfileItem = styled(S_ListItem)`
   text-align: left;
   font-size: 1.3rem;
   font-weight: 800;
-  img {
+  .profileImg {
     width: 40px;
+    height: 40px;
+    object-fit: cover;
     border-radius: 8px;
     margin-right: 8px;
+  }
+  .leaderBadge {
+    margin-left: 5px;
+    margin-bottom: 3px;
+    width: 1.2rem;
   }
 `;
 
 function MemberRecordList({
   profileImage,
   nickName,
+  clubRole,
   winRate,
   playCount,
   winCount,
@@ -43,11 +52,14 @@ function MemberRecordList({
   return (
     <S_ListBox>
       <S_ProfileItem>
-        <img src={profileImage} alt='프로필사진'></img>
+        <img className='profileImg' src={profileImage} alt='프로필사진' />
         {nickName}
+        {clubRole === 'LEADER' && (
+          <img className='leaderBadge' src={leaderBadgeIcon} alt='소모임장 아이콘' />
+        )}
       </S_ProfileItem>
       <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>
-        {winRate}%
+        {winRate * 100} %
       </S_ListItem>
       <S_ListItem width='80px'>{playCount}</S_ListItem>
       <S_ListItem>{winCount}</S_ListItem>
