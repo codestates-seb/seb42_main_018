@@ -110,7 +110,6 @@ function CreateMatch() {
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
   const [candidates, setCandidates] = useState<Candidate[]>([]);
-  // const candidates: string[] = [];
 
   //팀구성에 필요한 후보들(팀에 들어가거나 빠질 때 실시간 반영되는 리스트)
   const [candidateList, setCandidateList] = useState(candidates.map((el) => el.nickName));
@@ -237,9 +236,6 @@ function CreateMatch() {
       copiedRecords.push(temp);
     });
     setRecords(copiedRecords);
-
-    // console.log(2);
-    // setRequestData(date, time, placeValue, candidates, teamList, records);
   };
 
   const saveMatchData = async () => {
@@ -253,15 +249,14 @@ function CreateMatch() {
       teamList: !(teamList?.length === 1 && teamList[0].members.length === 0) ? teamList : [],
       records: records.length !== 0 ? records : []
     });
-    // postMatchData();
   };
 
   const postMatchData = async () => {
-    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData, tokens)
-      .then((res) => console.log('post했습니다.'))
-      .then(() => {
+    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData, tokens).then(
+      () => {
         navigate(`/club/${id}/match`);
-      });
+      }
+    );
   };
 
   if (!candidateList.length && isOpenAddMember) {
