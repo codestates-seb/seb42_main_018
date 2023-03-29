@@ -121,9 +121,15 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
   }
 };
 
-export const putFetch = async <T>(url: string, putData: T) => {
+export const putFetch = async <T>(url: string, putData: T, tokens?: JwtTokensType) => {
   try {
-    const res = await axios.put(url, putData);
+    const res = await axios.put(url, putData, {
+      headers: {
+        withCredentials: true,
+        Authorization: tokens?.accessToken,
+        Refresh: tokens?.refreshToken
+      }
+    });
     if (res.status === 200) return res;
   } catch (err) {
     console.error(err);
