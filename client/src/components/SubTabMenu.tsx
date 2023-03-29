@@ -4,10 +4,8 @@ import { SubTabProps } from '../types';
 import { S_TabButton } from './UI/S_Button';
 
 const S_SubTapBox = styled.div`
-  // 서브탭메뉴 전체 박스
   margin-top: 40px;
   margin-bottom: 20px;
-  /* background-color: var(--blue200); // 크기 보기 위한 컬러 */
 `;
 
 function SubTabMenu({ subtabs }: SubTabProps) {

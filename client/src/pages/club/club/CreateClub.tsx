@@ -1,18 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postFetch } from '../../../util/api';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import LoginChecker from '../../../components/LoginChecker';
-import CreateCategory from './_createCategory';
-import CreateLocal from './_createLocal';
-import CreateTag from './_createTag';
+import CreateCategory from '../../../components/club/member/club/_createCategory';
+import CreateLocal from '../../../components/club/member/club/_createLocal';
+import CreateTag from '../../../components/club/member/club/_createTag';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
 import { S_Title } from '../../../components/UI/S_Text';
-import { S_Label_mg_top, EditClubDataType } from './EditClub';
 import { S_Button } from '../../../components/UI/S_Button';
+import { S_Label_mg_top, EditClubDataType } from './EditClub';
 
 export const S_FormWrapper = styled.div`
   margin-top: 1.2rem;
@@ -63,18 +63,6 @@ function CreateClub() {
   const [localValue, setLocalValue] = useState('');
   const { userInfo, tokens } = getGlobalState();
 
-  // * textarea 높이 자동 조절 관련
-  // const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // useEffect(() => {
-  //   const textarea = textareaRef.current;
-
-  //   if (textarea) {
-  //     textarea.style.height = 'auto';
-  //     textarea.style.height = `${textarea.scrollHeight}px`;
-  //   }
-  // }, [textareaRef]);
-
   const [inputs, setInputs] = useState<CreateClubDataType>({
     clubName: '',
     content: '',
@@ -103,7 +91,6 @@ function CreateClub() {
       localValue.includes('undefined') ||
       !clubPrivateStatus
     ) {
-      // TODO: 추후 모달로 변경
       alert('*가 표시된 항목은 필수 입력란입니다.');
       return;
     }
@@ -157,7 +144,6 @@ function CreateClub() {
                 placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요. (글자수 제한 255자)'
                 value={content}
                 onChange={onChange}
-                // ref={textareaRef}
               />
             </div>
             <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />

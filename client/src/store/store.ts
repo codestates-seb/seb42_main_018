@@ -13,20 +13,11 @@ export interface UserClubResponsesType {
   clubRole: null | 'MEMBER' | 'MANAGER' | 'LEADER';
   // * ACTIVE: 활동중 | BLACKED: 추방 | QUIT: 탈퇴
   clubMemberStatus: null | 'MEMBER ACTIVE' | 'MEMBER BLACKED' | 'MEMBER QUIT';
-  // TODO: joinStatus 항목 안 보이는데 BE에 확인 필요
-  joinStatus?: null | 'PENDING' | 'CONFIRMED' | 'REFUSED' | 'BANISHED';
   level: null | string;
   playCount: number;
   player: boolean;
   winCount: number;
   winRate: number;
-  userInfo: {
-    userId: number | undefined;
-    email: string;
-    nickName: string;
-    userStatus: string;
-    profileImage: string;
-  };
 }
 
 export interface UserInfoType {

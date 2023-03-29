@@ -8,10 +8,10 @@ import { useLoginRequestLogic } from '../../util/authorization/useLoginRequestLo
 import S_Container from '../../components/UI/S_Container';
 import { S_Button, S_EditButton } from '../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../components/UI/S_Text';
-import RegisterModal from './_registerModal';
+import RegisterModal from '../../components/user/_registerModal';
 import InputEmail from '../../components/login/_inputEmail';
 import InputPassword from '../../components/login/_inputPassword';
-import ReceiveOauth2 from './_receiveOauth2';
+import ReceiveOauth2 from '../../components/user/_receiveOauth2';
 
 export const S_LoginWrapper = styled.div`
   height: calc(90vh - 50px);
@@ -71,7 +71,6 @@ function Login() {
     setShowModal((current) => !current);
   };
 
-  // * POST 요청 관련 로직
   const { handleLogin } = useLoginRequestLogic();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,11 +82,8 @@ function Login() {
     const isValidEmail = checkEmail(email);
     const isValidPassword = checkPassword(password);
 
-    if (!isValidEmail) setEmailError(true);
-    else setEmailError(false);
-
-    if (!isValidPassword) setPasswordError(true);
-    else setPasswordError(false);
+    setEmailError(!isValidEmail);
+    setPasswordError(!isValidPassword);
 
     if (!isValidEmail || !isValidPassword) return;
 
