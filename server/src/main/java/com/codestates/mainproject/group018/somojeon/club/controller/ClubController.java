@@ -3,6 +3,7 @@ package com.codestates.mainproject.group018.somojeon.club.controller;
 import com.codestates.mainproject.group018.somojeon.club.dto.ClubDto;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubPrivateStatus;
 import com.codestates.mainproject.group018.somojeon.club.mapper.ClubMapper;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
@@ -45,7 +46,7 @@ public class ClubController {
     public ResponseEntity<?> postClub(@Valid @RequestBody ClubDto.Post requestBody,
                                       @PathVariable("user-id") @Positive Long userId) {
 
-        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), userId, requestBody.getTagList());
+        Club createdClub = clubService.createClub(mapper.clubPostDtoToClub(requestBody), userId, requestBody.getTagList(), requestBody.getClubPrivateStatus());
         URI location = UriCreator.createUri(CLUB_DEFAULT_URL, createdClub.getClubId());
 
         return ResponseEntity.created(location).build();
@@ -71,14 +72,14 @@ public class ClubController {
                                        @RequestParam String content,
                                        @RequestParam String local,
                                        @RequestParam List<String> tagList,
-                                       @RequestParam boolean isSecret,
+                                       @RequestParam ClubPrivateStatus clubPrivateStatus,
                                        @RequestParam(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
 
         if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 
-        Club response = clubService.updateClub(clubId, clubName, content, local, tagList, isSecret, multipartFile);
+        Club response = clubService.updateClub(clubId, clubName, content, local, tagList, clubPrivateStatus, multipartFile);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.clubToClubResponse(response)), HttpStatus.OK);
