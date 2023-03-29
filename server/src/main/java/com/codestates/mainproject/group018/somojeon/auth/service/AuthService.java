@@ -7,6 +7,7 @@ import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     private final JwtTokenizer jwtTokenizer;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
-    public AuthService(JwtTokenizer jwtTokenizer, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenizer = jwtTokenizer;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     public boolean refresh(HttpServletRequest request, HttpServletResponse response) {
         // RefreshToken 검증

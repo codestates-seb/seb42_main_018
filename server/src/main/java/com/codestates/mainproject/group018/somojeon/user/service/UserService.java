@@ -73,16 +73,6 @@ public class UserService {
         return savedUser;
     }
 
-    // 이전 코드는 주석처리 해놓음.
-//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-//    public User updateUser(User user)  {
-//        User findUser = findVerifiedUser(user.getUserId());
-//
-//        Optional<String> optionalNickName = Optional.ofNullable(user.getNickName());
-//        optionalNickName.ifPresent(findUser::setNickName);
-//
-//        return userRepository.save(findUser);
-//    }
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public User updateUser(Long userId, String nickName, MultipartFile multipartFile) throws IOException {

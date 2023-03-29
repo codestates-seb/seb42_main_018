@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.auth.token;
 
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenProvider {
     private final JwtTokenizer jwtTokenizer;
-
-    public JwtTokenProvider(JwtTokenizer jwtTokenizer) {
-        this.jwtTokenizer = jwtTokenizer;
-    }
 
     public void provideTokens(User user, HttpServletResponse response){
         String accessToken = delegateAccessToken(user);
@@ -24,7 +22,6 @@ public class JwtTokenProvider {
         response.setHeader("Refresh", refreshToken);
 
     }
-
 
     public String delegateAccessToken(User user) {
         Map<String, Object> claims = new HashMap<>();

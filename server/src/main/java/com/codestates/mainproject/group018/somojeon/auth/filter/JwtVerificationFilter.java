@@ -48,8 +48,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             log.warn("Expired ACCESS JWT Exception");
             response.addHeader("Access-Token-Expired","True");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
-                // todo-jh 하드 코딩 제거
-                response.sendRedirect("https://dev.somojeon.site/login");
+                response.sendRedirect("https://somojeon.site/login");
             }
             if(authService.refresh(request, response)){
                 log.info("Verified JWT Refresh token");

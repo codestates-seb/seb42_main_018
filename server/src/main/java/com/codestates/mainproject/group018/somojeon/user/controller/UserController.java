@@ -74,22 +74,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // 이전 코드는 주석처리 해놓
-//    @PatchMapping("/{user-id}")
-//    public ResponseEntity patchUser(
-//            @PathVariable("user-id") @Positive long userId,
-//            @Valid @RequestBody UserDto.Patch requestBody) {
-//
-//        requestBody.setUserId(userId);
-//        if(!identifier.isVerified(userId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
-//        }
-//        User user = userService.updateUser(userMapper.userPatchToUser(requestBody));
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>(userMapper.userToUserResponse(user)),
-//                HttpStatus.OK);
-//    }
 
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
@@ -130,7 +114,6 @@ public class UserController {
 
     }
 
-
     // get
     @GetMapping("/{user-id}")
     public ResponseEntity getUser(@PathVariable("user-id") @Positive long userId,
@@ -149,29 +132,6 @@ public class UserController {
                 new SingleResponseDto<>(response), HttpStatus.OK);
 
     }
-
-    // UserClub으로 옮김
-
-//    @GetMapping("/clubs/{club-id}")
-//    public ResponseEntity getClubUsers(@RequestParam @Positive int page,
-//                                     @RequestParam @Positive int size,
-//                                       @PathVariable("club-id") @Positive Long clubId){
-//        if(!identifier.isAdmin() && !identifier.getClubIds().contains(clubId)){
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
-//        }
-//
-//        Page<UserClub> pageUserClubs = userService.findUsers(page-1, size, clubId);
-//        List<UserClub> userClubs = pageUserClubs.getContent();
-//
-//
-//        List<UserDto.ResponseWithClub> response =  userClubs.stream().map(
-//                userClub -> userMapper.userToUserResponseWithClub(userClub, imageMapper)
-//        ).collect(Collectors.toList());
-//
-//
-//        return new ResponseEntity<>(new MultiResponseDto<>(response, pageUserClubs),
-//                HttpStatus.OK);
-//    }
 
     // delete
     @DeleteMapping("/{user-id}")

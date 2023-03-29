@@ -39,10 +39,6 @@ public class User extends Auditable {
     @Column(nullable = false)
     String password;
 
-    // 이미지 연관관계 매핑 바꿔봄.
-//    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Images images;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 

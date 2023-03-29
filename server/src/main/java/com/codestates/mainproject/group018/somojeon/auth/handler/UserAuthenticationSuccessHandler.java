@@ -23,16 +23,11 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {  // (1)
-
+public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final UserService userService;
     private final UserMapper userMapper;
     private final ClubMapper clubMapper;
 
-
-
-
-    // (2)
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
@@ -51,7 +46,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         List<UserClub> userClubs =  userService.findUserClub(user.getUserId());
 
         UserDto.ResponseWithClubs responseWithClubs = userMapper.userToUserResponseWithClubs(user, userClubs, clubMapper);
-        //TODO GSON 사용
         response.getWriter().write(new ObjectMapper().writeValueAsString(new SingleResponseDto<>(responseWithClubs)));
         log.info("LOGIN ID: {}", userId);
 
