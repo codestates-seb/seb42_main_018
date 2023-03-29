@@ -1,30 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import store, { setUserInfo, useAppDispatch } from '../store/store';
-import { JwtTokensType, setTokens } from '../store/store';
-
-const refreshTokens = async (res: AxiosResponse, tokens: JwtTokensType) => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  // * refreshToken 만료 (maxAge: 420 min)
-  if (res.headers['expired'] === 'True') {
-    navigate('/login');
-  }
-
-  if (res.headers.authorization && res.headers.refresh) {
-    dispatch(
-      setTokens({
-        accessToken: res.headers.authorization,
-        refreshToken: res.headers.refresh
-      })
-    );
-  }
-
-  // console.log('api.ts 파일', res);
-  // console.log(res.headers['access-token-expired']);
-  // console.log(typeof res.headers['access-token-expired']); // string
-};
+import axios from 'axios';
+import store, { setUserInfo } from '../store/store';
+import { JwtTokensType } from '../store/store';
 
 export const getFetch = async (url: string, tokens?: JwtTokensType) => {
   try {
@@ -38,11 +14,8 @@ export const getFetch = async (url: string, tokens?: JwtTokensType) => {
     });
 
     if (res.status === 200) return res.data;
-  } catch (err: unknown) {
-    // console.error(err);
-    // console.log(err.code);
-    // console.log(err.message);
-    // return err.message;
+  } catch (err) {
+    console.error(err);
   }
 };
 

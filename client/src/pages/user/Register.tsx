@@ -3,10 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { checkEmail, checkPassword } from '../../util/authorization/checkPassword';
 import { postFetch } from '../../util/api';
-import {
-  RegisterUserInputType,
-  useLoginRequestLogic
-} from '../../util/authorization/useLoginRequestLogic';
+import { RegisterUserInputType } from '../../util/authorization/useLoginRequestLogic';
 import { JwtTokensType, setIsLogin, setTokens, setUserInfo } from '../../store/store';
 import S_Container from '../../components/UI/S_Container';
 import { S_LoginWrapper, S_InstructionWrapper } from './Login';
@@ -60,8 +57,8 @@ function Register() {
     setInputs({ ...inputs, [name]: value });
   };
 
-  // 소셜 로그인 최초 시도 후 회원가입 페이지로 보내진 경우
-  // @param tempTokens: 소셜 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
+  // oauth 로그인 최초 시도 후 회원가입 페이지로 보내진 경우
+  // tempTokens: oauth 로그인 후 회원가입 요청을 보내는 사용자를 위한 임시 토큰
   const [tempTokens, setTempTokens] = useState<JwtTokensType>();
 
   useEffect(() => {
@@ -108,7 +105,6 @@ function Register() {
   const dispatch = useAppDispatch();
   const setGlobalState = (res: AxiosResponse) => {
     if (res) {
-      // ! oauth의 경우 현재 서버가 응답으로 유저 정보 등 데이터 보내주는 것이 어려운 상태 (방법 찾는 중)
       dispatch(setIsLogin(true));
       dispatch(setUserInfo(res.data.data));
       dispatch(
@@ -121,7 +117,6 @@ function Register() {
     }
   };
 
-  // * POST 요청 관련 로직
   const POST_URL = `${process.env.REACT_APP_URL}/users`;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -139,7 +134,7 @@ function Register() {
       delete userInfo.password;
       delete userInfo.confirmPassword;
 
-      // * access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌
+      // access token 30분 경과하여 만료된 경우 서버에서 login 페이지로 자동 리다이렉트 시켜줌
       const res = await postFetch(POST_URL, userInfo, tempTokens);
       if (res) setGlobalState(res);
     } else {

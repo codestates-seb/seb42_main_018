@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch } from '../../store/store';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo, setTokens } from '../../store/store';

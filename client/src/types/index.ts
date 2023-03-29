@@ -50,6 +50,8 @@ export interface SubTabProps {
 }
 
 export interface MemberData {
+  // 멤버목록 확인을 위한 데이터 타입
+  
   userId?: number;
   nickName: string;
   clubMemberStatus?: string;
