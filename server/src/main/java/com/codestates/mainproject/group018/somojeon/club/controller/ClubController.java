@@ -74,7 +74,7 @@ public class ClubController {
                                        @RequestParam boolean isSecret,
                                        @RequestParam(value = "clubImage",required = false) MultipartFile multipartFile) throws IOException {
 
-        if (!identifier.checkClubRole(clubId) && !identifier.isAdmin()) {
+        if (!identifier.checkClubRole(clubId, "LEADER") && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 

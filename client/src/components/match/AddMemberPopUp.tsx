@@ -68,7 +68,7 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
 
                 if (!copiedTeamList[props.idx].members.includes(member.nickName)) {
                   copiedTeamList[props.idx].members.push(member.nickName);
-                  copiedTeamList[props.idx].membersId.push(member.userId);
+                  copiedTeamList[props.idx].membersIds.push(member.userId);
                 }
                 props.setTeamList([...copiedTeamList]);
 

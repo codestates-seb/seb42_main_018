@@ -208,7 +208,7 @@ public class UserController {
                                      @RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "100") int size) {
 
-        if (!identifier.isVerified(userId) && identifier.isAdmin()) {
+        if (!identifier.isVerified(userId) && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 
