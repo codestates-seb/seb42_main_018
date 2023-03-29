@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { S_Button } from '../../../components/UI/S_Button';
 import S_Container from '../../../components/UI/S_Container';
@@ -11,8 +11,11 @@ import { MemberUser } from './_totalMember';
 
 function ClubSetting() {
   const navigate = useNavigate();
-  const { tokens } = getGlobalState();
+  const { tokens, userInfo } = getGlobalState();
   const { id } = useParams();
+
+  const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
+  const isLeader = myClub?.clubRole === 'LEADER';
 
   const [totalMembers, setTotalMembers] = useState<MemberUser[]>([]);
   const [isOpenDisband, setIsOpenDisband] = useState(false);
@@ -39,6 +42,13 @@ function ClubSetting() {
     }
     return;
   };
+
+  useEffect(() => {
+    if (!isLeader) {
+      alert('권한이 없습니다.');
+      navigate(`/clubs/${id}`);
+    }
+  }, []);
 
   return (
     <S_Container>
