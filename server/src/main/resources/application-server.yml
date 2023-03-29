@@ -1,0 +1,55 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${RDS_ENDPOINT}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    username: ${RDS_ID}
+    password: ${RDS_PASSWORD}
+  servlet:
+    multipart:
+      max-file-size: 10MB # 이미지 파일 하나당 크기
+      max-request-size: 10MB #
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_KEY}
+    s3:
+      bucket: somojeon-images/somojeon
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+mail:
+  address:
+    admin: ${ADMIN_MAIL}
+oauth:
+  kakao:
+    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
+defaultProfile:
+  image:
+    address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_profile.svg
+defaultClub:
+  image:
+    address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_Img.svg

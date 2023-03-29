@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="✨ feat dev에서 main으로 브랜치 수정">
+      <change beforePath="$PROJECT_DIR$/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/server">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/server">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="somojeon" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feat" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2NXiTpF7N0iyUHBSV3WjC1XTxH2" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/gnswp/Projects/CodestatesProject/CodestatesMainProject/seb42_main_018/server/src/main/resources&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\gnswp\Projects\CodestatesProject\CodestatesMainProject\seb42_main_018\server\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="애플리케이션.로컬카카오">
+    <configuration name="로컬카카오" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="com.codestates.mainproject.group018.somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=local" />
+      <extension name="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SomojeonApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.codestates.mainproject.group018.somojeon.SomojeonApplication" />
+      <module name="com.codestates.mainproject.group018.somojeon.main" />
+      <option name="PROGRAM_PARAMETERS" value="--spring.profiles.active=dummy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.codestates.mainproject.group018.somojeon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="server [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildDependents" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="server [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="server [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/server" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.server [buildDependents]" />
+      <item itemvalue="Gradle.server [build]" />
+      <item itemvalue="Gradle.server [clean]" />
+      <item itemvalue="애플리케이션.로컬카카오" />
+      <item itemvalue="애플리케이션.SomojeonApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="애플리케이션.SomojeonApplication" />
+        <item itemvalue="Gradle.server [clean]" />
+        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="Gradle.server [buildDependents]" />
+        <item itemvalue="Gradle.server [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task id="LOCAL-00001" summary="🔧 update : schedule 조회 부분 수정">
+      <created>1679625385935</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679625385935</updated>
+    </task>
+    <task id="LOCAL-00002" summary="🔧 update : schedule response 부분 수정">
+      <created>1679630736515</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679630736515</updated>
+    </task>
+    <task id="LOCAL-00003" summary="🔧 update : schedule service 변수 부분 수정">
+      <created>1679631050826</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1679631050826</updated>
+    </task>
+    <task active="true" id="Default" summary="디폴트 작업">
+      <created>1679816837783</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679816837783</updated>
+    </task>
+    <task id="LOCAL-00004" summary="🚑 !HOTFIX return path">
+      <created>1679827593573</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1679827593573</updated>
+    </task>
+    <task id="LOCAL-00005" summary="🚑 !HOTFIX return path">
+      <created>1679827708041</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679827708041</updated>
+    </task>
+    <task id="LOCAL-00006" summary="🚑 !HOTFIX return path">
+      <created>1679829012321</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829012321</updated>
+    </task>
+    <task id="LOCAL-00007" summary="🚑 !HOTFIX return path">
+      <created>1679829437823</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829437823</updated>
+    </task>
+    <task id="LOCAL-00008" summary="🚑 !HOTFIX return path">
+      <created>1679829796384</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679829796384</updated>
+    </task>
+    <task id="LOCAL-00009" summary="🔧 update : 회원가입 시 유저인포, 엑세스 토큰">
+      <created>1679831957384</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679831957384</updated>
+    </task>
+    <task id="LOCAL-00010" summary="🚑 !HOTFIX CORS 에러">
+      <created>1679834906102</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679834906102</updated>
+    </task>
+    <task id="LOCAL-00011" summary="✨ feat expired jwt Expired Header True/False 반응 추가">
+      <created>1679836665071</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679836665071</updated>
+    </task>
+    <task id="LOCAL-00012" summary="♻ refactor expired jwt Expired Header True/False Expired에서 헤더 이름 변경">
+      <created>1679840106218</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1679840106218</updated>
+    </task>
+    <task id="LOCAL-00013" summary="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 추가">
+      <created>1679841791985</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679841791985</updated>
+    </task>
+    <task id="LOCAL-00014" summary="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 all">
+      <created>1679842628593</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679842628593</updated>
+    </task>
+    <task id="LOCAL-00015" summary="♻ refactor expired jwt Expired Header True/False Expired 수정">
+      <created>1679842920191</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1679842920191</updated>
+    </task>
+    <task id="LOCAL-00016" summary="♻ refactor expired jwt Expired Header True/False Expired 수정">
+      <created>1679844456997</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679844456997</updated>
+    </task>
+    <task id="LOCAL-00017" summary="✨ feat refresh 토큰이 있을 경우, 토큰 재발급 및 요청 계속 진행">
+      <created>1679987515868</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679987515868</updated>
+    </task>
+    <task id="LOCAL-00018" summary="✨ feat 리더 권한 변경 후(전) 리더에게 새로운 토큰 발급">
+      <created>1679987550655</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1679987550655</updated>
+    </task>
+    <task id="LOCAL-00019" summary="🐛 fix 가입한 카아오 유저에게 정상적으로 권한 부여">
+      <created>1679989739172</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1679989739172</updated>
+    </task>
+    <task id="LOCAL-00020" summary="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응">
+      <created>1679990719346</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679990719346</updated>
+    </task>
+    <task id="LOCAL-00021" summary="✨ feat team mapper">
+      <created>1680001289766</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1680001289766</updated>
+    </task>
+    <task id="LOCAL-00022" summary="✨ feat 일정 및 전적 입력/수정/삭제">
+      <created>1680019418494</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1680019418494</updated>
+    </task>
+    <task id="LOCAL-00023" summary="🐛 fix 승률이 저장되지 않던 문제 수정">
+      <created>1680071256173</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1680071256173</updated>
+    </task>
+    <task id="LOCAL-00024" summary="🚑 !HOTFIX 승률이 저장되지 않던 문제 수정">
+      <created>1680076357156</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1680076357156</updated>
+    </task>
+    <task id="LOCAL-00025" summary="✨ feat dev에서 main으로 브랜치 수정">
+      <created>1680088408524</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680088408524</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=" update : schedule 조회 부분 수정" />
+    <MESSAGE value=" update : schedule response 부분 수정" />
+    <MESSAGE value=" update : schedule service 변수 부분 수정" />
+    <MESSAGE value=" !HOTFIX returh path" />
+    <MESSAGE value=" !HOTFIX return path" />
+    <MESSAGE value=" update : 회원가입 시 유저인포, 엑세스 토큰" />
+    <MESSAGE value=" !HOTFIX CORS 에러" />
+    <MESSAGE value="✨ feat expired jwt Expired Header True/False 반응 추가" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 헤더 이름 변경" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 추가" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired에서 노출헤더 all" />
+    <MESSAGE value="♻ refactor expired jwt Expired Header True/False Expired 수정" />
+    <MESSAGE value="✨ feat refresh 토큰이 있을 경우, 토큰 재발급 및 요청 계속 진행" />
+    <MESSAGE value="✨ feat 리더 권한 변경 후(전) 리더에게 새로운 토큰 발급" />
+    <MESSAGE value=" fix 가입한 카아오 유저에게 정상적으로 권한 부여" />
+    <MESSAGE value="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응" />
+    <MESSAGE value="✨ feat team mapper" />
+    <MESSAGE value="✨ feat 일정 및 전적 입력/수정/삭제" />
+    <MESSAGE value=" fix 승률이 저장되지 않던 문제 수정" />
+    <MESSAGE value=" !HOTFIX 승률이 저장되지 않던 문제 수정" />
+    <MESSAGE value="✨ feat dev에서 main으로 브랜치 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat dev에서 main으로 브랜치 수정" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java</url>
+          <line>78</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java</url>
+          <line>124</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.apache.catalina.connector.Request" memberName="facade" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="userClubService.findUserClubByUserIdAndClubId(team1User.getUserId(), clubId)" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
