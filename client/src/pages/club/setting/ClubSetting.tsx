@@ -59,7 +59,14 @@ function ClubSetting() {
         }}
       />
       {/* <S_Label fontSize='1.1rem'>소모임장 위임</S_Label> */}
-      <S_Label fontSize='1.1rem' color='var(--red100)' onClick={() => setIsOpenDisband(true)}>
+      <S_Label
+        fontSize='1.1rem'
+        color='var(--red100)'
+        onClick={() => {
+          getMembers();
+          setIsOpenDisband(true);
+        }}
+      >
         소모임 해체
       </S_Label>
       <S_Description>
@@ -85,9 +92,7 @@ function ClubSetting() {
               <S_Button
                 addStyle={{ width: '48%' }}
                 onClick={() => {
-                  getMembers().then(() => {
-                    disbandClub();
-                  });
+                  disbandClub();
                   setIsOpenDisband(false);
                 }}
               >
