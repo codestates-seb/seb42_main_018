@@ -21,7 +21,6 @@ function ClubSetting() {
   const [isOpenDisband, setIsOpenDisband] = useState(false);
 
   const checkPossible = () => {
-    console.log(totalMembers);
     if (totalMembers?.length !== 1) {
       alert('다른 멤버가 존재합니다. 소모임 해체를 할 수 없습니다.');
       return false;

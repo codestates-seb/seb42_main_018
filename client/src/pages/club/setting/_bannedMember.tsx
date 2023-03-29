@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 
 function BannedMember() {
   useEffect(() => {
-    console.log(1);
-    //get요청
+    //console.log(1)
   }, []);
 
   return <></>;
