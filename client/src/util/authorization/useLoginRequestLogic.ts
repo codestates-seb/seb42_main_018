@@ -20,12 +20,16 @@ export function useLoginRequestLogic() {
     if (res) {
       dispatch(setIsLogin(true));
       dispatch(setUserInfo(res.data.data));
-      dispatch(
-        setTokens({
-          accessToken: res.headers.authorization,
-          refreshToken: res.headers.refresh
-        })
-      );
+
+      const tokens = {
+        accessToken: res.headers.authorization,
+        refreshToken: res.headers.refresh
+      };
+      dispatch(setTokens(tokens));
+
+      sessionStorage.setItem('isLogin', JSON.stringify(true));
+      sessionStorage.setItem('userInfo', JSON.stringify(res.data.data));
+      sessionStorage.setItem('tokens', JSON.stringify(tokens));
     }
 
     return res;
