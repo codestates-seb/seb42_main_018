@@ -46,7 +46,7 @@ function ClubSetting() {
   useEffect(() => {
     if (!isLeader) {
       alert('권한이 없습니다.');
-      navigate(`/clubs/${id}`);
+      navigate(`/club/${id}`);
     }
   }, []);
 
