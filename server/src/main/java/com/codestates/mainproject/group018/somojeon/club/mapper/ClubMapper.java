@@ -13,7 +13,26 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClubMapper {
-    Club clubPostDtoToClub(ClubDto.Post requestBody);
+    default Club clubPostDtoToClub(ClubDto.Post requestBody) {
+
+        if ( requestBody == null ) {
+            return null;
+        }
+
+        Club club = new Club();
+
+        club.setClubName( requestBody.getClubName() );
+        club.setContent( requestBody.getContent() );
+        club.setLocal( requestBody.getLocal() );
+        club.setCategoryName( requestBody.getCategoryName() );
+        club.setClubPrivateStatus(requestBody.getClubPrivateStatus());
+        List<String> list = requestBody.getTagList();
+        if ( list != null ) {
+            club.setTagList( new ArrayList<String>( list ) );
+        }
+
+        return club;
+    }
 
     List<ClubDto.Response> clubToClubResponseDtos(List<Club> clubs);
 
@@ -30,7 +49,7 @@ public interface ClubMapper {
                 .local(club.getLocal())
                 .categoryName(club.getCategoryName())
                 .tagList(club.getTagList())
-                .isSecret(club.isSecret())
+                .clubPrivateStatus(club.getClubPrivateStatus())
                 .memberCount(club.getMemberCount())
                 .viewCount(club.getViewCount())
                 .clubImage(club.getClubImageUrl())

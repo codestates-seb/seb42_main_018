@@ -1,6 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubPrivateStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 
 import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
@@ -42,8 +43,6 @@ public class Club {
     @ElementCollection
     private List<String> tagList;
 
-    @Column(nullable = false)
-    private boolean isSecret;
 
     private String clubImageUrl;
 
@@ -62,6 +61,9 @@ public class Club {
     @Enumerated(value = EnumType.STRING)
     ClubStatus clubStatus = ClubStatus.CLUB_ACTIVE;
 
+    @Enumerated(value = EnumType.STRING)
+    ClubPrivateStatus clubPrivateStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
@@ -75,13 +77,7 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 
-//    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Images images;
 
-
-//    public void setClubTag(ClubTag clubTag) {
-//        clubTagList.add(clubTag);
-//    }
 
     public UserClub addUserClub(UserClub userClub) {
         this.userClubList.add(userClub);

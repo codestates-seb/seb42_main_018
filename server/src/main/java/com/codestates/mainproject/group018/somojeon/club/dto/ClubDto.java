@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.dto;
 
+import com.codestates.mainproject.group018.somojeon.club.enums.ClubPrivateStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
 import lombok.*;
 
@@ -33,7 +34,7 @@ public class ClubDto {
 
 //        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagList;
-        private boolean isSecret;
+        private ClubPrivateStatus clubPrivateStatus;
 
     }
     @Getter
@@ -62,7 +63,7 @@ public class ClubDto {
 
 //        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagList;
-        private boolean isSecret;
+        private ClubPrivateStatus clubPrivateStatus;
 
     }
 
@@ -89,7 +90,7 @@ public class ClubDto {
         private String local;
         private String categoryName;
         private List<String> tagList;
-        private boolean isSecret;
+        private ClubPrivateStatus clubPrivateStatus;
         private int viewCount;
         private int memberCount;
         private String clubImage;
