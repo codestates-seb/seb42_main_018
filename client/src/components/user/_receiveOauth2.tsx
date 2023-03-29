@@ -29,6 +29,13 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
         refreshToken
       })
     );
+    sessionStorage.setItem(
+      'tokens',
+      JSON.stringify({
+        accessToken,
+        refreshToken
+      })
+    );
   }
 
   useEffect(() => {
@@ -42,6 +49,9 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
           if (res) {
             dispatch(setIsLogin(true));
             dispatch(setUserInfo(res.data));
+
+            sessionStorage.setItem('isLogin', JSON.stringify(true));
+            sessionStorage.setItem('userInfo', JSON.stringify(res.data));
 
             const goToReturnUrl = sessionStorage.getItem(RETURN_URL_PARAM);
             goToReturnUrl ? navigate(goToReturnUrl) : navigate('/home');
