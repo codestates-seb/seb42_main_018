@@ -30,6 +30,14 @@ import {
 } from './CreateMatch';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 
+export interface ResUsersType {
+  userId: number | undefined;
+  email: string;
+  nickName: string;
+  userStatus: '' | 'USER_NEW' | 'USER_ACTIVE' | 'USER_SLEEP' | 'USER_QUIT';
+  profileImage: string;
+}
+
 function EditMatch() {
   const {
     register,
@@ -41,7 +49,7 @@ function EditMatch() {
   const [matchData, setMatchData] = useState<MatchData>();
 
   const { id, scid } = useParams();
-  const { userInfo } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
 
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
@@ -52,7 +60,7 @@ function EditMatch() {
   const [candidateList, setCandidateList] = useState<string[]>([]);
 
   const [teamList, setTeamList] = useState<TeamList[]>([
-    { id: 0, teamNumber: 1, members: [], membersId: [] }
+    { id: 0, teamNumber: 1, members: [], membersIds: [] }
   ]);
   const [records, setRecords] = useState<Record[]>([]);
 
@@ -116,7 +124,7 @@ function EditMatch() {
       id: teamList[teamList.length - 1].id + 1,
       teamNumber: teamList.length + 1,
       members: [],
-      membersId: []
+      membersIds: []
     };
     setTeamList([...teamList, newTeam]);
   };
@@ -129,7 +137,7 @@ function EditMatch() {
           id: 0,
           teamNumber: 1,
           members: [],
-          membersId: []
+          membersIds: []
         }
       ]);
       return;
@@ -145,8 +153,8 @@ function EditMatch() {
   const addRecord = () => {
     const newRecord: Record = {
       id: records.length ? records[records.length - 1].id + 1 : 0,
-      firstTeam: 1,
-      secondTeam: 2,
+      firstTeamNumber: 1,
+      secondTeamNumber: 2,
       firstTeamScore: 0,
       secondTeamScore: 0
     };
@@ -167,8 +175,8 @@ function EditMatch() {
     copiedValues.forEach((el) => {
       const temp = {
         id: Number(el[0]),
-        firstTeam: Number(el[1].firstTeam),
-        secondTeam: Number(el[1].secondTeam),
+        firstTeamNumber: Number(el[1].firstTeamNumber),
+        secondTeamNumber: Number(el[1].secondTeamNumber),
         firstTeamScore: Number(el[1].firstTeamScore),
         secondTeamScore: Number(el[1].secondTeamScore)
       };
@@ -199,12 +207,14 @@ function EditMatch() {
   };
 
   const putMatchData = async () => {
-    await putFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`, matchData).then(
-      (res) => {
-        console.log('put했습니다.');
-        console.log(matchData);
-      }
-    );
+    await putFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`,
+      matchData,
+      tokens
+    ).then((res) => {
+      console.log('put했습니다.');
+      console.log(matchData);
+    });
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -217,7 +227,31 @@ function EditMatch() {
       navigate(`/club/${id}`);
     }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
-      setMatchData({ ...data.data });
+      const resData = data.data;
+      const teamList = resData.teamList.map((el: TeamList) => {
+        return {
+          id: el.teamId,
+          teamNumber: el.teamNumber,
+          members: el.users?.map((el: ResUsersType) => el.nickName),
+          membersIds: el.users?.map((el: ResUsersType) => el.userId)
+        };
+      });
+
+      const records = resData.records.map((el: Record) => {
+        return {
+          id: el.recordId,
+          firstTeamNumber: el.firstTeam,
+          secondTeamNumber: el.secondTeam,
+          firstTeamScore: el.firstTeamScore,
+          secondTeamScore: el.secondTeamScore
+        };
+      });
+
+      setMatchData({
+        ...resData,
+        teamList,
+        records
+      });
       setIsPending(false);
     });
   }, []);
@@ -233,7 +267,7 @@ function EditMatch() {
       });
       setTeamList(
         matchData.teamList.length === 0
-          ? [{ id: 0, teamNumber: 1, members: [], membersId: [] }]
+          ? [{ id: 0, teamNumber: 1, members: [], membersIds: [] }]
           : matchData.teamList
       );
       setRecords(matchData.records);

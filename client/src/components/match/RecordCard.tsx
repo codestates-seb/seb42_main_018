@@ -9,6 +9,7 @@ interface RecordCardProps {
   teamList: TeamList[];
   deleteRecord: (idx: number, record: Record) => void;
   register: UseFormRegister<FieldValues>;
+  readOnly?: boolean;
 }
 
 function RecordCard(props: RecordCardProps) {
@@ -16,7 +17,12 @@ function RecordCard(props: RecordCardProps) {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <span>{props.idx + 1}경기</span>
 
-      <select {...props.register(`${props.record.id}.firstTeam`)}>
+      <select
+        {...props.register(`${props.record.id}.firstTeamNumber`, {
+          // value: props.record.firstTeamNumber
+        })}
+        defaultValue={String(props.record.firstTeamNumber)}
+      >
         {props.teamList &&
           props.teamList.map((team, idx) => {
             return <option key={idx + 1}>{idx + 1}</option>;
@@ -24,20 +30,33 @@ function RecordCard(props: RecordCardProps) {
       </select>
       <span>팀</span>
       <S_Input
-        {...props.register(`${props.record.id}.firstTeamScore`)}
+        {...props.register(`${props.record.id}.firstTeamScore`, {
+          value: props.record.firstTeamScore
+        })}
         type='number'
-        style={{ margin: '0', height: '30px' }}
+        // value={props.record.firstTeamScore}
+        style={{ margin: '0', height: '30px', textAlign: 'center' }}
       ></S_Input>
       <span>:</span>
       <S_Input
-        {...props.register(`${props.record.id}.secondTeamScore`)}
+        {...props.register(`${props.record.id}.secondTeamScore`, {
+          value: props.record.secondTeamScore
+        })}
         type='number'
-        style={{ margin: '0', height: '30px' }}
+        // value={props.record.secondTeamScore}
+        style={{ margin: '0', height: '30px', textAlign: 'center' }}
       ></S_Input>
-      <select {...props.register(`${props.record.id}.secondTeam`)}>
+      <select
+        {...props.register(`${props.record.id}.secondTeamNumber`, {})}
+        defaultValue={String(props.record.secondTeamNumber)}
+      >
         {props.teamList &&
           props.teamList.map((team, idx) => {
-            return <option key={idx + 2}>{idx + 1}</option>;
+            return (
+              <option key={idx + 2} value={idx + 1}>
+                {idx + 1}
+              </option>
+            );
           })}
       </select>
       <span>팀</span>
