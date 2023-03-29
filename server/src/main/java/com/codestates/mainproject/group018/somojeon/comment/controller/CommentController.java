@@ -6,8 +6,6 @@ import com.codestates.mainproject.group018.somojeon.comment.mapper.CommentMapper
 import com.codestates.mainproject.group018.somojeon.comment.service.CommentService;
 import com.codestates.mainproject.group018.somojeon.dto.MultiResponseDto;
 import com.codestates.mainproject.group018.somojeon.dto.SingleResponseDto;
-import com.codestates.mainproject.group018.somojeon.user.service.UserService;
-import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,8 +26,6 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
-    private final Identifier identifier;
-    private final UserService userService;
 
     // TODO-ET: identifier 구현
     @PostMapping("/records/{record-id}/comments")
@@ -53,9 +49,6 @@ public class CommentController {
                                        @Valid @RequestBody CommentDto.Patch requestBody) {
         requestBody.addRecordId(recordId);
         requestBody.addCommentId(commentId);
-
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(requestBody));
 
@@ -86,9 +79,6 @@ public class CommentController {
     @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);
-
-//        if (identifier.getUserId() != userService.getLoginUser().getUserId())
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

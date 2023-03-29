@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public interface TeamMapper {
     Team teamPostDtoToTeam(TeamDto.Post requestBody);
     Team teamPatchDtoToTeam(TeamDto.Patch requestBody);
-//    TeamDto.Response teamToTeamResponseDto(Team team);
     default TeamDto.Response teamToTeamResponseDto(Team team) {
         if (team == null) {
             return null;
@@ -34,9 +33,9 @@ public interface TeamMapper {
                 .map(userTeam -> {
                     UserDto.Response response = new UserDto.Response();
                     response.setUserId(userTeam.getUser().getUserId());
-//                    response.setNickName(userTeam.getUser().getNickName());
-//                    response.setEmail(userTeam.getUser().getEmail());
-//                    response.setUserStatus(userTeam.getUser().getUserStatus());
+                    response.setNickName(userTeam.getUser().getNickName());
+                    response.setEmail(userTeam.getUser().getEmail());
+                    response.setUserStatus(userTeam.getUser().getUserStatus());
 
                     return response;
                 })

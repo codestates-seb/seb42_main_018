@@ -2,15 +2,11 @@ package com.codestates.mainproject.group018.somojeon.category.service;
 
 import com.codestates.mainproject.group018.somojeon.category.entity.Category;
 import com.codestates.mainproject.group018.somojeon.category.repository.CategoryRepository;
-import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
-import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +33,6 @@ public class CategoryService {
     public void verifyExistsCategoryName(String categoryName) {
         Optional<Category> category = categoryRepository.findByCategoryName(categoryName);
         if (category.isPresent()) {
-//            throw new BusinessLogicException(ExceptionCode.CATEGORY_EXISTS);
         } else {
             saveCategory(categoryName);
         }

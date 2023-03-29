@@ -19,7 +19,6 @@ function RecordCard(props: RecordCardProps) {
 
       <select
         {...props.register(`${props.record.id}.firstTeamNumber`, {
-          // value: props.record.firstTeamNumber
         })}
         defaultValue={String(props.record.firstTeamNumber)}
       >
@@ -34,7 +33,6 @@ function RecordCard(props: RecordCardProps) {
           value: props.record.firstTeamScore
         })}
         type='number'
-        // value={props.record.firstTeamScore}
         style={{ margin: '0', height: '30px', textAlign: 'center' }}
       ></S_Input>
       <span>:</span>
@@ -43,7 +41,6 @@ function RecordCard(props: RecordCardProps) {
           value: props.record.secondTeamScore
         })}
         type='number'
-        // value={props.record.secondTeamScore}
         style={{ margin: '0', height: '30px', textAlign: 'center' }}
       ></S_Input>
       <select

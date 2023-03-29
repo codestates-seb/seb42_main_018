@@ -7,9 +7,6 @@ import com.codestates.mainproject.group018.somojeon.level.etity.Level;
 import com.codestates.mainproject.group018.somojeon.user.dto.UserDto;
 import lombok.*;
 
-import javax.validation.constraints.Positive;
-import java.util.List;
-
 public class UserClubDto {
 
     @Getter
@@ -19,7 +16,6 @@ public class UserClubDto {
     @AllArgsConstructor
     public static class JoinPost {
 
-//        @Positive
         private Long userId;
         private Long clubId;
         private String content;

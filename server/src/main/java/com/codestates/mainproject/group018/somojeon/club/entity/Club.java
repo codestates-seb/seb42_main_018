@@ -68,9 +68,6 @@ public class Club {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-//    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-//    private List<ClubTag> clubTagList = new ArrayList<>();
-
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Schedule> scheduleList = new ArrayList<>();
 
