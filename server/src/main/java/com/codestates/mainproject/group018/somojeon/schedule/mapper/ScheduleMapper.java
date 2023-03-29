@@ -193,9 +193,9 @@ public interface ScheduleMapper {
                     RecordDto.Response response = new RecordDto.Response();
                     response.setRecordId(record.getRecordId());
 //                    response.setCreatedAt(record.getCreatedAt());
-                    response.setFirstTeam(record.getFirstTeam());
+                    response.setFirstTeamNumber(record.getFirstTeam());
                     response.setFirstTeamScore(record.getFirstTeamScore());
-                    response.setSecondTeam(record.getSecondTeam());
+                    response.setSecondTeamNumber(record.getSecondTeam());
                     response.setSecondTeamScore(record.getSecondTeamScore());
 
 

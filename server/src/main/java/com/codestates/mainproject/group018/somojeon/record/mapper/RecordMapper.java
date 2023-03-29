@@ -25,9 +25,9 @@ public interface RecordMapper {
                 .builder()
                 .recordId(record.getRecordId())
 //                .createdAt(record.getCreatedAt())
-                .firstTeam(record.getFirstTeam())
+                .firstTeamNumber(record.getFirstTeam())
                 .firstTeamScore(record.getFirstTeamScore())
-                .secondTeam(record.getSecondTeam())
+                .secondTeamNumber(record.getSecondTeam())
                 .secondTeamScore(record.getSecondTeamScore())
 //                .comments(commentsToCommentResponseDtos(record.getComments()))
                 .build();
