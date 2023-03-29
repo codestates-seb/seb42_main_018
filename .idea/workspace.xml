@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="🐛 fix 가입한 카아오 유저에게 정상적으로 권한 부여">
+    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="✨ feat 일정 및 전적 입력/수정/삭제">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +46,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="jh" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -331,7 +329,28 @@
       <option name="project" value="LOCAL" />
       <updated>1679989739172</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응">
+      <created>1679990719346</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679990719346</updated>
+    </task>
+    <task id="LOCAL-00021" summary="✨ feat team mapper">
+      <created>1680001289766</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1680001289766</updated>
+    </task>
+    <task id="LOCAL-00022" summary="✨ feat 일정 및 전적 입력/수정/삭제">
+      <created>1680019418494</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1680019418494</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -361,7 +380,10 @@
     <MESSAGE value="✨ feat refresh 토큰이 있을 경우, 토큰 재발급 및 요청 계속 진행" />
     <MESSAGE value="✨ feat 리더 권한 변경 후(전) 리더에게 새로운 토큰 발급" />
     <MESSAGE value=" fix 가입한 카아오 유저에게 정상적으로 권한 부여" />
-    <option name="LAST_COMMIT_MESSAGE" value=" fix 가입한 카아오 유저에게 정상적으로 권한 부여" />
+    <MESSAGE value="✨ feat 패스워드 스테이트 리스폰스 헤더에 &quot;request&quot; 요청 실패 시 &quot;False&quot;로 반응" />
+    <MESSAGE value="✨ feat team mapper" />
+    <MESSAGE value="✨ feat 일정 및 전적 입력/수정/삭제" />
+    <option name="LAST_COMMIT_MESSAGE" value="✨ feat 일정 및 전적 입력/수정/삭제" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -396,6 +418,41 @@
           <line>79</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/service/ScheduleService.java</url>
+          <line>197</line>
+          <option name="timeStamp" value="37" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/user/controller/UserController.java</url>
+          <line>210</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/schedule/controller/ScheduleController.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/utils/Identifier.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/club/service/ClubService.java</url>
+          <line>170</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -406,6 +463,11 @@
     <watches-manager>
       <configuration name="Application">
         <watch expression="request.getHeader(&quot;Origin&quot;)" language="JAVA" />
+        <watch expression="schedule.getRecords()" language="JAVA" />
+        <watch expression="schedule.teamList.get(0).userTeams.get(0)" />
+        <watch expression="candidates.get(0)" />
+        <watch expression="candidates.get(0)" />
+        <watch expression="candidates.get(3).schedule" />
       </configuration>
     </watches-manager>
   </component>

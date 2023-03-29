@@ -10,7 +10,6 @@ import { useLogoutRequestLogic } from '../../util/authorization/useLogoutRequest
 import { useEffect, useState } from 'react';
 import { getFetch } from '../../util/api';
 import { myPageUserClubResponses } from '../../types';
-import { UserInfoType } from '../../store/store';
 
 function MyPage() {
   // TODO : 로그아웃 구성
@@ -20,14 +19,12 @@ function MyPage() {
   // API 8번 유저 정보 조회 -> 항상 신규 정보를 받아오는
   // 상태로 받아온 배열 관리 -> 이 배열을 clubYes에 보내주기 상태 두개 다!
   const [userClubs, setUserClubs] = useState<myPageUserClubResponses[]>([]); // 가져올 클럽리스트
-  const [updatedUserInfo, setUpdatedUserInfo] = useState<UserInfoType>();
 
   if (isLogin) {
     useEffect(() => {
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((data) => {
         const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
         setUserClubs(userClubs);
-        setUpdatedUserInfo(data.data);
       });
     }, []);
   }
@@ -35,11 +32,8 @@ function MyPage() {
   return (
     <LoginChecker>
       <S_Container>
-        {updatedUserInfo && (
-          <UserProfile
-            nickName={updatedUserInfo.nickName}
-            profileImage={updatedUserInfo.profileImage}
-          />
+        {userInfo && (
+          <UserProfile nickName={userInfo.nickName} profileImage={userInfo.profileImage} />
         )}
         {/* 유저정보에 가입한 클럽 데이터 배열 길이가 0이면 -> ClubNo, 아니라면 -> ClubYes */}
         {/* 퍼미션 체커 제작시 추가 */}

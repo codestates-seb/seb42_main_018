@@ -94,7 +94,7 @@ public class UserController {
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
                                     @RequestParam String nickName,
-                                    @RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
+                                    @RequestParam(value = "profileImage", required = false) MultipartFile multipartFile) throws IOException {
 
         if (!identifier.isVerified(userId)) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_PATCH_USER);
@@ -208,7 +208,7 @@ public class UserController {
                                      @RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "100") int size) {
 
-        if (!identifier.isVerified(userId) && identifier.isAdmin()) {
+        if (!identifier.isVerified(userId) && !identifier.isAdmin()) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED);
         }
 

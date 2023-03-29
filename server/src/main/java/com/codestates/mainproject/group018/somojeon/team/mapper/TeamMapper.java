@@ -34,7 +34,7 @@ public interface TeamMapper {
                 .map(userTeam -> {
                     UserDto.Response response = new UserDto.Response();
                     response.setUserId(userTeam.getUser().getUserId());
-                    response.setNickName(userTeam.getUser().getNickName());
+//                    response.setNickName(userTeam.getUser().getNickName());
 //                    response.setEmail(userTeam.getUser().getEmail());
 //                    response.setUserStatus(userTeam.getUser().getUserStatus());
 

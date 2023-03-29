@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.team.entity.Team;
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,9 +29,9 @@ public class ScheduleDto {
         private Double longitude;
         private Double latitude;
 
-        private List<Record> records;
-        private List<Candidate> candidates;
-        private List<Team> teamList;
+        private List<RecordDto.SchedulePost> records;
+        private List<Long> candidates;
+        private List<ScheduleTeamDto> teamList;
 
         public void addClubId(Long clubId) {
             this.clubId = clubId;
@@ -82,21 +83,25 @@ public class ScheduleDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Patch {
+    public static class Put {
         private Long scheduleId;
 
         private Long clubId;
 
+        @NotNull
         private String date;
+        @NotNull
         private String time;
-
+        @NotNull
         private String placeName;
+        @NotNull
         private Double longitude;
+        @NotNull
         private Double latitude;
 
-        private List<Record> records;
-        private List<Candidate> candidates;
-        private List<Team> teamList;
+        private List<RecordDto.SchedulePost> records;
+        private List<CandidateDto.SchedulePost> candidates;
+        private List<ScheduleTeamDto> teamList;
 
         public void addScheduleId(Long scheduleId) {
             this.scheduleId = scheduleId;
@@ -105,6 +110,16 @@ public class ScheduleDto {
         public void addClubId(Long clubId) {
             this.clubId = clubId;
         }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ScheduleTeamDto {
+
+        private Integer teamNumber;
+        private List<Long> membersIds;
     }
 
     @Getter
