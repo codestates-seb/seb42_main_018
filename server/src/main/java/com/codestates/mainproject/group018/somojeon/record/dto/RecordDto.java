@@ -14,8 +14,8 @@ public class RecordDto {
     public static class Post {
         private Long clubId;
         private Long scheduleId;
-        private Integer firstTeam;
-        private Integer secondTeam;
+        private Integer firstTeamNumber;
+        private Integer secondTeamNumber;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 
@@ -44,8 +44,8 @@ public class RecordDto {
         private Long clubId;
         private Long scheduleId;
         private Long recordId;
-        private Integer firstTeam;
-        private Integer secondTeam;
+        private Integer firstTeamNumber;
+        private Integer secondTeamNumber;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 
@@ -70,8 +70,8 @@ public class RecordDto {
     public static class Response {
         private Long recordId;
 //        private LocalDateTime createdAt;
-        private Integer firstTeam;
-        private Integer secondTeam;
+        private Integer firstTeamNumber;
+        private Integer secondTeamNumber;
         private Integer firstTeamScore;
         private Integer secondTeamScore;
 //        private List<CommentDto.Response> comments;

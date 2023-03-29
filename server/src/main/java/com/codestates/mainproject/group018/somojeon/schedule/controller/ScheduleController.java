@@ -50,7 +50,7 @@ public class ScheduleController {
 
         Schedule schedule = scheduleMapper.schedulePutDtoToSchedule(requestBody, userService, clubSerivce);
 
-        Schedule createdSchedule = scheduleService.createSchedule(schedule);
+        Schedule createdSchedule = scheduleService.createSchedule(schedule, clubId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(scheduleMapper.scheduleToScheduleResponseDto(createdSchedule, userMapper)),
                 HttpStatus.CREATED);

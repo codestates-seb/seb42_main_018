@@ -37,89 +37,76 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    private final ClubRepository clubRepository;
-    private final RecordRepository recordRepository;
-    private final TeamRepository teamRepository;
-    private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
-    private final UserTeamRepository userTeamRepository;
-    private final UserRepository userRepository;
     private final ClubService clubService;
     private final UserService userService;
     private final UserClubService userClubService;
 
-    public Schedule createSchedule(Schedule schedule) {
+    public Schedule createSchedule(Schedule schedule, Long clubId) {
+        List<Record> records =  schedule.getRecords();
+        schedule.getClub().getClubId();
+        goUserClub(records, clubId);
         return scheduleRepository.save(schedule);
     }
 
     public Schedule updateSchedule(Schedule schedule, long clubId, Long scheduleId) {
         // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
         deleteSchedule(scheduleId, clubId);
+        List<Record> records =  schedule.getRecords();
+        goUserClub(records, clubId);
         return scheduleRepository.save(schedule);
-//        findSchedule.setCandidates(candidates);
-//        findSchedule.setTeamList(teamList);
-//        findSchedule.setRecords(records);
+    }
 
+    public void goUserClub(List<Record> records, Long clubId){
+        // 레코드 하나 하나에 다수의 팀 레코드
+        for (int i = 0; i < records.size(); i++){
+            Record record = records.get(i);
 
-        // candidate 정보 저장
-//        for (Candidate candidate : candidates) {
-//            candidate.setSchedule(findSchedule);
-//            User candidateUser = userRepository.findByCandidate(candidate.getCandidateId());
-//            //todo-jh
-//            UserClub userClub = userClubRepository.findByUserAndClub(candidateUser, club);
-//            candidate.setUser(userClub.getUser());
-//            candidate.setAttendance(Candidate.Attendance.ATTEND);
-//            candidateRepository.save(candidate);
-//        }
-//
-//        for (ScheduleDto.ScheduleTeamDto scheduleTeamDto : teamList) {
-//
-//
-//        }
-//
-////        // TODO-ET : dto를 만들어서 teamNumber와 users를 따로 불러와서 넣어주자
-////        // team 정보 저장
-////        for (Team team : teamList) {
-////            team.setSchedule(findSchedule);
-////            teamRepository.save(team);
-////        }
-//
-//        // record 정보 저장
-//        for (Record record : records) {
-//            record.setSchedule(findSchedule);
-//
-//            // firstTeam과 매핑되는 Team을 찾아서 설정
-//            int firstTeamNumber = record.getFirstTeam();
-//            Optional<ScheduleDto.ScheduleTeamDto> firstTeamOptional = teamList.stream()
-//                    .filter(team -> team.getTeamNumber() == firstTeamNumber)
-//                    .findFirst();
-//            if (firstTeamOptional.isPresent()) {
-//                ScheduleDto.ScheduleTeamDto firstTeam = firstTeamOptional.get();
-//                TeamRecord teamRecord = new TeamRecord(record, );
-//                teamRecordRepository.save(teamRecord);
-//            }
-//
-//            // secondTeam과 매핑되는 Team을 찾아서 설정
-//            int secondTeamNumber = record.getSecondTeam();
-//            Optional<ScheduleDto.ScheduleTeamDto> secondTeamOptional = teamList.stream()
-//                    .filter(team -> team.getTeamNumber() == secondTeamNumber)
-//                    .findFirst();
-//            if (secondTeamOptional.isPresent()) {
-//                ScheduleDto.ScheduleTeamDto secondTeam = secondTeamOptional.get();
-//                TeamRecord teamRecord = new TeamRecord(record, secondTeam);
-//                teamRecordRepository.save(teamRecord);
-//            }
-//
-//            recordRepository.save(record);
-//        }
+            Integer score1 =  record.getFirstTeamScore();
+            Integer score2 =  record.getSecondTeamScore();
+            List<Team> teams =  record.getTeamRecords().stream().map(teamRecords->teamRecords.getTeam()).collect(Collectors.toList());
+            Team team1 = teams.get(0);
+            Team team2 = teams.get(1);
+            List<User> team1Users = team1.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
+            List<User> team2Users = team2.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
+            calcScores(team1Users, team2Users, score1, score2, clubId);
+        }
+    }
 
+    public void calcScores(List<User> team1Users, List<User> team2Users, int score1, int score2, Long clubId){
+        List<UserClub> team1UserClubs = team1Users.stream().map(
+                team1User -> userClubService.findUserClubByUserIdAndClubId(team1User.getUserId(), clubId))
+                .collect(Collectors.toList());
+
+        List<UserClub> team2UserClubs = team2Users.stream().map(
+                        team2User -> userClubService.findUserClubByUserIdAndClubId(team2User.getUserId(), clubId))
+                .collect(Collectors.toList());
+
+        if (score1 > score2){
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setWinCount(team1UserClub.getWinCount() + 1));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setLoseCount(team2UserClub.getLoseCount() + 1));
+
+        } else if (score1 == score2) {
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setDrawCount(team1UserClub.getDrawCount() + 1));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setDrawCount(team2UserClub.getDrawCount() + 1));
+
+        } else{
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setLoseCount(team1UserClub.getLoseCount() + 1));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setWinCount(team2UserClub.getWinCount() + 1));
+        }
+        Stream<UserClub> teamsUserClubs = Stream.concat(team1UserClubs.stream(), team2UserClubs.stream());
+        teamsUserClubs.forEach(userClub -> {
+            userClub.setPlayCount(userClub.getPlayCount() + 1);
+            userClub.setWinRate((float) userClub.getWinCount() / userClub.getPlayCount());
+        });
     }
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
@@ -208,38 +195,4 @@ public class ScheduleService {
 
         return findSchedule;
     }
-
-//    public void calculateWinRate(UserClub userClub, Team team) {
-//        String winLoseDraw = team.getWinLoseDraw();
-//        int winCount = userClub.getWinCount();
-//        int drawCount = userClub.getDrawCount();
-//        int loseCount = userClub.getLoseCount();
-//        int playCount = userClub.getPlayCount();
-//
-//        switch (winLoseDraw) {
-//            case "win":
-//                winCount++;
-//                break;
-//            case "lose":
-//                loseCount++;
-//                break;
-//            case "draw":
-//                drawCount++;
-//                break;
-//        }
-//        playCount++;
-//
-//        double winRate = 0.0;
-//        if (playCount > 0) {
-//            winRate = ((double) (winCount * 3 + drawCount)) / (playCount * 3) * 100;
-//        }
-//
-//        userClub.setWinCount(winCount);
-//        userClub.setDrawCount(drawCount);
-//        userClub.setLoseCount(loseCount);
-//        userClub.setPlayCount(playCount);
-//        userClub.setWinRate((float) winRate);
-//
-//        userClubRepository.save(userClub);
-//    }
 }
