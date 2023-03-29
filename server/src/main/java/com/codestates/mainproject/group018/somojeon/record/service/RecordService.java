@@ -26,23 +26,6 @@ public class RecordService {
     public Record createRecord(Record record, long clubId, long scheduleId) {
         clubService.findVerifiedClub(clubId);
         scheduleService.findVerifiedSchedule(scheduleId);
-
-//        UserClub userClub = new UserClub();
-//        Team team = new Team();
-//        userClub.setPlayCount(userClub.getPlayCount() + 1);
-//        switch (team.getWinLoseDraw()) {
-//            case "win":
-//                userClub.setWinCount(userClub.getWinCount() + 1);
-//                break;
-//            case "lose":
-//                userClub.setLoseCount(userClub.getLoseCount() + 1);
-//                break;
-//            case "draw":
-//                userClub.setDrawCount(userClub.getDrawCount() + 1);
-//                break;
-//        }
-//        userClub.setWinRate(userClub.getWinCount() / userClub.getPlayCount() * 100);
-
         return recordRepository.save(record);
     }
 

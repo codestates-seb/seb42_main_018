@@ -1,12 +1,7 @@
 package com.codestates.mainproject.group018.somojeon.candidate.dto;
 
 import com.codestates.mainproject.group018.somojeon.candidate.entity.Candidate;
-import com.codestates.mainproject.group018.somojeon.schedule.entity.Schedule;
-import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import lombok.*;
-
-import javax.persistence.*;
-import java.util.List;
 
 public class CandidateDto {
 
