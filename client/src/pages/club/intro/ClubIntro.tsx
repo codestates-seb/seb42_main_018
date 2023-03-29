@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
-import { ClubData } from '../../../types';
 import { RETURN_URL_PARAM } from '../../../util/commonConstants';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
+import ClubJoinModal from '../../../components/club/intro/_clubJoinModal';
 import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
-import { S_TagWrapper } from '../club/_createTag';
-import ClubJoinModal from './_clubJoinModal';
+import { S_TagWrapper } from '../../../components/club/member/club/_createTag';
+import { ClubData } from '../../../types';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 import defaultClubImg from '../../../assets/default_Img.svg';
 
@@ -50,10 +50,6 @@ const ClubIntroWrapper = styled.div`
     & .club-title {
       margin: 0;
     }
-  }
-
-  & .club-setting-btn-area {
-    /* flex: 1; */
   }
 
   & > .club-content-box {

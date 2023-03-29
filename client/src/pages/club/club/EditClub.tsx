@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import FormData from 'form-data';
 import { getFetch, patchFetch } from '../../../util/api';
 import getGlobalState from '../../../util/authorization/getGlobalState';
-import CreateLocal from './_createLocal';
-import CreateTag from './_createTag';
+import CreateLocal from '../../../components/club/member/club/_createLocal';
+import CreateTag from '../../../components/club/member/club/_createTag';
 import S_Container from '../../../components/UI/S_Container';
-import { S_FormWrapper, S_RadioWrapper } from './CreateClub';
 import { S_Title, S_Label, S_Description } from '../../../components/UI/S_Text';
 import { S_Input } from '../../../components/UI/S_Input';
 import { S_TextArea } from '../../../components/UI/S_TextArea';
 import { S_Button, S_EditButton } from '../../../components/UI/S_Button';
+import { S_FormWrapper, S_RadioWrapper } from './CreateClub';
 import { S_ImgBox } from '../../mypage/EditProfile';
 import { ClubData } from '../../../types';
 
@@ -106,7 +106,6 @@ function EditClub() {
     setInputs({ ...inputs, [name]: value });
   };
 
-  // 버튼 클릭시 파일첨부(input#file) 실행시켜주는 함수
   const uploadImg = () => {
     const inputname = document.getElementById('uploadImg');
     inputname?.click();
@@ -128,10 +127,6 @@ function EditClub() {
       setClubImageFile(file);
     }
   };
-
-  // console.log(clubInfo);
-  // console.log(typeof imgFile); // string
-  // console.log(clubImageFile); // File 객체
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -159,13 +154,6 @@ function EditClub() {
     if (clubImageFile) formData.append('clubImage', clubImageFile);
     else formData.append('clubImage', null);
 
-    // ! BE 확인을 위해 console.log 잠시 풀어둠
-    // console.log(formData); // 빈 객체로 보임
-    // const formDataEntries = formData as unknown as Array<[string, unknown]>;
-    // console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
-
-    // ! any 외에 다른 방법은 정녕 없는가
-    // ERROR MESSAGE: TS2339: Property '_boundary' does not exist on type 'FormData'.
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
     const res = await patchFetch(URL, formData, tokens, false, contentType);
     if (res) navigate(`/club/${clubId}`);
@@ -201,7 +189,6 @@ function EditClub() {
               placeholder='소모임 소개와 함께 가입조건, 모임장소 및 날짜를 입력해 보세요. (글자수 제한 255자)'
               value={content}
               onChange={onChange}
-              // ref={textareaRef}
             />
           </div>
 
@@ -219,13 +206,7 @@ function EditClub() {
               width='96%'
             />
           </div>
-          {localValue && (
-            <CreateLocal
-              // prevData={prevLocal}
-              inputValue={localValue}
-              setInputValue={setLocalValue}
-            />
-          )}
+          {localValue && <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />}
           <CreateTag tags={tags} setTags={setTags} />
 
           <div>

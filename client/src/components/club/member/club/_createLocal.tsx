@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
-import { DIVISIONS_DATA } from './divisions';
+import { DIVISIONS_DATA } from '../../../../assets/data/divisions';
 import { CreateCategoryProps } from './_createCategory';
-import { S_Label_mg_top } from './EditClub';
-import { S_Select } from '../../../components/UI/S_Select';
+import { S_Label_mg_top } from '../../../../pages/club/club/EditClub';
+import { S_Select } from '../../../UI/S_Select';
 
 interface DistrictType {
   code: string;
   name: string;
-}
-
-interface DivisionType {
-  code: string;
-  name: string;
-  districts: DistrictType[];
 }
 
 interface CreateLocalProps extends CreateCategoryProps {
