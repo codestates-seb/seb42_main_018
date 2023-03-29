@@ -21,7 +21,7 @@ public class Team {
     @Column(nullable = false)
     private Integer teamNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 

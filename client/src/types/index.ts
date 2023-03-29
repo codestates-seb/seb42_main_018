@@ -10,7 +10,7 @@ export interface ClubData {
   memberCount?: number;
   tagList: string[];
   modifiedAt?: string;
-  secret?: boolean;
+  clubPrivateStatus?: 'PUBLIC' | 'SECRET';
 }
 export interface ClubPage {
   // 페이지네이션 정보 타입 설정
@@ -51,19 +51,6 @@ export interface SubTabProps {
 
 export interface MemberData {
   // 멤버목록 확인을 위한 데이터 타입
-  // nickName: string;
-  // profileImage: {
-  //   imageId?: number;
-  //   fileName?: string;
-  //   url?: string;
-  // };
-  // playCount?: number;
-  // winCount?: number;
-  // loseCount?: number;
-  // drawCount?: number;
-  // winRate?: number;
-  // 수정한 데이터타입
-
   userId?: number;
   nickName: string;
   clubMemberStatus?: string;

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { getFetch } from '../../../util/api';
+import { getFetch } from '../../../../util/api';
 import DropDown from './_dropDown';
-import { S_Input } from '../../../components/UI/S_Input';
-import { S_Label, S_Description } from '../../../components/UI/S_Text';
+import { S_Input } from '../../../UI/S_Input';
+import { S_Label, S_Description } from '../../../UI/S_Text';
 
 export interface HandleDropDownClick {
   (option: string): void;
@@ -30,8 +30,6 @@ function CreateCategory({ inputValue, setInputValue }: CreateCategoryProps) {
     };
     getCategoryList();
   }, []);
-
-  // console.log(categories);
 
   //* options: input값을 포함하는 autocomplete 추천 항목 리스트 확인
   //* currentOption: 선택한 option을 index로 관리

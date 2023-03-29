@@ -44,14 +44,8 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
-    private final ClubRepository clubRepository;
-    private final RecordRepository recordRepository;
-    private final TeamRepository teamRepository;
-    private final TeamRecordRepository teamRecordRepository;
     private final CandidateRepository candidateRepository;
     private final UserClubRepository userClubRepository;
-    private final UserTeamRepository userTeamRepository;
-    private final UserRepository userRepository;
     private final ClubService clubService;
     private final UserService userService;
     private final UserClubService userClubService;
@@ -84,9 +78,7 @@ public class ScheduleService {
             List<User> team1Users = team1.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
             List<User> team2Users = team2.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
             calcScores(team1Users, team2Users, score1, score2, clubId);
-
         }
-
     }
 
     public void calcScores(List<User> team1Users, List<User> team2Users, int score1, int score2, Long clubId){
@@ -115,10 +107,7 @@ public class ScheduleService {
             userClub.setPlayCount(userClub.getPlayCount() + 1);
             userClub.setWinRate((float) userClub.getWinCount() / userClub.getPlayCount());
         });
-
     }
-
-
 
     public Schedule attendCandidate(Schedule schedule, Long clubId, Long userId) {
         Schedule verifiedSchedule = findVerifiedSchedule(schedule.getScheduleId());
@@ -206,38 +195,4 @@ public class ScheduleService {
 
         return findSchedule;
     }
-
-//    public void calculateWinRate(UserClub userClub, Team team) {
-//        String winLoseDraw = team.getWinLoseDraw();
-//        int winCount = userClub.getWinCount();
-//        int drawCount = userClub.getDrawCount();
-//        int loseCount = userClub.getLoseCount();
-//        int playCount = userClub.getPlayCount();
-//
-//        switch (winLoseDraw) {
-//            case "win":
-//                winCount++;
-//                break;
-//            case "lose":
-//                loseCount++;
-//                break;
-//            case "draw":
-//                drawCount++;
-//                break;
-//        }
-//        playCount++;
-//
-//        double winRate = 0.0;
-//        if (playCount > 0) {
-//            winRate = ((double) (winCount * 3 + drawCount)) / (playCount * 3) * 100;
-//        }
-//
-//        userClub.setWinCount(winCount);
-//        userClub.setDrawCount(drawCount);
-//        userClub.setLoseCount(loseCount);
-//        userClub.setPlayCount(playCount);
-//        userClub.setWinRate((float) winRate);
-//
-//        userClubRepository.save(userClub);
-//    }
 }

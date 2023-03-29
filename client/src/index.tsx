@@ -1,5 +1,5 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import App from './App';
@@ -20,18 +20,16 @@ import EditProfile from './pages/mypage/EditProfile';
 import Login from './pages/user/Login';
 import MyPage from './pages/mypage/MyPage';
 import Register from './pages/user/Register';
-import API_TEST from './API_TEST';
 
 import Admin from './pages/admin/Admin';
 import EditPassword from './pages/mypage/EditPassword';
 import DeleteAccount from './pages/mypage/DeleteAccount';
-import ReceiveOauth2 from './pages/user/_receiveOauth2';
+import ReceiveOauth2 from './components/user/_receiveOauth2';
 import NotFound from './pages/Error/NotFound';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import axios from 'axios';
 import ServerError from './pages/Error/ServerError';
 
 const router = createBrowserRouter([
@@ -70,10 +68,6 @@ const router = createBrowserRouter([
       {
         path: '/mypage/edit/account',
         element: <DeleteAccount />
-      },
-      {
-        path: '/api',
-        element: <API_TEST />
       },
       {
         path: '/admin',

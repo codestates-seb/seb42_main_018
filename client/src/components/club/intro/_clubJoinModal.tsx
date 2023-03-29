@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import styled from 'styled-components';
 import { postFetch } from '../../../util/api';
-import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
-import { S_Label } from '../../../components/UI/S_Text';
-import { S_TextArea } from '../../../components/UI/S_TextArea';
-import { S_Button } from '../../../components/UI/S_Button';
+import { ModalBackdrop, ModalContainer } from '../../UI/S_Modal';
+import { S_Label } from '../../UI/S_Text';
+import { S_TextArea } from '../../UI/S_TextArea';
+import { S_Button } from '../../UI/S_Button';
 
 const S_RegisterModalContainer = styled(ModalContainer)`
   box-sizing: border-box;

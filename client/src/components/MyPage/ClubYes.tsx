@@ -28,7 +28,6 @@ function ClubYes({ userClubs, setUserClubs }: ClubYesProps) {
   const navigate = useNavigate();
   const { userInfo } = getGlobalState();
   const { userClubResponses } = userInfo || {};
-  console.log(userClubResponses);
 
   return (
     <S_Box>

@@ -4,16 +4,15 @@ import styled from 'styled-components';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { getFetch } from '../../../util/api';
 import alertPreparingService from '../../../util/alertPreparingService';
-import { ClubData } from '../../../types';
 import { RETURN_URL_PARAM } from '../../../util/commonConstants';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
+import ClubJoinModal from '../../../components/club/intro/_clubJoinModal';
 import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
-import { S_TagWrapper } from '../club/_createTag';
-import ClubJoinModal from './_clubJoinModal';
-import { userInitialState } from '../../../store/store';
+import { S_TagWrapper } from '../../../components/club/member/club/_createTag';
+import { ClubData } from '../../../types';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 import defaultClubImg from '../../../assets/default_Img.svg';
 
@@ -44,17 +43,13 @@ const ClubIntroWrapper = styled.div`
     margin-bottom: 4px;
     display: flex;
     align-items: center;
-    & > .leader-badge-icon {
+    & .leader-badge-icon {
       margin-left: 6px;
       transform: scale(1.2);
     }
     & .club-title {
       margin: 0;
     }
-  }
-
-  & .club-setting-btn-area {
-    /* flex: 1; */
   }
 
   & > .club-content-box {
@@ -165,10 +160,16 @@ function ClubIntro() {
           <div className='club-info-box'>
             <div className='club-info-area'>
               <div className='club-title-box'>
-                <S_Title className='club-title'>{clubName}</S_Title>
-                {isLeader && (
-                  <img src={leaderBadgeIcon} alt='소모임장 아이콘' className='leader-badge-icon' />
-                )}
+                <S_Title className='club-title'>
+                  {clubName}
+                  {isLeader && (
+                    <img
+                      src={leaderBadgeIcon}
+                      alt='소모임장 아이콘'
+                      className='leader-badge-icon'
+                    />
+                  )}
+                </S_Title>
               </div>
               <div className='club-detail-box'>
                 {memberCount && (

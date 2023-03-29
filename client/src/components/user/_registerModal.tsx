@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { handleKakaoLogin } from '../../util/authorization/handleSnsLogin';
-import { ModalBackdrop, ModalContainer } from '../../components/UI/S_Modal';
-import { S_Label } from '../../components/UI/S_Text';
-import { S_EditButton } from '../../components/UI/S_Button';
+import { ModalBackdrop, ModalContainer } from '../UI/S_Modal';
+import { S_Label } from '../UI/S_Text';
+import { S_EditButton } from '../UI/S_Button';
 import logo from '../../assets/logo.svg';
 import kakaoLogo from '../../assets/login_kakao.svg';
 import naverLogo from '../../assets/login_naver.svg';

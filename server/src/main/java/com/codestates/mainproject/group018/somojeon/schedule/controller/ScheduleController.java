@@ -130,7 +130,7 @@ public class ScheduleController {
         HttpStatus.OK);
     }
 
-    @DeleteMapping("/schedules/{club-id}/{schedule-id}")
+    @DeleteMapping("/clubs/{club-id}/schedules/{schedule-id}")
     public ResponseEntity deleteSchedule(@PathVariable("club-id") @Positive long clubId,
                                          @PathVariable("schedule-id") @Positive long scheduleId) {
         scheduleService.deleteSchedule(scheduleId, clubId);

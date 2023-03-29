@@ -20,7 +20,7 @@ public class UserTeam {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 

@@ -27,10 +27,10 @@ public class Record {
     private Long recordId;
 
     @Column(nullable = false)
-    private Integer firstTeam;
+    private Integer firstTeamNumber;
 
     @Column(nullable = false)
-    private Integer secondTeam;
+    private Integer secondTeamNumber;
 
     @Column(nullable = false)
     private Integer firstTeamScore;

@@ -49,12 +49,12 @@ public class RecordService {
     public Record updateRecord(Record record) {
         Record findRecord = findVerifiedRecord(record.getRecordId());
 
-        Optional.ofNullable(record.getFirstTeam())
-                .ifPresent(findRecord::setFirstTeam);
+        Optional.ofNullable(record.getFirstTeamNumber())
+                .ifPresent(findRecord::setFirstTeamNumber);
         Optional.ofNullable(record.getFirstTeamScore())
                 .ifPresent(findRecord::setFirstTeamScore);
-        Optional.ofNullable(record.getSecondTeam())
-                .ifPresent(findRecord::setSecondTeam);
+        Optional.ofNullable(record.getSecondTeamNumber())
+                .ifPresent(findRecord::setSecondTeamNumber);
         Optional.ofNullable(record.getSecondTeamScore())
                 .ifPresent(findRecord::setSecondTeamScore);
 
