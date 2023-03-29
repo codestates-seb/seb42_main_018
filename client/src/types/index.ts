@@ -10,7 +10,7 @@ export interface ClubData {
   memberCount?: number;
   tagList: string[];
   modifiedAt?: string;
-  secret?: boolean;
+  clubPrivateStatus?: 'PUBLIC' | 'SECRET';
 }
 export interface ClubPage {
   // 페이지네이션 정보 타입 설정

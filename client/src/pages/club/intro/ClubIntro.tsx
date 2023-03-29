@@ -13,7 +13,6 @@ import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
 import { S_TagWrapper } from '../club/_createTag';
 import ClubJoinModal from './_clubJoinModal';
-import { userInitialState } from '../../../store/store';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 import defaultClubImg from '../../../assets/default_Img.svg';
 
@@ -44,7 +43,7 @@ const ClubIntroWrapper = styled.div`
     margin-bottom: 4px;
     display: flex;
     align-items: center;
-    & > .leader-badge-icon {
+    & .leader-badge-icon {
       margin-left: 6px;
       transform: scale(1.2);
     }
@@ -165,10 +164,16 @@ function ClubIntro() {
           <div className='club-info-box'>
             <div className='club-info-area'>
               <div className='club-title-box'>
-                <S_Title className='club-title'>{clubName}</S_Title>
-                {isLeader && (
-                  <img src={leaderBadgeIcon} alt='소모임장 아이콘' className='leader-badge-icon' />
-                )}
+                <S_Title className='club-title'>
+                  {clubName}
+                  {isLeader && (
+                    <img
+                      src={leaderBadgeIcon}
+                      alt='소모임장 아이콘'
+                      className='leader-badge-icon'
+                    />
+                  )}
+                </S_Title>
               </div>
               <div className='club-detail-box'>
                 {memberCount && (
