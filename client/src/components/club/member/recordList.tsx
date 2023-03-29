@@ -59,7 +59,7 @@ function MemberRecordList({
         )}
       </S_ProfileItem>
       <S_ListItem width='80px' color='var(--blue300)' bgcolor='var(--blue100)'>
-        {winRate}%
+        {winRate * 100} %
       </S_ListItem>
       <S_ListItem width='80px'>{playCount}</S_ListItem>
       <S_ListItem>{winCount}</S_ListItem>
