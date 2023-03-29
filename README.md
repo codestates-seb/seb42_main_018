@@ -3,7 +3,8 @@
 ## 소모임 전적 사이트
 
 CodeStates 42기 Main-Project 018
-- [배포 주소] <https://somojeon.site>, <https://somojeon.vercel.app/>
+- [배포 주소] <https://somojeon.site>
+            <https://somojeon.vercel.app/>
 - 프로젝트 기간: 2023.03.03 ~ 2023.03.29
 
 <br>
