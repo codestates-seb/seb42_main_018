@@ -6,7 +6,6 @@ import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.service.ClubService;
-import com.codestates.mainproject.group018.somojeon.club.service.UserClubService;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
 import com.codestates.mainproject.group018.somojeon.exception.ExceptionCode;
 import com.codestates.mainproject.group018.somojeon.record.entity.Record;
@@ -22,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,7 +36,6 @@ public class ScheduleService {
     private final UserClubRepository userClubRepository;
     private final ClubService clubService;
     private final UserService userService;
-    private final UserClubService userClubService;
 
     public Schedule createSchedule(Schedule schedule, Long clubId) {
         List<Record> records =  schedule.getRecords();
@@ -79,9 +78,6 @@ public class ScheduleService {
         for (User team2user : team2Users){
             team2UserClubs.add(team2user.getUserClubList().stream().filter(userClub -> userClub.getClub().getClubId() == clubId).findFirst().orElse(null));
         }
-
-
-
 
         int point = undo? -1 : 1;
 
@@ -182,9 +178,6 @@ public class ScheduleService {
         if(findSchedule.getRecords() != null) goUserClub(findSchedule.getRecords(), clubId, true);
 
         scheduleRepository.delete(findSchedule);
-    }
-
-    private void deleteRecord(List<Record> records) {
     }
 
     public Schedule findVerifiedSchedule(long scheduleId) {
