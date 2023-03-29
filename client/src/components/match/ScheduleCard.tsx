@@ -88,7 +88,10 @@ function ScheduleCard(props: ScheduleCardProps) {
   };
 
   const deleteSchedule = () => {
-    deleteFetch(`${process.env.REACT_APP_URL}/schedules/${props.scheduleId}`, tokens);
+    deleteFetch(
+      `${process.env.REACT_APP_URL}/clubs/${props.clubId}/schedules/${props.scheduleId}`,
+      tokens
+    );
   };
 
   useEffect(() => {
