@@ -20,7 +20,7 @@ export interface EditClubDataType {
   content: string;
   local: string;
   tagList?: string[];
-  isSecret: boolean;
+  clubPrivateStatus?: 'PUBLIC' | 'SECRET';
 }
 
 export interface ImageFileType {
@@ -54,21 +54,22 @@ function EditClub() {
   const URL = `${process.env.REACT_APP_URL}/clubs/${clubId}`;
 
   const [clubInfo, setClubInfo] = useState<ClubData>();
-  const [inputs, setInputs] = useState<EditClubDataType>({
-    clubName: '',
-    content: '',
-    local: '',
-    tagList: [],
-    isSecret: false
-  });
   const {
     categoryName,
     clubImage,
     local: prevLocal,
     tagList: prevTagList,
-    secret
+    clubPrivateStatus: prevClubPrivateStatus
   } = clubInfo || {};
-  const { clubName, content, isSecret } = inputs || {};
+
+  const [inputs, setInputs] = useState<EditClubDataType>({
+    clubName: '',
+    content: '',
+    local: '',
+    tagList: [],
+    clubPrivateStatus: prevClubPrivateStatus
+  });
+  const { clubName, content, clubPrivateStatus } = inputs || {};
 
   useEffect(() => {
     const getClubInfo = async () => {
@@ -81,7 +82,7 @@ function EditClub() {
       setTags(prevTagList);
       setLocalValue(prevLocal);
 
-      if (clubInfo) {
+      if (clubInfo && clubPrivateStatus) {
         setInputs({
           ...inputs,
           clubName: clubInfo.clubName,
@@ -90,7 +91,7 @@ function EditClub() {
           tagList: prevTagList,
 
           // !BUG : 비공개 소모임(secret: true) 생성해도 서버에서 전부 secret: false 로 처리되고 있음
-          isSecret: clubInfo.secret || false
+          clubPrivateStatus: clubInfo.clubPrivateStatus
         });
       }
     };
@@ -155,7 +156,7 @@ function EditClub() {
     formData.append('content', content);
     formData.append('local', localData);
     formData.append('tagList', tags);
-    formData.append('isSecret', isSecret);
+    formData.append('clubPrivateStatus', clubPrivateStatus);
 
     if (clubImageFile) formData.append('clubImage', clubImageFile);
     else formData.append('clubImage', null);
@@ -254,7 +255,7 @@ function EditClub() {
             </div>
             <S_RadioWrapper>
               <div className='partition'>
-                {secret ? (
+                {clubPrivateStatus === 'PUBLIC' ? (
                   <S_Input
                     type='radio'
                     id='private'
@@ -275,7 +276,7 @@ function EditClub() {
                 <label htmlFor='public'>공개</label>
               </div>
               <div className='partition'>
-                {secret ? (
+                {clubPrivateStatus === 'SECRET' ? (
                   <S_Input
                     type='radio'
                     id='private'

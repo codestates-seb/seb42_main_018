@@ -19,7 +19,7 @@ export const S_FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  & .isSecret {
+  & .clubPrivateStatus {
     display: flex;
     justify-content: space-between;
   }
@@ -80,15 +80,15 @@ function CreateClub() {
     content: '',
     local: '',
     categoryName: '',
-    isSecret: false
+    clubPrivateStatus: 'PUBLIC'
   });
-  const { clubName, content, isSecret } = inputs;
+  const { clubName, content, clubPrivateStatus } = inputs;
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setInputs({ ...inputs, [name]: name === 'isSecret' ? value === 'true' : value });
+    setInputs({ ...inputs, [name]: value });
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -117,7 +117,7 @@ function CreateClub() {
       categoryName: categoryValue,
       local: localValue,
       tagList: tags,
-      isSecret
+      clubPrivateStatus
     };
 
     // console.log(newClubData);
@@ -165,7 +165,7 @@ function CreateClub() {
             <CreateCategory inputValue={categoryValue} setInputValue={setCategoryValue} />
             <CreateLocal inputValue={localValue} setInputValue={setLocalValue} />
             <CreateTag tags={tags} setTags={setTags} />
-            <fieldset className='isSecret'>
+            <fieldset className='clubPrivateStatus'>
               <div>
                 <S_Label_mg_top>공개여부 *</S_Label_mg_top>
               </div>
@@ -174,8 +174,8 @@ function CreateClub() {
                   <S_Input
                     type='radio'
                     id='public'
-                    name='isSecret'
-                    value='false'
+                    name='clubPrivateStatus'
+                    value='PUBLIC'
                     onChange={onChange}
                     defaultChecked
                   />
@@ -185,8 +185,8 @@ function CreateClub() {
                   <S_Input
                     type='radio'
                     id='private'
-                    name='isSecret'
-                    value='true'
+                    name='clubPrivateStatus'
+                    value='SECRET'
                     onChange={onChange}
                   />
                   <label htmlFor='private'>비공개</label>
