@@ -7,7 +7,7 @@ import getGlobalState from '../../util/authorization/getGlobalState';
 import leaderBadgeIcon from '../../assets/icon_leader-badge.svg';
 import { S_NegativeButton, S_SelectButton } from '../UI/S_Button';
 import { useEffect, useState } from 'react';
-import { getFetch, deleteFetch } from '../../util/api';
+import { getFetch, deleteFetch, patchFetch } from '../../util/api';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -76,9 +76,16 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
   }, []);
 
   const leaveClub = async () => {
-    // 클럽 탈퇴 요청
-    // URL : /clubs//memberStatus/{user-id}
-    // request : {  "clubMemberStatus" : "MEMBER QUIT"}
+    patchFetch(
+      `${process.env.REACT_APP_URL}/clubs/${clubId}/memberStatus/${userInfo.userId}`,
+      {
+        clubMemberStatus: 'MEMBER QUIT'
+      },
+      tokens
+    ).then(() => {
+      alert('클럽을 탈퇴했습니다');
+      navigate('/home');
+    });
   };
 
   const cancelJoinClub = async () => {
@@ -128,7 +135,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
           ) : clubRole === 'MANAGER' || clubRole === 'MEMBER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
             // TODO : 탈퇴 로직 구현 API 34번
-            <S_NegativeButton>소모임 탈퇴</S_NegativeButton>
+            <S_NegativeButton onClick={leaveClub}>소모임 탈퇴</S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
             // TODO : 가입 취소 로직 구현 API 37번
