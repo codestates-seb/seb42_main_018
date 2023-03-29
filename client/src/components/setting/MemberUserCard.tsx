@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { S_Button, S_SelectButton } from '../UI/S_Button';
+import { S_Button } from '../UI/S_Button';
 import { S_Description, S_Label, S_SmallDescription, S_Text } from '../UI/S_Text';
 import dummy from '../../assets/default_profile.svg';
 import { MemberUser } from '../../pages/club/setting/_totalMember';
@@ -111,7 +111,6 @@ function MemberUserCard(props: MemberUserCardProps) {
                   e.stopPropagation();
                   setIsOpenDelegate(true);
                 }}
-                // color='var(--blue300)'
                 style={{ textAlign: 'right', marginRight: '10px', textDecoration: 'underline' }}
               >
                 소모임장 위임

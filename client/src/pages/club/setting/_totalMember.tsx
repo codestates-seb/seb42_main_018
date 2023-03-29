@@ -18,7 +18,6 @@ export interface MemberUser {
 }
 
 function TotalMember() {
-  // const data: MemberUser[] = [];
   const { id } = useParams();
   const { tokens } = getGlobalState();
   const [totalMembers, setTotalMembers] = useState<MemberUser[]>([]);

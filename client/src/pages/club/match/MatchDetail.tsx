@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import KakaoMapView from '../../../components/kakao/KakaoMapView';
 import S_Container from '../../../components/UI/S_Container';
 import { S_Input } from '../../../components/UI/S_Input';
-import { S_SelectButton, S_NegativeButton } from '../../../components/UI/S_Button';
+import { S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Description, S_Label, S_Text, S_Title } from '../../../components/UI/S_Text';
 import { S_NameTag } from '../../../components/UI/S_Tag';
 import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Schedule } from './ClubSchedule';
-import { Candidate, Record, TeamList } from './CreateMatch';
+import { Record, TeamList } from './CreateMatch';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { ResUsersType } from './EditMatch';
 
@@ -31,12 +31,12 @@ const S_MapView = styled.div`
 `;
 
 function MatchDetail() {
-  const [matchData, setMatchData] = useState<Schedule>();
-  const { id, scid } = useParams();
-  const { userInfo } = getGlobalState();
   const navigate = useNavigate();
 
-  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
+  const { id, scid } = useParams();
+  const { userInfo } = getGlobalState();
+
+  const [matchData, setMatchData] = useState<Schedule>();
   const [isOpenMapView, setIsOpenMapView] = useState(false);
 
   const mapViewModalHandler = () => {

@@ -68,7 +68,6 @@ function ClubSetting() {
           borderTop: '1px solid var(--gray200)'
         }}
       />
-      {/* <S_Label fontSize='1.1rem'>소모임장 위임</S_Label> */}
       <S_Label
         fontSize='1.1rem'
         color='var(--red100)'
@@ -89,14 +88,26 @@ function ClubSetting() {
           <S_ConfirmModalContainer style={{ height: 'auto' }}>
             <div style={{ width: '90%' }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <S_Label style={{ textAlign: 'left' }}>정말로</S_Label>
-                {/* <S_Description style={{ textAlign: 'right' }}>&nbsp;님을</S_Description> */}
+                <S_Label style={{ textAlign: 'left', marginRight: '10px' }}>정말로</S_Label>
+                <S_Description style={{ textAlign: 'right' }}>
+                  소모임을 해체 하시겠습니까?
+                </S_Description>
               </div>
-              {/* <S_SmallDescription style={{ textAlign: 'left' }}>
-              </S_SmallDescription> */}
-              <S_Description style={{ textAlign: 'right' }}>
-                소모임을 해체 하시겠습니까?
-              </S_Description>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <S_Description color='var(--red100)' style={{ textAlign: 'left' }}>
+                  주의!
+                </S_Description>
+                <S_Description color='var(--red100)' style={{ textAlign: 'left' }}>
+                  해체한 소모임은 복구가 불가능합니다.
+                </S_Description>
+              </div>
             </div>
             <S_ButtonBox>
               <S_Button

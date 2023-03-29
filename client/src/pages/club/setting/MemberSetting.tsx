@@ -9,8 +9,6 @@ import BannedMember from './_bannedMember';
 import TotalMember from './_totalMember';
 import WaitingMember from './_waitingMember';
 
-const S_TapMenu = styled.div``;
-
 interface Tab {
   id: number;
   title: string;

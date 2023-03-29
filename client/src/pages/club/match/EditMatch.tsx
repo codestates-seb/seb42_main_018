@@ -171,7 +171,6 @@ function EditMatch() {
   const updateRecord = async () => {
     const copiedRecords: Record[] = [];
     const copiedValues = Object.entries(getValues());
-    // console.log(copiedValues);
     copiedValues.forEach((el) => {
       const temp = {
         id: Number(el[0]),
