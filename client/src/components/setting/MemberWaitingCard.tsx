@@ -44,16 +44,21 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
       {
         joinStatus: 'CONFIRMED'
       },
-      tokens
+      tokens,
+      true
     ).then(() => {
       props.setIsUpdated(!props.isUpdated);
     });
   };
 
   const rejectMember = async () => {
-    patchFetch(`${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`, {
-      joinStatus: 'REFUSED'
-    }).then(() => {
+    patchFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/joins/${props.member.userInfo.userId}`,
+      {
+        joinStatus: 'REFUSED'
+      },
+      tokens
+    ).then(() => {
       props.setIsUpdated(!props.isUpdated);
     });
   };

@@ -21,6 +21,7 @@ import { postFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
 import getGlobalState from '../../../util/authorization/getGlobalState';
+import { ResUsersType } from './EditMatch';
 
 export const S_MapView = styled.div`
   display: flex;
@@ -57,15 +58,20 @@ export const S_ButtonBox = styled.div`
 
 export interface TeamList {
   id: number;
+  teamId?: number;
   teamNumber: number;
   members: string[];
-  membersId: number[];
+  membersIds: number[];
+  users?: ResUsersType[];
 }
 
 export interface Record {
   id: number;
-  firstTeam: number;
-  secondTeam: number;
+  recordId?: number;
+  firstTeamNumber: number;
+  secondTeamNumber: number;
+  firstTeam?: number;
+  secondTeam?: number;
   firstTeamScore: number;
   secondTeamScore: number;
 }
@@ -96,7 +102,7 @@ function CreateMatch() {
   } = useForm({ mode: 'onChange' });
 
   const [matchData, setMatchData] = useState<MatchData>();
-  const { userInfo } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -112,7 +118,7 @@ function CreateMatch() {
   const [candidateList, setCandidateList] = useState(candidates.map((el) => el.nickName));
 
   const [teamList, setTeamList] = useState<TeamList[]>([
-    { id: 0, teamNumber: 1, members: [], membersId: [] }
+    { id: 0, teamNumber: 1, members: [], membersIds: [] }
   ]);
   const [records, setRecords] = useState<Record[]>([]);
 
@@ -176,7 +182,7 @@ function CreateMatch() {
       id: teamList[teamList.length - 1].id + 1,
       teamNumber: teamList.length + 1,
       members: [],
-      membersId: []
+      membersIds: []
     };
     setTeamList([...teamList, newTeam]);
   };
@@ -189,7 +195,7 @@ function CreateMatch() {
           id: 0,
           teamNumber: 1,
           members: [],
-          membersId: []
+          membersIds: []
         }
       ]);
       return;
@@ -205,8 +211,8 @@ function CreateMatch() {
   const addRecord = () => {
     const newRecord: Record = {
       id: records.length ? records[records.length - 1].id + 1 : 0,
-      firstTeam: 1,
-      secondTeam: 2,
+      firstTeamNumber: 1,
+      secondTeamNumber: 2,
       firstTeamScore: 0,
       secondTeamScore: 0
     };
@@ -226,8 +232,8 @@ function CreateMatch() {
     copiedValues.forEach((el) => {
       const temp = {
         id: Number(el[0]),
-        firstTeam: Number(el[1].firstTeam),
-        secondTeam: Number(el[1].secondTeam),
+        firstTeamNumber: Number(el[1].firstTeamNumber),
+        secondTeamNumber: Number(el[1].secondTeamNumber),
         firstTeamScore: Number(el[1].firstTeamScore),
         secondTeamScore: Number(el[1].secondTeamScore)
       };
@@ -254,7 +260,7 @@ function CreateMatch() {
   };
 
   const postMatchData = async () => {
-    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData)
+    await postFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`, matchData, tokens)
       .then((res) => console.log('post했습니다.'))
       .then(() => {
         navigate(`/club/${id}/match`);
