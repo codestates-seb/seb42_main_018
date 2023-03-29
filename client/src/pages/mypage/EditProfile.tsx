@@ -133,9 +133,7 @@ function EditProfile() {
                 alt='프로필사진'
               />
               <label htmlFor='file'>
-                <S_EditButton onClick={uploadImg} type='button'>
-                  변경
-                </S_EditButton>
+                <S_EditButton onClick={uploadImg}>변경</S_EditButton>
                 <input
                   id='uploadImg'
                   type='file'
