@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const S_TabContainer = styled.div`
   // 탭메뉴 전체 박스
   margin: -20px auto 0;
-  /* margin: -20px -20px 20px -20px; */
   max-width: 500px;
   position: fixed;
   top: 50;

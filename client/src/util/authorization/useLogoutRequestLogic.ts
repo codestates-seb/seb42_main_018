@@ -18,6 +18,10 @@ export function useLogoutRequestLogic() {
     await dispatch(setIsLogin(false));
     await dispatch(setUserInfo(userInitialState));
     await dispatch(setTokens(tokensInitialState));
+
+    sessionStorage.removeItem('isLogin');
+    sessionStorage.removeItem('userInfo');
+    sessionStorage.removeItem('tokens');
     navigate('/');
   };
 

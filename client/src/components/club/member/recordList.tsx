@@ -42,7 +42,6 @@ function MemberRecordList({
 }: MemberData) {
   return (
     <S_ListBox>
-      <S_ListItem>순위</S_ListItem>
       <S_ProfileItem>
         <img src={profileImage} alt='프로필사진'></img>
         {nickName}
