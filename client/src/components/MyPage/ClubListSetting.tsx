@@ -89,6 +89,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         tokens
       );
       if (res) alert('가입 신청이 취소되었습니다');
+      navigate('/home');
       // 추후 모달 처리
       // 바로 데이터 반영되는지? 목록 없어지는지?
     }
@@ -121,17 +122,17 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         <div className='settingbox'>
           {clubRole === 'LEADER' ? (
             // 롤이 리더인 경우 설정으로 가기
-            <S_SelectButton width='80px' onClick={() => navigate(`/club/${club?.clubId}/setting`)}>
+            <S_SelectButton width='auto' onClick={() => navigate(`/club/${club?.clubId}/setting`)}>
               소모임 설정
             </S_SelectButton>
-          ) : clubRole === 'MANAGER' || clubRole === 'LEADER' ? (
+          ) : clubRole === 'MANAGER' || clubRole === 'MEMBER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
             // TODO : 탈퇴 로직 구현 API 34번
             <S_NegativeButton>소모임 탈퇴</S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
             // TODO : 가입 취소 로직 구현 API 37번
-            <S_SelectButton width='80px' onClick={cancelJoinClub}>
+            <S_SelectButton width='auto' onClick={cancelJoinClub}>
               가입 취소
             </S_SelectButton>
           )}

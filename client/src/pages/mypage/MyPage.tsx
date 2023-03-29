@@ -24,6 +24,7 @@ function MyPage() {
     useEffect(() => {
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((data) => {
         const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
+        console.log(userClubs);
         setUserClubs(userClubs);
       });
     }, []);
