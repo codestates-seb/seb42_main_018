@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { S_TagSmall } from '../UI/S_Tag';
 import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
@@ -96,7 +96,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         tokens
       );
       if (res) alert('가입 신청이 취소되었습니다');
-      navigate('/home');
+      navigate('/');
       // 추후 모달 처리
       // 바로 데이터 반영되는지? 목록 없어지는지?
     }

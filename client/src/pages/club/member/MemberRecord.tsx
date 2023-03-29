@@ -30,6 +30,7 @@ function MemberRecord({ members }: ClubMemberProps) {
             key={el.nickName}
             profileImage={el.profileImage}
             nickName={el.nickName}
+            clubRole={el.clubRole}
             winRate={el.winRate}
             playCount={el.playCount}
             winCount={el.winCount}
