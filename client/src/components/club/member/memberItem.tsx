@@ -10,6 +10,8 @@ const S_Box = styled.div`
   border-top: 1px solid var(--gray100);
   img {
     // 프로필 이미지 스타일
+    object-fit: cover;
+    width: 65px;
     height: 65px;
     border-radius: 10px;
   }

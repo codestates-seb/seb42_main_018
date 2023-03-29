@@ -26,6 +26,8 @@ const S_ProfileItem = styled(S_ListItem)`
   font-weight: 800;
   img {
     width: 40px;
+    height: 40px;
+    object-fit: cover;
     border-radius: 8px;
     margin-right: 8px;
   }

@@ -34,8 +34,6 @@ function HomeIntro() {
           나와 모임원들의 승률을 확인해보세요!
         </S_Description>
       </S_TextBox>
-      {/* '소모전 알아보기' 등은 일반적으로 서비스 소개 페이지로 이동됨. 현재 화면구성에는 없으므로 어떻게 처리할지 고민*/}
-      <S_SmallDescription color='var(--blue200)'>소모전 알아보기</S_SmallDescription>
     </S_IntroBox>
   );
 }
