@@ -4,6 +4,7 @@ import ClubList from './ClubList';
 import { S_Title } from '../../UI/S_Text';
 import { ClubData, ClubPage } from '../../../types';
 import { getFetch } from '../../../util/api';
+import CreateClubImg from './CreateClubImg';
 
 const S_TitleBox = styled.div`
   // 타이틀영역 전체 박스
@@ -72,9 +73,8 @@ function MainContents() {
             </S_Category>
           ))} */}
         {/* </S_TagBox> */}
+        <CreateClubImg />
       </S_TitleBox>
-
-      {/* TODO : 선택한 카테고리랑 일치하는 카테고리의 리스트만 필터 */}
       {clubs.map(
         (el) =>
           el.clubPrivateStatus === 'PUBLIC' && (

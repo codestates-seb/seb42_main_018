@@ -27,12 +27,12 @@ const S_TabItem = styled.button<{ active: boolean }>`
     color: var(--gray600);
   }
 `;
+
 interface Tab {
   id: number;
   title: string;
   path: string;
 }
-
 interface TabmenuProps {
   tabs: Tab[];
 }
