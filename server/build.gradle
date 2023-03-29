@@ -42,8 +42,7 @@ dependencies {
 	// Apache HttpComponents
 	implementation 'org.apache.httpcomponents:httpclient'
 
-	// Kakka test
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'    // (1)
+	// Kakao
 	implementation 'org.springframework.boot:spring-boot-starter-security'     // (2)
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'  // (3)
 
