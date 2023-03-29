@@ -21,6 +21,9 @@ public class ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${defaultProfile.image.address}")
+    private String defaultProfileImage;
+
     @Value("${defaultClub.image.address}")
     private String defaultClubImage;
 
