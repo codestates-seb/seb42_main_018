@@ -62,8 +62,8 @@ function MatchDetail() {
       const records = resData.records.map((el: Record) => {
         return {
           id: el.recordId,
-          firstTeamNumber: el.firstTeam,
-          secondTeamNumber: el.secondTeam,
+          firstTeamNumber: el.firstTeamNumber,
+          secondTeamNumber: el.secondTeamNumber,
           firstTeamScore: el.firstTeamScore,
           secondTeamScore: el.secondTeamScore
         };

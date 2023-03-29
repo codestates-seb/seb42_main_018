@@ -70,8 +70,6 @@ export interface Record {
   recordId?: number;
   firstTeamNumber: number;
   secondTeamNumber: number;
-  firstTeam?: number;
-  secondTeam?: number;
   firstTeamScore: number;
   secondTeamScore: number;
 }

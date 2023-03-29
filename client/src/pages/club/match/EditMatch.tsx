@@ -207,14 +207,7 @@ function EditMatch() {
   };
 
   const putMatchData = async () => {
-    await putFetch(
-      `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`,
-      matchData,
-      tokens
-    ).then((res) => {
-      console.log('put했습니다.');
-      console.log(matchData);
-    });
+    await putFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`, matchData, tokens);
   };
 
   if (!candidateList.length && isOpenAddMember) {
@@ -240,8 +233,8 @@ function EditMatch() {
       const records = resData.records.map((el: Record) => {
         return {
           id: el.recordId,
-          firstTeamNumber: el.firstTeam,
-          secondTeamNumber: el.secondTeam,
+          firstTeamNumber: el.firstTeamNumber,
+          secondTeamNumber: el.secondTeamNumber,
           firstTeamScore: el.firstTeamScore,
           secondTeamScore: el.secondTeamScore
         };
@@ -417,8 +410,7 @@ function EditMatch() {
                 <S_Button
                   addStyle={{ width: '48%' }}
                   onClick={() => {
-                    putMatchData();
-                    navigate(`/club/${id}/match`);
+                    putMatchData().then(() => navigate(`/club/${id}/match`));
                   }}
                 >
                   확인
