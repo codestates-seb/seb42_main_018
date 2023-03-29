@@ -28,14 +28,9 @@ public class UserClubService {
     private final ClubService clubService;
     private final UserService userService;
 
-    /*
-    리더 검증은 컨트롤러에서 한다.
-     */
 
     // 소모임 가입 요청
     public UserClub joinClub(UserClub userClub) {
-//        clubService.findVerifiedClub(userClub.getClub().getClubId());
-//        userService.findVerifiedUser(userClub.getUser().getUserId());
 
         existsUserClubByUserIdAndClubId(userClub.getUser().getUserId(), userClub.getClub().getClubId());
 
@@ -127,7 +122,6 @@ public class UserClubService {
 
     // 소모임 회원 등급 설정 (리더, 매니저 가능)
     public UserClub updateClubRole(Long userId, Long clubId, ClubRole clubRole) {
-//        clubService.findVerifiedClub(clubId);
 
         UserClub userClub = findUserClubByUserIdAndClubId(userId, clubId);
 
