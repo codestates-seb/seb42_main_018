@@ -107,11 +107,6 @@ function EditProfile() {
     if (profileImageFile) formData.append('profileImage', profileImageFile);
     else formData.append('profileImage', null);
 
-    console.log(profileImageFile);
-    console.log(formData); // 빈 객체로 보임
-    const formDataEntries = formData as unknown as Array<[string, unknown]>;
-    console.log(Array.from(formDataEntries)); // formData에 담긴 key-value pair 확인 가능
-
     const contentType = `multipart/form-data; boundary=${(formData as any)._boundary}`;
     const res = await patchFetch(
       `${process.env.REACT_APP_URL}/users/${userInfo.userId}`,
@@ -138,9 +133,7 @@ function EditProfile() {
                 alt='프로필사진'
               />
               <label htmlFor='file'>
-                <S_EditButton onClick={uploadImg} type='button'>
-                  변경
-                </S_EditButton>
+                <S_EditButton onClick={uploadImg}>변경</S_EditButton>
                 <input
                   id='uploadImg'
                   type='file'
