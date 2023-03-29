@@ -58,7 +58,6 @@ public class ScheduleService {
     }
 
     public Schedule updateSchedule(Schedule schedule, long clubId, Long scheduleId) {
-        // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
         deleteSchedule(scheduleId, clubId);
         List<Record> records =  schedule.getRecords();
         goUserClub(records, clubId, false);
@@ -82,13 +81,19 @@ public class ScheduleService {
     }
 
     public void calcScores(List<User> team1Users, List<User> team2Users, int score1, int score2, Long clubId, boolean undo){
-        List<UserClub> team1UserClubs = team1Users.stream().map(
-                team1User -> userClubService.findUserClubByUserIdAndClubId(team1User.getUserId(), clubId))
-                .collect(Collectors.toList());
+        List<UserClub> team1UserClubs = new ArrayList<>();
+        List<UserClub> team2UserClubs = new ArrayList<>();
 
-        List<UserClub> team2UserClubs = team2Users.stream().map(
-                        team2User -> userClubService.findUserClubByUserIdAndClubId(team2User.getUserId(), clubId))
-                .collect(Collectors.toList());
+        for (User team1user : team1Users){
+            team1UserClubs.add(team1user.getUserClubList().stream().filter(userClub -> userClub.getClub().getClubId() == clubId).findFirst().orElse(null));
+        }
+
+        for (User team2user : team2Users){
+            team2UserClubs.add(team2user.getUserClubList().stream().filter(userClub -> userClub.getClub().getClubId() == clubId).findFirst().orElse(null));
+        }
+
+
+
 
         int point = undo? -1 : 1;
 
