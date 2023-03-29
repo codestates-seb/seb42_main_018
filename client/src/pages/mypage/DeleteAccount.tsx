@@ -34,7 +34,6 @@ function DeleteAccount() {
         alert('탈퇴했습니다.'); // 추후 모달 처리
         navigate('/');
       }
-      console.log(res);
     }
   };
 
@@ -51,7 +50,6 @@ function DeleteAccount() {
           없습니다.
         </S_Description>
         <div className='box'></div>
-        {/* TODO : 회원탈퇴 버튼 클릭시 유저정보 delete 요청 및 모달*/}
         <S_ButtonBlack onClick={deleteUser}>회원탈퇴</S_ButtonBlack>
       </S_DeleteBox>
     </S_Container>
