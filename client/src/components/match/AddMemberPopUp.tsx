@@ -15,9 +15,6 @@ interface AddMemberPopUpProps {
 }
 
 const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
-  /* display: grid;
-  row-gap: 3px;
-  grid-template-columns: repeat(4, 1fr); */
   position: absolute;
   width: 300px;
   height: auto;
@@ -31,40 +28,16 @@ const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
 `;
 
 function AddMemberPopUp(props: AddMemberPopUpProps) {
-  // const TEAM_ELEMENT_HEIGHT = 34;
-
-  // const addTeamMember = (
-  //   member: string,
-  //   idx: number,
-  //   teamList: TeamList[],
-  //   setTeamList: React.Dispatch<React.SetStateAction<TeamList[]>>
-  // ) => {
-  //   const copied = [...teamList];
-  //   if (!copied[idx].members.includes(member)) {
-  //     copied[idx].members.push(member);
-  //   }
-  //   setTeamList([...copied]);
-  // };
-
   return (
     <S_PopupContainer top={props.top} left={props.left}>
-      {/* {props.candidateList &&
-        props.candidateList.map((member, idx) => { */}
-
       {props.candidates &&
         props.candidates.map((member, idx) => {
           return (
             <S_NameTag
               key={idx}
               onClick={() => {
-                // addTeamMember(member, idx, props.teamList, props.setTeamList);
-
                 //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
                 const copiedTeamList = [...props.teamList];
-
-                // if (!copiedTeamList[props.idx].members.includes(member)) {
-                //   copiedTeamList[props.idx].members.push(member);
-                // }
 
                 if (!copiedTeamList[props.idx].members.includes(member.nickName)) {
                   copiedTeamList[props.idx].members.push(member.nickName);
@@ -73,9 +46,9 @@ function AddMemberPopUp(props: AddMemberPopUpProps) {
                 props.setTeamList([...copiedTeamList]);
 
                 //클릭한 멤버를 후보 멤버리스트에서 빼주는 기능
-                const copiedCandidateList = [...props.candidateList];
-                copiedCandidateList.splice(idx, 1);
-                props.setCandidateList(copiedCandidateList);
+                // const copiedCandidateList = [...props.candidateList];
+                // copiedCandidateList.splice(idx, 1);
+                // props.setCandidateList(copiedCandidateList);
               }}
             >
               {member.nickName}+

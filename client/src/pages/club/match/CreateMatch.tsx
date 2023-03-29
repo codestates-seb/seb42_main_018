@@ -167,7 +167,6 @@ function CreateMatch() {
     }
     if (addButtonIndex !== idx) {
       setAddButtonIndex(idx);
-      // setIsOpenAddMember(false);
       setIsOpenAddMember(true);
     } else {
       setAddButtonIndex(idx);
@@ -320,7 +319,7 @@ function CreateMatch() {
         </S_Description>
         <S_Description>
           참석을 선택한 멤버는 자동으로 등록됩니다.
-          <S_EditButton style={{ padding: '0 7px', float: 'right' }}>추가</S_EditButton>
+          {/* <S_EditButton style={{ padding: '0 7px', float: 'right' }}>추가</S_EditButton> */}
         </S_Description>
 
         <div>
