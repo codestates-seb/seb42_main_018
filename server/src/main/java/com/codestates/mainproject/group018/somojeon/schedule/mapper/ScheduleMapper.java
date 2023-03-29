@@ -77,9 +77,9 @@ public interface ScheduleMapper {
                 List<Record> records = recordDtoPosts.stream().map(
                         recordDtoPost -> {
                             Record record = new Record();
-                            record.setFirstTeam(recordDtoPost.getFirstTeamNumber());
+                            record.setFirstTeamNumber(recordDtoPost.getFirstTeamNumber());
                             record.setFirstTeamScore(recordDtoPost.getFirstTeamScore());
-                            record.setSecondTeam(recordDtoPost.getSecondTeamNumber());
+                            record.setSecondTeamNumber(recordDtoPost.getSecondTeamNumber());
                             record.setSecondTeamScore(recordDtoPost.getSecondTeamScore());
                             record.setSchedule(schedule);
 
@@ -193,9 +193,9 @@ public interface ScheduleMapper {
                     RecordDto.Response response = new RecordDto.Response();
                     response.setRecordId(record.getRecordId());
 //                    response.setCreatedAt(record.getCreatedAt());
-                    response.setFirstTeamNumber(record.getFirstTeam());
+                    response.setFirstTeamNumber(record.getFirstTeamNumber());
                     response.setFirstTeamScore(record.getFirstTeamScore());
-                    response.setSecondTeamNumber(record.getSecondTeam());
+                    response.setSecondTeamNumber(record.getSecondTeamNumber());
                     response.setSecondTeamScore(record.getSecondTeamScore());
 
 
