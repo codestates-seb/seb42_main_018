@@ -10,8 +10,9 @@ import { ModalBackdrop } from '../../../components/UI/S_Modal';
 import { getFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Schedule } from './ClubSchedule';
-import { Candidate } from './CreateMatch';
+import { Candidate, Record, TeamList } from './CreateMatch';
 import getGlobalState from '../../../util/authorization/getGlobalState';
+import { ResUsersType } from './EditMatch';
 
 const S_MapView = styled.div`
   display: flex;
@@ -48,7 +49,31 @@ function MatchDetail() {
       navigate(`/club/${id}`);
     }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
-      setMatchData({ ...data.data });
+      const resData = data.data;
+      const teamList = resData.teamList.map((el: TeamList) => {
+        return {
+          id: el.teamId,
+          teamNumber: el.teamNumber,
+          members: el.users?.map((el: ResUsersType) => el.nickName),
+          membersIds: el.users?.map((el: ResUsersType) => el.userId)
+        };
+      });
+
+      const records = resData.records.map((el: Record) => {
+        return {
+          id: el.recordId,
+          firstTeamNumber: el.firstTeam,
+          secondTeamNumber: el.secondTeam,
+          firstTeamScore: el.firstTeamScore,
+          secondTeamScore: el.secondTeamScore
+        };
+      });
+
+      setMatchData({
+        ...resData,
+        teamList,
+        records
+      });
     });
   }, []);
 
@@ -76,10 +101,6 @@ function MatchDetail() {
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>참석자</S_Label>
-        <S_Description>
-          경기를 등록하면 경기정보 페이지에서 참석/불참을 선택할 수 있어요.
-        </S_Description>
-        <S_Description>참석을 선택한 멤버는 자동으로 등록됩니다.</S_Description>
         <div>
           {matchData?.candidates &&
             matchData?.candidates.map((member, idx) => {
@@ -105,7 +126,7 @@ function MatchDetail() {
                   }}
                 >
                   {matchData.teamList[idx].members.map((member, memberIdx) => (
-                    <S_NameTag key={team.id++}>{member}&times;</S_NameTag>
+                    <S_NameTag key={memberIdx}>{member}&times;</S_NameTag>
                   ))}
                 </div>
                 <div style={{ height: '100%' }}></div>
@@ -115,28 +136,81 @@ function MatchDetail() {
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>전적</S_Label>
-        <S_Description>경기가 종료된 뒤 결과를 입력해보세요.</S_Description>
+        <S_Description>경기 결과입니다.</S_Description>
         {matchData?.records &&
           matchData?.records.map((record, idx) => {
             return (
-              <div
-                key={record.id}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-              >
-                <span>{idx + 1}경기</span>
-
-                <select>
-                  <option key={idx + 1}>{idx + 1}</option>;
-                </select>
-                <span>팀</span>
-                <S_Input type='number' style={{ margin: '0', height: '30px' }} readOnly />
-                <span>:</span>
-                <S_Input type='number' style={{ margin: '0', height: '30px' }} readOnly />
-                <select>
-                  <option key={idx + 2}>{idx + 1}</option>;
-                </select>
-                <span>팀</span>
-                <S_NegativeButton>삭제</S_NegativeButton>
+              <div key={record.id} style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ width: '55px', color: 'var(--gray600)' }}>{idx + 1}경기</span>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    margin: '5px 0',
+                    width: '85%'
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexGrow: '1',
+                      justifyContent: 'center',
+                      height: '40px',
+                      borderRadius: '8px',
+                      backgroundColor:
+                        record.firstTeamScore > record.secondTeamScore ? '#afffaf' : '#ff72726b'
+                    }}
+                  >
+                    <span style={{ fontWeight: 'bold' }}>{record.firstTeamNumber}</span>
+                    <span style={{ marginRight: '20px' }}>팀</span>
+                    <S_Input
+                      type='number'
+                      style={{
+                        margin: '0',
+                        height: '30px',
+                        textAlign: 'center',
+                        width: '30px',
+                        backgroundColor: 'var(--white)',
+                        borderRadius: '8px'
+                      }}
+                      readOnly
+                      value={record.firstTeamScore}
+                    />
+                  </div>
+                  <span style={{ margin: '0 5px' }}>:</span>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexGrow: '1',
+                      justifyContent: 'center',
+                      height: '40px',
+                      borderRadius: '8px',
+                      backgroundColor:
+                        record.firstTeamScore < record.secondTeamScore ? '#afffaf' : '#ff72726b'
+                    }}
+                  >
+                    <S_Input
+                      type='number'
+                      style={{
+                        margin: '0',
+                        height: '30px',
+                        textAlign: 'center',
+                        width: '30px',
+                        backgroundColor: 'var(--white)',
+                        borderRadius: '8px'
+                      }}
+                      readOnly
+                      value={record.secondTeamScore}
+                    />
+                    <span style={{ marginLeft: '20px', fontWeight: 'bold' }}>
+                      {record.secondTeamNumber}
+                    </span>
+                    <span>팀</span>
+                  </div>
+                </div>
               </div>
             );
           })}

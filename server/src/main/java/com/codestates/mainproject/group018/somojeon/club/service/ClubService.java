@@ -3,10 +3,7 @@ package com.codestates.mainproject.group018.somojeon.club.service;
 import com.codestates.mainproject.group018.somojeon.category.service.CategoryService;
 import com.codestates.mainproject.group018.somojeon.club.entity.Club;
 import com.codestates.mainproject.group018.somojeon.club.entity.UserClub;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
-import com.codestates.mainproject.group018.somojeon.club.enums.ClubStatus;
-import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
+import com.codestates.mainproject.group018.somojeon.club.enums.*;
 import com.codestates.mainproject.group018.somojeon.club.repository.ClubRepository;
 import com.codestates.mainproject.group018.somojeon.club.repository.UserClubRepository;
 import com.codestates.mainproject.group018.somojeon.exception.BusinessLogicException;
@@ -47,12 +44,13 @@ public class ClubService {
     private final UserRepository userRepository;
 
     // 소모임 생성
-    public Club createClub(Club club, Long userId, List<String> tagList)  {
+    public Club createClub(Club club, Long userId, List<String> tagList, ClubPrivateStatus clubPrivateStatus)  {
         Club justClub = clubRepository.save(club);
 
         User user = findVerifiedUser(userId);
         Club findClub = findVerifiedClub(justClub.getClubId());
         categoryService.verifyExistsCategoryName(club.getCategoryName());
+        findClub.setClubPrivateStatus(clubPrivateStatus);
         findClub.setCreatedAt(LocalDateTime.now());
         findClub.setMemberCount(club.getMemberCount() + 1);
         findClub.setClubImageUrl(defaultClubImage);
@@ -83,7 +81,7 @@ public class ClubService {
 
     // 소모임 수정 (리더, 매니저만 가능)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
-    public Club updateClub(Long clubId, String clubName, String content, String local, List<String> tagList, boolean isSecret, MultipartFile multipartFile) throws IOException {
+    public Club updateClub(Long clubId, String clubName, String content, String local, List<String> tagList, ClubPrivateStatus clubPrivateStatus, MultipartFile multipartFile) throws IOException {
 
         Club findClub = findVerifiedClub(clubId);
 
@@ -91,7 +89,7 @@ public class ClubService {
             findClub.setClubName(clubName);
             findClub.setContent(content);
             findClub.setLocal(local);
-            findClub.setSecret(isSecret);
+            findClub.setClubPrivateStatus(clubPrivateStatus);
             findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             findClub.setTagList(tagList);
             if (tagList.size() > 3) {
@@ -101,7 +99,7 @@ public class ClubService {
             findClub.setClubName(clubName);
             findClub.setContent(content);
             findClub.setLocal(local);
-            findClub.setSecret(isSecret);
+            findClub.setClubPrivateStatus(clubPrivateStatus);
             findClub.setModifiedAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
             findClub.setClubImageUrl(imageService.uploadClubImage(multipartFile));
             findClub.setTagList(tagList);

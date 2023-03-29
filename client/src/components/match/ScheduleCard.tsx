@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Candidate } from '../../pages/club/match/CreateMatch';
-import { getFetch, postFetch } from '../../util/api';
+import {
+  Candidate,
+  S_ButtonBox,
+  S_ConfirmModalContainer
+} from '../../pages/club/match/CreateMatch';
+import { deleteFetch, getFetch, postFetch } from '../../util/api';
 import getGlobalState from '../../util/authorization/getGlobalState';
-import { S_SelectButton } from '../UI/S_Button';
-import { S_Label, S_SmallDescription, S_Text } from '../UI/S_Text';
+import { S_Button, S_SelectButton } from '../UI/S_Button';
+import { ModalBackdrop } from '../UI/S_Modal';
+import { S_Description, S_Label, S_SmallDescription, S_Text } from '../UI/S_Text';
 
 const S_CardContainer = styled.div`
   display: flex;
@@ -37,14 +42,14 @@ interface ScheduleCardProps {
 }
 function ScheduleCard(props: ScheduleCardProps) {
   const { id } = useParams();
-  const { isLogin, userInfo, tokens } = getGlobalState();
+  const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
   const [candidateList, setCandidateList] = useState<Candidate[]>(props.candidates);
   const [candidatesUserId, setCandidatesUserId] = useState<number[]>([]);
+  const [isOpenDeleteSchedule, setIsOpenDeleteSchedule] = useState(false);
 
   const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
-  const isLeader = myClub?.clubRole === 'LEADER';
-  const isMember = myClub && myClub.clubRole !== null; // null: 가입신청 후 승인/거절 결정되기 전 pending 상태
+  const isLeader = myClub?.clubRole === 'LEADER' || myClub?.clubRole === 'MANAGER';
 
   const buttonHandler = () => {
     getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${props.scheduleId}`).then(
@@ -82,6 +87,10 @@ function ScheduleCard(props: ScheduleCardProps) {
     });
   };
 
+  const deleteSchedule = () => {
+    deleteFetch(`${process.env.REACT_APP_URL}/schedules/${props.scheduleId}`, tokens);
+  };
+
   useEffect(() => {
     setCandidatesUserId([
       ...candidateList.filter((ele) => ele.attendance === 'ATTEND').map((el) => el.userId)
@@ -97,16 +106,28 @@ function ScheduleCard(props: ScheduleCardProps) {
         </S_Information>
         <S_ButtonContainer>
           {isLeader && (
-            <S_SmallDescription
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/club/${props.clubId}/match/${props.scheduleId}/edit`);
-              }}
-              color='var(--red100)'
-              style={{ textAlign: 'right', marginRight: '10px' }}
-            >
-              수정
-            </S_SmallDescription>
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <S_SmallDescription
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/club/${props.clubId}/match/${props.scheduleId}/edit`);
+                }}
+                color='var(--red100)'
+                style={{ textAlign: 'right', marginRight: '10px' }}
+              >
+                수정
+              </S_SmallDescription>
+              <S_SmallDescription
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpenDeleteSchedule(true);
+                }}
+                color='var(--red100)'
+                style={{ textAlign: 'right', marginRight: '10px' }}
+              >
+                삭제
+              </S_SmallDescription>
+            </div>
           )}
           <S_ButtonWrapper>
             <S_SelectButton
@@ -135,6 +156,45 @@ function ScheduleCard(props: ScheduleCardProps) {
         </S_ButtonContainer>
       </S_CardContainer>
       <hr style={{ margin: '20px 0' }} />
+      {isOpenDeleteSchedule && (
+        <ModalBackdrop>
+          <S_ConfirmModalContainer style={{ height: 'auto' }}>
+            <div style={{ width: '90%' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <S_Label style={{ textAlign: 'left' }}>{props.placeName}</S_Label>
+                <S_Description style={{ textAlign: 'right' }}>&nbsp;[{props.date}]</S_Description>
+              </div>
+              <S_Description style={{ textAlign: 'right' }}>
+                스케쥴을 삭제 하시겠습니까?
+              </S_Description>
+            </div>
+            <S_ButtonBox>
+              <S_Button
+                addStyle={{ width: '48%' }}
+                onClick={() => {
+                  deleteSchedule();
+                  setIsOpenDeleteSchedule(false);
+                }}
+              >
+                확인
+              </S_Button>
+              <S_Button
+                addStyle={{
+                  width: '48%',
+                  backgroundColor: 'var(--gray100)',
+                  color: 'var(--gray400)',
+                  hoverBgColor: 'var(--gray200)'
+                }}
+                onClick={() => {
+                  setIsOpenDeleteSchedule(false);
+                }}
+              >
+                취소
+              </S_Button>
+            </S_ButtonBox>
+          </S_ConfirmModalContainer>
+        </ModalBackdrop>
+      )}
     </>
   );
 }
