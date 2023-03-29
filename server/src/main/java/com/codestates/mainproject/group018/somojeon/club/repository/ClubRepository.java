@@ -38,7 +38,7 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
 //    Page<Schedule> findSchedulesByClubName(@Param("clubName") String clubName, Pageable pageable);
 
     @Query("SELECT c FROM Club c JOIN c.userClubList uc WHERE uc.user.userId = :userId")
-    Page<Club> findClubsByUserId(Pageable pageable, Long userId);
+    Page<Club> findClubsByUserId(Pageable pageable, @Param("userId") Long userId);
 
     @Query("SELECT c FROM Club c Join c.userClubList uc WHERE uc.joinStatus = :joinStatus AND uc.user.userId = :userId")
     Page<Club> findClubsByJoinStatusAndUserId(Pageable pageable, JoinStatus joinStatus, Long userId);

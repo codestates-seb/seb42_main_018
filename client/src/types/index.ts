@@ -51,6 +51,7 @@ export interface SubTabProps {
 
 export interface MemberData {
   // 멤버목록 확인을 위한 데이터 타입
+  
   userId?: number;
   nickName: string;
   clubMemberStatus?: string;
@@ -76,6 +77,7 @@ export interface ClubMemberProps {
 export interface myPageUserClubResponses {
   // 마이페이지에서 가져올 유저데이터의 userClubResponses
   clubId: number;
+  clubMemberStatus?: string;
   clubRole: string;
   playCount: number;
   winCount: number;

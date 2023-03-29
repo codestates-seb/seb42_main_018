@@ -53,7 +53,7 @@ public class ScheduleService {
     public Schedule createSchedule(Schedule schedule, Long clubId) {
         List<Record> records =  schedule.getRecords();
         schedule.getClub().getClubId();
-        goUserClub(records, clubId);
+        goUserClub(records, clubId, false);
         return scheduleRepository.save(schedule);
     }
 
@@ -61,27 +61,27 @@ public class ScheduleService {
         // TODO-ET : 기존 저장 되어있던 DB는 지우고 다시 저장하는 게 필요하다. (DB 누적 데이터로 무거워 질 수 있음)
         deleteSchedule(scheduleId, clubId);
         List<Record> records =  schedule.getRecords();
-        goUserClub(records, clubId);
+        goUserClub(records, clubId, false);
         return scheduleRepository.save(schedule);
     }
 
-    public void goUserClub(List<Record> records, Long clubId){
+    public void goUserClub(List<Record> records, Long clubId, boolean undo){
         // 레코드 하나 하나에 다수의 팀 레코드
-        for (int i = 0; i < records.size(); i++){
-            Record record = records.get(i);
-
-            Integer score1 =  record.getFirstTeamScore();
-            Integer score2 =  record.getSecondTeamScore();
-            List<Team> teams =  record.getTeamRecords().stream().map(teamRecords->teamRecords.getTeam()).collect(Collectors.toList());
+        for (Record record : records) {
+            Integer score1 = record.getFirstTeamScore();
+            Integer score2 = record.getSecondTeamScore();
+            List<Team> teams = record.getTeamRecords().stream().map(teamRecords -> teamRecords.getTeam()).collect(Collectors.toList());
             Team team1 = teams.get(0);
             Team team2 = teams.get(1);
             List<User> team1Users = team1.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
             List<User> team2Users = team2.getUserTeams().stream().map(userTeam -> userTeam.getUser()).collect(Collectors.toList());
-            calcScores(team1Users, team2Users, score1, score2, clubId);
+            if (undo) {
+                calcScores(team1Users, team2Users, score1, score2, clubId, true);
+            } else calcScores(team1Users, team2Users, score1, score2, clubId, false);
         }
     }
 
-    public void calcScores(List<User> team1Users, List<User> team2Users, int score1, int score2, Long clubId){
+    public void calcScores(List<User> team1Users, List<User> team2Users, int score1, int score2, Long clubId, boolean undo){
         List<UserClub> team1UserClubs = team1Users.stream().map(
                 team1User -> userClubService.findUserClubByUserIdAndClubId(team1User.getUserId(), clubId))
                 .collect(Collectors.toList());
@@ -90,22 +90,25 @@ public class ScheduleService {
                         team2User -> userClubService.findUserClubByUserIdAndClubId(team2User.getUserId(), clubId))
                 .collect(Collectors.toList());
 
+        int point = undo? -1 : 1;
+
         if (score1 > score2){
-            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setWinCount(team1UserClub.getWinCount() + 1));
-            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setLoseCount(team2UserClub.getLoseCount() + 1));
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setWinCount(team1UserClub.getWinCount() + point));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setLoseCount(team2UserClub.getLoseCount() + point));
 
         } else if (score1 == score2) {
-            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setDrawCount(team1UserClub.getDrawCount() + 1));
-            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setDrawCount(team2UserClub.getDrawCount() + 1));
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setDrawCount(team1UserClub.getDrawCount() + point));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setDrawCount(team2UserClub.getDrawCount() + point));
 
         } else{
-            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setLoseCount(team1UserClub.getLoseCount() + 1));
-            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setWinCount(team2UserClub.getWinCount() + 1));
+            team1UserClubs.stream().forEach(team1UserClub -> team1UserClub.setLoseCount(team1UserClub.getLoseCount() + point));
+            team2UserClubs.stream().forEach(team2UserClub -> team2UserClub.setWinCount(team2UserClub.getWinCount() + point));
         }
         Stream<UserClub> teamsUserClubs = Stream.concat(team1UserClubs.stream(), team2UserClubs.stream());
         teamsUserClubs.forEach(userClub -> {
-            userClub.setPlayCount(userClub.getPlayCount() + 1);
+            userClub.setPlayCount(userClub.getPlayCount() + point);
             userClub.setWinRate((float) userClub.getWinCount() / userClub.getPlayCount());
+            userClubRepository.save(userClub);
         });
     }
 
@@ -183,8 +186,12 @@ public class ScheduleService {
     public void deleteSchedule(long scheduleId, long clubId) {
         clubService.findVerifiedClub(clubId);
         Schedule findSchedule = findSchedule(scheduleId);
+        if(findSchedule.getRecords() != null) goUserClub(findSchedule.getRecords(), clubId, true);
 
         scheduleRepository.delete(findSchedule);
+    }
+
+    private void deleteRecord(List<Record> records) {
     }
 
     public Schedule findVerifiedSchedule(long scheduleId) {

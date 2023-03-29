@@ -8,7 +8,8 @@ const S_Box = styled.div`
   // 컨텐츠 전체 박스
   margin-top: 20px;
   overflow-x: auto;
-  /* overflow-y: hidden; 실제 데이터 들어왔을때 어떻게 보이는지  */
+  overflow-y: hidden;
+  margin-bottom: 20px;
 `;
 
 function MemberRecord({ members }: ClubMemberProps) {
@@ -29,6 +30,7 @@ function MemberRecord({ members }: ClubMemberProps) {
             key={el.nickName}
             profileImage={el.profileImage}
             nickName={el.nickName}
+            clubRole={el.clubRole}
             winRate={el.winRate}
             playCount={el.playCount}
             winCount={el.winCount}

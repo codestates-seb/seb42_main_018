@@ -27,11 +27,8 @@ function EditPassword() {
     { id: 3, title: '회원 탈퇴', path: `/mypage/edit/account` }
   ];
 
-  // API 7번 유저 암호 정보 수정 URL : /users/{user-id}/password
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { userInfo, tokens } = getGlobalState();
-  // const returnUrl = searchParams.get('returnUrl'); // 바로 디코딩해줌. query string이 없으면 null
 
   // 서버로 전해줄 데이터
   const [inputs, setInputs] = useState({
@@ -71,7 +68,7 @@ function EditPassword() {
       inputs,
       tokens
     );
-    // 리스폰 헤더에 request: False -> 비밀번호 일치하지 않음
+
     if (res) {
       if (res?.headers.request === 'False') {
         alert('비밀번호가 일치하지 않습니다.');
