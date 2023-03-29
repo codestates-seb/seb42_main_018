@@ -38,7 +38,7 @@ function ClubMemberItem({ nickName, profileImage, winRate, clubRole }: MemberDat
             <img className='leaderBadge' src={leaderBadgeIcon} alt='소모임장 아이콘' />
           )}
         </S_Label>
-        <S_Description>승률 {winRate}%</S_Description>
+        <S_Description>승률 {winRate * 100}%</S_Description>
       </S_Contents>
     </S_Box>
   );
