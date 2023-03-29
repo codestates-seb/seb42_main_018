@@ -31,8 +31,6 @@ public class ClubDto {
         @Pattern(regexp = "^[가-힣]*$",
                 message = "카테고리 이름은 한글로만 사용가능 합니다.")
         private String categoryName;
-
-//        @Pattern(regexp = "^[a-zA-Z0-9가-힣]$", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagList;
         private ClubPrivateStatus clubPrivateStatus;
 
@@ -60,8 +58,6 @@ public class ClubDto {
         @Pattern(regexp = "^[가-힣 가-힣]*$",
                 message = "시/도 와 시/군/구 사이는 띄어쓰기 한개가 꼭 필요합니다.")
         private String local;
-
-//        @Pattern(regexp = "\\w+", message = "Tag 이름은 특수문자가 아니여야 합니다.")
         private List<String> tagList;
         private ClubPrivateStatus clubPrivateStatus;
 
