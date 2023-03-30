@@ -1,6 +1,22 @@
-import axios from 'axios';
-import store, { setUserInfo } from '../store/store';
-import { JwtTokensType } from '../store/store';
+import axios, { AxiosResponse } from 'axios';
+import store, { setUserInfo, setTokens, JwtTokensType } from '../store/store';
+
+const verifyTokens = async (res: AxiosResponse) => {
+  // * refreshToken 만료 (maxAge: 420 min)
+  if (res.headers['refresh-token-expired'] === 'True') {
+    window.location.replace(`${process.env.REACT_APP_CLIENT_URL}/login`);
+  }
+
+  // * accessToken 만료 (maxAge: 30 min)
+  if (res.headers['access-token-expired'] === 'True') {
+    const tokens = {
+      accessToken: res.headers.authorization,
+      refreshToken: res.headers.refresh
+    };
+    store.dispatch(setTokens(tokens));
+    sessionStorage.setItem('tokens', JSON.stringify(tokens));
+  }
+};
 
 export const getFetch = async (url: string, tokens?: JwtTokensType) => {
   try {
@@ -12,6 +28,8 @@ export const getFetch = async (url: string, tokens?: JwtTokensType) => {
         Refresh: tokens && tokens.refreshToken
       }
     });
+
+    if (res) verifyTokens(res);
 
     if (res.status === 200) return res.data;
   } catch (err) {
@@ -34,6 +52,8 @@ export const postFetch = async <T>(
         Refresh: tokens && tokens.refreshToken
       }
     });
+
+    if (res) verifyTokens(res);
 
     if (changeUserInfo && res) {
       const { userInfo, tokens } = store.getState();
@@ -65,6 +85,8 @@ export const patchFetch = async <T>(
       }
     });
 
+    if (res) verifyTokens(res);
+
     if (changeUserInfo && res) {
       const { userInfo, tokens } = store.getState();
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
@@ -88,9 +110,10 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
       }
     });
 
+    if (res) verifyTokens(res);
     if (res.status === 204) return res;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -103,6 +126,8 @@ export const putFetch = async <T>(url: string, putData: T, tokens?: JwtTokensTyp
         Refresh: tokens?.refreshToken
       }
     });
+
+    if (res) verifyTokens(res);
     if (res.status === 200) return res;
   } catch (err) {
     console.error(err);
