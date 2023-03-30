@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import store, { setUserInfo, setTokens, JwtTokensType } from '../store/store';
 
 const verifyTokens = async (res: AxiosResponse) => {
@@ -63,8 +63,16 @@ export const postFetch = async <T>(
     }
 
     if (res.status === 200 || res.status === 201) return res;
-  } catch (err) {
+  } catch (err: unknown) {
     console.error(err);
+
+    if (err instanceof AxiosError && err.response) {
+      const errorStatus = err.response.data.status;
+      const errorMsg = err.response.data.message;
+      if (errorStatus === 401 && errorMsg === 'Unauthorized') {
+        alert('비밀번호가 맞지 않습니다.');
+      }
+    }
   }
 };
 
