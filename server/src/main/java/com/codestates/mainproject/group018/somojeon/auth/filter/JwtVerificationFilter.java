@@ -11,10 +11,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -27,13 +29,19 @@ import java.util.Map;
 
 
 @Slf4j
-@RequiredArgsConstructor
-public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
+@Component
+public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private  final AuthService authService;
+    @Value("${host.address}")
+    String HOST;
 
-
+    public JwtVerificationFilter(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils, AuthService authService) {
+        this.jwtTokenizer = jwtTokenizer;
+        this.authorityUtils = authorityUtils;
+        this.authService = authService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -48,7 +56,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             log.warn("Expired ACCESS JWT Exception");
             response.addHeader("Access-Token-Expired","True");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
-                response.sendRedirect("https://somojeon.site/login");
+                response.sendRedirect("https://"+HOST+"/login");
             }
             if(authService.refresh(request, response)){
                 log.info("Verified JWT Refresh token");

@@ -4,6 +4,14 @@ spring:
     url: jdbc:mysql://${RDS_ENDPOINT}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: ${RDS_ID}
     password: ${RDS_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
   servlet:
     multipart:
       max-file-size: 10MB # 이미지 파일 하나당 크기
@@ -25,18 +33,6 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
-    database: mysql
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
 jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
@@ -46,10 +42,12 @@ mail:
     admin: ${ADMIN_MAIL}
 oauth:
   kakao:
-    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
+    redirect-address: http://localhost:8080/login/oauth2/code/kakao
 defaultProfile:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_profile.svg
 defaultClub:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_Img.svg
+host:
+  address: dev-somojeon.vercel.app

@@ -189,7 +189,7 @@
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [buildDependents]" />
-        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
       </list>
     </recent_temporary>
   </component>
