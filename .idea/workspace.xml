@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="✨ feat dev에서 main으로 브랜치 수정">
-      <change beforePath="$PROJECT_DIR$/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
+    <list default="true" id="1efd2813-bf35-4134-9cfd-30cd971b40d0" name="Changes" comment="🚑 !HOTFIX CORS 에러 해결">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/filter/JwtVerificationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/codestates/mainproject/group018/somojeon/auth/handler/OAuth2UserSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application-dummy.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application-dummy.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feat" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -189,7 +192,7 @@
         <item itemvalue="Gradle.server [clean]" />
         <item itemvalue="Gradle.server [build]" />
         <item itemvalue="Gradle.server [buildDependents]" />
-        <item itemvalue="Gradle.server [build]" />
+        <item itemvalue="애플리케이션.SomojeonApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -376,7 +379,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680088408524</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="🚑 !HOTFIX CORS 에러 해결">
+      <created>1680095193186</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1680095193186</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,7 +422,8 @@
     <MESSAGE value=" fix 승률이 저장되지 않던 문제 수정" />
     <MESSAGE value=" !HOTFIX 승률이 저장되지 않던 문제 수정" />
     <MESSAGE value="✨ feat dev에서 main으로 브랜치 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="✨ feat dev에서 main으로 브랜치 수정" />
+    <MESSAGE value=" !HOTFIX CORS 에러 해결" />
+    <option name="LAST_COMMIT_MESSAGE" value=" !HOTFIX CORS 에러 해결" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -43,7 +43,7 @@ mail:
     admin: ${ADMIN_MAIL}
 oauth:
   kakao:
-    redirect-address: https://somojeon.site/login/oauth2/code/kakao
+    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
 defaultProfile:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_profile.svg
