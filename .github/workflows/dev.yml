@@ -58,7 +58,7 @@ jobs:
 
       # build한 후 프로젝트를 압축합니다.
       - name: Make zip file
-        run: zip -r ./somojeon-dev.zip server/ deploy/
+        run: zip -r ./somojeon-dev.zip server/ deploy/dev/appspec.yml
         shell: bash
 
       # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
