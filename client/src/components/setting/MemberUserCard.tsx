@@ -15,6 +15,12 @@ const S_SettingCardContainer = styled.div`
 `;
 const S_ImageWrapper = styled.div`
   margin: 10px;
+  .profileImg {
+    object-fit: cover;
+    width: 65px;
+    height: 65px;
+    border-radius: 10px;
+  }
 `;
 const S_ContentWrapper = styled.div`
   padding-top: 10px;
