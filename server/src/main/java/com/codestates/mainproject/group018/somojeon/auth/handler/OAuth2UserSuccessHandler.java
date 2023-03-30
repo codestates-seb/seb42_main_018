@@ -9,6 +9,7 @@ import com.codestates.mainproject.group018.somojeon.oauth.service.OauthUserServi
 import com.codestates.mainproject.group018.somojeon.user.entity.User;
 import com.codestates.mainproject.group018.somojeon.user.repository.UserRepository;
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
@@ -38,8 +38,17 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final Identifier identifier;
     private final JwtTokenProvider jwtTokenProvider;
 
+    @Getter
     @Value("${host.address}")
-    private final String HOST;
+    String HOST;
+
+    public OAuth2UserSuccessHandler(JwtTokenizer jwtTokenizer, OauthUserService oauthUserService,
+                                    Identifier identifier, JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenizer = jwtTokenizer;
+        this.oauthUserService = oauthUserService;
+        this.identifier = identifier;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

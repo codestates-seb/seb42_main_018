@@ -37,6 +37,9 @@ public class SecurityConfiguration {
 
     @Autowired
     private OAuth2UserSuccessHandler oAuth2UserSuccessHandler;
+
+    @Autowired
+    private JwtVerificationFilter jwtVerificationFilter;
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils; // 추가
     private final UserService userService;
@@ -68,25 +71,6 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.PATCH, "/users/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.GET, "/users/**").permitAll()
-//                        .antMatchers(HttpMethod.DELETE, "/users/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.POST, "/users/questions").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.POST, "/users").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/users").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/users?*").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/questions").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/questions/tags").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/questions/**").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.POST, "/questions").hasAnyRole("USER", "ADMIN")
-//                        .antMatchers(HttpMethod.PATCH, "/questions/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/questions/*/vote").hasRole("USER")
-//                        .antMatchers(HttpMethod.DELETE, "/questions/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.POST, "/*/questions/*/answers").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/answers/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.DELETE, "/answers/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.PATCH, "/answers/*/answers").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/tags").permitAll()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login()
@@ -129,7 +113,6 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler(userService, userMapper, clubMapper));
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils, authService);
 
 
             builder
