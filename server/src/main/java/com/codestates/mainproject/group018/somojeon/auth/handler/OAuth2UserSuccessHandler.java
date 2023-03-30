@@ -11,6 +11,7 @@ import com.codestates.mainproject.group018.somojeon.user.repository.UserReposito
 import com.codestates.mainproject.group018.somojeon.utils.Identifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -36,6 +37,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private final OauthUserService oauthUserService;
     private final Identifier identifier;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${host.address}")
+    private final String HOST;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -127,7 +131,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-                .host("dev-somojeon.vercel.app")
+                .host(HOST)
                 .path(path)
                 .queryParams(queryParams)
                 .build()

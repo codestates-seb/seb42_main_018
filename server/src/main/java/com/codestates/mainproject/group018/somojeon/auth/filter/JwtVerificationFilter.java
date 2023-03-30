@@ -11,6 +11,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +33,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private  final AuthService authService;
+    @Value("${host.address}")
+    private final String HOST;
 
 
 
@@ -48,7 +51,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {  // (1)
             log.warn("Expired ACCESS JWT Exception");
             response.addHeader("Access-Token-Expired","True");
             if (request.getMethod().equals("POST") && request.getRequestURI().equals("/users")) {
-                response.sendRedirect("https://dev.somojeon.site/login");
+                response.sendRedirect("https://"+HOST+"/login");
             }
             if(authService.refresh(request, response)){
                 log.info("Verified JWT Refresh token");
