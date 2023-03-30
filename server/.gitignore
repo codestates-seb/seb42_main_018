@@ -22,7 +22,6 @@ bin/
 *.iws
 *.iml
 *.ipr
-*.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
@@ -36,6 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
-
-*.yml
 application.yml

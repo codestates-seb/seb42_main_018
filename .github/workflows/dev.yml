@@ -79,8 +79,9 @@ jobs:
         run: >
           aws deploy create-deployment --application-name deploy-application-somojeon
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name deploy-application-somojeon-group
+          --deployment-group-name deploy-application-somojeon-group-dev
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=somojeon-dev.zip
+          --appspec-file appspec-dev.yml
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
