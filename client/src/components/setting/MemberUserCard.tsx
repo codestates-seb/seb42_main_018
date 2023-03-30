@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { S_Button } from '../UI/S_Button';
 import { S_Description, S_Label, S_SmallDescription, S_Text } from '../UI/S_Text';
-import dummy from '../../assets/default_profile.svg';
 import { MemberUser } from '../../pages/club/setting/_totalMember';
 import { S_Select } from '../UI/S_Select';
 import getGlobalState from '../../util/authorization/getGlobalState';
@@ -78,7 +77,7 @@ function MemberUserCard(props: MemberUserCardProps) {
     <>
       <S_SettingCardContainer>
         <S_ImageWrapper>
-          <img alt='profile' src={dummy} />
+          <img className='profileImg' alt='profile' src={props.member.profileImage} />
         </S_ImageWrapper>
         <S_ContentWrapper>
           <S_Text color='var(--black)' style={{ fontWeight: 'bold' }}>
