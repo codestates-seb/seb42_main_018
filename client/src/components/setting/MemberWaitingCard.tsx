@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { WaitingUser } from '../../pages/club/setting/_waitingMember';
-import dummy from '../../assets/default_profile.svg';
 import { S_Description, S_Text } from '../UI/S_Text';
 import { S_SelectButton } from '../UI/S_Button';
 import { patchFetch } from '../../util/api';
@@ -66,7 +65,7 @@ function MemberWaitingCard(props: MemberWaitingCardProps) {
     <S_WaitingCardContainer>
       <S_CardWrapper>
         <S_ImageWrapper>
-          <img alt='profile' src={dummy} />
+          <img className='profileImg' alt='profile' src={props.member.userInfo.profileImage} />
         </S_ImageWrapper>
         <S_ContentWrapper>
           <S_Text color='var(--black)' style={{ fontWeight: 'bold' }}>
