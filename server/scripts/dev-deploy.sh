@@ -29,10 +29,5 @@ DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/log/dev/deploy.log
 source ~/.bash_profile
 
-
-echo $RDS_ENDPOINT >> /home/ubuntu/log/dev/env.log
-echo $RDS_ID >> /home/ubuntu/log/dev/env.log
-echo $ADMIN_MAIL >> /home/ubuntu/log/dev/env.log
-echo $RDS_ID >> /home/ubuntu/log/dev/env.log
 sleep 5
-nohup java -jar $DEPLOY_JAR --spring.profiles.active=dummy --server.port=8081 >> /home/ubuntu/log/dev/server.log  2>/home/ubuntu/log/dev/server_err.log &
+nohup java -jar $DEPLOY_JAR --spring.profiles.active=dummy --server.port=8081 >> /home/ubuntu/deploy_dev.log  2>/home/ubuntu/dev/deploy_err.log &
