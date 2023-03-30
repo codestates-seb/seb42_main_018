@@ -42,6 +42,6 @@ out/
 
 #*.yml
 #*.application.yml
-appspec.yml
+
 *.gradle
 workspace.xml

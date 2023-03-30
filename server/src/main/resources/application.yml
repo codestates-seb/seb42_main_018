@@ -50,3 +50,5 @@ defaultProfile:
 defaultClub:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_Img.svg
+host:
+  address: somojeon.vercel.app
