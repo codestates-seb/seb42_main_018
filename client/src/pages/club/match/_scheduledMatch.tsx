@@ -11,6 +11,11 @@ interface ScheduledMatchProps {
 }
 
 function ScheduledMatch(props: ScheduledMatchProps) {
+  const schedules = props.schedule;
+  schedules.sort((a, b) => {
+    if (new Date(`${a.date} ${a.time}`) > new Date(`${b.date} ${b.time}`)) return 1;
+    else return -1;
+  });
   return (
     <S_MatchSchedule>
       <S_Text style={{ marginBottom: '20px' }}>

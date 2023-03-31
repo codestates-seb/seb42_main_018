@@ -48,6 +48,8 @@ function ScheduleCard(props: ScheduleCardProps) {
   const [candidatesUserId, setCandidatesUserId] = useState<number[]>([]);
   const [isOpenDeleteSchedule, setIsOpenDeleteSchedule] = useState(false);
 
+  const isPassed = new Date(`${props.date} ${props.time}`) < new Date();
+
   const myClub = userInfo.userClubResponses?.find((club) => club.clubId === Number(id));
   const isLeader = myClub?.clubRole === 'LEADER' || myClub?.clubRole === 'MANAGER';
 
@@ -132,30 +134,32 @@ function ScheduleCard(props: ScheduleCardProps) {
               </S_SmallDescription>
             </div>
           )}
-          <S_ButtonWrapper>
-            <S_SelectButton
-              name='attendance'
-              className={candidatesUserId.includes(userInfo.userId as number) ? 'attendance' : ''}
-              onClick={(e) => {
-                e.stopPropagation();
-                attendSchedule();
-              }}
-              style={{ margin: '2px' }}
-            >
-              참석
-            </S_SelectButton>
-            <S_SelectButton
-              name='absence'
-              className={!candidatesUserId.includes(userInfo.userId as number) ? 'absence' : ''}
-              onClick={(e) => {
-                e.stopPropagation();
-                absentSchedule();
-              }}
-              style={{ margin: '2px' }}
-            >
-              불참
-            </S_SelectButton>
-          </S_ButtonWrapper>
+          {!isPassed && (
+            <S_ButtonWrapper>
+              <S_SelectButton
+                name='attendance'
+                className={candidatesUserId.includes(userInfo.userId as number) ? 'attendance' : ''}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  attendSchedule();
+                }}
+                style={{ margin: '2px' }}
+              >
+                참석
+              </S_SelectButton>
+              <S_SelectButton
+                name='absence'
+                className={!candidatesUserId.includes(userInfo.userId as number) ? 'absence' : ''}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  absentSchedule();
+                }}
+                style={{ margin: '2px' }}
+              >
+                불참
+              </S_SelectButton>
+            </S_ButtonWrapper>
+          )}
         </S_ButtonContainer>
       </S_CardContainer>
       <hr style={{ margin: '20px 0' }} />
