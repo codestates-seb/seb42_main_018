@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${RDS_ENDPOINT_DUMMY}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
+    url: jdbc:mysql://${RDS_ENDPOINT}/somojeon?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: ${RDS_ID}
     password: ${RDS_PASSWORD}
   jpa:
@@ -43,10 +43,12 @@ mail:
     admin: ${ADMIN_MAIL}
 oauth:
   kakao:
-    redirect-address: https://somojeon.site/login/oauth2/code/kakao
+    redirect-address: https://dev.somojeon.site/login/oauth2/code/kakao
 defaultProfile:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_profile.svg
 defaultClub:
   image:
     address: https://somojeon-images.s3.ap-northeast-2.amazonaws.com/somojeon/default_Img.svg
+host:
+  address: dev-somojeon.vercel.app
