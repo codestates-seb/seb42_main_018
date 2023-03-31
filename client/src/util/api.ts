@@ -109,7 +109,11 @@ export const patchFetch = async <T>(
   }
 };
 
-export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
+export const deleteFetch = async (
+  url: string,
+  tokens?: JwtTokensType,
+  changeUserInfo?: boolean
+) => {
   try {
     const res = await axios.delete(url, {
       headers: {
@@ -120,6 +124,14 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
     });
 
     if (res) verifyTokens(res);
+
+    if (changeUserInfo && res) {
+      const { userInfo, tokens } = store.getState();
+      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
+        store.dispatch(setUserInfo(resp.data))
+      );
+    }
+
     if (res.status === 204) return res;
   } catch (err) {
     console.error(err);
