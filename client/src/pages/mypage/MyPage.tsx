@@ -18,18 +18,21 @@ function MyPage() {
   const { handleLogout } = useLogoutRequestLogic();
   const [userClubs, setUserClubs] = useState<myPageUserClubResponses[]>([]);
 
-  if (isLogin) {
-    useEffect(() => {
-      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((data) => {
-        const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
-        setUserClubs(userClubs);
-
-        const updatedUserInfo: UserInfoType = data.data;
-        dispatch(setUserInfo(updatedUserInfo));
-        sessionStorage.setItem(SESSION_STORAGE_USERINFO_KEY, JSON.stringify(updatedUserInfo));
-      });
-    }, []);
-  }
+  useEffect(() => {
+    if (isLogin) {
+      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens)
+        .then((data) => {
+          const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
+          setUserClubs(userClubs);
+          return data;
+        })
+        .then((data) => {
+          const updatedUserInfo: UserInfoType = data.data;
+          sessionStorage.setItem(SESSION_STORAGE_USERINFO_KEY, JSON.stringify(updatedUserInfo));
+          // dispatch(setUserInfo(updatedUserInfo));
+        });
+    }
+  }, []);
 
   return (
     <LoginChecker>

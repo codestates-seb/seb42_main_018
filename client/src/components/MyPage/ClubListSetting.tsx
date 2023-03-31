@@ -69,19 +69,26 @@ interface ClubListSettingProps {
 }
 
 function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isleaveClubModal, setIsleaveClubModal] = useState(false);
+  const [isCancelJoinClubModal, setIsCancelJoinClubModal] = useState(false);
   const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
+
   // 받아온 userClubResponses.clubId로 get 요청 보내기
   // 요청보낼 URI는 API 문서 28번 '소모임 단건 조회'
   const [club, setClub] = useState<ClubData>();
+  // const [isChangedUserInfo, setIsChangedUserInfo] = useState(false);
 
   useEffect(() => {
     // 받아온 유저클럽아이디로 클럽 정보 받아오기
     getFetch(`${process.env.REACT_APP_URL}/clubs/${clubId}`).then((data) => {
       setClub(data.data);
     });
-  }, []);
+  }, [userInfo]);
+
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, [isChangedUserInfo]);
 
   const leaveClub = async () => {
     await patchFetch(
@@ -89,10 +96,11 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
       {
         clubMemberStatus: 'MEMBER QUIT'
       },
-      tokens
+      tokens,
+      true
     ).then(() => {
       alert('클럽을 탈퇴했습니다');
-      navigate('/home');
+      // setIsChangedUserInfo(true);
     });
   };
 
@@ -101,11 +109,12 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
     if (tokens) {
       const res = await deleteFetch(
         `${process.env.REACT_APP_URL}/clubs/${club?.clubId}/joins/${userInfo.userId}`,
-        tokens
+        tokens,
+        true
       );
       if (res) {
         alert('가입 신청이 취소되었습니다');
-        navigate('/home');
+        // setIsChangedUserInfo(true);
       }
     }
   };
@@ -143,26 +152,28 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
           ) : clubRole === 'MANAGER' || clubRole === 'MEMBER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
             // TODO : 탈퇴 로직 구현 API 34번
-            <S_NegativeButton onClick={() => setIsOpenModal(true)}>소모임 탈퇴</S_NegativeButton>
+            <S_NegativeButton onClick={() => setIsleaveClubModal(true)}>
+              소모임 탈퇴
+            </S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
             // TODO : 가입 취소 로직 구현 API 37번
-            <S_SelectButton width='auto' onClick={() => setIsOpenModal(true)}>
+            <S_SelectButton width='auto' onClick={() => setIsCancelJoinClubModal(true)}>
               가입 취소
             </S_SelectButton>
           )}
         </div>
       </S_ContentsBox>
-      {isOpenModal && (
+      {isleaveClubModal && (
         <ModalBackdrop>
           <S_ConfirmModalContainer>
-            <S_Label>정말로 클럽을 탈퇴 하시겠습니까?</S_Label>
+            <S_Label>소모임 탈퇴 후 재가입할 수 없습니다. 정말 탈퇴하시겠습니까?</S_Label>
             <S_ButtonBox>
               <S_Button
                 addStyle={{ width: '48%' }}
                 onClick={() => {
                   leaveClub();
-                  setIsOpenModal(false);
+                  setIsleaveClubModal(false);
                 }}
               >
                 확인
@@ -175,7 +186,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
                   hoverBgColor: 'var(--gray200)'
                 }}
                 onClick={() => {
-                  setIsOpenModal(false);
+                  setIsleaveClubModal(false);
                 }}
               >
                 취소
@@ -184,7 +195,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
           </S_ConfirmModalContainer>
         </ModalBackdrop>
       )}
-      {isOpenModal && (
+      {isCancelJoinClubModal && (
         <ModalBackdrop>
           <S_ConfirmModalContainer>
             <S_Label>가입 신청을 취소하시겠습니까?</S_Label>
@@ -193,7 +204,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
                 addStyle={{ width: '48%' }}
                 onClick={() => {
                   cancelJoinClub();
-                  setIsOpenModal(false);
+                  setIsCancelJoinClubModal(false);
                 }}
               >
                 확인
@@ -206,7 +217,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
                   hoverBgColor: 'var(--gray200)'
                 }}
                 onClick={() => {
-                  setIsOpenModal(false);
+                  setIsCancelJoinClubModal(false);
                 }}
               >
                 취소
