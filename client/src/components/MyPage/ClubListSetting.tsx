@@ -100,7 +100,8 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
       true
     ).then(() => {
       alert('클럽을 탈퇴했습니다');
-      // setIsChangedUserInfo(true);
+      window.location.reload();
+      // navigate('/home');
     });
   };
 
@@ -112,10 +113,12 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         tokens,
         true
       );
-      if (res) {
-        alert('가입 신청이 취소되었습니다');
-        // setIsChangedUserInfo(true);
-      }
+      if (res) alert('가입 신청이 취소되었습니다');
+      window.location.reload();
+
+      // navigate('/');
+      // 추후 모달 처리
+      // 바로 데이터 반영되는지? 목록 없어지는지?
     }
   };
 
