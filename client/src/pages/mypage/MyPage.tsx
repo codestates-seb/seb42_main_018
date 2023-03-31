@@ -9,8 +9,11 @@ import { useLogoutRequestLogic } from '../../util/authorization/useLogoutRequest
 import { useEffect, useState } from 'react';
 import { getFetch } from '../../util/api';
 import { myPageUserClubResponses } from '../../types';
+import { setUserInfo, useAppDispatch, UserInfoType } from '../../store/store';
+import { SESSION_STORAGE_USERINFO_KEY } from '../../util/commonConstants';
 
 function MyPage() {
+  const dispatch = useAppDispatch();
   const { isLogin, userInfo, tokens } = getGlobalState();
   const { handleLogout } = useLogoutRequestLogic();
   const [userClubs, setUserClubs] = useState<myPageUserClubResponses[]>([]);
@@ -20,6 +23,10 @@ function MyPage() {
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((data) => {
         const userClubs: myPageUserClubResponses[] = data.data.userClubResponses;
         setUserClubs(userClubs);
+
+        const updatedUserInfo: UserInfoType = data.data;
+        dispatch(setUserInfo(updatedUserInfo));
+        sessionStorage.setItem(SESSION_STORAGE_USERINFO_KEY, JSON.stringify(updatedUserInfo));
       });
     }, []);
   }

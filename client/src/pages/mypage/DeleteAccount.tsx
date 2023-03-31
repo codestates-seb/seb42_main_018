@@ -47,7 +47,7 @@ function DeleteAccount() {
         }
       }
     } else {
-      alert('리더인 소모임이 존재하면 회원 탈퇴가 불가합니다.');
+      alert('탈퇴 조건이 충족되지 않았습니다. 주의사항을 다시 한 번 읽어주세요.');
       return;
     }
   };
@@ -61,9 +61,13 @@ function DeleteAccount() {
           <div className='box'></div>
           <S_Label>주의사항 (필독)</S_Label>
           <S_Description>
-            회원 탈퇴 시에는 가입했던 소모임 활동 내역 및 정보가 완전히 삭제되어 재가입을 해도
+            1. 회원 탈퇴 시에는 가입했던 소모임 활동 내역 및 정보가 완전히 삭제되어 재가입을 해도
             확인이 불가능합니다. 또한 여러 건의 신고 누적으로 탈퇴할 경우 동일한 정보로 다시 가입할
             수 없습니다.
+          </S_Description>
+          <S_Description>
+            2. 본인이 소모임장인 모임이 있다면 소모임 설정 메뉴에서 다른 회원에게 위임하거나 소모임
+            해체 후 탈퇴할 수 있습니다.
           </S_Description>
           <div className='box'></div>
           <S_ButtonBlack onClick={() => setIsOpenDelete(true)}>회원탈퇴</S_ButtonBlack>
