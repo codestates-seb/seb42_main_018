@@ -9,7 +9,7 @@ const S_Box = styled.div`
   margin-bottom: 5vh;
   text-align: center;
   img {
-    width: 60%;
+    width: 50%;
     margin-top: 3vh;
   }
 `;
