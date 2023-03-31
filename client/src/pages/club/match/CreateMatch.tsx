@@ -105,7 +105,7 @@ function CreateMatch() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState<string>(new Date().toString());
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
