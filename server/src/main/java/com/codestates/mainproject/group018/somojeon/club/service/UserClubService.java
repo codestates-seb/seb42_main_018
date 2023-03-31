@@ -164,7 +164,7 @@ public class UserClubService {
 
         clubService.findVerifiedClub(clubId);
         return  userClubRepository.findByClubMemberStatus(
-                PageRequest.of(page, size, Sort.by("winRate")), ClubMemberStatus.MEMBER_ACTIVE, clubId);
+                PageRequest.of(page, size, Sort.by("winRate").descending()), ClubMemberStatus.MEMBER_ACTIVE, clubId);
 
     }
 
