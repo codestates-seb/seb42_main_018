@@ -9,6 +9,7 @@ import { S_Description, S_Label, S_Title } from '../../components/UI/S_Text';
 import { deleteFetch } from '../../util/api';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import { S_ButtonBox, S_ConfirmModalContainer } from '../club/match/CreateMatch';
+import { useLogoutRequestLogic } from '../../util/authorization/useLogoutRequestLogic';
 
 const S_DeleteBox = styled.div`
   margin: 50px 0px;
@@ -21,6 +22,7 @@ function DeleteAccount() {
   const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const { handleLogout } = useLogoutRequestLogic();
 
   const tabs = [
     { id: 1, title: '프로필', path: `/mypage/edit` },
@@ -42,8 +44,8 @@ function DeleteAccount() {
           tokens
         );
         if (res) {
-          alert('탈퇴했습니다.'); // 추후 모달 처리
-          navigate('/');
+          alert('탈퇴했습니다.');
+          handleLogout(); // 추후 모달 처리
         }
       }
     } else {
