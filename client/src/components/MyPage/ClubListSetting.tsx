@@ -5,9 +5,11 @@ import { S_Description, S_Label, S_SmallDescription } from '../UI/S_Text';
 import { ClubData } from '../../types';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import leaderBadgeIcon from '../../assets/icon_leader-badge.svg';
-import { S_NegativeButton, S_SelectButton } from '../UI/S_Button';
+import { S_Button, S_NegativeButton, S_SelectButton } from '../UI/S_Button';
 import { useEffect, useState } from 'react';
 import { getFetch, deleteFetch, patchFetch } from '../../util/api';
+import { ModalBackdrop } from '../UI/S_Modal';
+import { S_ConfirmModalContainer } from '../../pages/club/match/CreateMatch';
 
 const S_ClubBox = styled.div`
   // 전체 컨테이너
@@ -55,6 +57,11 @@ const S_Hidden = styled.div`
   overflow: hidden;
   margin-bottom: 5px;
 `;
+const S_ButtonBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
 
 interface ClubListSettingProps {
   clubId?: number;
@@ -62,6 +69,7 @@ interface ClubListSettingProps {
 }
 
 function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const { userInfo, tokens } = getGlobalState();
   const navigate = useNavigate();
   // 받아온 userClubResponses.clubId로 get 요청 보내기
@@ -76,7 +84,7 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
   }, []);
 
   const leaveClub = async () => {
-    patchFetch(
+    await patchFetch(
       `${process.env.REACT_APP_URL}/clubs/${clubId}/memberStatus/${userInfo.userId}`,
       {
         clubMemberStatus: 'MEMBER QUIT'
@@ -95,10 +103,10 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
         `${process.env.REACT_APP_URL}/clubs/${club?.clubId}/joins/${userInfo.userId}`,
         tokens
       );
-      if (res) alert('가입 신청이 취소되었습니다');
-      navigate('/');
-      // 추후 모달 처리
-      // 바로 데이터 반영되는지? 목록 없어지는지?
+      if (res) {
+        alert('가입 신청이 취소되었습니다');
+        navigate('/home');
+      }
     }
   };
 
@@ -135,16 +143,78 @@ function ClubListSetting({ clubId, clubRole }: ClubListSettingProps) {
           ) : clubRole === 'MANAGER' || clubRole === 'MEMBER' ? (
             // 롤이 멤버 또는 매니저인 경우 탈퇴 요청 하기
             // TODO : 탈퇴 로직 구현 API 34번
-            <S_NegativeButton onClick={leaveClub}>소모임 탈퇴</S_NegativeButton>
+            <S_NegativeButton onClick={() => setIsOpenModal(true)}>소모임 탈퇴</S_NegativeButton>
           ) : (
             // 롤이 null 일때는 가입 취소 버튼
             // TODO : 가입 취소 로직 구현 API 37번
-            <S_SelectButton width='auto' onClick={cancelJoinClub}>
+            <S_SelectButton width='auto' onClick={() => setIsOpenModal(true)}>
               가입 취소
             </S_SelectButton>
           )}
         </div>
       </S_ContentsBox>
+      {isOpenModal && (
+        <ModalBackdrop>
+          <S_ConfirmModalContainer>
+            <S_Label>정말로 클럽을 탈퇴 하시겠습니까?</S_Label>
+            <S_ButtonBox>
+              <S_Button
+                addStyle={{ width: '48%' }}
+                onClick={() => {
+                  leaveClub();
+                  setIsOpenModal(false);
+                }}
+              >
+                확인
+              </S_Button>
+              <S_Button
+                addStyle={{
+                  width: '48%',
+                  backgroundColor: 'var(--gray100)',
+                  color: 'var(--gray400)',
+                  hoverBgColor: 'var(--gray200)'
+                }}
+                onClick={() => {
+                  setIsOpenModal(false);
+                }}
+              >
+                취소
+              </S_Button>
+            </S_ButtonBox>
+          </S_ConfirmModalContainer>
+        </ModalBackdrop>
+      )}
+      {isOpenModal && (
+        <ModalBackdrop>
+          <S_ConfirmModalContainer>
+            <S_Label>가입 신청을 취소하시겠습니까?</S_Label>
+            <S_ButtonBox>
+              <S_Button
+                addStyle={{ width: '48%' }}
+                onClick={() => {
+                  cancelJoinClub();
+                  setIsOpenModal(false);
+                }}
+              >
+                확인
+              </S_Button>
+              <S_Button
+                addStyle={{
+                  width: '48%',
+                  backgroundColor: 'var(--gray100)',
+                  color: 'var(--gray400)',
+                  hoverBgColor: 'var(--gray200)'
+                }}
+                onClick={() => {
+                  setIsOpenModal(false);
+                }}
+              >
+                취소
+              </S_Button>
+            </S_ButtonBox>
+          </S_ConfirmModalContainer>
+        </ModalBackdrop>
+      )}
     </S_ClubBox>
   );
 }
