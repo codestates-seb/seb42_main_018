@@ -1,6 +1,23 @@
-import axios from 'axios';
-import store, { setUserInfo } from '../store/store';
-import { JwtTokensType } from '../store/store';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+import store, { setUserInfo, setTokens, JwtTokensType } from '../store/store';
+import { SESSION_STORAGE_JWT_TOKENS_KEY } from './commonConstants';
+
+const verifyTokens = async (res: AxiosResponse) => {
+  // * refreshToken 만료 (maxAge: 420 min)
+  if (res.headers['refresh-token-expired'] === 'True') {
+    window.location.replace(`${process.env.REACT_APP_CLIENT_URL}/login`);
+  }
+
+  // * accessToken 만료 (maxAge: 30 min)
+  if (res.headers['access-token-expired'] === 'True') {
+    const tokens = {
+      accessToken: res.headers.authorization,
+      refreshToken: res.headers.refresh
+    };
+    store.dispatch(setTokens(tokens));
+    sessionStorage.setItem(SESSION_STORAGE_JWT_TOKENS_KEY, JSON.stringify(tokens));
+  }
+};
 
 export const getFetch = async (url: string, tokens?: JwtTokensType) => {
   try {
@@ -12,6 +29,8 @@ export const getFetch = async (url: string, tokens?: JwtTokensType) => {
         Refresh: tokens && tokens.refreshToken
       }
     });
+
+    if (res) verifyTokens(res);
 
     if (res.status === 200) return res.data;
   } catch (err) {
@@ -35,6 +54,8 @@ export const postFetch = async <T>(
       }
     });
 
+    if (res) verifyTokens(res);
+
     if (changeUserInfo && res) {
       const { userInfo, tokens } = store.getState();
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
@@ -43,8 +64,16 @@ export const postFetch = async <T>(
     }
 
     if (res.status === 200 || res.status === 201) return res;
-  } catch (err) {
+  } catch (err: unknown) {
     console.error(err);
+
+    if (err instanceof AxiosError && err.response) {
+      const errorStatus = err.response.data.status;
+      const errorMsg = err.response.data.message;
+      if (errorStatus === 401 && errorMsg === 'Unauthorized') {
+        alert('비밀번호가 맞지 않습니다.');
+      }
+    }
   }
 };
 
@@ -65,6 +94,8 @@ export const patchFetch = async <T>(
       }
     });
 
+    if (res) verifyTokens(res);
+
     if (changeUserInfo && res) {
       const { userInfo, tokens } = store.getState();
       getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
@@ -78,7 +109,11 @@ export const patchFetch = async <T>(
   }
 };
 
-export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
+export const deleteFetch = async (
+  url: string,
+  tokens?: JwtTokensType,
+  changeUserInfo?: boolean
+) => {
   try {
     const res = await axios.delete(url, {
       headers: {
@@ -88,9 +123,18 @@ export const deleteFetch = async (url: string, tokens?: JwtTokensType) => {
       }
     });
 
+    if (res) verifyTokens(res);
+
+    if (changeUserInfo && res) {
+      const { userInfo, tokens } = store.getState();
+      getFetch(`${process.env.REACT_APP_URL}/users/${userInfo.userId}`, tokens).then((resp) =>
+        store.dispatch(setUserInfo(resp.data))
+      );
+    }
+
     if (res.status === 204) return res;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -103,6 +147,8 @@ export const putFetch = async <T>(url: string, putData: T, tokens?: JwtTokensTyp
         Refresh: tokens?.refreshToken
       }
     });
+
+    if (res) verifyTokens(res);
     if (res.status === 200) return res;
   } catch (err) {
     console.error(err);

@@ -1,6 +1,11 @@
 import { useAppDispatch } from '../../store/store';
 import { postFetch } from '../api';
 import { setIsLogin, setTokens, setUserInfo } from '../../store/store';
+import {
+  SESSION_STORAGE_ISLOGIN_KEY,
+  SESSION_STORAGE_USERINFO_KEY,
+  SESSION_STORAGE_JWT_TOKENS_KEY
+} from '../commonConstants';
 
 export interface RegisterUserInputType {
   email: string;
@@ -27,9 +32,9 @@ export function useLoginRequestLogic() {
       };
       dispatch(setTokens(tokens));
 
-      sessionStorage.setItem('isLogin', JSON.stringify(true));
-      sessionStorage.setItem('userInfo', JSON.stringify(res.data.data));
-      sessionStorage.setItem('tokens', JSON.stringify(tokens));
+      sessionStorage.setItem(SESSION_STORAGE_ISLOGIN_KEY, JSON.stringify(true));
+      sessionStorage.setItem(SESSION_STORAGE_USERINFO_KEY, JSON.stringify(res.data.data));
+      sessionStorage.setItem(SESSION_STORAGE_JWT_TOKENS_KEY, JSON.stringify(tokens));
     }
 
     return res;
