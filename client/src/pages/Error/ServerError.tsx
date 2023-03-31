@@ -27,11 +27,7 @@ function ServerError() {
           alt='번개 아이콘'
         />
         <S_Label>오류가 발생했어요!</S_Label>
-        <S_Description>
-          정보를 받아올 수 없어요.
-          <br />
-          잠시 뒤 다시 시도해주세요.
-        </S_Description>
+        <S_Description>잠시 뒤 다시 시도해주세요.</S_Description>
       </S_Box>
       <S_Button onClick={buttonhandle}>홈으로 돌아가기</S_Button>
     </S_Container>
