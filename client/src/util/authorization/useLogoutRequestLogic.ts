@@ -7,6 +7,11 @@ import {
   userInitialState,
   tokensInitialState
 } from '../../store/store';
+import {
+  SESSION_STORAGE_ISLOGIN_KEY,
+  SESSION_STORAGE_USERINFO_KEY,
+  SESSION_STORAGE_JWT_TOKENS_KEY
+} from '../commonConstants';
 
 // TODO : dispatch await로 처리 끝난 뒤 navigate 함수 실행
 export function useLogoutRequestLogic() {
@@ -18,9 +23,9 @@ export function useLogoutRequestLogic() {
     await dispatch(setUserInfo(userInitialState));
     await dispatch(setTokens(tokensInitialState));
 
-    sessionStorage.removeItem('isLogin');
-    sessionStorage.removeItem('userInfo');
-    sessionStorage.removeItem('tokens');
+    sessionStorage.removeItem(SESSION_STORAGE_ISLOGIN_KEY);
+    sessionStorage.removeItem(SESSION_STORAGE_USERINFO_KEY);
+    sessionStorage.removeItem(SESSION_STORAGE_JWT_TOKENS_KEY);
     navigate('/');
   };
 

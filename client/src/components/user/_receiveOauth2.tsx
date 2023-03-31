@@ -3,7 +3,12 @@ import { useAppDispatch } from '../../store/store';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { setIsLogin, setUserInfo, setTokens } from '../../store/store';
 import { getFetch } from '../../util/api';
-import { RETURN_URL_PARAM } from '../../util/commonConstants';
+import {
+  RETURN_URL_PARAM,
+  SESSION_STORAGE_ISLOGIN_KEY,
+  SESSION_STORAGE_USERINFO_KEY,
+  SESSION_STORAGE_JWT_TOKENS_KEY
+} from '../../util/commonConstants';
 
 interface ReturnUrlProps {
   returnUrl?: string;
@@ -30,7 +35,7 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
       })
     );
     sessionStorage.setItem(
-      'tokens',
+      SESSION_STORAGE_JWT_TOKENS_KEY,
       JSON.stringify({
         accessToken,
         refreshToken
@@ -50,8 +55,8 @@ function ReceiveOauth2({ returnUrl }: ReturnUrlProps) {
             dispatch(setIsLogin(true));
             dispatch(setUserInfo(res.data));
 
-            sessionStorage.setItem('isLogin', JSON.stringify(true));
-            sessionStorage.setItem('userInfo', JSON.stringify(res.data));
+            sessionStorage.setItem(SESSION_STORAGE_ISLOGIN_KEY, JSON.stringify(true));
+            sessionStorage.setItem(SESSION_STORAGE_USERINFO_KEY, JSON.stringify(res.data));
 
             const goToReturnUrl = sessionStorage.getItem(RETURN_URL_PARAM);
             goToReturnUrl ? navigate(goToReturnUrl) : navigate('/home');
