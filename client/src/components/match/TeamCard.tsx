@@ -1,4 +1,4 @@
-import { TeamList } from '../../pages/club/match/CreateMatch';
+import { Record, TeamList } from '../../pages/club/match/CreateMatch';
 import { S_EditButton, S_NegativeButton } from '../UI/S_Button';
 import { S_NameTag } from '../UI/S_Tag';
 import { S_Text } from '../UI/S_Text';
@@ -10,6 +10,7 @@ interface TeamCardProps {
   deleteNameTagFromTeam: (idx: number, memberIdx: number) => void;
   openMemberListPopup: (idx: number, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   deleteTeam: (idx: number) => void;
+  records: Record[];
 }
 
 function TeamCard(props: TeamCardProps) {
@@ -48,6 +49,9 @@ function TeamCard(props: TeamCardProps) {
         </S_EditButton>
         <S_NegativeButton
           onClick={() => {
+            if (props?.records.length !== 0) {
+              alert('현재 팀 구성으로 된 기록이 존재합니다.');
+            }
             props.deleteTeam(props.idx);
           }}
         >

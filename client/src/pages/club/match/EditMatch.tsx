@@ -337,6 +337,7 @@ function EditMatch() {
                   deleteNameTagFromTeam={deleteNameTagFromTeam}
                   openMemberListPopup={openMemberListPopup}
                   deleteTeam={deleteTeam}
+                  records={records}
                 />
               </div>
             );
