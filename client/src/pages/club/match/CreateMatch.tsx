@@ -338,6 +338,7 @@ function CreateMatch() {
                   openMemberListPopup={openMemberListPopup}
                   deleteTeam={deleteTeam}
                   records={records}
+                  setRecords={setRecords}
                 />
               </div>
             );
