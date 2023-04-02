@@ -8,7 +8,7 @@ import { RETURN_URL_PARAM } from '../../../util/commonConstants';
 import S_Container from '../../../components/UI/S_Container';
 import Tabmenu from '../../../components/TabMenu';
 import ClubJoinModal from '../../../components/club/intro/_clubJoinModal';
-import { S_Button, S_SelectButton } from '../../../components/UI/S_Button';
+import { S_Button, S_ButtonGray, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
 import { S_TagWrapper } from '../../../components/club/member/club/_createTag';
@@ -199,23 +199,29 @@ function ClubIntro() {
           <div className='club-content-box'>
             <p style={{ whiteSpace: 'pre-line' }}>{content}</p>
           </div>
-          {!isMember && (
+          {myClub?.clubMemberStatus === 'MEMBER QUIT' ? (
             <div className='join-btn-box'>
-              <S_Button addStyle={{ width: '48%' }} onClick={handleJoinRequest}>
-                가입신청
-              </S_Button>
-              <S_Button
-                addStyle={{
-                  width: '48%',
-                  backgroundColor: 'var(--gray100)',
-                  color: 'var(--gray400)',
-                  hoverBgColor: 'var(--gray200)'
-                }}
-                onClick={alertPreparingService}
-              >
-                문의하기
-              </S_Button>
+              <S_ButtonGray style={{ cursor: 'not-allowed' }}>탈퇴한 소모임입니다.</S_ButtonGray>
             </div>
+          ) : (
+            !isMember && (
+              <div className='join-btn-box'>
+                <S_Button addStyle={{ width: '48%' }} onClick={handleJoinRequest}>
+                  가입신청
+                </S_Button>
+                <S_Button
+                  addStyle={{
+                    width: '48%',
+                    backgroundColor: 'var(--gray100)',
+                    color: 'var(--gray400)',
+                    hoverBgColor: 'var(--gray200)'
+                  }}
+                  onClick={alertPreparingService}
+                >
+                  문의하기
+                </S_Button>
+              </div>
+            )
           )}
         </ClubIntroWrapper>
 
