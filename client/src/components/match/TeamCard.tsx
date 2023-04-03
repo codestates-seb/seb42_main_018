@@ -73,7 +73,7 @@ function TeamCard(props: TeamCardProps) {
           <S_ConfirmModalContainer>
             <S_Description color='var(--black)'>현재 팀 구성의 전적이 존재합니다.</S_Description>
             <S_Description color='var(--black)'>
-              팀 구성이 변경될 경우 전적이 초기화됩니다.
+              기존 팀이 삭제될 경우 전적이 초기화됩니다.
             </S_Description>
             <S_ButtonBox>
               <S_Button
