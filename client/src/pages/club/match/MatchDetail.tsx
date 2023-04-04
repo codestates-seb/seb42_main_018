@@ -126,7 +126,7 @@ function MatchDetail() {
                   }}
                 >
                   {matchData.teamList[idx].members.map((member, memberIdx) => (
-                    <S_NameTag key={memberIdx}>{member}&times;</S_NameTag>
+                    <S_NameTag key={memberIdx}>{member}</S_NameTag>
                   ))}
                 </div>
                 <div style={{ height: '100%' }}></div>
