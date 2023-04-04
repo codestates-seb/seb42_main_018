@@ -11,7 +11,7 @@ import ClubJoinModal from '../../../components/club/intro/_clubJoinModal';
 import { S_Button, S_ButtonGray, S_SelectButton } from '../../../components/UI/S_Button';
 import { S_Title, S_Description } from '../../../components/UI/S_Text';
 import { S_Tag } from '../../../components/UI/S_Tag';
-import { S_TagWrapper } from '../../../components/club/member/club/_createTag';
+import { S_TagWrapper } from '../../../components/club/club/_createTag';
 import { ClubData } from '../../../types';
 import leaderBadgeIcon from '../../../assets/icon_leader-badge.svg';
 import defaultClubImg from '../../../assets/default_Img.svg';
