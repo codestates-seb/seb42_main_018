@@ -284,7 +284,12 @@ function CreateMatch() {
   }, [isOpenAddCandidate]);
 
   return (
-    <S_Container onClick={() => setIsOpenAddMember(false)}>
+    <S_Container
+      onClick={() => {
+        setIsOpenAddMember(false);
+        setIsOpenAddCandidate(false);
+      }}
+    >
       <S_Title>경기 등록</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
@@ -329,6 +334,7 @@ function CreateMatch() {
           <S_EditButton
             style={{ padding: '0 7px', float: 'right' }}
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              e.stopPropagation();
               setIsOpenAddCandidate(true);
               setAddButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
             }}

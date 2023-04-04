@@ -40,17 +40,6 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
               onClick={() => {
                 //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
                 const copiedTeamList = [...props.teamList];
-
-                if (!copiedTeamList[props.idx].members.includes(member.nickName)) {
-                  copiedTeamList[props.idx].members.push(member.nickName);
-                  copiedTeamList[props.idx].membersIds.push(member.userId);
-                }
-                props.setTeamList([...copiedTeamList]);
-
-                //클릭한 멤버를 후보 멤버리스트에서 빼주는 기능
-                // const copiedCandidateList = [...props.candidateList];
-                // copiedCandidateList.splice(idx, 1);
-                // props.setCandidateList(copiedCandidateList);
               }}
             >
               {member.nickName}+
