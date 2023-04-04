@@ -17,11 +17,13 @@ import AddMemberPopUp from '../../../components/match/AddMemberPopUp';
 import { useForm } from 'react-hook-form';
 import RecordCard from '../../../components/match/RecordCard';
 import TeamCard from '../../../components/match/TeamCard';
-import { postFetch } from '../../../util/api';
+import { getFetch, postFetch } from '../../../util/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ModalBackdrop, ModalContainer } from '../../../components/UI/S_Modal';
 import getGlobalState from '../../../util/authorization/getGlobalState';
 import { ResUsersType } from './EditMatch';
+import { MemberUser } from '../setting/_totalMember';
+import AddCandidatePopUp from '../../../components/match/AddCandidatePopUp';
 
 export const S_MapView = styled.div`
   display: flex;
@@ -118,11 +120,13 @@ function CreateMatch() {
     { id: 0, teamNumber: 1, members: [], membersIds: [] }
   ]);
   const [records, setRecords] = useState<Record[]>([]);
+  const [totalMembers, setTotalMembers] = useState<MemberUser[]>([]);
 
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  const [isOpenAddCandidate, setIsOpenAddCandidate] = useState(false);
 
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
@@ -271,6 +275,14 @@ function CreateMatch() {
     saveMatchData();
   }, [records]);
 
+  useEffect(() => {
+    if (isOpenAddCandidate) {
+      getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
+        setTotalMembers(data.data);
+      });
+    }
+  }, [isOpenAddCandidate]);
+
   return (
     <S_Container onClick={() => setIsOpenAddMember(false)}>
       <S_Title>경기 등록</S_Title>
@@ -314,15 +326,35 @@ function CreateMatch() {
         </S_Description>
         <S_Description>
           참석을 선택한 멤버는 자동으로 등록됩니다.
-          {/* <S_EditButton style={{ padding: '0 7px', float: 'right' }}>추가</S_EditButton> */}
+          <S_EditButton
+            style={{ padding: '0 7px', float: 'right' }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              setIsOpenAddCandidate(true);
+              setAddButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
+            }}
+          >
+            추가
+          </S_EditButton>
         </S_Description>
-
         <div>
           {candidates &&
             candidates.map((member, idx) => {
               return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
+        {isOpenAddCandidate && (
+          <AddCandidatePopUp
+            top={addButtonPos.y}
+            left={addButtonPos.x}
+            candidateList={candidateList}
+            setCandidateList={setCandidateList}
+            idx={addButtonIndex}
+            setTeamList={setTeamList}
+            teamList={teamList}
+            setIsOpenAddMember={setIsOpenAddMember}
+            totalMembers={totalMembers}
+          />
+        )}
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
