@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import SearchBar from './SearchBar';
 import getGlobalState from '../util/authorization/getGlobalState';
 import logo from '../assets/logo.svg';
 import search from '../assets/icon_search.svg';
@@ -45,11 +43,6 @@ function Header() {
   const navigate = useNavigate();
   const linkTo = isLogin ? '/home' : '/';
 
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const toggleSearchBar = () => {
-    setShowSearchBar(true);
-  };
-
   return (
     <>
       <HeaderContainer>
@@ -57,7 +50,7 @@ function Header() {
           <img src={logo} alt='소모전 로고' />
         </Link>
         <IconContainer>
-          <button onClick={toggleSearchBar}>
+          <button onClick={() => navigate('/search')}>
             <img src={search} alt='검색 아이콘' />
           </button>
           <button onClick={() => navigate('/mypage')}>
@@ -65,7 +58,6 @@ function Header() {
           </button>
         </IconContainer>
       </HeaderContainer>
-      <SearchBar showSearchBar={showSearchBar} setShowSearchBar={setShowSearchBar} />
     </>
   );
 }
