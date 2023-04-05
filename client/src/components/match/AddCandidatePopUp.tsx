@@ -18,26 +18,28 @@ interface AddCandidatePopUpProps {
 
 const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
   position: absolute;
-  width: 300px;
+  width: 200px;
   height: auto;
   border-radius: 5px;
   z-index: 9;
   background-color: var(--white);
   top: ${(props) => (props.top ? props.top + 20 : 0)}px;
-  left: ${(props) => (props.left ? props.left - 300 : 0)}px;
+  left: ${(props) => (props.left ? props.left - 210 : 0)}px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 `;
 
 function AddCandidatePopUp(props: AddCandidatePopUpProps) {
+  const copiedTotalMember = [...(props.totalMembers as MemberUser[])];
   return (
     <S_PopupContainer top={props.top} left={props.left}>
-      {props.totalMembers &&
-        props.totalMembers.map((member, idx) => {
+      {copiedTotalMember &&
+        copiedTotalMember.map((member, idx) => {
           return (
             <S_NameTag
               key={idx}
               onClick={() => {
+                console.log(member);
                 //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
                 const copiedTeamList = [...props.teamList];
               }}
