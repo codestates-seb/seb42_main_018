@@ -107,7 +107,18 @@ function CreateMatch() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [date, setDate] = useState<string>(new Date().toString());
+  const getFormatDate = (inputDate: Date): string => {
+    const year = inputDate.getFullYear();
+    const month =
+      inputDate.getMonth() + 1 < 10
+        ? `0${inputDate.getMonth() + 1}`
+        : `${inputDate.getMonth() + 1}`;
+    const date = inputDate.getDate() < 10 ? `0${inputDate.getDate()}` : `${inputDate.getDate()}`;
+
+    return `${year}-${month}-${date}`;
+  };
+
+  const [date, setDate] = useState<string>(getFormatDate(new Date()));
   const [time, setTime] = useState<string | undefined>();
   const [placeValue, setPlaceValue] = useState<PlaceType>();
   //참가를 누른 멤버들
@@ -150,6 +161,10 @@ function CreateMatch() {
 
   const openAddMemberHandler = () => {
     setIsOpenAddMember(!isOpenAddMember);
+  };
+
+  const openAddCandidateHandler = () => {
+    setIsOpenAddCandidate(!isOpenAddCandidate);
   };
 
   const checkValidation = () => {
@@ -335,7 +350,7 @@ function CreateMatch() {
             style={{ padding: '0 7px', float: 'right' }}
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               e.stopPropagation();
-              setIsOpenAddCandidate(true);
+              openAddCandidateHandler();
               setAddButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
             }}
           >
