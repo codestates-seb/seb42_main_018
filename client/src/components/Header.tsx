@@ -44,21 +44,19 @@ function Header() {
   const linkTo = isLogin ? '/home' : '/';
 
   return (
-    <>
-      <HeaderContainer>
-        <Link to={linkTo}>
-          <img src={logo} alt='소모전 로고' />
-        </Link>
-        <IconContainer>
-          <button onClick={() => navigate('/search')}>
-            <img src={search} alt='검색 아이콘' />
-          </button>
-          <button onClick={() => navigate('/mypage')}>
-            <img src={mypage} alt='마이페이지 아이콘' />
-          </button>
-        </IconContainer>
-      </HeaderContainer>
-    </>
+    <HeaderContainer>
+      <Link to={linkTo}>
+        <img src={logo} alt='소모전 로고' />
+      </Link>
+      <IconContainer>
+        <button onClick={() => navigate('/search')}>
+          <img src={search} alt='검색 아이콘' />
+        </button>
+        <button onClick={() => navigate('/mypage')}>
+          <img src={mypage} alt='마이페이지 아이콘' />
+        </button>
+      </IconContainer>
+    </HeaderContainer>
   );
 }
 
