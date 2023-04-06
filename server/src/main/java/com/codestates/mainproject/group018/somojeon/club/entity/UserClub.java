@@ -1,5 +1,6 @@
 package com.codestates.mainproject.group018.somojeon.club.entity;
 
+import com.codestates.mainproject.group018.somojeon.chat.entity.ChatRoom;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubMemberStatus;
 import com.codestates.mainproject.group018.somojeon.club.enums.ClubRole;
 import com.codestates.mainproject.group018.somojeon.club.enums.JoinStatus;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -59,5 +62,8 @@ public class UserClub {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEVEL_ID")
     private Level level;
+
+    @OneToMany(mappedBy = "userClub")
+    private List<ChatRoom> chatRoomList = new ArrayList<>();
 
 }
