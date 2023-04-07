@@ -137,7 +137,6 @@ function CreateMatch() {
   const [isOpenMapView, setIsOpenMapView] = useState(false);
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
-  const [isOpenAddCandidate, setIsOpenAddCandidate] = useState(false);
 
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
@@ -161,10 +160,6 @@ function CreateMatch() {
 
   const openAddMemberHandler = () => {
     setIsOpenAddMember(!isOpenAddMember);
-  };
-
-  const openAddCandidateHandler = () => {
-    setIsOpenAddCandidate(!isOpenAddCandidate);
   };
 
   const checkValidation = () => {
@@ -290,19 +285,11 @@ function CreateMatch() {
     saveMatchData();
   }, [records]);
 
-  useEffect(() => {
-    if (isOpenAddCandidate) {
-      getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
-        setTotalMembers(data.data);
-      });
-    }
-  }, [isOpenAddCandidate]);
-
   return (
     <S_Container
       onClick={() => {
         setIsOpenAddMember(false);
-        setIsOpenAddCandidate(false);
+        // setIsOpenAddCandidate(false);
       }}
     >
       <S_Title>경기 등록</S_Title>
@@ -346,7 +333,7 @@ function CreateMatch() {
         </S_Description>
         <S_Description>
           참석을 선택한 멤버는 자동으로 등록됩니다.
-          <S_EditButton
+          {/* <S_EditButton
             style={{ padding: '0 7px', float: 'right' }}
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               e.stopPropagation();
@@ -355,7 +342,7 @@ function CreateMatch() {
             }}
           >
             추가
-          </S_EditButton>
+          </S_EditButton> */}
         </S_Description>
         <div>
           {candidates &&
@@ -363,19 +350,7 @@ function CreateMatch() {
               return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
             })}
         </div>
-        {isOpenAddCandidate && (
-          <AddCandidatePopUp
-            top={addButtonPos.y}
-            left={addButtonPos.x}
-            candidateList={candidateList}
-            setCandidateList={setCandidateList}
-            idx={addButtonIndex}
-            setTeamList={setTeamList}
-            teamList={teamList}
-            setIsOpenAddMember={setIsOpenAddMember}
-            totalMembers={totalMembers}
-          />
-        )}
+        
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
