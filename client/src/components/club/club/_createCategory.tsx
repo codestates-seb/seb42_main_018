@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { getFetch } from '../../../../util/api';
+import { getFetch } from '../../../util/api';
 import DropDown from './_dropDown';
-import { S_Input } from '../../../UI/S_Input';
-import { S_Label, S_Description } from '../../../UI/S_Text';
+import { S_Input } from '../../UI/S_Input';
+import { S_Label, S_Description } from '../../UI/S_Text';
 
 export interface HandleDropDownClick {
   (option: string): void;

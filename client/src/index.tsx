@@ -20,6 +20,7 @@ import EditProfile from './pages/mypage/EditProfile';
 import Login from './pages/user/Login';
 import MyPage from './pages/mypage/MyPage';
 import Register from './pages/user/Register';
+import Search from './pages/home/Search';
 
 import Admin from './pages/admin/Admin';
 import EditPassword from './pages/mypage/EditPassword';
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/home',
         element: <Home />
+      },
+      {
+        path: '/search',
+        element: <Search />
       },
       {
         path: '/register',
