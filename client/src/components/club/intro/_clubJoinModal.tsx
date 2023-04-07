@@ -70,8 +70,8 @@ function ClubJoinModal({ showModal, handleModal, setIsApplied }: RegisterModalPr
             <S_Label>가입 신청글을 작성해주세요</S_Label>
             <S_TextArea
               className='modal-textarea-area'
-              maxLength={200}
-              placeholder='글자수 제한 200자'
+              maxLength={140}
+              placeholder='글자수 제한 140자'
               value={content}
               onChange={onChange}
             ></S_TextArea>

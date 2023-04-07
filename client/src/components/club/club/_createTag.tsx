@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { S_Description } from '../../../UI/S_Text';
-import { S_Label_mg_top } from '../../../../pages/club/club/EditClub';
-import { S_Input } from '../../../UI/S_Input';
-import { S_Tag } from '../../../UI/S_Tag';
+import { S_Description } from '../../UI/S_Text';
+import { S_Label_mg_top } from '../../../pages/club/club/EditClub';
+import { S_Input } from '../../UI/S_Input';
+import { S_Tag } from '../../UI/S_Tag';
 
 export const S_TagWrapper = styled.ul`
   display: flex;
