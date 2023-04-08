@@ -9,13 +9,8 @@ import { useParams } from 'react-router-dom';
 interface AddCandidatePopUpProps {
   top: number;
   left: number;
-  idx: number;
   totalMembers?: MemberUser[];
   candidates?: Candidate[];
-  candidateList: string[];
-  teamList: TeamList[];
-  setTeamList: React.Dispatch<React.SetStateAction<TeamList[]>>;
-  setCandidateList: React.Dispatch<React.SetStateAction<string[]>>;
   setIsOpenAddMember: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -59,8 +54,6 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
               onClick={() => {
                 attendSchedule(member.userId);
                 console.log(member);
-                //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
-                const copiedTeamList = [...props.teamList];
               }}
             >
               {member.nickName}+

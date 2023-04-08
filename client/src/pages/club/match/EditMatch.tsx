@@ -353,11 +353,7 @@ function EditMatch() {
           <AddCandidatePopUp
             top={addButtonPos.y}
             left={addButtonPos.x}
-            candidateList={candidateList}
-            setCandidateList={setCandidateList}
-            idx={addButtonIndex}
-            setTeamList={setTeamList}
-            teamList={teamList}
+            candidates={matchData?.candidates}
             setIsOpenAddMember={setIsOpenAddMember}
             totalMembers={totalMembers}
           />
