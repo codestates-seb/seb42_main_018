@@ -77,6 +77,7 @@ function EditMatch() {
 
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
+  const [addCandidateButtonPos, setAddCandidateButtonPos] = useState({ x: 0, y: 0 });
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
@@ -289,7 +290,12 @@ function EditMatch() {
   }, [isOpenAddCandidate]);
 
   return (
-    <S_Container onClick={() => setIsOpenAddMember(false)}>
+    <S_Container
+      onClick={() => {
+        setIsOpenAddMember(false);
+        setIsOpenAddCandidate(false);
+      }}
+    >
       <S_Title>경기 수정</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
@@ -336,7 +342,7 @@ function EditMatch() {
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               e.stopPropagation();
               openAddCandidateHandler();
-              setAddButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
+              setAddCandidateButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
             }}
           >
             추가
@@ -351,8 +357,8 @@ function EditMatch() {
         </div>
         {isOpenAddCandidate && (
           <AddCandidatePopUp
-            top={addButtonPos.y}
-            left={addButtonPos.x}
+            top={addCandidateButtonPos.y}
+            left={addCandidateButtonPos.x}
             candidates={matchData?.candidates}
             setIsOpenAddMember={setIsOpenAddMember}
             totalMembers={totalMembers}

@@ -32,6 +32,10 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
   const { tokens } = getGlobalState();
   const { id, scid } = useParams();
 
+  const filtered = copiedTotalMember.filter(
+    (el) => !props.candidates?.map((el) => el.userId)?.includes(el.userId)
+  );
+
   const attendSchedule = (userId: number) => {
     postFetch(
       `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}/users/${userId}/attend`,
@@ -46,14 +50,13 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
 
   return (
     <S_PopupContainer top={props.top} left={props.left}>
-      {copiedTotalMember &&
-        copiedTotalMember.map((member, idx) => {
+      {filtered &&
+        filtered.map((member, idx) => {
           return (
             <S_NameTag
               key={idx}
               onClick={() => {
                 attendSchedule(member.userId);
-                console.log(member);
               }}
             >
               {member.nickName}+
