@@ -243,6 +243,18 @@ function EditMatch() {
     );
   };
 
+  const deleteCandidateFromTeam = (userId: number) => {
+    const copiedTeamList = [...teamList];
+    copiedTeamList.forEach((team) => {
+      if (team.membersIds.includes(userId)) {
+        const idx = team.membersIds.indexOf(userId);
+        team.membersIds.splice(idx, 1);
+        team.members.splice(idx, 1);
+      }
+    });
+    setTeamList([...copiedTeamList]);
+  };
+
   useEffect(() => {
     if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
       alert('권한이 없습니다.');
@@ -372,9 +384,17 @@ function EditMatch() {
         <div>
           {matchData?.candidates &&
             matchData?.candidates.map((member, idx) => {
-              return <S_NameTag key={idx} onClick={() => {
-                absentSchedule(member.userId);
-              }}>{member.nickName}&times;</S_NameTag>;
+              return (
+                <S_NameTag
+                  key={idx}
+                  onClick={() => {
+                    deleteCandidateFromTeam(member.userId);
+                    absentSchedule(member.userId);
+                  }}
+                >
+                  {member.nickName}&times;
+                </S_NameTag>
+              );
             })}
         </div>
         {isOpenAddCandidate && (
