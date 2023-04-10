@@ -29,6 +29,8 @@ import {
   TeamList
 } from './CreateMatch';
 import getGlobalState from '../../../util/authorization/getGlobalState';
+import { MemberUser } from '../setting/_totalMember';
+import AddCandidatePopUp from '../../../components/match/AddCandidatePopUp';
 
 export interface ResUsersType {
   userId: number | undefined;
@@ -64,14 +66,18 @@ function EditMatch() {
   ]);
   const [records, setRecords] = useState<Record[]>([]);
 
+  const [totalMembers, setTotalMembers] = useState<MemberUser[]>([]);
+
   const [isPending, setIsPending] = useState(true);
   const [isOpenMapSetting, setIsOpenMapSetting] = useState(false);
   const [isOpenMapView, setIsOpenMapView] = useState(false);
   const [isOpenAddMember, setIsOpenAddMember] = useState(false);
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  const [isOpenAddCandidate, setIsOpenAddCandidate] = useState(false);
 
   const [addButtonIndex, setAddButtonIndex] = useState(0);
   const [addButtonPos, setAddButtonPos] = useState({ x: 0, y: 0 });
+  const [addCandidateButtonPos, setAddCandidateButtonPos] = useState({ x: 0, y: 0 });
 
   const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value);
@@ -79,6 +85,10 @@ function EditMatch() {
 
   const timeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(e.target.value);
+  };
+
+  const openAddCandidateHandler = () => {
+    setIsOpenAddCandidate(!isOpenAddCandidate);
   };
 
   const mapSettingModalHandler = () => {
@@ -213,13 +223,45 @@ function EditMatch() {
     setIsOpenAddMember(false);
   }
 
+  const absentSchedule = async (userId: number) => {
+    await postFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}/users/${userId}/absent`,
+      {
+        userId,
+        scheduleId: scid,
+        clubId: id
+      },
+      tokens
+    );
+    await getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${scid}`, tokens).then(
+      (res) => {
+        setMatchData({
+          ...(matchData as MatchData),
+          candidates: res.data
+        });
+      }
+    );
+  };
+
+  const deleteCandidateFromTeam = (userId: number) => {
+    const copiedTeamList = [...teamList];
+    copiedTeamList.forEach((team) => {
+      if (team.membersIds.includes(userId)) {
+        const idx = team.membersIds.indexOf(userId);
+        team.membersIds.splice(idx, 1);
+        team.members.splice(idx, 1);
+      }
+    });
+    setTeamList([...copiedTeamList]);
+  };
+
   useEffect(() => {
     if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
       alert('권한이 없습니다.');
       navigate(`/club/${id}`);
     }
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
-      const resData = data.data;
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((res) => {
+      const resData = res.data;
       const teamList = resData.teamList.map((el: TeamList) => {
         return {
           id: el.teamId,
@@ -271,8 +313,21 @@ function EditMatch() {
     saveMatchData();
   }, [records]);
 
+  useEffect(() => {
+    if (isOpenAddCandidate) {
+      getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
+        setTotalMembers(data.data);
+      });
+    }
+  }, [isOpenAddCandidate]);
+
   return (
-    <S_Container onClick={() => setIsOpenAddMember(false)}>
+    <S_Container
+      onClick={() => {
+        setIsOpenAddMember(false);
+        setIsOpenAddCandidate(false);
+      }}
+    >
       <S_Title>경기 수정</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>날짜/시간 선택 *</S_Label>
@@ -314,15 +369,45 @@ function EditMatch() {
         </S_Description>
         <S_Description>
           참석을 선택한 멤버는 자동으로 등록됩니다.
-          {/* <S_EditButton style={{ padding: '0 7px', float: 'right' }}>추가</S_EditButton> */}
+          <S_EditButton
+            style={{ padding: '0 7px', float: 'right' }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              e.stopPropagation();
+              openAddCandidateHandler();
+              setAddCandidateButtonPos({ x: e.nativeEvent.pageX, y: e.nativeEvent.pageY });
+            }}
+          >
+            추가
+          </S_EditButton>
         </S_Description>
 
         <div>
           {matchData?.candidates &&
             matchData?.candidates.map((member, idx) => {
-              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
+              return (
+                <S_NameTag
+                  key={idx}
+                  onClick={() => {
+                    deleteCandidateFromTeam(member.userId);
+                    absentSchedule(member.userId);
+                  }}
+                >
+                  {member.nickName}&times;
+                </S_NameTag>
+              );
             })}
         </div>
+        {isOpenAddCandidate && (
+          <AddCandidatePopUp
+            top={addCandidateButtonPos.y}
+            left={addCandidateButtonPos.x}
+            candidates={matchData?.candidates}
+            setIsOpenAddMember={setIsOpenAddMember}
+            totalMembers={totalMembers}
+            setMatchData={setMatchData}
+            matchData={matchData}
+          />
+        )}
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
         <S_Label>팀구성</S_Label>
