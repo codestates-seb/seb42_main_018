@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { S_NameTag } from '../UI/S_Tag';
-import { Candidate, TeamList } from '../../pages/club/match/CreateMatch';
+import { Candidate, MatchData, TeamList } from '../../pages/club/match/CreateMatch';
 import { MemberUser } from '../../pages/club/setting/_totalMember';
-import { postFetch } from '../../util/api';
+import { getFetch, postFetch } from '../../util/api';
 import getGlobalState from '../../util/authorization/getGlobalState';
 import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface AddCandidatePopUpProps {
   top: number;
@@ -12,6 +13,8 @@ interface AddCandidatePopUpProps {
   totalMembers?: MemberUser[];
   candidates?: Candidate[];
   setIsOpenAddMember: React.Dispatch<React.SetStateAction<boolean>>;
+  setMatchData: React.Dispatch<React.SetStateAction<MatchData | undefined>>;
+  matchData?: MatchData;
 }
 
 const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
@@ -36,8 +39,8 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
     (el) => !props.candidates?.map((el) => el.userId)?.includes(el.userId)
   );
 
-  const attendSchedule = (userId: number) => {
-    postFetch(
+  const attendSchedule = async (userId: number) => {
+    await postFetch(
       `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}/users/${userId}/attend`,
       {
         userId,
@@ -46,7 +49,17 @@ function AddCandidatePopUp(props: AddCandidatePopUpProps) {
       },
       tokens
     );
+    await getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${scid}`, tokens).then(
+      (res) => {
+        props.setMatchData({
+          ...(props.matchData as MatchData),
+          candidates: res.data
+        });
+      }
+    );
   };
+
+  if (!filtered.length) return null;
 
   return (
     <S_PopupContainer top={props.top} left={props.left}>

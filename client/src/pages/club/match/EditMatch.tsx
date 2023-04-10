@@ -223,13 +223,33 @@ function EditMatch() {
     setIsOpenAddMember(false);
   }
 
+  const absentSchedule = async (userId: number) => {
+    await postFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}/users/${userId}/absent`,
+      {
+        userId,
+        scheduleId: scid,
+        clubId: id
+      },
+      tokens
+    );
+    await getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${scid}`, tokens).then(
+      (res) => {
+        setMatchData({
+          ...(matchData as MatchData),
+          candidates: res.data
+        });
+      }
+    );
+  };
+
   useEffect(() => {
     if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
       alert('권한이 없습니다.');
       navigate(`/club/${id}`);
     }
-    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
-      const resData = data.data;
+    getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((res) => {
+      const resData = res.data;
       const teamList = resData.teamList.map((el: TeamList) => {
         return {
           id: el.teamId,
@@ -352,7 +372,9 @@ function EditMatch() {
         <div>
           {matchData?.candidates &&
             matchData?.candidates.map((member, idx) => {
-              return <S_NameTag key={idx}>{member.nickName}</S_NameTag>;
+              return <S_NameTag key={idx} onClick={() => {
+                absentSchedule(member.userId);
+              }}>{member.nickName}&times;</S_NameTag>;
             })}
         </div>
         {isOpenAddCandidate && (
@@ -362,6 +384,8 @@ function EditMatch() {
             candidates={matchData?.candidates}
             setIsOpenAddMember={setIsOpenAddMember}
             totalMembers={totalMembers}
+            setMatchData={setMatchData}
+            matchData={matchData}
           />
         )}
       </div>
