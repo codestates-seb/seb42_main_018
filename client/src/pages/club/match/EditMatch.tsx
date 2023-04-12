@@ -262,9 +262,6 @@ function EditMatch() {
       const firstTeam = teamList.filter((el) => el.teamNumber === record.firstTeamNumber);
       const secondTeam = teamList.filter((el) => el.teamNumber === record.secondTeamNumber);
 
-      console.log(firstTeam);
-      console.log(secondTeam);
-
       firstTeam[0].membersIds.forEach((el) => {
         if (secondTeam[0].membersIds.includes(el)) {
           alert('두 팀에 동일한 멤버가 존재합니다.');
