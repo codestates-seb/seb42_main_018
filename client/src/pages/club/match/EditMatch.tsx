@@ -112,6 +112,7 @@ function EditMatch() {
   const deleteNameTagFromTeam = (idx: number, memberIdx: number) => {
     const copied = [...teamList];
     const deletedMember = copied[idx].members.splice(memberIdx, 1);
+    copied[idx].membersIds.splice(memberIdx, 1);
     setCandidateList([...candidateList, deletedMember[0]]);
     setTeamList(copied);
   };
@@ -253,6 +254,22 @@ function EditMatch() {
       }
     });
     setTeamList([...copiedTeamList]);
+  };
+
+  const checkTeamInRecords = (): boolean => {
+    let result = true;
+    records.forEach((record) => {
+      const firstTeam = teamList.filter((el) => el.teamNumber === record.firstTeamNumber);
+      const secondTeam = teamList.filter((el) => el.teamNumber === record.secondTeamNumber);
+
+      firstTeam[0].membersIds.forEach((el) => {
+        if (secondTeam[0].membersIds.includes(el)) {
+          alert('두 팀에 동일한 멤버가 존재합니다.');
+          result = false;
+        }
+      });
+    });
+    return result;
   };
 
   useEffect(() => {
@@ -483,6 +500,9 @@ function EditMatch() {
               return;
             }
             updateRecord();
+            if (!checkTeamInRecords()) {
+              return;
+            }
             setIsOpenConfirm(true);
           }}
         >
