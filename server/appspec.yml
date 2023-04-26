@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /home/ubuntu/action
+    destination: /home/ubuntu/dev
     overwrite: yes
 
 permissions:
@@ -13,6 +13,6 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: scripts/main-deploy.sh
+    - location: scripts/dev-deploy.sh
       timeout: 60
       runas: ubuntu

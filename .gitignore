@@ -23,7 +23,6 @@ bin/
 *.iws
 *.iml
 *.ipr
-*.yml
 *.application.yml
 *.application-aws.yml
 out/
@@ -42,6 +41,6 @@ out/
 
 #*.yml
 #*.application.yml
-
+appspec.yml
 *.gradle
 workspace.xml
