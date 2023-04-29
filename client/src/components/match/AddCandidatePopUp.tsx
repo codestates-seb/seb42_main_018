@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import { S_NameTag } from '../UI/S_Tag';
-import { Candidate, TeamList } from '../../pages/club/match/CreateMatch';
+import { Candidate, MatchData, TeamList } from '../../pages/club/match/CreateMatch';
 import { MemberUser } from '../../pages/club/setting/_totalMember';
+import { getFetch, postFetch } from '../../util/api';
+import getGlobalState from '../../util/authorization/getGlobalState';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface AddCandidatePopUpProps {
   top: number;
   left: number;
-  idx: number;
   totalMembers?: MemberUser[];
   candidates?: Candidate[];
-  candidateList: string[];
-  teamList: TeamList[];
-  setTeamList: React.Dispatch<React.SetStateAction<TeamList[]>>;
-  setCandidateList: React.Dispatch<React.SetStateAction<string[]>>;
   setIsOpenAddMember: React.Dispatch<React.SetStateAction<boolean>>;
+  setMatchData: React.Dispatch<React.SetStateAction<MatchData | undefined>>;
+  matchData?: MatchData;
 }
 
 const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
@@ -31,17 +32,44 @@ const S_PopupContainer = styled.div<{ top?: number; left?: number }>`
 
 function AddCandidatePopUp(props: AddCandidatePopUpProps) {
   const copiedTotalMember = [...(props.totalMembers as MemberUser[])];
+  const { tokens } = getGlobalState();
+  const { id, scid } = useParams();
+
+  const filtered = copiedTotalMember.filter(
+    (el) => !props.candidates?.map((el) => el.userId)?.includes(el.userId)
+  );
+
+  const attendSchedule = async (userId: number) => {
+    await postFetch(
+      `${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}/users/${userId}/attend`,
+      {
+        userId,
+        scheduleId: scid,
+        clubId: id
+      },
+      tokens
+    );
+    await getFetch(`${process.env.REACT_APP_URL}/candidates/schedules/${scid}`, tokens).then(
+      (res) => {
+        props.setMatchData({
+          ...(props.matchData as MatchData),
+          candidates: res.data
+        });
+      }
+    );
+  };
+
+  if (!filtered.length) return null;
+
   return (
     <S_PopupContainer top={props.top} left={props.left}>
-      {copiedTotalMember &&
-        copiedTotalMember.map((member, idx) => {
+      {filtered &&
+        filtered.map((member, idx) => {
           return (
             <S_NameTag
               key={idx}
               onClick={() => {
-                console.log(member);
-                //클릭한 멤버를 각 팀 명단리스트로 추가하는 기능
-                const copiedTeamList = [...props.teamList];
+                attendSchedule(member.userId);
               }}
             >
               {member.nickName}+
