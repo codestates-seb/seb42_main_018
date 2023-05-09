@@ -28,8 +28,9 @@ function IntroContents() {
   const navigate = useNavigate();
 
   const handleHomeButton = () => {
-    if (isLogin) navigate('/home');
-    else navigate('/login');
+    // if (isLogin) navigate('/home');
+    // else navigate('/login');
+    navigate('/home');
   };
 
   return (

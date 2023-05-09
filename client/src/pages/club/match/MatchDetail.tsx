@@ -44,10 +44,10 @@ function MatchDetail() {
   };
 
   useEffect(() => {
-    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
-      alert('권한이 없습니다.');
-      navigate(`/club/${id}`);
-    }
+    // if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+    //   alert('권한이 없습니다.');
+    //   navigate(`/club/${id}`);
+    // }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules/${scid}`).then((data) => {
       const resData = data.data;
       const teamList = resData.teamList.map((el: TeamList) => {
@@ -81,12 +81,12 @@ function MatchDetail() {
     <S_Container>
       <S_Title>경기 상세</S_Title>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-        <S_Label>날짜/시간 선택 *</S_Label>
+        <S_Label>날짜/시간</S_Label>
         <S_Input type='date' value={matchData?.date} readOnly />
         <S_Input type='time' value={matchData?.time} readOnly />
       </div>
       <div style={{ marginTop: '15px', marginBottom: '15px' }}>
-        <S_Label>장소 *</S_Label>
+        <S_Label>장소</S_Label>
         <S_Input type='text' value={matchData?.placeName} readOnly />
         <S_SelectButton onClick={mapViewModalHandler} style={{ width: 'auto' }}>
           지도보기
