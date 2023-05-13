@@ -74,10 +74,10 @@ function ClubSchedule() {
   };
 
   useEffect(() => {
-    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
-      alert('권한이 없습니다.');
-      navigate(`/club/${id}`);
-    }
+    // if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+    //   alert('권한이 없습니다.');
+    //   navigate(`/club/${id}`);
+    // }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/schedules`).then((data) => {
       setClubSchedules([...data.data]);
     });

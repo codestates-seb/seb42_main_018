@@ -115,16 +115,22 @@ function ClubIntro() {
     tagList: tags
   } = clubInfo || {};
 
-  let tabs: TabItemType[];
-  if (isMember) {
-    tabs = [
-      { id: 1, title: '소개', path: `/club/${id}` },
-      { id: 2, title: '경기정보', path: `/club/${id}/match` },
-      { id: 3, title: '멤버', path: `/club/${id}/member` }
-    ];
-  } else {
-    tabs = [{ id: 1, title: '소개', path: `/club/${id}` }];
-  }
+  // let tabs: TabItemType[];
+  // if (isMember) {
+  //   tabs = [
+  //     { id: 1, title: '소개', path: `/club/${id}` },
+  //     { id: 2, title: '경기정보', path: `/club/${id}/match` },
+  //     { id: 3, title: '멤버', path: `/club/${id}/member` }
+  //   ];
+  // } else {
+  //   tabs = [{ id: 1, title: '소개', path: `/club/${id}` }];
+  // }
+
+  const tabs: TabItemType[] = [
+    { id: 1, title: '소개', path: `/club/${id}` },
+    { id: 2, title: '경기정보', path: `/club/${id}/match` },
+    { id: 3, title: '멤버', path: `/club/${id}/member` }
+  ];
 
   const [showModal, setShowModal] = useState(false);
   const handleModal = () => {

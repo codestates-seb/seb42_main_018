@@ -20,6 +20,7 @@ const S_CardContainer = styled.div`
 const S_Information = styled.div`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 `;
 
 const S_ButtonContainer = styled.div`

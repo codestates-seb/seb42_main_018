@@ -7,6 +7,6 @@ export const checkEmail = (email: string) => {
 };
 
 export const checkPassword = (password: string) => {
-  const regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+  const regexp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9^\W_]{8,20}$/;
   return regexp.test(password);
 };
