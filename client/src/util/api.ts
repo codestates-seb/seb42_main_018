@@ -1,6 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import store, { setUserInfo, setTokens, JwtTokensType } from '../store/store';
-import { SESSION_STORAGE_JWT_TOKENS_KEY } from './commonConstants';
 
 const verifyTokens = async (res: AxiosResponse) => {
   // * refreshToken 만료 (maxAge: 420 min)
@@ -15,7 +14,6 @@ const verifyTokens = async (res: AxiosResponse) => {
       refreshToken: res.headers.refresh
     };
     store.dispatch(setTokens(tokens));
-    sessionStorage.setItem(SESSION_STORAGE_JWT_TOKENS_KEY, JSON.stringify(tokens));
   }
 };
 
