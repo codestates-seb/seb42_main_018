@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client';
 import axios from 'axios';
 import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import store from './store/store';
 import App from './App';
 
@@ -163,12 +165,16 @@ const router = createBrowserRouter([
   }
 ]);
 
+export const persistor = persistStore(store);
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  // <React.StrictMode>
   <Provider store={store}>
-    {/* <React.StrictMode> */}
-    <RouterProvider router={router} />
-    {/* </React.StrictMode> */}
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
+  // </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
