@@ -36,6 +36,7 @@ const S_SearchBarBox = styled.div`
   border-radius: 5px;
   display: flex;
   flex-grow: 1;
+  transform: translateX(-0.5rem);
 
   & > img {
     margin-right: 4px;
