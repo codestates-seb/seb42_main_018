@@ -1,5 +1,8 @@
+import { combineReducers } from 'redux';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 export interface RootState {
   isLogin: boolean;
@@ -79,12 +82,22 @@ export const { setIsLogin } = isLogin.actions;
 export const { setUserInfo } = userInfo.actions;
 export const { setTokens } = tokens.actions;
 
+const rootReducer = combineReducers({
+  isLogin: isLogin.reducer,
+  userInfo: userInfo.reducer,
+  tokens: tokens.reducer
+});
+
+const persistConfig = {
+  key: 'root',
+  storage
+  // whitelist: ['isLogin', 'userInfo', 'tokens']
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = configureStore({
-  reducer: {
-    isLogin: isLogin.reducer,
-    userInfo: userInfo.reducer,
-    tokens: tokens.reducer
-  }
+  reducer: persistedReducer
 });
 
 export type DispatchType = typeof store.dispatch;

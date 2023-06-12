@@ -16,10 +16,10 @@ function ClubMember() {
 
   const [members, setMembers] = useState<MemberData[]>([]); // 뿌려줄 멤버 리스트
   useEffect(() => {
-    if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
-      alert('권한이 없습니다.');
-      navigate(`/club/${id}`);
-    }
+    // if (!userInfo.userClubResponses.map((el) => el.clubId).includes(Number(id))) {
+    //   alert('권한이 없습니다.');
+    //   navigate(`/club/${id}`);
+    // }
     getFetch(`${process.env.REACT_APP_URL}/clubs/${id}/members`, tokens).then((data) => {
       const members: MemberData[] = data.data;
       setMembers(members);
